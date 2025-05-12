@@ -38,7 +38,6 @@ class DatabaseConfig{
             $this->connection = new PDO($dsn, $this->user, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            //echo "Conexión establecida";
         } catch (PDOException $e) {
             die("Error de conexión: " . $e->getMessage());
         }
