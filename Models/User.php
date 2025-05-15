@@ -314,9 +314,9 @@ try {
     public function delete()
     {
         try {
-            $query = $this->db->prepare("DELETE FROM usuarios WHERE id = :id");
-            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
-            return $query->execute();
+            $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id = :id");
+            $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $stmt->execute();
         } catch (\PDOException $e) {
             error_log("Error al eliminar usuario: " . $e->getMessage());
             return false;
@@ -329,8 +329,8 @@ try {
      */
     public function getAll(){
         try {
-            $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             error_log("Error al obtener todos los usuarios: " . $e->getMessage());
             return false;

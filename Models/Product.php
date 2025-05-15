@@ -8,7 +8,7 @@ use PDO;
 class Product
 {
     
-    //Attributes 
+    // Attributes 
     private $id;
     private $category_id;
     private $type_accessory;
@@ -21,9 +21,9 @@ class Product
     private $updated_at;
     private $db;
 
-    //Constructor
+    // Constructor
     public function __construct(){
-        //Database connection
+        // Database connection
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
     }
@@ -153,6 +153,112 @@ class Product
         } catch (\PDOException $e) {
             error_log("Error getting all the products: " . $e->getMessage());
             return []; 
+        }
+    }
+
+    /**
+     * Update a product in the database
+     * @return bool true on success, false on failure
+     */
+    public function update(){
+        try {
+            $sql = 'UPDATE productos SET categoria_id = :categoria_id, tipo_accesorio_id = :tipo_accesorio_id, 
+                    nombre = :nombre, descripcion = :descripcion, precio = :precio, stock = :stock';
+            
+            $params = [
+                ':id' => $this->id,
+                ':categoria_id' => $this->category_id,
+                ':tipo_accesorio_id' => $this->type_accessory,
+                ':nombre' => $this->nombre,
+                ':descripcion' => $this->description,
+                ':precio' => $this->price,
+                ':stock' => $this->stock,
+            ];
+
+            // If an image is provided, add it to the SQL statement and parameters
+            if (!empty($this->image)) {
+                $sql .= ', imagen = :imagen';
+                $params[':imagen'] = $this->image;
+            }
+
+            $sql .= ' WHERE id = :id';
+            $stmt = $this->db->prepare($sql);
+
+            foreach ($params as $param => $value) {
+                if($param == ':id' || $param == ':categoria_id' || $param == ':tipo_accesorio_id' || $param == ':stock') {
+                    $stmt->bindValue($param, $value, PDO::PARAM_INT);
+                } else {
+                    $stmt->bindValue($param, $value, PDO::PARAM_STR);
+                }
+            }
+
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Error updating product: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete a product from the database
+     * @return bool true on success, false on failure
+     */
+    public function delete(){
+        try{
+            $delete = $this->db->prepare('DELETE FROM productos WHERE id = :id');
+            $delete->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $delete->execute();
+        }catch (\PDOException $e) {
+            error_log("Error deleting product: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get a product by ID
+     * @return array of product data
+     */
+    public function getProductById($id){
+        try{
+            $query = $this->db->prepare("SELECT * FROM productos WHERE id = :id");
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+            $query->execute();
+
+            if($query->rowCount() > 0){
+                $product_data = $query->fetch(PDO::FETCH_ASSOC);
+
+                $this->id = $product_data['id'];
+                $this->category_id = $product_data['categoria_id'];
+                $this->type_accessory = $product_data['tipo_accesorio_id'];
+                $this->nombre = $product_data['nombre'];
+                $this->description = $product_data['descripcion'];
+                $this->price = $product_data['precio'];
+                $this->stock = $product_data['stock'];
+                $this->image = $product_data['imagen'];
+                $this->created_at = $product_data['created_at'];
+                $this->updated_at = $product_data['updated_at'];
+
+                return $this;
+            }
+
+            return false;
+        }catch (\PDOException $e) {
+            error_log("Error getting product by ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Function to get all the prudcts in the database
+     * @return array|false array of products if successful, otherwise false
+     */
+    public function getAll(){
+        try {
+            $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Error al obtener todos los usuarios: " . $e->getMessage());
+            return false;
         }
     }
 
