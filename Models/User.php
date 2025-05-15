@@ -86,20 +86,20 @@ class User
      * Saves the user in the database
      * @return bool true if successful, otherwise false
      */
-    public function save(){
+    public function saveDB(){
         try{
             // Save the user in the database
-            $register = $this->db->prepare('INSERT INTO$users (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
-            $register->bindParam(':name', $this->name, PDO::PARAM_STR);
-            $register->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
-            $register->bindParam(':email', $this->email, PDO::PARAM_STR);
-            $register->bindParam(':password', $this->password, PDO::PARAM_STR);
+            $stmt = $this->db->prepare('INSERT INTO$users (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
+            $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
             
             // Assigning "client" as the default role
             $rol = 'cliente';
-            $register->bindParam(':rol', $rol, PDO::PARAM_STR);
+            $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
 
-            $save = $register->execute();
+            $save = $stmt->execute();
             if($save){
                 $this->id = $this->db->lastInsertId();
                 return true;
@@ -118,7 +118,7 @@ class User
      * @param string $email
      * @return bool true if it exsits, otherwise false
      */
-    public function exists($email){
+    public function checkUserExists($email){
         try{
             $query = $this->db->prepare('SELECT * FROM$users WHERE email = :email');
             $query->bindParam(':email', $email, PDO::PARAM_STR);
@@ -327,7 +327,7 @@ try {
      * Function to find all the users in the database
      * @return array|false array of users if successful, otherwise false
      */
-    public function findAll(){
+    public function getAll(){
         try {
             $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
             return $query->fetchAll(PDO::FETCH_ASSOC);
