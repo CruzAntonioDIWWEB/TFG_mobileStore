@@ -79,6 +79,55 @@ class TypeAccessory
         }
     }
 
+    /**
+     * Update the TypeAccessory in the database
+     * @return bool true on success, false on failure
+     */
+    public function update(){
+        try{
+            $query = $this->db->prepare('UPDATE tipo_accesorio SET nombre = :nombre WHERE id = :id');
+            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $query->execute();
+
+        }catch (\PDOException $e) {
+            error_log("Error updating type accessory: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete the TypeAccessory from the database
+     * @return bool true on success, false on failure
+     */
+    public function delete(){
+        try{
+            $query = $this->db->prepare('DELETE FROM tipo_accesorio WHERE id = :id');
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $query->execute();
+
+        }catch (\PDOException $e) {
+            error_log("Error deleting type accessory: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get all TypeAccessory records from the database
+     * @return array|false array of TypeAccessory objects on success, false on failure
+     */
+    public function getAll(){
+        try{
+            $query = $this->db->prepare('SELECT * FROM tipo_accesorio ORDER BY id DESC');
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }catch (\PDOException $e) {
+            error_log("Error fetching type accessories: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
 
 ?>

@@ -239,7 +239,7 @@ class User
      */
 
      public function getUserByEmail($email){
-try {
+        try {
             $query = $this->db->prepare("SELECT * FROM usuarios WHERE email = :email");
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
@@ -272,7 +272,9 @@ try {
     public function getAll(){
         try {
             $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         } catch (\PDOException $e) {
             error_log("Error al obtener todos los usuarios: " . $e->getMessage());
             return false;

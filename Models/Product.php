@@ -139,22 +139,6 @@ class Product
     }
 
     /**
-     * * Get all products
-     * @return array of products
-     */
-    public function getAllProducts() {
-        try {
-            $sql = "SELECT * FROM productos ORDER BY id DESC";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);  
-        } catch (\PDOException $e) {
-            error_log("Error getting all the products: " . $e->getMessage());
-            return []; 
-        }
-    }
-
-    /**
      * Update a product to the database
      * @return bool true on success, false on failure
      */
@@ -254,7 +238,9 @@ class Product
     public function getAll(){
         try{
             $query = $this->db->prepare('SELECT * FROM productos ORDER BY id DESC');
-            return $query->execute();
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }catch (\PDOException $e) {
             error_log("Error getting all products: " . $e->getMessage());
             return false;

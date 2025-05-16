@@ -122,7 +122,9 @@ class Category
     public function getAll(){
         try{
             $query = $this->db->prepare('SELECT * FROM categorias ORDER BY id ASC');
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }catch (\PDOException $e) {
             error_log("Error fetching categories: " . $e->getMessage());
             return false;
