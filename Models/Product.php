@@ -111,11 +111,11 @@ class Product
      * @return bool true on success, false on failure
      */
 
-    public function save (){
+     public function saveDB(){
         try {
             $sql = 'INSERT INTO productos (categoria_id, tipo_accesorio_id, nombre, descripcion, precio, stock, imagen) 
                     VALUES (:categoria_id, :tipo_accesorio_id, :nombre, :descripcion, :precio, :stock, :imagen)';
-
+    
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':categoria_id', $this->category_id, PDO::PARAM_INT);
             $stmt->bindParam(':tipo_accesorio_id', $this->type_accessory, PDO::PARAM_INT);
@@ -124,16 +124,14 @@ class Product
             $stmt->bindParam(':precio', $this->price, PDO::PARAM_STR);
             $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
             $stmt->bindParam(':imagen', $this->image, PDO::PARAM_STR);
-
-            return $stmt->execute();
-
+    
+            $result = $stmt->execute();
             if ($result) {
-                $this->id = $this->db->lastIndertId();
+                $this->id = $this->db->lastInsertId();
                 return true;
             }
-
+    
             return false;
-
         } catch (\PDOException $e) {
             error_log("Error saving product: " . $e->getMessage());
             return false;

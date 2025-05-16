@@ -74,6 +74,10 @@ class User
         $this->name = $name;
     }
 
+    public function setPassword($password){
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
     public function setSurnames($surnames){
         $this->surnames = $surnames;
     }
@@ -89,7 +93,7 @@ class User
     public function saveDB(){
         try{
             // Save the user in the database
-            $stmt = $this->db->prepare('INSERT INTO$users (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
+            $stmt = $this->db->prepare('INSERT INTO usuarios (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
             $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
             $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);

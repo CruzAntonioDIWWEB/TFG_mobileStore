@@ -66,11 +66,11 @@ class Category
      * Save a new category to the database
      * @return bool true on success, false on failure
      */
-    public function save(){
+    public function saveDB(){
         try{
-        $query = $this->db->prepare('INSERT INTO categorias (nombre) VALUES (:nombre)');
-        $query->bindParam(':nombre', $this->name);
-        $result = $query->execute();
+            $query = $this->db->prepare('INSERT INTO categorias (nombre) VALUES (:nombre)');
+            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $result = $query->execute();
             if($result){
                 $this->id = $this->db->lastInsertId();
                 return true;
@@ -216,7 +216,7 @@ class Category
             $query->execute();
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
-            
+
         }catch (\PDOException $e) {
             error_log("Error obtaining products in category: " . $e->getMessage());
             return false;
