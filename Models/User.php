@@ -262,6 +262,20 @@ try {
     }
 
     /**
+     * Function to find all the users in the database
+     * @return array|false array of users if successful, otherwise false
+     */
+    public function getAll(){
+        try {
+            $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Error al obtener todos los usuarios: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Updates the user in the database
      * @return bool true if successful, otherwise false
      */
@@ -319,20 +333,6 @@ try {
             return $query->execute();
         } catch (\PDOException $e) {
             error_log("Error al eliminar usuario: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Function to find all the users in the database
-     * @return array|false array of users if successful, otherwise false
-     */
-    public function getAll(){
-        try {
-            $query = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
-            return $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            error_log("Error al obtener todos los usuarios: " . $e->getMessage());
             return false;
         }
     }
