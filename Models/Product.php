@@ -309,7 +309,159 @@ class Product
         }
     }
 
-    
+    /**
+     * Get all products by stock availability
+     * @return array|false of products or false on failure
+     */
+    public function getAvailableProduct(){
+        try {
+            $query = $this->db->query("SELECT * FROM productos WHERE stock > 0 ORDER BY id DESC");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Error al obtaining all the available products: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Find product by name or description
+     * @param string $keyword
+     * @return array|false of products or false on failure
+     */
+    public function search($keyword){
+        try {
+            $query = $this->db->prepare("SELECT * FROM productos WHERE nombre LIKE :keyword OR descripcion LIKE :keyword ORDER BY id DESC");
+            $keyword = "%$keyword%";
+            $query->bindParam(':keyword', $keyword, PDO::PARAM_STR);
+            $query->execute();
+
+            if($query->rowCount() > 0){
+                return $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            return false;
+
+        } catch (\PDOException $e) {
+            error_log("Error searching products: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Reduce the stock of a product
+     * @param int $quantity
+     * @return bool true on success, false on failure
+     */
+    public function reduceStock($quantity){
+        if($this->stock >= $quantity) {
+            try{
+                $this->stock -= $quantity;
+                $query = $this->db->prepare("UPDATE productos SET stock = :stock WHERE id = :id");
+                $query->bindParam(':stock', $this->stock, PDO::PARAM_INT);
+                $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+                return $query->execute();
+            } catch (\PDOException $e) {
+                error_log("Error reducing stock: " . $e->getMessage());
+                return false;
+            }
+        }
+
+        return false; // Not enough stock
+    }
+
+    /**
+     * Increase the stock of a product
+     * @param int $quantity
+     * @return bool true on success, false on failure
+     */
+    public function increaseStock($quantity){
+        try{
+            $this->stock += $quantity;
+            $query = $this->db->prepare("UPDATE productos SET stock = :stock WHERE id = :id");
+            $query->bindParam(':stock', $this->stock, PDO::PARAM_INT);
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $query->execute();
+        } catch (\PDOException $e) {
+            error_log("Error increasing stock: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get the category of a product
+     * @return string|false category name or false on failure
+     */
+    public function getCategory(){
+        try {
+            $query = $this->db->prepare("SELECT nombre FROM categorias WHERE id = :categoria_id");
+            $query->bindParam(':categoria_id', $this->category_id, PDO::PARAM_INT);
+            $query->execute();
+            
+            if ($query->rowCount() > 0) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                return $result['nombre'];
+            }
+            
+            return false;
+        } catch (\PDOException $e) {
+            error_log("Error al obtener nombre de categoría: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get the type of accessory of a product
+     * @return string|false type accessory name or false on failure
+     */
+    public function getTypeAccessoryName(){
+        if(!$this->type_accessory){
+            return false;
+        }
+
+        try{
+            $query = $this->db->prepare("SELECT nombre FROM tipo_accesorio WHERE id = :tipo_accesorio_id");
+            $query->bindParam(':tipo_accesorio_id', $this->type_accessory, PDO::PARAM_INT);
+            $query->execute();
+
+            if ($query->rowCount() > 0) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                return $result['nombre'];
+            }
+
+            return false;
+        }catch (\PDOException $e) {
+            error_log("Error obtaining the accessory name: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    //NOT DEFINITIVE BUT THIS 2 METHODS ARE BASED ON THE CATEGORIES ID WHICH I DO NOT KNOW YET IF THEY ARE GONNA BE LIKE THAT
+
+    /**
+     * Verify if a product is a phone
+     * @return bool true if it is a phone, false otherwise
+     */
+    public function isPhone(){
+        // ID 1 is the category ID for phones
+        return $this->category_id == 1;
+    }
+
+    /**
+     * Verify if a product is an accessory
+     * @return bool true if it is an accessory, false otherwise
+     */
+    public function isAccessory(){
+        // ID 2 is the category ID for accessories
+        return $this->category_id == 2;
+    }
+
+    /**
+     * Format of the price
+     * @return string formatted price
+     */
+    public function formatPrice(){
+        return number_format($this->price, 2, ',', '.'). ' €';
+    }
 
 }
 
