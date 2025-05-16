@@ -5,8 +5,8 @@ namespace Models;
 use config\DatabaseConfig;
 use PDO;
 
-// Class TypeAccessory
-class TypeAccessory
+// Class AccessoryType
+class AccessoryType
 {
     // Properties
     private $id;
@@ -60,13 +60,13 @@ class TypeAccessory
     }
 
     /**
-     * Save the TypeAccessory to the database
+     * Save the AccessoryType to the database
      * @return bool true on success, false on failure
      */
     public function saveDB(){
         try{
-            $query = $this->db->prepare('INSERT INTO tipo_accesorio (nombre) VALUES (:nombre)');
-            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $query = $this->db->prepare('INSERT INTO accessory_types (name) VALUES (:name)');
+            $query->bindParam(':name', $this->name, PDO::PARAM_STR);
             $result = $query->execute();
             if($result){
                 $this->id = $this->db->lastInsertId();
@@ -74,74 +74,74 @@ class TypeAccessory
             }
             return false;
         }catch (\PDOException $e) {
-            error_log("Error saving type accessory: " . $e->getMessage());
+            error_log("Error saving accessory type: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Update the TypeAccessory in the database
+     * Update the AccessoryType in the database
      * @return bool true on success, false on failure
      */
     public function update(){
         try{
-            $query = $this->db->prepare('UPDATE tipo_accesorio SET nombre = :nombre WHERE id = :id');
-            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $query = $this->db->prepare('UPDATE accessory_types SET name = :name WHERE id = :id');
+            $query->bindParam(':name', $this->name, PDO::PARAM_STR);
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $query->execute();
 
         }catch (\PDOException $e) {
-            error_log("Error updating type accessory: " . $e->getMessage());
+            error_log("Error updating accessory type: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Delete the TypeAccessory from the database
+     * Delete the AccessoryType from the database
      * @return bool true on success, false on failure
      */
     public function delete(){
         try{
-            $query = $this->db->prepare('DELETE FROM tipo_accesorio WHERE id = :id');
+            $query = $this->db->prepare('DELETE FROM accessory_types WHERE id = :id');
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $query->execute();
 
         }catch (\PDOException $e) {
-            error_log("Error deleting type accessory: " . $e->getMessage());
+            error_log("Error deleting accessory type: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Get all TypeAccessory records from the database
-     * @return array|false array of TypeAccessory objects on success, false on failure
+     * Get all AccessoryType records from the database
+     * @return array|false array of AccessoryType objects on success, false on failure
      */
     public function getAll(){
         try{
-            $query = $this->db->prepare('SELECT * FROM tipo_accesorio ORDER BY id DESC');
+            $query = $this->db->prepare('SELECT * FROM accessory_types ORDER BY id DESC');
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }catch (\PDOException $e) {
-            error_log("Error fetching type accessories: " . $e->getMessage());
+            error_log("Error fetching accessory types: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Get a TypeAccessory by ID
-     * @return array|false TypeAccessory object on success, false on failure
+     * Get an AccessoryType by ID
+     * @return array|false AccessoryType object on success, false on failure
      */
     public function getById($id){
         try{
-            $query = $this->db->prepare('SELECT * FROM tipo_accesorio WHERE id = :id');
+            $query = $this->db->prepare('SELECT * FROM accessory_types WHERE id = :id');
             $query->bindParam(':id', $id, PDO::PARAM_INT);
             $query->execute();
             
             if($query->rowCount() > 0){
                 $result = $query->fetch(PDO::FETCH_ASSOC);
                 $this->id = $result['id'];
-                $this->name = $result['nombre'];
+                $this->name = $result['name'];
                 $this->created_at = $result['created_at'];
                 $this->updated_at = $result['updated_at'];
                 return $this;
@@ -150,25 +150,25 @@ class TypeAccessory
             return false;
 
         }catch (\PDOException $e) {
-            error_log("Error fetching type accessory by ID: " . $e->getMessage());
+            error_log("Error fetching accessory type by ID: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Get a TypeAccessory by name
-     * @return mixed TypeAccessory object on success, false on failure
+     * Get an AccessoryType by name
+     * @return mixed AccessoryType object on success, false on failure
      */
     public function getByName($name){
         try{
-            $query = $this->db->prepare('SELECT * FROM tipo_accesorio WHERE nombre = :nombre');
-            $query->bindParam(':nombre', $name, PDO::PARAM_STR);
+            $query = $this->db->prepare('SELECT * FROM accessory_types WHERE name = :name');
+            $query->bindParam(':name', $name, PDO::PARAM_STR);
             $query->execute();
             
             if($query->rowCount() > 0){
                 $result = $query->fetch(PDO::FETCH_ASSOC);
                 $this->id = $result['id'];
-                $this->name = $result['nombre'];
+                $this->name = $result['name'];
                 $this->created_at = $result['created_at'];
                 $this->updated_at = $result['updated_at'];
                 return $this;
@@ -177,18 +177,18 @@ class TypeAccessory
             return false;
 
         }catch (\PDOException $e) {
-            error_log("Error fetching type accessory by name: " . $e->getMessage());
+            error_log("Error fetching accessory type by name: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Count how many products are associated with this TypeAccessory
+     * Count how many products are associated with this AccessoryType
      * @return int|false number of products on success, false on failure
      */
     public function countProducts(){
         try{
-            $query = $this->db->prepare('SELECT COUNT(*) as total FROM productos WHERE tipo_accesorio_id = :id');
+            $query = $this->db->prepare('SELECT COUNT(*) as total FROM products WHERE accessory_type_id = :id');
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             $query->execute();
             
@@ -196,18 +196,18 @@ class TypeAccessory
             return $result['total'];
 
         }catch (\PDOException $e) {
-            error_log("Error counting products for type accessory: " . $e->getMessage());
+            error_log("Error counting products for accessory type: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Get all products associated with this TypeAccessory
+     * Get all products associated with this AccessoryType
      * @return array|false array of Product objects on success, false on failure
      */
     public function getProducts(){
         try{
-            $query = $this->db->prepare('SELECT * FROM productos WHERE tipo_accesorio_id = :id ORDER BY id DESC');
+            $query = $this->db->prepare('SELECT * FROM products WHERE accessory_type_id = :id ORDER BY id DESC');
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             $query->execute();
             
@@ -218,7 +218,7 @@ class TypeAccessory
             return false;
 
         }catch (\PDOException $e) {
-            error_log("Error fetching products for type accessory: " . $e->getMessage());
+            error_log("Error fetching products for accessory type: " . $e->getMessage());
             return false;
         }
     }

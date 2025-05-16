@@ -68,8 +68,8 @@ class Category
      */
     public function saveDB(){
         try{
-            $query = $this->db->prepare('INSERT INTO categorias (nombre) VALUES (:nombre)');
-            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $query = $this->db->prepare('INSERT INTO categories (name) VALUES (:name)');
+            $query->bindParam(':name', $this->name, PDO::PARAM_STR);
             $result = $query->execute();
             if($result){
                 $this->id = $this->db->lastInsertId();
@@ -88,8 +88,8 @@ class Category
      */
     public function update(){
         try{
-            $query = $this->db->prepare('UPDATE categorias SET nombre = :nombre WHERE id = :id');
-            $query->bindParam(':nombre', $this->name, PDO::PARAM_STR);
+            $query = $this->db->prepare('UPDATE categories SET name = :name WHERE id = :id');
+            $query->bindParam(':name', $this->name, PDO::PARAM_STR);
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $query->execute();
 
@@ -105,7 +105,7 @@ class Category
      */
     public function delete(){
         try{
-            $delete = $this->db->prepare('DELETE FROM categorias WHERE id = :id');
+            $delete = $this->db->prepare('DELETE FROM categories WHERE id = :id');
             $delete->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $delete->execute();
 
@@ -121,7 +121,7 @@ class Category
      */
     public function getAll(){
         try{
-            $query = $this->db->prepare('SELECT * FROM categorias ORDER BY id ASC');
+            $query = $this->db->prepare('SELECT * FROM categories ORDER BY id ASC');
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -138,14 +138,14 @@ class Category
      */
     public function getById($id){
         try{
-            $query = $this->db->prepare("SELECT * FROM categorias WHERE id = :id");
+            $query = $this->db->prepare("SELECT * FROM categories WHERE id = :id");
             $query->bindParam(':id', $id, PDO::PARAM_INT);
             $query->execute();
 
             if($query->rowCount() > 0){
                 $category_data = $query->fetch(PDO::FETCH_ASSOC);
                 $this->id = $category_data['id'];
-                $this->name = $category_data['nombre'];
+                $this->name = $category_data['name'];
                 $this->created_at = $category_data['created_at'];
                 $this->updated_at = $category_data['updated_at'];
 
@@ -167,14 +167,14 @@ class Category
      */
     public function getByName($name){
         try{
-            $query = $this->db->prepare("SELECT * FROM categorias WHERE nombre = :nombre");
-            $query->bindParam(':nombre', $name, PDO::PARAM_STR);
+            $query = $this->db->prepare("SELECT * FROM categories WHERE name = :name");
+            $query->bindParam(':name', $name, PDO::PARAM_STR);
             $query->execute();
 
             if($query->rowCount() > 0){
                 $category_data = $query->fetch(PDO::FETCH_ASSOC);
                 $this->id = $category_data['id'];
-                $this->name = $category_data['nombre'];
+                $this->name = $category_data['name'];
                 $this->created_at = $category_data['created_at'];
                 $this->updated_at = $category_data['updated_at'];
 
@@ -195,7 +195,7 @@ class Category
      */
     public function countProducts(){
         try{
-            $query = $this->db->prepare("SELECT COUNT(*) as total FROM productos WHERE categoria_id = :id");
+            $query = $this->db->prepare("SELECT COUNT(*) as total FROM products WHERE category_id = :id");
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             $query->execute();
 
@@ -213,7 +213,7 @@ class Category
      */
     public function getProducts(){
         try{
-            $query = $this->db->prepare("SELECT * FROM productos WHERE categoria_id = :id ORDER BY id DESC");
+            $query = $this->db->prepare("SELECT * FROM products WHERE category_id = :id ORDER BY id DESC");
             $query->bindParam(':id', $this->id, PDO::PARAM_INT);
             $query->execute();
 

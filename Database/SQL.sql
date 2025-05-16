@@ -1,82 +1,86 @@
 CREATE DATABASE mobile_store;
 SET NAMES UTF8;
 USE mobile_store;
+
 -- -----------------------------------------------------
-
--- Tabla de Usuarios
-DROP TABLE IF EXISTS usuarios;
-CREATE TABLE IF NOT EXISTS usuarios (
+-- Table of Users
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(25) NOT NULL,
-    apellidos VARCHAR(40),
+    name VARCHAR(25) NOT NULL,
+    surnames VARCHAR(40),
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
-    rol ENUM('cliente', 'admin') NOT NULL DEFAULT 'cliente'
+    password VARCHAR(250) NOT NULL,
+    role ENUM('client', 'admin') NOT NULL DEFAULT 'client'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla de Categorías
-DROP TABLE IF EXISTS categorias;
-CREATE TABLE IF NOT EXISTS categorias (
+-- Table of Categories
+DROP TABLE IF EXISTS categories;
+CREATE TABLE IF NOT EXISTS categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(25) NOT NULL
+    name VARCHAR(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla de Accesorios
-CREATE TABLE tipo_accesorio (
+-- Table of Accessory Types
+DROP TABLE IF EXISTS accessory_types;
+CREATE TABLE IF NOT EXISTS accessory_types (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(25) NOT NULL
+    name VARCHAR(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla de Productos
-DROP TABLE IF EXISTS productos;
-CREATE TABLE IF NOT EXISTS productos (
+-- Table of Products
+DROP TABLE IF EXISTS products;
+CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    categoria_id INT NOT NULL,
-    tipo_accesorio_id INT DEFAULT NULL,
-    nombre VARCHAR(25) NOT NULL,
-    descripcion VARCHAR(255),
-    precio DECIMAL(5,2) NOT NULL,
+    category_id INT NOT NULL,
+    accessory_type_id INT DEFAULT NULL,
+    name VARCHAR(25) NOT NULL,
+    description VARCHAR(255),
+    price DECIMAL(5,2) NOT NULL,
     stock INT NOT NULL,
-    imagen VARCHAR(255),
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id),
-    FOREIGN KEY (tipo_accesorio_id) REFERENCES tipos_accesorio(id)
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    FOREIGN KEY (accessory_type_id) REFERENCES accessory_types(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla de Pedidos
-DROP TABLE IF EXISTS pedidos;
-CREATE TABLE IF NOT EXISTS pedidos (
+-- Table of Orders
+DROP TABLE IF EXISTS orders;
+CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    provincia VARCHAR(30) NOT NULL,
-    localidad VARCHAR(30) NOT NULL,
-    direccion VARCHAR(60) NOT NULL,
-    coste DECIMAL(5,2) NOT NULL,
-    estado ENUM('pendiente', 'pagado', 'enviado', 'entregado', 'cancelado') DEFAULT 'pendiente',
-    fecha DATE,
-    hora TIME,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    user_id INT NOT NULL,
+    province VARCHAR(30) NOT NULL,
+    locality VARCHAR(30) NOT NULL,
+    address VARCHAR(60) NOT NULL,
+    cost DECIMAL(5,2) NOT NULL,
+    status ENUM('pending', 'paid', 'shipped', 'delivered', 'canceled') DEFAULT 'pending',
+    date DATE,
+    time TIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla de Líneas de Pedido
-DROP TABLE IF EXISTS lineas_pedidos;
-CREATE TABLE IF NOT EXISTS lineas_pedidos (
+-- Table of Order Items
+DROP TABLE IF EXISTS order_items;
+CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id INT NOT NULL,
-    producto_id INT NOT NULL,
-    unidades INT NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Tabla del Carrito 
-DROP TABLE IF EXISTS carrito;
-CREATE TABLE IF NOT EXISTS carrito (
+-- Table of Cart
+DROP TABLE IF EXISTS cart;
+CREATE TABLE IF NOT EXISTS cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    producto_id INT NOT NULL,
-    cantidad INT NOT NULL,
-    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
