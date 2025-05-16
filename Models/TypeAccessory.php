@@ -128,6 +128,102 @@ class TypeAccessory
         }
     }
 
+    /**
+     * Get a TypeAccessory by ID
+     * @return array|false TypeAccessory object on success, false on failure
+     */
+    public function getById($id){
+        try{
+            $query = $this->db->prepare('SELECT * FROM tipo_accesorio WHERE id = :id');
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $this->id = $result['id'];
+                $this->name = $result['nombre'];
+                $this->created_at = $result['created_at'];
+                $this->updated_at = $result['updated_at'];
+                return $this;
+            }
+
+            return false;
+
+        }catch (\PDOException $e) {
+            error_log("Error fetching type accessory by ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get a TypeAccessory by name
+     * @return mixed TypeAccessory object on success, false on failure
+     */
+    public function getByName($name){
+        try{
+            $query = $this->db->prepare('SELECT * FROM tipo_accesorio WHERE nombre = :nombre');
+            $query->bindParam(':nombre', $name, PDO::PARAM_STR);
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $this->id = $result['id'];
+                $this->name = $result['nombre'];
+                $this->created_at = $result['created_at'];
+                $this->updated_at = $result['updated_at'];
+                return $this;
+            }
+
+            return false;
+
+        }catch (\PDOException $e) {
+            error_log("Error fetching type accessory by name: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Count how many products are associated with this TypeAccessory
+     * @return int|false number of products on success, false on failure
+     */
+    public function countProducts(){
+        try{
+            $query = $this->db->prepare('SELECT COUNT(*) as total FROM productos WHERE tipo_accesorio_id = :id');
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $query->execute();
+            
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            return $result['total'];
+
+        }catch (\PDOException $e) {
+            error_log("Error counting products for type accessory: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get all products associated with this TypeAccessory
+     * @return array|false array of Product objects on success, false on failure
+     */
+    public function getProducts(){
+        try{
+            $query = $this->db->prepare('SELECT * FROM productos WHERE tipo_accesorio_id = :id ORDER BY id DESC');
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $query->execute();
+            
+            if($query->rowCount() > 0){
+                return $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            return false;
+
+        }catch (\PDOException $e) {
+            error_log("Error fetching products for type accessory: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
 }
 
 ?>
