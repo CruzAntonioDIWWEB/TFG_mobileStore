@@ -1,6 +1,6 @@
 CREATE DATABASE mobile_store;
 SET NAMES UTF8;
-USE movile_store;
+USE mobile_store;
 -- -----------------------------------------------------
 
 -- Tabla de Usuarios

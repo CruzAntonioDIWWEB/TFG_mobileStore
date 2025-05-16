@@ -202,13 +202,13 @@ class Product
      */
     public function getProductById($id){
         try{
-            $query = 'SELECT * FROM productos WHERE id = :id';
-            $query->bindParam(':id', $id, PDO::PARAM_INT);
-            $query->execute();
-
-            if($query->rowCount() > 0){
-                $product_data = $query->fetch(PDO::FETCH_ASSOC);
-
+            $stmt = $this->db->prepare('SELECT * FROM productos WHERE id = :id');
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            if($stmt->rowCount() > 0){
+                $product_data = $stmt->fetch(PDO::FETCH_ASSOC);
+    
                 $this->id = $product_data['id'];
                 $this->category_id = $product_data['categoria_id'];
                 $this->type_accessory = $product_data['tipo_accesorio_id'];
@@ -219,12 +219,11 @@ class Product
                 $this->image = $product_data['imagen'];
                 $this->created_at = $product_data['created_at'];
                 $this->updated_at = $product_data['updated_at'];
-
+    
                 return $this;
             }
-
+    
             return false;
-
         }catch (\PDOException $e) {
             error_log("Error getting product by ID: " . $e->getMessage());
             return false;

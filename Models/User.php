@@ -93,7 +93,7 @@ class User
     public function saveDB(){
         try{
             // Save the user in the database
-            $stmt = $this->db->prepare('INSERT INTO usuarios (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
+            $stmt = $this->db->prepare('INSERT INTO usuarios (nombre, apellidos, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
             $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
             $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
@@ -124,13 +124,12 @@ class User
      */
     public function checkUserExists($email){
         try{
-            $query = $this->db->prepare('SELECT * FROM$users WHERE email = :email');
+            $query = $this->db->prepare('SELECT * FROM usuarios WHERE email = :email');
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
-
-            return $query->rowCOunt() > 0;
+    
+            return $query->rowCount() > 0;
         } catch (\PDOException $e) {
-            // Error verifying the user
             error_log("Error verifying user: " . $e->getMessage());
             return false;
         }
@@ -149,7 +148,7 @@ class User
         $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
 
         // Verify if the user exists
-        $query = $this->db->prepare('SELECT * FROM$users WHERE email = :email');
+        $query = $this->db->prepare('SELECT * FROM usuarios WHERE email = :email');
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->execute();
 
@@ -160,8 +159,8 @@ class User
             if(password_verify($password, $user['password'])){
                 // Set the user properties
                 $this->id = $user['id'];
-                $this->name = $user['name'];
-                $this->surnames = $user['surnames'];
+                $this->name = $user['nombre'];
+                $this->surnames = $user['apellidos'];
                 $this->email = $user['email'];
                 $this->rol = $user['rol'];
                 $this->created_at = $user['created_at'];
