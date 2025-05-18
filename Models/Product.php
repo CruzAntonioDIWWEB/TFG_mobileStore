@@ -11,8 +11,8 @@ class Product
     // Attributes 
     private $id;
     private $category_id;
-    private $type_accessory;
-    private $nombre;
+    private $accessory_type;
+    private $name;
     private $description;
     private $price;
     private $stock;
@@ -43,18 +43,18 @@ class Product
         $this->category_id = $category_id;
     }
 
-    public function getTypeAccessory() {
-        return $this->type_accessory;
+    public function getAccessoryType() {
+        return $this->accessory_type;
     }
-    public function setTypeAccessory($type_accessory) {
-        $this->type_accessory = $type_accessory;
+    public function setAccessoryType($accessory_type) {
+        $this->accessory_type = $accessory_type;
     }
 
-    public function getNombre() {
-        return $this->nombre;
+    public function getName() {
+        return $this->name;
     }
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
+    public function setName($name) {
+        $this->name = $name;
     }
 
     public function getDescription() {
@@ -111,29 +111,27 @@ class Product
      * @return bool true on success, false on failure
      */
 
-    public function save (){
+     public function saveDB(){
         try {
-            $sql = 'INSERT INTO productos (categoria_id, tipo_accesorio_id, nombre, descripcion, precio, stock, imagen) 
-                    VALUES (:categoria_id, :tipo_accesorio_id, :nombre, :descripcion, :precio, :stock, :imagen)';
-
+            $sql = 'INSERT INTO products (category_id, accessory_type_id, name, description, price, stock, image) 
+                    VALUES (:category_id, :accessory_type_id, :name, :description, :price, :stock, :image)';
+    
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':categoria_id', $this->category_id, PDO::PARAM_INT);
-            $stmt->bindParam(':tipo_accesorio_id', $this->type_accessory, PDO::PARAM_INT);
-            $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
-            $stmt->bindParam(':descripcion', $this->description, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $this->price, PDO::PARAM_STR);
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            $stmt->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+            $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
             $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
-            $stmt->bindParam(':imagen', $this->image, PDO::PARAM_STR);
-
-            return $stmt->execute();
-
+            $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
+    
+            $result = $stmt->execute();
             if ($result) {
-                $this->id = $this->db->lastIndertId();
+                $this->id = $this->db->lastInsertId();
                 return true;
             }
-
+    
             return false;
-
         } catch (\PDOException $e) {
             error_log("Error saving product: " . $e->getMessage());
             return false;

@@ -6,7 +6,7 @@ use config\DatabaseConfig;
 use PDO;
 
 /**
- * CLase to represent a User
+ * Class to represent a User
  */
 class User
 {
@@ -17,14 +17,14 @@ class User
     private $surnames;
     private $email;
     private $password;
-    private $rol;
+    private $role;
     private $created_at;
     private $updated_at;
     private $db;
 
     //Constructor
     public function __construct(){
-        //Conection to the database
+        //Connection to the database
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
     }
@@ -50,8 +50,8 @@ class User
         return $this->password;
     }
 
-    public function getRol(){
-        return $this->rol;
+    public function getRole(){
+        return $this->role;
     }
 
     public function getCreatedAt(){
@@ -74,6 +74,10 @@ class User
         $this->name = $name;
     }
 
+    public function setPassword($password){
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
     public function setSurnames($surnames){
         $this->surnames = $surnames;
     }
@@ -89,15 +93,15 @@ class User
     public function saveDB(){
         try{
             // Save the user in the database
-            $stmt = $this->db->prepare('INSERT INTO$users (name, surnames, email, password, rol) VALUES (:name, :surnames, :email, :password, :rol)');
+            $stmt = $this->db->prepare('INSERT INTO users (name, surnames, email, password, role) VALUES (:name, :surnames, :email, :password, :role)');
             $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
             $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
             
             // Assigning "client" as the default role
-            $rol = 'cliente';
-            $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
+            $role = 'client';
+            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
 
             $save = $stmt->execute();
             if($save){
@@ -116,17 +120,16 @@ class User
     /**
      * Verifies if the user exists in the database by email
      * @param string $email
-     * @return bool true if it exsits, otherwise false
+     * @return bool true if it exists, otherwise false
      */
     public function checkUserExists($email){
         try{
-            $query = $this->db->prepare('SELECT * FROM$users WHERE email = :email');
+            $query = $this->db->prepare('SELECT * FROM users WHERE email = :email');
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
-
-            return $query->rowCOunt() > 0;
+    
+            return $query->rowCount() > 0;
         } catch (\PDOException $e) {
-            // Error verifying the user
             error_log("Error verifying user: " . $e->getMessage());
             return false;
         }
@@ -145,7 +148,7 @@ class User
         $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
 
         // Verify if the user exists
-        $query = $this->db->prepare('SELECT * FROM$users WHERE email = :email');
+        $query = $this->db->prepare('SELECT * FROM users WHERE email = :email');
         $query->bindParam(':email', $email, PDO::PARAM_STR);
         $query->execute();
 
@@ -159,7 +162,7 @@ class User
                 $this->name = $user['name'];
                 $this->surnames = $user['surnames'];
                 $this->email = $user['email'];
-                $this->rol = $user['rol'];
+                $this->role = $user['role'];
                 $this->created_at = $user['created_at'];
                 $this->updated_at = $user['updated_at'];
                 
@@ -169,7 +172,7 @@ class User
                     'name' => $this->name,
                     'surnames' => $this->surnames,
                     'email' => $this->email,
-                    'rol' => $this->rol
+                    'role' => $this->role
                 ];
 
                 $_SESSION['login'] = true;
@@ -204,7 +207,7 @@ class User
      */
     public function getUserById($id){
         try{
-            $query = $this->db->prepare("SELECT * FROM usuarios WHERE id = :id");
+            $query = $this->db->prepare("SELECT * FROM users WHERE id = :id");
             $query->bindParam(':id', $id, PDO::PARAM_INT);
             $query->execute();
 
@@ -214,7 +217,7 @@ class User
                 $this->name = $user_data['name'];
                 $this->surnames = $user_data['surnames'];
                 $this->email = $user_data['email'];
-                $this->rol = $user_data['rol'];
+                $this->role = $user_data['role'];
                 $this->created_at = $user_data['created_at'];
                 $this->updated_at = $user_data['updated_at'];
 
@@ -235,8 +238,8 @@ class User
      */
 
      public function getUserByEmail($email){
-try {
-            $query = $this->db->prepare("SELECT * FROM usuarios WHERE email = :email");
+        try {
+            $query = $this->db->prepare("SELECT * FROM users WHERE email = :email");
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->execute();
 
@@ -247,7 +250,7 @@ try {
                 $this->name = $user_data['name'];
                 $this->surnames = $user_data['surnames'];
                 $this->email = $user_data['email'];
-                $this->rol = $user_data['rol'];
+                $this->role = $user_data['role'];
                 $this->created_at = $user_data['created_at'];
                 $this->updated_at = $user_data['updated_at'];
 
@@ -256,7 +259,23 @@ try {
 
             return false;
         } catch (\PDOException $e) {
-            error_log("Error al obtener usuario por email: " . $e->getMessage());
+            error_log("Error getting user by email: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Function to find all the users in the database
+     * @return array|false array of users if successful, otherwise false
+     */
+    public function getAll(){
+        try {
+            $query = $this->db->query("SELECT * FROM users ORDER BY id DESC");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Error getting all users: " . $e->getMessage());
             return false;
         }
     }
@@ -268,7 +287,7 @@ try {
 
     public function update(){
         try{
-            $sql = "UPDATE usuarios SET name = :name, surnames = :surnames, email = :email";
+            $sql = "UPDATE users SET name = :name, surnames = :surnames, email = :email";
             $params = [
                 ':name' => $this->name,
                 ':surnames' => $this->surnames,
@@ -283,9 +302,9 @@ try {
             }
 
             // If there is a role, add it to the query
-            if(!empty($this->rol)){
-                $sql .= ", rol = :rol";
-                $params[':rol'] = $this->rol;
+            if(!empty($this->role)){
+                $sql .= ", role = :role";
+                $params[':role'] = $this->role;
             }
 
             $sql .= " WHERE id = :id";
@@ -302,7 +321,7 @@ try {
             return $update->execute();
 
         } catch (\PDOException $e) {
-            error_log("Error al actualizar usuario: " . $e->getMessage());
+            error_log("Error updating user: " . $e->getMessage());
             return false;
         }
     }
@@ -358,7 +377,7 @@ try {
      * @return bool true if the user is admin, otherwise false
      */
     public function isAdmin(){
-        return $this->rol === 'admin';
+        return $this->role === 'admin';
     }
     
 }   
