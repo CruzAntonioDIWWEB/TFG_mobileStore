@@ -333,25 +333,11 @@ class User
     public function delete()
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id = :id");
-            $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
-            return $stmt->execute();
+            $query = $this->db->prepare("DELETE FROM users WHERE id = :id");
+            $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+            return $query->execute();
         } catch (\PDOException $e) {
-            error_log("Error al eliminar usuario: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Function to find all the users in the database
-     * @return array|false array of users if successful, otherwise false
-     */
-    public function getAll(){
-        try {
-            $stmt = $this->db->query("SELECT * FROM usuarios ORDER BY id DESC");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            error_log("Error al obtener todos los usuarios: " . $e->getMessage());
+            error_log("Error deleting user: " . $e->getMessage());
             return false;
         }
     }
