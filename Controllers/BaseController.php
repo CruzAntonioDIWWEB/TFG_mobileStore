@@ -242,6 +242,7 @@ class BaseController
     }
 
     /**
+     * TODO
      * Require admin access, redirect if not admin
      * @return void
      */
