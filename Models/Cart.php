@@ -458,7 +458,7 @@ class Cart
         try{
             $cartItems = $this->getDetailedCartByUser($user_id);
 
-            if(!$cart_items){
+            if(!$cartItems){
                 return true; // No items in cart
             }
 

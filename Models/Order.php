@@ -23,11 +23,11 @@ class Order
     private $db;
 
     // Status constants
-    const STATUS_PENDING = 'pendiente';
-    const STATUS_SHIPPED = 'enviado';
-    const STATUS_DELIVERED = 'entregado';
-    const STATUS_CANCELLED = 'cancelado';
-    const STATUS_PAID = 'pagado';
+    const STATUS_PENDING = 'PENDIENTE';
+    const STATUS_SHIPPED = 'ENVIADO';
+    const STATUS_DELIVERED = 'ENTREGADO';
+    const STATUS_CANCELLED = 'CANCELADO';
+    const STATUS_PAID = 'PAGADO';
 
     // Constructor
     public function __construct(){
