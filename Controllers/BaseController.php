@@ -22,7 +22,7 @@ class BaseController
     // 1. SESSION HANDLING AND USER AUTHENTICATION
     // ========================================
 
-    /**
+ /**
      * Check if user is logged in
      * @return bool true if user is logged in, false otherwise
      */
@@ -40,7 +40,7 @@ class BaseController
             if ($redirectAfterLogin) {
                 $_SESSION['redirect_after_login'] = $redirectAfterLogin;
             }
-            $this->setErrorMessage('Debes iniciar sesión para acceder a esta página.');
+            $this->setErrorMessage('You must log in first.');
             $this->redirectToLogin();
         }
     }
@@ -73,13 +73,33 @@ class BaseController
     // 2. REDIRECTS AND URL HANDLING
     // ========================================
 
-    /**
-     * Generic redirect function
-     * @param string $url URL to redirect to
+     /**
+     * Redirect to controller/action (clean URLs)
+     * @param string $controller Controller name
+     * @param string $action Action name
+     * @param array $params Additional parameters
      * @param bool $permanent Whether redirect is permanent (301) or temporary (302)
      * @return void
      */
-    protected function redirect($url, $permanent = false){
+    protected function redirect($controller, $action = 'index', $params = [], $permanent = false){
+        require_once __DIR__ . '/../Core/Router.php';
+        
+        if ($permanent) {
+            header('HTTP/1.1 301 Moved Permanently');
+        }
+        
+        $url = \Core\Router::url($controller, $action, $params);
+        header('Location: ' . $url);
+        exit();
+    }
+
+    /**
+     * Redirect to raw URL (for external links or specific cases)
+     * @param string $url Full URL to redirect to
+     * @param bool $permanent Whether redirect is permanent (301) or temporary (302)
+     * @return void
+     */
+    protected function redirectToUrl($url, $permanent = false){
         if ($permanent) {
             header('HTTP/1.1 301 Moved Permanently');
         }
@@ -89,22 +109,27 @@ class BaseController
     }
 
     /**
-     * TODO
      * Redirect to login page
      * @return void
      */
     protected function redirectToLogin(){
-    
+        $this->redirect('user', 'login');
     }
 
     /**
      * Go back to previous page or specified fallback
-     * @param string $fallback Fallback URL if no referrer available
+     * @param string $fallbackController Fallback controller if no referrer
+     * @param string $fallbackAction Fallback action if no referrer
      * @return void
      */
-    protected function goBack($fallback = '/'){
-        $referrer = $_SERVER['HTTP_REFERER'] ?? $fallback;
-        $this->redirect($referrer);
+    protected function goBack($fallbackController = 'home', $fallbackAction = 'index'){
+        $referrer = $_SERVER['HTTP_REFERER'] ?? null;
+        
+        if ($referrer) {
+            $this->redirectToUrl($referrer);
+        } else {
+            $this->redirect($fallbackController, $fallbackAction);
+        }
     }
 
     // ========================================
@@ -190,7 +215,7 @@ class BaseController
         
         foreach ($requiredFields as $field) {
             if (!isset($data[$field]) || empty(trim($data[$field]))) {
-                $errors[$field] = "El campo {$field} es obligatorio.";
+                $errors[$field] = "The field {$field} is required.";
             }
         }
         
@@ -201,7 +226,7 @@ class BaseController
     // AUXILIARY FUNCTIONS
     // ========================================
 
-    /**
+     /**
      * Check if request method is POST
      * @return bool
      */
@@ -242,7 +267,6 @@ class BaseController
     }
 
     /**
-     * TODO
      * Require admin access, redirect if not admin
      * @return void
      */
@@ -250,7 +274,7 @@ class BaseController
         $this->requireLogin();
         
         if (!$this->checkAdminRole()) {
-            $this->setErrorMessage('No tienes permisos para acceder a esta página.');
+            $this->setErrorMessage("You don't have permission to access this page.");
             $this->redirect('/'); // Redirect to home
         }
     }

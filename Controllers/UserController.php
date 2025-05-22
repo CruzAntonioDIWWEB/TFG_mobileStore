@@ -1,11 +1,9 @@
 <?php
-//TODO: ADD A ROUTING SYSTEM
-
 
 namespace Controllers;
 
+require_once __DIR__ . '/../Models/User.php';
 require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../Models/UserModel.php';
 
 /**
  * UserController
@@ -24,7 +22,7 @@ class UserController extends BaseController
     public function register(){
         // If user is already logged in, redirect to home
         if ($this->checkUserSession()) {
-            $this->redirect('index.php');
+            $this->redirect('home', 'index'); 
             return;
         }
 
@@ -36,7 +34,7 @@ class UserController extends BaseController
      */
     public function processRegistration(){
         if(!$this->isPost()){
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
             return;
         }
 
@@ -48,7 +46,7 @@ class UserController extends BaseController
 
         if (!empty($errors)) {
             $this->setErrorMessage('All fields are required');
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
             return;
         }
 
@@ -60,14 +58,14 @@ class UserController extends BaseController
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setErrorMessage('Invalid email format');
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
             return;
         }
 
         // Validate password length
-        if (strlen($password) < 4) {
+        if (strlen($password) < 4) { 
             $this->setErrorMessage('Password must be at least 4 characters long');
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
             return;
         }
 
@@ -76,7 +74,7 @@ class UserController extends BaseController
 
         if($user->checkUserExists($email)){
             $this->setErrorMessage('Email is already registered');
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
             return;
         }
 
@@ -90,12 +88,16 @@ class UserController extends BaseController
 
         if ($saved) {
             $this->setSuccessMessage('Registration completed successfully. You can now log in.');
-            $this->redirect('index.php?controller=user&action=login');
+            $this->redirect('user', 'login'); 
         } else {
             $this->setErrorMessage('Registration failed. Please try again.');
-            $this->redirect('index.php?controller=user&action=register');
+            $this->redirect('user', 'register'); 
         }
     }
+
+    // ========================================
+    // AUTHENTICATION METHODS
+    // ========================================
 
     /**
      * Show login form
@@ -156,11 +158,10 @@ class UserController extends BaseController
     /**
      * Handle user logout
      */
-        public function logout()
-    {
+    public function logout(){
         $user = new \Models\User();
         $user->logout();
-        
+
         $this->setSuccessMessage('You have been logged out successfully');
         $this->redirect('index.php');
     }
@@ -169,8 +170,8 @@ class UserController extends BaseController
     // PROFILE MANAGEMENT METHODS
     // ========================================
 
-    /**
-     * Show user profile
+     /**
+     * Show user profile/edit form
      */
     public function profile(){
         $this->requireLogin();
@@ -181,7 +182,7 @@ class UserController extends BaseController
 
         if (!$userData) {
             $this->setErrorMessage('Error loading user profile');
-            $this->redirect('index.php');
+            $this->redirect('home', 'index');
             return;
         }
 
@@ -195,7 +196,7 @@ class UserController extends BaseController
         $this->requireLogin();
 
         if (!$this->isPost()) {
-            $this->redirect('index.php?controller=user&action=profile');
+            $this->redirect('user', 'profile');
             return;
         }
 
@@ -207,8 +208,8 @@ class UserController extends BaseController
         $errors = $this->validateRequired($postData, $requiredFields);
 
         if (!empty($errors)) {
-            $this->setErrorMessage('All fields are required');
-            $this->redirect('index.php?controller=user&action=profile');
+            $this->setErrorMessage('Name, surnames and email are required');
+            $this->redirect('user', 'profile');
             return;
         }
 
@@ -220,11 +221,11 @@ class UserController extends BaseController
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setErrorMessage('Invalid email format');
-            $this->redirect('index.php?controller=user&action=profile');
+            $this->redirect('user', 'profile');
             return;
         }
 
-        // Create user instance and update user data
+        // Create user instance and update data
         $user = new \Models\User();
         $user->setId($currentUser['id']);
         $user->setName($name);
@@ -235,27 +236,27 @@ class UserController extends BaseController
         if (!empty($password)) {
             if (strlen($password) < 4) {
                 $this->setErrorMessage('Password must be at least 4 characters long');
-                $this->redirect('index.php?controller=user&action=profile');
+                $this->redirect('user', 'profile');
                 return;
             }
             $user->setPassword($password);
         }
 
-        // Save user to database
+        // Update in database
         $updated = $user->updateDB();
 
-        if($updated){
+        if ($updated) {
             // Update session data
             $_SESSION['user']['name'] = $name;
             $_SESSION['user']['surnames'] = $surnames;
             $_SESSION['user']['email'] = $email;
 
             $this->setSuccessMessage('Profile updated successfully');
-        } else{
-            $this->setErrorMessage('Profile update failed. Please try again.');
+        } else {
+            $this->setErrorMessage('Error updating profile. Please try again.');
         }
 
-        $this->redirect('index.php?controller=user&action=profile');
+        $this->redirect('user', 'profile');
     }
 
     // ========================================
@@ -263,7 +264,7 @@ class UserController extends BaseController
     // ========================================
 
     /**
-     * Show all users (admin only)
+     * List all users (admin only)
      */
     public function listUsers(){
         $this->requireAdmin();
@@ -271,20 +272,19 @@ class UserController extends BaseController
         $user = new \Models\User();
         $users = $user->getAll();
 
-        $this->loadView('admin/users', ['users' => $users]); //TODO: ADD VIEW
+        $this->loadView('admin/users', ['users' => $users]);
     }
 
     /**
      * Delete user (admin only)
      */
-    public function deleteUser()
-    {
+    public function deleteUser(){
         $this->requireAdmin();
 
         // Only allow POST requests for delete operations
         if (!$this->isPost()) {
             $this->setErrorMessage('Invalid request method');
-            $this->redirect('index.php?controller=user&action=listUsers');
+            $this->redirect('user', 'listUsers');
             return;
         }
 
@@ -292,7 +292,7 @@ class UserController extends BaseController
         
         if (!$userId || !is_numeric($userId)) {
             $this->setErrorMessage('Invalid user ID');
-            $this->redirect('index.php?controller=user&action=listUsers');
+            $this->redirect('user', 'listUsers');
             return;
         }
 
@@ -300,8 +300,8 @@ class UserController extends BaseController
         
         // Prevent admin from deleting themselves
         if ($userId == $currentUser['id']) {
-            $this->setErrorMessage('You cannot delete your own account, DUH');
-            $this->redirect('index.php?controller=user&action=listUsers');
+            $this->setErrorMessage('You cannot delete your own account');
+            $this->redirect('user', 'listUsers');
             return;
         }
 
@@ -315,7 +315,7 @@ class UserController extends BaseController
             $this->setErrorMessage('Error deleting user');
         }
 
-        $this->redirect('index.php?controller=user&action=listUsers');
+        $this->redirect('user', 'listUsers');
     }
 
     // ========================================
@@ -338,7 +338,6 @@ class UserController extends BaseController
         require_once __DIR__ . "/../Views/{$view}.php";
         require_once __DIR__ . '/../Views/layout/footer.php';
     }
-
 }
 
 ?>
