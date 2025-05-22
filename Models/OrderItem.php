@@ -91,7 +91,7 @@ class OrderItem
      * Update an existing order item in the database
      * @return bool true on success, false on failure
      */
-    public function update()
+    public function updateDB()
     {
         try {
             $sql = 'UPDATE order_items SET order_id = :order_id, 

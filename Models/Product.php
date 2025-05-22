@@ -142,7 +142,7 @@ class Product
      * Update a product to the database
      * @return bool true on success, false on failure
      */
-    public function update(){
+    public function updateDB(){
         try{
             $sql = 'UPDATE products SET category_id = :category_id, accessory_type_id = :accessory_type_id,
                     name = :name, description = :description, price = :price, stock = :stock';

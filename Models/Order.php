@@ -171,7 +171,7 @@ class Order
      * Update the order in the database
      * @return bool true on success, false on failure
      */
-    public function update(){
+    public function updateDB(){
         try{
             $sql = 'UPDATE orders SET user_id = :user_id, province = :province, locality = :locality,
             address = :address, cost = :cost, status = :status, date = :date, time = :time WHERE id = :id';

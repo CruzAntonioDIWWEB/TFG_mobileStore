@@ -285,7 +285,7 @@ class User
      * @return bool true if successful, otherwise false
      */
 
-    public function update(){
+    public function updateDB(){
         try{
             $sql = "UPDATE users SET name = :name, surnames = :surnames, email = :email";
             $params = [

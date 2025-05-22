@@ -83,7 +83,7 @@ class AccessoryType
      * Update the AccessoryType in the database
      * @return bool true on success, false on failure
      */
-    public function update(){
+    public function updateDB(){
         try{
             $query = $this->db->prepare('UPDATE accessory_types SET name = :name WHERE id = :id');
             $query->bindParam(':name', $this->name, PDO::PARAM_STR);
