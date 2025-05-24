@@ -278,6 +278,25 @@ class BaseController
             $this->redirect('/'); // Redirect to home
         }
     }
+
+    /**
+     * Load view with layout
+     * @param string $view View file path
+     * @param array $data Data to pass to view
+     */
+    protected function loadView($view, $data = [])
+    {
+        // Extract data for use in view
+        extract($data);
+        
+        // Get messages for display
+        $messages = $this->getMessages();
+        
+        // Load layout (header -> content -> footer)
+        require_once __DIR__ . '/../Views/layout/header.php';
+        require_once __DIR__ . "/../Views/{$view}.php";
+        require_once __DIR__ . '/../Views/layout/footer.php';
+    }
 }
 
 ?>
