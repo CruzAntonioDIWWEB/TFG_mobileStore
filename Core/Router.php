@@ -22,7 +22,20 @@ class Router
      */
     private function parseUrl()
     {
-        // Get the URL path after the domain
+        // First check if we have query parameters (for backwards compatibility)
+        if (isset($_GET['controller'])) {
+            $this->controller = ucfirst(strtolower($_GET['controller']));
+            $this->action = isset($_GET['action']) ? strtolower($_GET['action']) : 'index';
+            
+            // Get any additional parameters
+            $this->params = $_GET;
+            unset($this->params['controller']);
+            unset($this->params['action']);
+            
+            return;
+        }
+        
+        // Otherwise, parse clean URL
         $url = $_SERVER['REQUEST_URI'];
         
         // Remove query string if present
@@ -44,6 +57,15 @@ class Router
         
         // Reset array keys
         $segments = array_values($segments);
+        
+        // Remove 'dashboard/TFG/Public' from segments if present (for XAMPP)
+        if (isset($segments[0]) && $segments[0] === 'dashboard') {
+            if (isset($segments[1]) && $segments[1] === 'TFG') {
+                if (isset($segments[2]) && $segments[2] === 'Public') {
+                    $segments = array_slice($segments, 3);
+                }
+            }
+        }
 
         // Extract controller (first segment)
         if (isset($segments[0]) && !empty($segments[0])) {
@@ -105,14 +127,28 @@ class Router
     public function dispatch()
     {
         // Build controller class name
-        $controllerClass = "Controllers\\{$this->controller}Controller";
+        $controllerName = $this->controller . 'Controller';
+        $controllerClass = "Controllers\\{$controllerName}";
+        
+        // Check if controller file exists
+        $controllerFile = __DIR__ . "/../Controllers/{$controllerName}.php";
+        
+        if (!file_exists($controllerFile)) {
+            // Fallback to HomeController if controller doesn't exist
+            $controllerName = 'HomeController';
+            $controllerClass = "Controllers\\HomeController";
+            $controllerFile = __DIR__ . "/../Controllers/HomeController.php";
+            $this->controller = 'Home';
+            $this->action = 'index';
+        }
+        
+        // Include the controller file
+        require_once $controllerFile;
         
         // Check if controller class exists
         if (!class_exists($controllerClass)) {
-            // Fallback to HomeController if controller doesn't exist
-            $controllerClass = "Controllers\\HomeController";
-            $this->controller = 'Home';
-            $this->action = 'index';
+            $this->show404();
+            return;
         }
 
         // Create controller instance
@@ -132,11 +168,19 @@ class Router
 
         // Make parameters available in $_GET for backward compatibility
         if (!empty($this->params)) {
-            $_GET['id'] = $this->params[0] ?? null;
-            
-            // Add more parameters if needed
-            for ($i = 1; $i < count($this->params); $i++) {
-                $_GET["param{$i}"] = $this->params[$i];
+            if (is_array($this->params)) {
+                // If params is associative array from $_GET
+                foreach ($this->params as $key => $value) {
+                    $_GET[$key] = $value;
+                }
+            } else {
+                // If params is indexed array from clean URL
+                $_GET['id'] = $this->params[0] ?? null;
+                
+                // Add more parameters if needed
+                for ($i = 1; $i < count($this->params); $i++) {
+                    $_GET["param{$i}"] = $this->params[$i];
+                }
             }
         }
 
@@ -152,7 +196,7 @@ class Router
         http_response_code(404);
         echo "<h1>404 - Page Not Found</h1>";
         echo "<p>The requested page could not be found.</p>";
-        echo "<a href='/'>Go to Home</a>";
+        echo "<a href='/dashboard/TFG/Public/'>Go to Home</a>";
     }
 
     /**
@@ -164,17 +208,20 @@ class Router
      */
     public static function url($controller, $action = 'index', $params = [])
     {
-        $url = '/' . strtolower($controller) . '/' . strtolower($action);
+        // For now, use query parameters for compatibility
+        $url = 'index.php?controller=' . strtolower($controller) . '&action=' . strtolower($action);
         
         if (!empty($params)) {
-            $url .= '/' . implode('/', $params);
+            foreach ($params as $key => $value) {
+                $url .= '&' . $key . '=' . urlencode($value);
+            }
         }
         
         return $url;
     }
 
     /**
-     * Redirect to a clean URL
+     * Redirect to a URL
      * @param string $controller Controller name
      * @param string $action Action name
      * @param array $params Additional parameters
