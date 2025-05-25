@@ -327,7 +327,7 @@ class UserController extends BaseController
      * @param string $view View file path
      * @param array $data Data to pass to view
      */
-    private function loadView($view, $data = []){
+    protected function loadView($view, $data = []){
         // Extract data for use in view
         extract($data);
         
