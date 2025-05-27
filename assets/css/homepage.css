@@ -1,0 +1,253 @@
+/* Hero Section */
+.hero-section {
+    background-color: #F2F2F2;
+    padding: 60px 0;
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    color: #666666;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.hero-btn {
+    padding: 15px 30px;
+    text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #E60000;
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background-color: #CC0000;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #E60000;
+    border: 2px solid #E60000;
+}
+
+.btn-secondary:hover {
+    background-color: #E60000;
+    color: #FFFFFF;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Zigzag Information Section */
+.zigzag-section {
+    padding: 80px 0;
+    background-color: #FFFFFF;
+}
+
+.zigzag-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.zigzag-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 60px;
+    align-items: start;
+}
+
+.zigzag-row:last-child {
+    margin-bottom: 0;
+}
+
+/* For alternating rows */
+.zigzag-row-reverse .zigzag-image {
+    order: 2;
+}
+
+.zigzag-row-reverse .zigzag-content {
+    order: 1;
+}
+
+.zigzag-image {
+    display: flex;
+    justify-content: center;
+}
+
+.zigzag-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image-placeholder {
+    width: 100%;
+    max-width: 450px;
+    height: 140px;
+    border: 2px solid #333333;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    color: #666666;
+    text-align: center;
+    padding: 20px;
+}
+
+.zigzag-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.05rem;
+    color: #666666;
+    line-height: 1.7;
+    text-align: left;
+}
+
+/* Adjust alignment for reverse rows */
+.zigzag-row-reverse .zigzag-text {
+    text-align: right;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .zigzag-row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+    
+    /* Reset order for mobile */
+    .zigzag-row-reverse .zigzag-image,
+    .zigzag-row-reverse .zigzag-content {
+        order: unset;
+    }
+    
+    .zigzag-text,
+    .zigzag-row-reverse .zigzag-text {
+        text-align: center;
+    }
+    
+    .image-placeholder {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .zigzag-section {
+        padding: 60px 0;
+    }
+    
+    .zigzag-text {
+        font-size: 1rem;
+    }
+    
+    .image-placeholder {
+        height: 120px;
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .zigzag-section {
+        padding: 40px 0;
+    }
+    
+    .zigzag-row {
+        margin-bottom: 40px;
+    }
+    
+    .zigzag-text {
+        font-size: 0.95rem;
+    }
+    
+    .image-placeholder {
+        height: 100px;
+        max-width: 300px;
+        font-size: 0.9rem;
+    }
+}

@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="/dashboard/TFG/assets/css/header_and_footer.css">
+    <link rel="stylesheet" href="/dashboard/TFG/assets/css/homepage.css">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
