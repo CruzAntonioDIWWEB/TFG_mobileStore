@@ -1,0 +1,23 @@
+// Reset of default styles in order to have a consistent base across browsers
+@use '../global/variables';
+@use '../global/functions' as f;
+@use 'sass:map';
+
+// For all the elements of the page I remove the default margins and paddings
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.6; // Line spacing
+  font-family: f.tipografias("fuente-texto");
+}
+
+img {
+  max-width: 100%;
+  height: auto; // So images do not overflow their containers
+}
