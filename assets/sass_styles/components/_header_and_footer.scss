@@ -1,0 +1,282 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/*===============*/
+/* Header Styles */
+/*===============*/
+
+.main-header {
+    background-color: map-get(v.$colors, white);
+    box-shadow: map-get(v.$shadows, small);
+    position: sticky;
+    top: 0;
+    z-index: map-get(v.$z-index, header);
+}
+
+.navbar {
+    width: 100%;
+
+    .nav-container {
+        @include container;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: map-get(v.$layout, header-height);
+
+        // Logo
+        .nav-logo {
+            flex-shrink: 0;
+
+            .logo-img {
+                height: 50px;
+                width: auto;
+            }
+        }
+
+        // Navigation Menu
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: map-get(v.$spacing, xxl);
+            flex: 1;
+            justify-content: center;
+
+            .nav-item {
+                position: relative;
+
+                .nav-link {
+                    text-decoration: none;
+                    color: map-get(v.$colors, dark-gray);
+                    font-family: map-get(v.$fonts, primary);
+                    font-weight: map-get(v.$font-weights, medium);
+                    font-size: map-get(v.$font-sizes, regular);
+                    padding: map-get(v.$spacing, xs) 0;
+                    @include link-hover-effect(map-get(v.$colors, primary-red));
+                }
+            }
+
+            @include breakpoint(tablet) {
+                display: none;
+                position: absolute;
+                top: map-get(v.$layout, header-height);
+                left: 0;
+                width: 100%;
+                background-color: map-get(v.$colors, white);
+                flex-direction: column;
+                padding: map-get(v.$spacing, lg);
+                box-shadow: map-get(v.$shadows, small);
+                gap: map-get(v.$spacing, lg);
+
+                &.active {
+                    display: flex;
+                }
+            }
+        }
+
+        // User Actions
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, lg);
+
+            // Navigation Buttons
+            .nav-button {
+                @include btn.button-style;
+
+                &.btn-login {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                }
+
+                &.btn-register {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                }
+            }
+
+            // Navigation Icons (when logged in)
+            .nav-icon {
+                color: map-get(v.$colors, dark-gray);
+                font-size: 1.3rem;
+                text-decoration: none;
+                transition: color map-get(v.$transitions, normal);
+                position: relative;
+
+                &:hover {
+                    color: map-get(v.$colors, primary-red);
+                }
+
+                // Cart Count Badge
+                &.cart-icon {
+                    position: relative;
+
+                    .cart-count {
+                        position: absolute;
+                        top: -8px;
+                        right: -8px;
+                        background-color: map-get(v.$colors, primary-red);
+                        color: map-get(v.$colors, white);
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        @include flex-center;
+                        font-size: map-get(v.$font-sizes, xs) - 0.15rem;
+                        font-weight: map-get(v.$font-weights, semibold);
+                    }
+                }
+            }
+
+            @include breakpoint(tablet) {
+                gap: map-get(v.$spacing, md);
+
+                .nav-button {
+                    padding: 8px 15px;
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        // Mobile Menu Toggle
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: map-get(v.$colors, dark-gray);
+            cursor: pointer;
+
+            @include breakpoint(tablet) {
+                display: block;
+            }
+        }
+
+        @include breakpoint(tablet) {
+            padding: 0 map-get(v.$spacing, md);
+        }
+    }
+}
+
+/*===============*/
+/* Footer Styles */
+/*===============*/
+
+.main-footer {
+    background-color: map-get(v.$colors, dark-gray);
+    color: map-get(v.$colors, white);
+    margin-top: auto;
+    padding: map-get(v.$spacing, xxl) 0 map-get(v.$spacing, lg);
+
+    .footer-container {
+        @include container;
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: map-get(v.$spacing, xl);
+            border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+            // Footer Logo
+            .footer-logo {
+                flex-shrink: 0;
+
+                .footer-logo-img {
+                    height: 40px;
+                    width: auto;
+                    opacity: 0.9;
+                    transition: opacity map-get(v.$transitions, normal);
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            // Footer Links
+            .footer-links {
+                display: flex;
+                gap: map-get(v.$spacing, xl);
+                align-items: center;
+
+                .footer-link {
+                    color: map-get(v.$colors, light-gray);
+                    text-decoration: none;
+                    font-family: map-get(v.$fonts, secondary);
+                    font-size: map-get(v.$font-sizes, small);
+                    transition: color map-get(v.$transitions, normal);
+
+                    &:hover {
+                        color: map-get(v.$colors, white);
+                    }
+                }
+
+                @include breakpoint(tablet) {
+                    flex-direction: column;
+                    gap: map-get(v.$spacing, md);
+                }
+            }
+
+            // Social Media Icons
+            .footer-social {
+                display: flex;
+                gap: map-get(v.$spacing, lg);
+                align-items: center;
+
+                .social-icon {
+                    color: map-get(v.$colors, light-gray);
+                    font-size: 1.3rem;
+                    text-decoration: none;
+                    transition: all map-get(v.$transitions, normal);
+
+                    &:hover {
+                        color: map-get(v.$colors, primary-red);
+                        transform: translateY(-3px);
+                    }
+                }
+
+                @include breakpoint(tablet) {
+                    justify-content: center;
+                }
+            }
+
+            @include breakpoint(tablet) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, xl);
+                text-align: center;
+            }
+        }
+
+        // Footer Bottom - Copyright
+        .footer-bottom {
+            text-align: center;
+            padding-top: map-get(v.$spacing, lg);
+
+            p {
+                margin: 0;
+                color: map-get(v.$colors, light-gray);
+                font-family: map-get(v.$fonts, secondary);
+                font-size: map-get(v.$font-sizes, small);
+            }
+
+            @include breakpoint(tablet) {
+                padding-top: map-get(v.$spacing, xl);
+            }
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xl) 0 map-get(v.$spacing, md);
+
+        .footer-logo-img {
+            height: 35px;
+        }
+
+        .footer-link {
+            font-size: map-get(v.$font-sizes, small);
+        }
+
+        .social-icon {
+            font-size: 1.2rem;
+        }
+    }
+}
