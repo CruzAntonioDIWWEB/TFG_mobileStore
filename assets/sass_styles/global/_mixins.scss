@@ -1,0 +1,170 @@
+// _mixins.scss
+@use 'variables' as *;
+@use 'sass:map';
+
+// Breakpoint mixin for responsive design
+@mixin breakpoint($breakpoint) {
+    @if $breakpoint == "mobile" {
+        @media (max-width: map-get($breakpoints, mobile)) {
+            @content;
+        }
+    }
+    @else if $breakpoint == "tablet" {
+        @media (max-width: map-get($breakpoints, tablet)) {
+            @content;
+        }
+    }
+    @else if $breakpoint == "desktop" {
+        @media (max-width: map-get($breakpoints, desktop)) {
+            @content;
+        }
+    }
+    @else if $breakpoint == "large-desktop" {
+        @media (min-width: map-get($breakpoints, large-desktop)) {
+            @content;
+        }
+    }
+}
+
+// Flexbox center mixin
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Product card mixin
+@mixin product-card {
+    background-color: map-get($colors, white);
+    border: 1px solid map-get($colors, light-gray);
+    border-radius: map-get($layout, border-radius-lg);
+    overflow: hidden;
+    transition: map-get($transitions, normal);
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: map-get($shadows, large);
+    }
+}
+
+// Product image style mixin
+@mixin product-image-style {
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+// Container mixin
+@mixin container {
+    max-width: map-get($layout, max-width);
+    margin: 0 auto;
+    padding: 0 map-get($spacing, lg);
+}
+
+// Section padding mixin
+@mixin section-padding {
+    padding: map-get($spacing, section) 0;
+    
+    @include breakpoint(tablet) {
+        padding: 60px 0;
+    }
+    
+    @include breakpoint(mobile) {
+        padding: map-get($spacing, section-mobile) 0;
+    }
+}
+
+// Typography mixin
+@mixin heading-style($level: 'h1') {
+    font-family: map-get($fonts, primary);
+    font-weight: map-get($font-weights, bold);
+    color: map-get($colors, dark-gray);
+    
+    @if $level == 'h1' {
+        font-size: map-get($font-sizes, h1);
+        
+        @include breakpoint(mobile) {
+            font-size: map-get($font-sizes, h1-mobile);
+        }
+    }
+    @else if $level == 'h2' {
+        font-size: map-get($font-sizes, h2);
+        
+        @include breakpoint(mobile) {
+            font-size: map-get($font-sizes, h2-mobile);
+        }
+    }
+    @else if $level == 'h3' {
+        font-size: map-get($font-sizes, h3);
+        
+        @include breakpoint(mobile) {
+            font-size: map-get($font-sizes, h3-mobile);
+        }
+    }
+}
+
+// Text style mixin
+@mixin body-text($size: 'regular') {
+    font-family: map-get($fonts, secondary);
+    color: map-get($colors, text-secondary);
+    line-height: 1.6;
+    
+    @if $size == 'large' {
+        font-size: map-get($font-sizes, large);
+    }
+    @else if $size == 'regular' {
+        font-size: map-get($font-sizes, regular);
+    }
+    @else if $size == 'small' {
+        font-size: map-get($font-sizes, small);
+    }
+}
+
+// Link hover effect mixin
+@mixin link-hover-effect($color: map-get($colors, primary-red)) {
+    position: relative;
+    transition: color map-get($transitions, normal);
+    
+    &:hover {
+        color: $color;
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: $color;
+        transition: width map-get($transitions, normal);
+    }
+    
+    &:hover::after {
+        width: 100%;
+    }
+}
+
+// Grid layout mixin
+@mixin responsive-grid($min-width: 250px, $gap: map-get($spacing, xl)) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    gap: $gap;
+}
+
+// Card hover effect mixin
+@mixin card-hover {
+    transition: all map-get($transitions, normal);
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: map-get($shadows, medium);
+    }
+}
