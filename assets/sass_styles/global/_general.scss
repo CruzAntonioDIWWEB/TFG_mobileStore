@@ -1,0 +1,49 @@
+@use "variables" as v;
+@use "mixins" as *;
+
+
+body {
+    font-family: map-get(v.$fonts, secondary);
+    color: map-get(v.$colors, text-primary);
+    background-color: map-get(v.$colors, white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+// Ensure main content takes up available space
+.main-content {
+    flex: 1;
+}
+
+// Global link styles
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+// Global heading styles
+h1, h2, h3, h4, h5, h6 {
+    font-family: map-get(v.$fonts, primary);
+    font-weight: map-get(v.$font-weights, bold);
+    color: map-get(v.$colors, dark-gray);
+}
+
+// Accessibility - Focus styles
+*:focus-visible {
+    outline: 2px solid map-get(v.$colors, primary-red);
+    outline-offset: 2px;
+}
+
+// Utility classes
+.text-center {
+    text-align: center;
+}
+
+.container {
+    @include container;
+}
+
+.visually-hidden {
+    @include visually-hidden;
+}

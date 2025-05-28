@@ -1,11 +1,13 @@
-// Variables y funciones globales
+// Variables y utilidades globales
 @use 'global/variables';
 @use 'global/functions';
 @use 'global/mixins';
 @use 'global/buttons';
+@use 'global/general';
 
 // Reset y estilos base
 @use 'base/reset';
 
 // Componentes
 @use 'components/header_and_footer';
+@use 'components/homepage';

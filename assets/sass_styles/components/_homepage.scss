@@ -1,0 +1,490 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Homepage Styles - Mobile Store      */
+/* =================================== */
+
+/* Hero Section */
+.hero-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    @include section-padding;
+
+    .hero-container {
+        @include container;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        .hero-content {
+            flex: 1;
+
+            .hero-title {
+                @include heading-style('h1');
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+
+            .hero-subtitle {
+                @include body-text('large');
+                margin-bottom: map-get(v.$spacing, xl);
+            }
+
+            .hero-buttons {
+                display: flex;
+                gap: map-get(v.$spacing, lg);
+
+                .hero-btn {
+                    padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+
+                    &.btn-primary {
+                        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                    }
+
+                    &.btn-secondary {
+                        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                    }
+                }
+            }
+        }
+
+        .hero-image {
+            flex: 1;
+
+            .hero-img {
+                width: 100%;
+                height: auto;
+                border-radius: map-get(v.$layout, border-radius-lg);
+            }
+        }
+
+        @include breakpoint(desktop) {
+            flex-direction: column;
+            text-align: center;
+
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+
+        @include breakpoint(mobile) {
+            gap: map-get(v.$spacing, xl);
+
+            .hero-title {
+                margin-bottom: map-get(v.$spacing, md);
+            }
+
+            .hero-subtitle {
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+
+                .hero-btn {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+/* Featured Products Section */
+.featured-section {
+    @include section-padding;
+
+    .section-container {
+        @include container;
+
+        .section-title {
+            @include heading-style('h2');
+            text-align: center;
+            margin-bottom: 50px;
+
+            @include breakpoint(mobile) {
+                margin-bottom: map-get(v.$spacing, xl);
+            }
+        }
+
+        .featured-grid {
+            @include responsive-grid(280px, map-get(v.$spacing, xl));
+            margin-bottom: map-get(v.$spacing, xxl);
+
+            .product-card {
+                @include product-card;
+
+                .product-image {
+                    position: relative;
+                    height: 250px;
+                    overflow: hidden;
+
+                    @include product-image-style;
+
+                    .stock-badge {
+                        position: absolute;
+                        top: map-get(v.$spacing, sm);
+                        right: map-get(v.$spacing, sm);
+                        background-color: map-get(v.$colors, primary-red);
+                        color: map-get(v.$colors, white);
+                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                        font-size: 0.8rem;
+                        font-weight: map-get(v.$font-weights, semibold);
+                        border-radius: map-get(v.$layout, border-radius);
+                    }
+
+                    @include breakpoint(mobile) {
+                        height: 200px;
+                    }
+                }
+
+                .product-info {
+                    padding: map-get(v.$spacing, lg);
+
+                    .product-name {
+                        @include heading-style('h3');
+                        font-size: 1.2rem;
+                        margin-bottom: map-get(v.$spacing, sm);
+
+                        @include breakpoint(mobile) {
+                            font-size: 1.1rem;
+                        }
+                    }
+
+                    .product-description {
+                        @include body-text('small');
+                        margin-bottom: map-get(v.$spacing, lg);
+                        line-height: 1.5;
+                    }
+
+                    .product-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .product-price {
+                            font-family: map-get(v.$fonts, cta);
+                            font-size: 1.5rem;
+                            font-weight: map-get(v.$font-weights, bold);
+                            color: map-get(v.$colors, primary-red);
+
+                            @include breakpoint(mobile) {
+                                font-size: 1.3rem;
+                            }
+                        }
+
+                        .product-btn {
+                            @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
+                            font-size: map-get(v.$font-sizes, small);
+
+                            &:hover {
+                                background-color: map-get(v.$colors, primary-red);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @include breakpoint(desktop) {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            @include breakpoint(mobile) {
+                gap: map-get(v.$spacing, lg);
+            }
+        }
+
+        .section-footer {
+            text-align: center;
+
+            .view-all-link {
+                color: map-get(v.$colors, primary-red);
+                text-decoration: none;
+                font-family: map-get(v.$fonts, cta);
+                font-size: map-get(v.$font-sizes, regular);
+                font-weight: map-get(v.$font-weights, semibold);
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+/* Promotional Banner */
+.promo-banner {
+    background-color: map-get(v.$colors, primary-red);
+    padding: 60px 0;
+
+    .promo-container {
+        @include container;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        .promo-content {
+            flex: 1;
+
+            .promo-title {
+                font-family: map-get(v.$fonts, primary);
+                font-size: 2.2rem;
+                font-weight: map-get(v.$font-weights, bold);
+                color: map-get(v.$colors, white);
+                margin-bottom: map-get(v.$spacing, md);
+
+                @include breakpoint(tablet) {
+                    font-size: 1.8rem;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: 1.5rem;
+                }
+            }
+
+            .promo-text {
+                font-family: map-get(v.$fonts, secondary);
+                font-size: 1.1rem;
+                color: map-get(v.$colors, white);
+                margin-bottom: map-get(v.$spacing, xl);
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+
+            .promo-btn {
+                @include btn.button-style(map-get(v.$colors, white), map-get(v.$colors, primary-red));
+                font-weight: map-get(v.$font-weights, bold);
+
+                &:hover {
+                    background-color: map-get(v.$colors, bg-light-gray);
+                }
+            }
+        }
+
+        .promo-image {
+            flex: 1;
+
+            img {
+                width: 100%;
+                height: auto;
+                border-radius: map-get(v.$layout, border-radius-lg);
+            }
+        }
+
+        @include breakpoint(desktop) {
+            flex-direction: column;
+            text-align: center;
+            gap: map-get(v.$spacing, xl);
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xxl) 0;
+    }
+}
+
+/* Accessories Section */
+.accessories-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+
+    .accessories-grid {
+        @include responsive-grid(250px, map-get(v.$spacing, xl));
+        margin-bottom: map-get(v.$spacing, xxl);
+
+        .accessory-card {
+            background-color: map-get(v.$colors, white);
+            border-radius: map-get(v.$layout, border-radius-lg);
+            overflow: hidden;
+            text-align: center;
+            @include card-hover;
+
+            .accessory-image {
+                height: 200px;
+                overflow: hidden;
+                background-color: map-get(v.$colors, bg-light-gray);
+
+                @include product-image-style;
+
+                @include breakpoint(mobile) {
+                    height: 180px;
+                }
+            }
+
+            .accessory-info {
+                padding: map-get(v.$spacing, lg);
+
+                .accessory-name {
+                    @include heading-style('h3');
+                    font-size: 1.1rem;
+                    margin-bottom: map-get(v.$spacing, sm);
+                }
+
+                .accessory-price {
+                    font-family: map-get(v.$fonts, cta);
+                    font-size: 1.3rem;
+                    font-weight: map-get(v.$font-weights, bold);
+                    color: map-get(v.$colors, primary-red);
+                    margin-bottom: map-get(v.$spacing, md);
+                }
+
+                .accessory-btn {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                    padding: map-get(v.$spacing, sm) 25px;
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        @include breakpoint(mobile) {
+            gap: map-get(v.$spacing, lg);
+        }
+    }
+}
+
+/* No Products Message */
+.no-products {
+    text-align: center;
+    @include body-text();
+    font-size: 1.1rem;
+    padding: map-get(v.$spacing, xxl) 0;
+    grid-column: 1 / -1;
+}
+
+/* Features Section */
+.features-section {
+    @include section-padding;
+    background-color: map-get(v.$colors, white);
+
+    .features-container {
+        @include container;
+        @include responsive-grid(250px, map-get(v.$spacing, xxl));
+
+        .feature-card {
+            text-align: center;
+
+            .feature-icon {
+                font-size: 3rem;
+                color: map-get(v.$colors, primary-red);
+                margin-bottom: map-get(v.$spacing, lg);
+
+                @include breakpoint(mobile) {
+                    font-size: 2.5rem;
+                }
+            }
+
+            .feature-title {
+                @include heading-style('h3');
+                margin-bottom: map-get(v.$spacing, sm);
+            }
+
+            .feature-text {
+                @include body-text('small');
+                line-height: 1.5;
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        @include breakpoint(desktop) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include breakpoint(tablet) {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: map-get(v.$spacing, xl);
+        }
+
+        @include breakpoint(mobile) {
+            grid-template-columns: 1fr;
+            gap: map-get(v.$spacing, xl);
+        }
+    }
+}
+
+/* Newsletter Section */
+.newsletter-section {
+    background-color: map-get(v.$colors, dark-gray);
+    padding: 60px 0;
+
+    .newsletter-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 map-get(v.$spacing, lg);
+        text-align: center;
+
+        .newsletter-title {
+            @include heading-style('h2');
+            color: map-get(v.$colors, white);
+            margin-bottom: map-get(v.$spacing, md);
+        }
+
+        .newsletter-text {
+            font-family: map-get(v.$fonts, secondary);
+            font-size: 1.1rem;
+            color: map-get(v.$colors, light-gray);
+            margin-bottom: map-get(v.$spacing, xl);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, regular);
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: map-get(v.$spacing, sm);
+
+            .newsletter-input {
+                flex: 1;
+                padding: map-get(v.$spacing, md);
+                border: none;
+                border-radius: map-get(v.$layout, border-radius);
+                font-family: map-get(v.$fonts, secondary);
+                font-size: map-get(v.$font-sizes, regular);
+
+                &:focus {
+                    outline: none;
+                    box-shadow: map-get(v.$shadows, focus-red);
+                }
+            }
+
+            .newsletter-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+                border: none;
+                cursor: pointer;
+            }
+
+            @include breakpoint(tablet) {
+                flex-direction: column;
+
+                .newsletter-input,
+                .newsletter-btn {
+                    width: 100%;
+                }
+            }
+
+            @include breakpoint(mobile) {
+
+                .newsletter-input,
+                .newsletter-btn {
+                    padding: 12px;
+                }
+            }
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xxl) 0;
+    }
+    
+}

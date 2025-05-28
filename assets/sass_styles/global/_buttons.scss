@@ -1,20 +1,27 @@
+@use '../global/variables' as v;
+@use 'sass:map';
+
 // Button style 
-@mixin button-style($bg-color: map-get($colors, primary-red), $text-color: map-get($colors, white), $border: false) {
+@mixin button-style(
+    $bg-color: map.get(v.$colors, primary-red),
+    $text-color: map.get(v.$colors, white),
+    $border: false
+) {
     padding: 10px 20px;
     text-decoration: none;
-    font-family: map-get($fonts, cta);
-    font-weight: map-get($font-weights, semibold);
-    font-size: map-get($font-sizes, regular);
-    border-radius: map-get($layout, border-radius);
-    transition: map-get($transitions, normal);
+    font-family: map.get(v.$fonts, cta);
+    font-weight: map.get(v.$font-weights, semibold);
+    font-size: map.get(v.$font-sizes, regular);
+    border-radius: map.get(v.$layout, border-radius);
+    transition: map.get(v.$transitions, normal);
     cursor: pointer;
     display: inline-block;
-    
+
     @if $border {
         background-color: transparent;
         color: $bg-color;
         border: 2px solid $bg-color;
-        
+
         &:hover {
             background-color: $bg-color;
             color: $text-color;
@@ -23,7 +30,7 @@
         background-color: $bg-color;
         color: $text-color;
         border: none;
-        
+
         &:hover {
             background-color: darken($bg-color, 10%);
             transform: translateY(-2px);
