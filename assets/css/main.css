@@ -503,6 +503,125 @@ img {
   }
 }
 
+/* Zigzag Information Section */
+.zigzag-section {
+  padding: 80px 0;
+  background-color: #FFFFFF;
+}
+@media (max-width: 768px) {
+  .zigzag-section {
+    padding: 60px 0;
+  }
+}
+@media (max-width: 480px) {
+  .zigzag-section {
+    padding: 40px 0;
+  }
+}
+.zigzag-section .zigzag-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.zigzag-section .zigzag-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 60px;
+  align-items: center;
+}
+.zigzag-section .zigzag-row:last-child {
+  margin-bottom: 0;
+}
+.zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-image {
+  order: 2;
+}
+.zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-content {
+  order: 1;
+}
+.zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-text {
+  text-align: right;
+}
+.zigzag-section .zigzag-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.zigzag-section .zigzag-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.zigzag-section .image-placeholder {
+  width: 100%;
+  max-width: 450px;
+  height: 140px;
+  border: 2px solid #333333;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  color: #666666;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+.zigzag-section .zigzag-text {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  text-align: left;
+  margin: 0;
+}
+@media (max-width: 992px) {
+  .zigzag-section .zigzag-row {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+  .zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-image,
+  .zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-content {
+    order: unset;
+  }
+  .zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-text {
+    text-align: center;
+  }
+  .zigzag-section .zigzag-text {
+    text-align: center;
+  }
+  .zigzag-section .image-placeholder {
+    max-width: 400px;
+  }
+}
+@media (max-width: 768px) {
+  .zigzag-section .zigzag-text {
+    font-size: 1rem;
+  }
+  .zigzag-section .image-placeholder {
+    height: 120px;
+    max-width: 350px;
+  }
+}
+@media (max-width: 480px) {
+  .zigzag-section .zigzag-row {
+    margin-bottom: 40px;
+  }
+  .zigzag-section .zigzag-text {
+    font-size: 0.95rem;
+  }
+  .zigzag-section .image-placeholder {
+    height: 100px;
+    max-width: 300px;
+    font-size: 0.9rem;
+  }
+}
+
 /* Featured Products Section */
 .featured-section {
   padding: 80px 0;

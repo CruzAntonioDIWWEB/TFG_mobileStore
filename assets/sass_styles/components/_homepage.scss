@@ -92,6 +92,137 @@
     }
 }
 
+/* Zigzag Information Section */
+.zigzag-section {
+    @include section-padding;
+    background-color: map-get(v.$colors, white);
+
+    .zigzag-container {
+        @include container;
+    }
+
+    .zigzag-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: map-get(v.$spacing, section);
+        margin-bottom: 60px;
+        align-items: center;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        // For alternating rows
+        &.zigzag-row-reverse {
+            .zigzag-image {
+                order: 2;
+            }
+
+            .zigzag-content {
+                order: 1;
+            }
+
+            .zigzag-text {
+                text-align: right;
+            }
+        }
+    }
+
+    .zigzag-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .zigzag-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        max-width: 450px;
+        height: 140px;
+        border: 2px solid map-get(v.$colors, dark-gray);
+        background-color: map-get(v.$colors, white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, regular);
+        color: map-get(v.$colors, text-secondary);
+        text-align: center;
+        padding: map-get(v.$spacing, lg);
+        box-sizing: border-box;
+        margin: 0 auto;
+    }
+
+    .zigzag-text {
+        @include body-text();
+        font-size: 1.05rem;
+        line-height: 1.7;
+        text-align: left;
+        margin: 0;
+    }
+
+    // Responsive Design
+    @include breakpoint(desktop) {
+        .zigzag-row {
+            grid-template-columns: 1fr;
+            gap: map-get(v.$spacing, xl);
+            margin-bottom: 50px;
+
+            // Reset order for mobile
+            &.zigzag-row-reverse {
+                .zigzag-image,
+                .zigzag-content {
+                    order: unset;
+                }
+
+                .zigzag-text {
+                    text-align: center;
+                }
+            }
+        }
+
+        .zigzag-text {
+            text-align: center;
+        }
+
+        .image-placeholder {
+            max-width: 400px;
+        }
+    }
+
+    @include breakpoint(tablet) {
+        .zigzag-text {
+            font-size: map-get(v.$font-sizes, regular);
+        }
+
+        .image-placeholder {
+            height: 120px;
+            max-width: 350px;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        .zigzag-row {
+            margin-bottom: map-get(v.$spacing, xxl);
+        }
+
+        .zigzag-text {
+            font-size: map-get(v.$font-sizes, small);
+        }
+
+        .image-placeholder {
+            height: 100px;
+            max-width: 300px;
+            font-size: map-get(v.$font-sizes, xs);
+        }
+    }
+}
+
 /* Featured Products Section */
 .featured-section {
     @include section-padding;
@@ -486,5 +617,4 @@
     @include breakpoint(mobile) {
         padding: map-get(v.$spacing, xxl) 0;
     }
-    
 }
