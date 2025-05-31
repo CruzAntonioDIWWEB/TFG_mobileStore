@@ -5,8 +5,8 @@
             <h1 class="hero-title">Bienvenido a somalia</h1>
             <p class="hero-subtitle">Tu tienda de confianza para móviles y accesorios</p>
             <div class="hero-buttons">
-                <a href="index.php?controller=product&action=phones" class="hero-btn btn-primary">Ver Móviles</a>
-                <a href="index.php?controller=product&action=accessories" class="hero-btn btn-secondary">Ver Accesorios</a>
+                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="hero-btn btn-primary">Ver Móviles</a>
+                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="hero-btn btn-secondary">Ver Accesorios</a>
             </div>
         </div>
         <div class="hero-image">
@@ -68,6 +68,9 @@
     </article>
 </section>
 
+<!-- Título de productos destacados -->
+<h2 class="home-featured-title">Productos destacados</h2>
+
 <!-- Featured Phones Section -->
 <?php if (!empty($featuredPhones)): ?>
 <h2 class="home-featured-title">Teléfonos destacados</h2>
@@ -87,7 +90,9 @@
                         <?php endif; ?>
                         
                         <?php if ($phone['stock'] > 0): ?>
-                            <span class="stock-badge">Stock: <?php echo $phone['stock']; ?></span>
+                            <div class="stock-badge">En stock</div>
+                        <?php else: ?>
+                            <div class="stock-badge">Agotado</div>
                         <?php endif; ?>
                     </div>
                     
@@ -102,7 +107,7 @@
                         
                         <div class="product-footer">
                             <span class="product-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
-                            <a href="index.php?controller=product&action=detail&id=<?php echo $phone['id']; ?>" 
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $phone['id']; ?>" 
                                class="product-btn">Ver más</a>
                         </div>
                     </div>
@@ -111,7 +116,7 @@
         </div>
         
         <div class="section-footer">
-            <a href="index.php?controller=product&action=phones" class="view-all-link">Catálogo de móviles →</a>
+            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="view-all-link">Catálogo de móviles →</a>
         </div>
     </div>
 </section>
@@ -140,7 +145,7 @@
                     <div class="accessory-info">
                         <h3 class="accessory-name"><?php echo htmlspecialchars($accessory['name']); ?></h3>
                         <p class="accessory-price"><?php echo number_format($accessory['price'], 2, ',', '.'); ?> €</p>
-                        <a href="index.php?controller=product&action=detail&id=<?php echo $accessory['id']; ?>" 
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $accessory['id']; ?>" 
                            class="accessory-btn">Ver más</a>
                     </div>
                 </article>
@@ -148,7 +153,7 @@
         </div>
         
         <div class="section-footer">
-            <a href="index.php?controller=product&action=accessories" class="view-all-link">Catálogo de accesorios →</a>
+            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="view-all-link">Catálogo de accesorios →</a>
         </div>
     </div>
 </section>
