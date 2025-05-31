@@ -419,6 +419,20 @@
     }
 }
 
+/* Home Featured Title */
+.home-featured-title {
+    @include heading-style('h2');
+    text-align: center;
+    margin: map-get(v.$spacing, section) auto map-get(v.$spacing, xl);
+    max-width: map-get(v.$layout, max-width);
+    padding: 0 map-get(v.$spacing, lg);
+
+    @include breakpoint(mobile) {
+        margin: map-get(v.$spacing, section-mobile) auto map-get(v.$spacing, lg);
+        font-size: map-get(v.$font-sizes, h2-mobile);
+    }
+}
+
 /* Accessories Section */
 .accessories-section {
     background-color: map-get(v.$colors, bg-light-gray);
@@ -477,13 +491,49 @@
     }
 }
 
+/* Home Featured Title - Standalone titles outside sections */
+.home-featured-title {
+    @include heading-style('h2');
+    text-align: center;
+    margin: 60px auto 30px;
+    max-width: map-get(v.$layout, max-width);
+    padding: 0 map-get(v.$spacing, lg);
+    color: map-get(v.$colors, primary-red);
+
+    @include breakpoint(mobile) {
+        margin: 40px auto 20px;
+        font-size: map-get(v.$font-sizes, h2-mobile);
+    }
+}
+
+/* Standalone description text */
+.home-description-text {
+    @include body-text();
+    max-width: map-get(v.$layout, max-width);
+    margin: 0 auto map-get(v.$spacing, xl);
+    padding: 0 map-get(v.$spacing, lg);
+    text-align: center;
+    line-height: 1.7;
+
+    @include breakpoint(mobile) {
+        font-size: map-get(v.$font-sizes, small);
+        margin-bottom: map-get(v.$spacing, lg);
+    }
+}
+
 /* No Products Message */
-.no-products {
+.no-products,
+.no-products-currently {
     text-align: center;
     @include body-text();
     font-size: 1.1rem;
     padding: map-get(v.$spacing, xxl) 0;
     grid-column: 1 / -1;
+    
+    p {
+        margin: 0;
+        color: map-get(v.$colors, text-secondary);
+    }
 }
 
 /* Features Section */
