@@ -1,8 +1,3 @@
-
-<?php
-// This file should be saved as Views/home/index.php
-?>
-
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-container">
@@ -72,3 +67,96 @@
         </div>
     </article>
 </section>
+
+<!-- Featured Phones Section -->
+<?php if (!empty($featuredPhones)): ?>
+<h2 class="home-featured-title">Teléfonos destacados</h2>
+
+<section class="featured-section">
+    <div class="section-container">
+        <div class="featured-grid">
+            <?php foreach ($featuredPhones as $phone): ?>
+                <article class="product-card">
+                    <div class="product-image">
+                        <?php if (!empty($phone['image'])): ?>
+                            <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($phone['image']); ?>" 
+                                 alt="<?php echo htmlspecialchars($phone['name']); ?>">
+                        <?php else: ?>
+                            <img src="/dashboard/TFG/assets/img/placeholder-product.jpg" 
+                                 alt="<?php echo htmlspecialchars($phone['name']); ?>">
+                        <?php endif; ?>
+                        
+                        <?php if ($phone['stock'] > 0): ?>
+                            <span class="stock-badge">Stock: <?php echo $phone['stock']; ?></span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 class="product-name"><?php echo htmlspecialchars($phone['name']); ?></h3>
+                        
+                        <?php if (!empty($phone['description'])): ?>
+                            <p class="product-description">
+                                <?php echo htmlspecialchars(substr($phone['description'], 0, 100)) . (strlen($phone['description']) > 100 ? '...' : ''); ?>
+                            </p>
+                        <?php endif; ?>
+                        
+                        <div class="product-footer">
+                            <span class="product-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
+                            <a href="index.php?controller=product&action=detail&id=<?php echo $phone['id']; ?>" 
+                               class="product-btn">Ver más</a>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+        
+        <div class="section-footer">
+            <a href="index.php?controller=product&action=phones" class="view-all-link">Catálogo de móviles →</a>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<!-- Featured Accessories Section -->
+<?php if (!empty($featuredAccessories)): ?>
+<h2 class="home-featured-title">Accesorios destacados</h2>
+<p class="home-description-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+
+<section class="accessories-section">
+    <div class="section-container">
+        <div class="accessories-grid">
+            <?php foreach ($featuredAccessories as $accessory): ?>
+                <article class="accessory-card">
+                    <div class="accessory-image">
+                        <?php if (!empty($accessory['image'])): ?>
+                            <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($accessory['image']); ?>" 
+                                 alt="<?php echo htmlspecialchars($accessory['name']); ?>">
+                        <?php else: ?>
+                            <img src="/dashboard/TFG/assets/img/placeholder-product.jpg" 
+                                 alt="<?php echo htmlspecialchars($accessory['name']); ?>">
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="accessory-info">
+                        <h3 class="accessory-name"><?php echo htmlspecialchars($accessory['name']); ?></h3>
+                        <p class="accessory-price"><?php echo number_format($accessory['price'], 2, ',', '.'); ?> €</p>
+                        <a href="index.php?controller=product&action=detail&id=<?php echo $accessory['id']; ?>" 
+                           class="accessory-btn">Ver más</a>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+        
+        <div class="section-footer">
+            <a href="index.php?controller=product&action=accessories" class="view-all-link">Catálogo de accesorios →</a>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<!-- No Products Message -->
+<?php if (empty($featuredPhones) && empty($featuredAccessories)): ?>
+<div class="no-products-currently">
+    <p>No hay productos destacados disponibles en este momento.</p>
+</div>
+<?php endif; ?>
