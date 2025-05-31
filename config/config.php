@@ -14,5 +14,8 @@ $db = new DatabaseConfig();
 //Obtiene la conexión a la base de datos
 $pdo = $db->getConnection();
 
+// Mejor enrutamiento
+define('BASE_URL', '/dashboard/TFG/Public/');
+
 //Esto devuelve la conexión para que pueda ser utilizada en otros archivos
 return $pdo; 

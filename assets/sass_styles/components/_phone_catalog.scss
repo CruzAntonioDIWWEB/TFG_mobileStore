@@ -1,0 +1,440 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Phones Catalog Styles               */
+/* =================================== */
+
+/* Catalog Header */
+.catalog-header {
+    background-color: map-get(v.$colors, bg-light-gray);
+    @include section-padding;
+    text-align: center;
+
+    .catalog-header-container {
+        @include container;
+
+        .catalog-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, md);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h1-mobile);
+            }
+        }
+
+        .catalog-description {
+            @include body-text('large');
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, regular);
+            }
+        }
+    }
+}
+
+/* Brand Filters Section */
+.brand-filters {
+    background-color: map-get(v.$colors, white);
+    padding: map-get(v.$spacing, xxl) 0;
+    border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+    .filters-container {
+        @include container;
+        text-align: center;
+
+        .filters-title {
+            @include heading-style('h2');
+            margin-bottom: map-get(v.$spacing, xl);
+            color: map-get(v.$colors, dark-gray);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h2-mobile);
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+        }
+
+        .brand-buttons {
+            display: flex;
+            justify-content: center;
+            gap: map-get(v.$spacing, lg);
+            flex-wrap: wrap;
+
+            .brand-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+                border: 2px solid map-get(v.$colors, light-gray);
+                background-color: map-get(v.$colors, white);
+                color: map-get(v.$colors, dark-gray);
+                transition: all map-get(v.$transitions, normal);
+                position: relative;
+                overflow: hidden;
+
+                .brand-text {
+                    position: relative;
+                    z-index: 2;
+                    font-weight: map-get(v.$font-weights, semibold);
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background-color: map-get(v.$colors, primary-red);
+                    transition: left map-get(v.$transitions, normal);
+                    z-index: 1;
+                }
+
+                &:hover {
+                    color: map-get(v.$colors, white);
+                    border-color: map-get(v.$colors, primary-red);
+                    transform: translateY(-2px);
+
+                    &::before {
+                        left: 0;
+                    }
+                }
+
+                &.active {
+                    background-color: map-get(v.$colors, primary-red);
+                    color: map-get(v.$colors, white);
+                    border-color: map-get(v.$colors, primary-red);
+                    transform: translateY(-2px);
+
+                    &::before {
+                        left: 0;
+                    }
+                }
+
+                @include breakpoint(tablet) {
+                    padding: 12px map-get(v.$spacing, lg);
+                    font-size: map-get(v.$font-sizes, small);
+                }
+
+                @include breakpoint(mobile) {
+                    padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, small);
+                    min-width: 80px;
+                }
+            }
+
+            @include breakpoint(mobile) {
+                gap: map-get(v.$spacing, sm);
+                justify-content: space-around;
+            }
+        }
+    }
+}
+
+/* Phones Catalog Grid */
+.phones-catalog {
+    background-color: map-get(v.$colors, white);
+    @include section-padding;
+
+    .catalog-container {
+        @include container;
+
+        .phones-grid {
+            @include responsive-grid(320px, map-get(v.$spacing, xl));
+
+            .phone-card {
+                @include product-card;
+                position: relative;
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    transform: translateY(-8px);
+                    box-shadow: map-get(v.$shadows, large);
+                }
+
+                .phone-image {
+                    position: relative;
+                    height: 280px;
+                    overflow: hidden;
+                    background-color: map-get(v.$colors, bg-light-gray);
+
+                    @include product-image-style;
+
+                    .stock-badge {
+                        position: absolute;
+                        top: map-get(v.$spacing, sm);
+                        right: map-get(v.$spacing, sm);
+                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                        border-radius: map-get(v.$layout, border-radius);
+                        font-size: map-get(v.$font-sizes, xs);
+                        font-weight: map-get(v.$font-weights, semibold);
+                        display: flex;
+                        align-items: center;
+                        gap: map-get(v.$spacing, xs);
+                        z-index: 3;
+
+                        &:not(.out-of-stock) {
+                            background-color: rgba(map-get(v.$colors, primary-red), 0.9);
+                            color: map-get(v.$colors, white);
+                        }
+
+                        &.out-of-stock {
+                            background-color: rgba(map-get(v.$colors, dark-gray), 0.9);
+                            color: map-get(v.$colors, white);
+                        }
+
+                        i {
+                            font-size: 0.8em;
+                        }
+                    }
+
+                    @include breakpoint(tablet) {
+                        height: 250px;
+                    }
+
+                    @include breakpoint(mobile) {
+                        height: 220px;
+                    }
+                }
+
+                .phone-info {
+                    padding: map-get(v.$spacing, lg);
+
+                    .phone-name {
+                        @include heading-style('h3');
+                        font-size: 1.25rem;
+                        margin-bottom: map-get(v.$spacing, sm);
+                        line-height: 1.3;
+
+                        @include breakpoint(mobile) {
+                            font-size: 1.1rem;
+                        }
+                    }
+
+                    .phone-description {
+                        @include body-text('small');
+                        margin-bottom: map-get(v.$spacing, lg);
+                        line-height: 1.5;
+                        color: map-get(v.$colors, text-secondary);
+                    }
+
+                    .phone-footer {
+                        .price-section {
+                            margin-bottom: map-get(v.$spacing, lg);
+
+                            .phone-price {
+                                font-family: map-get(v.$fonts, cta);
+                                font-size: 1.6rem;
+                                font-weight: map-get(v.$font-weights, bold);
+                                color: map-get(v.$colors, primary-red);
+
+                                @include breakpoint(mobile) {
+                                    font-size: 1.4rem;
+                                }
+                            }
+                        }
+
+                        .phone-actions {
+                            display: flex;
+                            flex-direction: column;
+                            gap: map-get(v.$spacing, sm);
+
+                            .phone-btn {
+                                @include btn.button-style;
+                                padding: 12px map-get(v.$spacing, lg);
+                                font-size: map-get(v.$font-sizes, small);
+                                font-weight: map-get(v.$font-weights, semibold);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: map-get(v.$spacing, xs);
+                                text-decoration: none;
+                                border: none;
+                                cursor: pointer;
+                                transition: all map-get(v.$transitions, normal);
+
+                                i {
+                                    font-size: 0.9em;
+                                }
+
+                                &.btn-details {
+                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                                }
+
+                                &.btn-cart {
+                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+
+                                    &.added {
+                                        background-color: #28a745;
+                                        border-color: #28a745;
+                                    }
+                                }
+
+                                &.btn-login-required {
+                                    @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
+                                }
+
+                                &.btn-disabled {
+                                    background-color: map-get(v.$colors, light-gray);
+                                    color: map-get(v.$colors, text-secondary);
+                                    cursor: not-allowed;
+                                    border: 1px solid map-get(v.$colors, light-gray);
+
+                                    &:hover {
+                                        transform: none;
+                                        background-color: map-get(v.$colors, light-gray);
+                                    }
+                                }
+
+                                @include breakpoint(mobile) {
+                                    padding: 10px map-get(v.$spacing, md);
+                                    font-size: map-get(v.$font-sizes, xs);
+                                }
+                            }
+
+                            @include breakpoint(tablet) {
+                                flex-direction: row;
+                                
+                                .phone-btn {
+                                    flex: 1;
+                                }
+                            }
+
+                            @include breakpoint(mobile) {
+                                flex-direction: column;
+                                gap: map-get(v.$spacing, xs);
+                            }
+                        }
+                    }
+                }
+
+                &.hidden {
+                    display: none;
+                }
+
+                @include breakpoint(desktop) {
+                    .phone-info {
+                        padding: map-get(v.$spacing, md);
+                    }
+                }
+            }
+
+            @include breakpoint(desktop) {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: map-get(v.$spacing, lg);
+            }
+
+            @include breakpoint(tablet) {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: map-get(v.$spacing, lg);
+            }
+
+            @include breakpoint(mobile) {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: map-get(v.$spacing, md);
+            }
+        }
+    }
+}
+
+/* No Phones Message */
+.no-phones-message,
+.no-results-message {
+    text-align: center;
+    padding: map-get(v.$spacing, section) 0;
+    grid-column: 1 / -1;
+
+    .no-phones-content,
+    .no-results-content {
+        max-width: 500px;
+        margin: 0 auto;
+
+        .no-phones-icon,
+        .no-results-icon {
+            font-size: 4rem;
+            color: map-get(v.$colors, light-gray);
+            margin-bottom: map-get(v.$spacing, lg);
+
+            @include breakpoint(mobile) {
+                font-size: 3rem;
+            }
+        }
+
+        .no-phones-title,
+        h3 {
+            @include heading-style('h3');
+            margin-bottom: map-get(v.$spacing, md);
+            color: map-get(v.$colors, text-secondary);
+        }
+
+        .no-phones-text,
+        p {
+            @include body-text();
+            margin-bottom: map-get(v.$spacing, xl);
+            color: map-get(v.$colors, text-secondary);
+        }
+
+        .back-home-btn {
+            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            display: inline-flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            text-decoration: none;
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+    }
+}
+
+/* Alert Messages */
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+
+    &.alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+}
+
+/* Animation for filtered cards */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.phone-card:not(.hidden) {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading state for brand filtering */
+.brand-btn:active {
+    transform: translateY(0);
+}

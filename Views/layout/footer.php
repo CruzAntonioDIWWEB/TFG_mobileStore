@@ -1,4 +1,4 @@
-    </main>
+</main>
     <!-- End of Main Content -->
     
     <!-- Footer -->
@@ -7,16 +7,16 @@
             <div class="footer-content">
                 <!-- Logo Section -->
                 <div class="footer-logo">
-                    <a href="index.php?controller=home&action=index">
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index">
                         <img src="/dashboard/TFG/assets/img/example.jpg" alt="Mobile Store Logo" class="footer-logo-img">
                     </a>
                 </div>
                 
                 <!-- Links Section -->
                 <div class="footer-links">
-                    <a href="index.php?controller=info&action=license" class="footer-link">Licencia</a>
-                    <a href="index.php?controller=info&action=privacy" class="footer-link">Política y Privacidad</a>
-                    <a href="index.php?controller=contact&action=index" class="footer-link">Contacto</a>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=info&action=license" class="footer-link">Licencia</a>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=info&action=privacy" class="footer-link">Política y Privacidad</a>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="footer-link">Contacto</a>
                 </div>
                 
                 <!-- Social Media Icons -->

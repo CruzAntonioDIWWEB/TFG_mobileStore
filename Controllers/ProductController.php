@@ -4,7 +4,7 @@ namespace Controllers;
 
 require_once __DIR__ . '/../Models/Product.php';
 require_once __DIR__ . '/../Models/Category.php';
-require_once __DIR__ . '/../Models/AccessoryType.php';
+require_once __DIR__ . '/../Models/TypeAccessory.php';
 require_once __DIR__ . '/BaseController.php';
 
 /**
@@ -508,6 +508,22 @@ class ProductController extends BaseController
                 unlink($imagePath);
             }
         }
+    }
+
+    /**
+     * Display mobile phones - simple alias for phoneCatalog
+     */
+    public function phones()
+    {
+        $this->phoneCatalog();
+    }
+
+    /**
+     * Display accessories - simple alias for accessoriesCatalog  
+     */
+    public function accessories()
+    {
+        $this->accessoriesCatalog();
     }
 }
 
