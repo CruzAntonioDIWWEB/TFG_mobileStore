@@ -1230,4 +1230,624 @@ img {
   .newsletter-section {
     padding: 40px 0;
   }
+}
+
+/* =================================== */
+/* Phones Catalog Styles               */
+/* =================================== */
+/* Catalog Header */
+.catalog-header {
+  background-color: #F2F2F2;
+  padding: 80px 0;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .catalog-header {
+    padding: 60px 0;
+  }
+}
+@media (max-width: 480px) {
+  .catalog-header {
+    padding: 40px 0;
+  }
+}
+.catalog-header .catalog-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.catalog-header .catalog-header-container .catalog-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 2.5rem;
+  color: #E60000;
+  margin-bottom: 15px;
+}
+@media (max-width: 480px) {
+  .catalog-header .catalog-header-container .catalog-title {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .catalog-header .catalog-header-container .catalog-title {
+    font-size: 1.8rem;
+  }
+}
+.catalog-header .catalog-header-container .catalog-description {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+@media (max-width: 480px) {
+  .catalog-header .catalog-header-container .catalog-description {
+    font-size: 1rem;
+  }
+}
+
+/* Brand Filters Section */
+.brand-filters {
+  background-color: #FFFFFF;
+  padding: 40px 0;
+  border-bottom: 1px solid #CCCCCC;
+}
+.brand-filters .filters-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+.brand-filters .filters-container .filters-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333333;
+}
+@media (max-width: 480px) {
+  .brand-filters .filters-container .filters-title {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .brand-filters .filters-container .filters-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+}
+.brand-filters .filters-container .brand-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: transparent;
+  color: #E60000;
+  border: 2px solid #E60000;
+  padding: 15px 30px;
+  border: 2px solid #CCCCCC;
+  background-color: #FFFFFF;
+  color: #333333;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn:hover {
+  background-color: #E60000;
+  color: #E60000;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn .brand-text {
+  position: relative;
+  z-index: 2;
+  font-weight: 600;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #E60000;
+  transition: left 0.3s ease;
+  z-index: 1;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn:hover {
+  color: #FFFFFF;
+  border-color: #E60000;
+  transform: translateY(-2px);
+}
+.brand-filters .filters-container .brand-buttons .brand-btn:hover::before {
+  left: 0;
+}
+.brand-filters .filters-container .brand-buttons .brand-btn.active {
+  background-color: #E60000;
+  color: #FFFFFF;
+  border-color: #E60000;
+  transform: translateY(-2px);
+}
+.brand-filters .filters-container .brand-buttons .brand-btn.active::before {
+  left: 0;
+}
+@media (max-width: 768px) {
+  .brand-filters .filters-container .brand-buttons .brand-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 480px) {
+  .brand-filters .filters-container .brand-buttons .brand-btn {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    min-width: 80px;
+  }
+}
+@media (max-width: 480px) {
+  .brand-filters .filters-container .brand-buttons {
+    gap: 10px;
+    justify-content: space-around;
+  }
+}
+
+/* Phones Catalog Grid */
+.phones-catalog {
+  background-color: #FFFFFF;
+  padding: 80px 0;
+}
+@media (max-width: 768px) {
+  .phones-catalog {
+    padding: 60px 0;
+  }
+}
+@media (max-width: 480px) {
+  .phones-catalog {
+    padding: 40px 0;
+  }
+}
+.phones-catalog .catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.phones-catalog .catalog-container .phones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 0.3s ease;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  background-color: #F2F2F2;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image img:hover {
+  transform: scale(1.05);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 3;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge:not(.out-of-stock) {
+  background-color: rgba(230, 0, 0, 0.9);
+  color: #FFFFFF;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge.out-of-stock {
+  background-color: rgba(51, 51, 51, 0.9);
+  color: #FFFFFF;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge i {
+  font-size: 0.8em;
+}
+@media (max-width: 768px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
+    height: 250px;
+  }
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
+    height: 220px;
+  }
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info {
+  padding: 20px;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-name {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 1.3rem;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-name {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-name {
+    font-size: 1.1rem;
+  }
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-description {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  color: #666666;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .price-section {
+  margin-bottom: 20px;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .price-section .phone-price {
+  font-family: "Lato", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #E60000;
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .price-section .phone-price {
+    font-size: 1.4rem;
+  }
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #E60000;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn i {
+  font-size: 0.9em;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-details {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: transparent;
+  color: #E60000;
+  border: 2px solid #E60000;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-details:hover {
+  background-color: #E60000;
+  color: #E60000;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-cart {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #E60000;
+  color: #FFFFFF;
+  border: none;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-cart:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-cart.added {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-login-required {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #333333;
+  color: #FFFFFF;
+  border: none;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-login-required:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-2px);
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-disabled {
+  background-color: #CCCCCC;
+  color: #666666;
+  cursor: not-allowed;
+  border: 1px solid #CCCCCC;
+}
+.phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-disabled:hover {
+  transform: none;
+  background-color: #CCCCCC;
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 768px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions {
+    flex-direction: row;
+  }
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn {
+    flex: 1;
+  }
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+.phones-catalog .catalog-container .phones-grid .phone-card.hidden {
+  display: none;
+}
+@media (max-width: 992px) {
+  .phones-catalog .catalog-container .phones-grid .phone-card .phone-info {
+    padding: 15px;
+  }
+}
+@media (max-width: 992px) {
+  .phones-catalog .catalog-container .phones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .phones-catalog .catalog-container .phones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .phones-catalog .catalog-container .phones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+  }
+}
+
+/* No Phones Message */
+.no-phones-message,
+.no-results-message {
+  text-align: center;
+  padding: 80px 0;
+  grid-column: 1/-1;
+}
+.no-phones-message .no-phones-content,
+.no-phones-message .no-results-content,
+.no-results-message .no-phones-content,
+.no-results-message .no-results-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.no-phones-message .no-phones-content .no-phones-icon,
+.no-phones-message .no-phones-content .no-results-icon,
+.no-phones-message .no-results-content .no-phones-icon,
+.no-phones-message .no-results-content .no-results-icon,
+.no-results-message .no-phones-content .no-phones-icon,
+.no-results-message .no-phones-content .no-results-icon,
+.no-results-message .no-results-content .no-phones-icon,
+.no-results-message .no-results-content .no-results-icon {
+  font-size: 4rem;
+  color: #CCCCCC;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .no-phones-message .no-phones-content .no-phones-icon,
+  .no-phones-message .no-phones-content .no-results-icon,
+  .no-phones-message .no-results-content .no-phones-icon,
+  .no-phones-message .no-results-content .no-results-icon,
+  .no-results-message .no-phones-content .no-phones-icon,
+  .no-results-message .no-phones-content .no-results-icon,
+  .no-results-message .no-results-content .no-phones-icon,
+  .no-results-message .no-results-content .no-results-icon {
+    font-size: 3rem;
+  }
+}
+.no-phones-message .no-phones-content .no-phones-title,
+.no-phones-message .no-phones-content h3,
+.no-phones-message .no-results-content .no-phones-title,
+.no-phones-message .no-results-content h3,
+.no-results-message .no-phones-content .no-phones-title,
+.no-results-message .no-phones-content h3,
+.no-results-message .no-results-content .no-phones-title,
+.no-results-message .no-results-content h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #666666;
+}
+@media (max-width: 480px) {
+  .no-phones-message .no-phones-content .no-phones-title,
+  .no-phones-message .no-phones-content h3,
+  .no-phones-message .no-results-content .no-phones-title,
+  .no-phones-message .no-results-content h3,
+  .no-results-message .no-phones-content .no-phones-title,
+  .no-results-message .no-phones-content h3,
+  .no-results-message .no-results-content .no-phones-title,
+  .no-results-message .no-results-content h3 {
+    font-size: 1.2rem;
+  }
+}
+.no-phones-message .no-phones-content .no-phones-text,
+.no-phones-message .no-phones-content p,
+.no-phones-message .no-results-content .no-phones-text,
+.no-phones-message .no-results-content p,
+.no-results-message .no-phones-content .no-phones-text,
+.no-results-message .no-phones-content p,
+.no-results-message .no-results-content .no-phones-text,
+.no-results-message .no-results-content p {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  color: #666666;
+}
+.no-phones-message .no-phones-content .back-home-btn,
+.no-phones-message .no-results-content .back-home-btn,
+.no-results-message .no-phones-content .back-home-btn,
+.no-results-message .no-results-content .back-home-btn {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #E60000;
+  color: #FFFFFF;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+}
+.no-phones-message .no-phones-content .back-home-btn:hover,
+.no-phones-message .no-results-content .back-home-btn:hover,
+.no-results-message .no-phones-content .back-home-btn:hover,
+.no-results-message .no-results-content .back-home-btn:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+.no-phones-message .no-phones-content .back-home-btn i,
+.no-phones-message .no-results-content .back-home-btn i,
+.no-results-message .no-phones-content .back-home-btn i,
+.no-results-message .no-results-content .back-home-btn i {
+  font-size: 0.9em;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+}
+.alert.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+.alert.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+@media (max-width: 480px) {
+  .alert {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Animation for filtered cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.phone-card:not(.hidden) {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading state for brand filtering */
+.brand-btn:active {
+  transform: translateY(0);
 }/*# sourceMappingURL=main.css.map */
