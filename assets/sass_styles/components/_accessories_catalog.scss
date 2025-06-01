@@ -1,0 +1,384 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Accessories Catalog Styles          */
+/* =================================== */
+
+/* Catalog Header */
+.catalog-header {
+    background-color: map-get(v.$colors, bg-light-gray);
+    @include section-padding;
+
+    .catalog-header-container {
+        @include container;
+        text-align: center;
+
+        .catalog-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, md);
+
+            @include breakpoint(mobile) {
+                margin-bottom: map-get(v.$spacing, sm);
+            }
+        }
+
+        .catalog-description {
+            @include body-text('large');
+            max-width: 600px;
+            margin: 0 auto;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, regular);
+            }
+        }
+    }
+}
+
+/* Type Filters */
+.type-filters {
+    background-color: map-get(v.$colors, white);
+    padding: map-get(v.$spacing, xxl) 0;
+    border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+    .filters-container {
+        @include container;
+        text-align: center;
+
+        .filters-title {
+            @include heading-style('h2');
+            margin-bottom: map-get(v.$spacing, xl);
+            color: map-get(v.$colors, dark-gray);
+
+            @include breakpoint(mobile) {
+                margin-bottom: map-get(v.$spacing, lg);
+                font-size: map-get(v.$font-sizes, h3);
+            }
+        }
+
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+            max-width: 300px;
+            width: 100%;
+
+            .type-select {
+                width: 100%;
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, xxl) map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                border: 2px solid map-get(v.$colors, light-gray);
+                border-radius: map-get(v.$layout, border-radius);
+                background-color: map-get(v.$colors, white);
+                font-family: map-get(v.$fonts, secondary);
+                font-size: map-get(v.$font-sizes, regular);
+                color: map-get(v.$colors, dark-gray);
+                cursor: pointer;
+                appearance: none;
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    border-color: map-get(v.$colors, primary-red);
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: map-get(v.$colors, primary-red);
+                    box-shadow: map-get(v.$shadows, focus-red);
+                }
+
+                @include breakpoint(mobile) {
+                    padding: 12px map-get(v.$spacing, xl) 12px map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+
+            .select-icon {
+                position: absolute;
+                right: map-get(v.$spacing, lg);
+                top: 50%;
+                transform: translateY(-50%);
+                color: map-get(v.$colors, text-secondary);
+                pointer-events: none;
+                transition: color map-get(v.$transitions, normal);
+
+                @include breakpoint(mobile) {
+                    right: map-get(v.$spacing, md);
+                }
+            }
+
+            &:hover .select-icon {
+                color: map-get(v.$colors, primary-red);
+            }
+        }
+    }
+}
+
+/* Accessories Catalog */
+.accessories-catalog {
+    @include section-padding;
+    background-color: map-get(v.$colors, white);
+
+    .catalog-container {
+        @include container;
+
+        .accessories-grid {
+            @include responsive-grid(280px, map-get(v.$spacing, xl));
+
+            .accessory-card {
+                @include product-card;
+                transition: all map-get(v.$transitions, normal);
+                opacity: 1;
+                transform: translateY(0);
+
+                &.hidden {
+                    opacity: 0;
+                    transform: translateY(20px);
+                    pointer-events: none;
+                    
+                    // Delay the display: none to allow transition to complete
+                    transition: opacity map-get(v.$transitions, normal), 
+                               transform map-get(v.$transitions, normal),
+                               visibility 0s linear 0.3s;
+                    visibility: hidden;
+                }
+
+                // Staggered animation delay for when cards appear
+                @for $i from 1 through 12 {
+                    &:nth-child(#{$i}) {
+                        transition-delay: #{($i - 1) * 0.05s};
+                    }
+                }
+
+                .accessory-image {
+                    position: relative;
+                    height: 220px;
+                    overflow: hidden;
+                    background-color: map-get(v.$colors, bg-light-gray);
+
+                    @include product-image-style;
+
+                    .stock-badge {
+                        position: absolute;
+                        top: map-get(v.$spacing, sm);
+                        right: map-get(v.$spacing, sm);
+                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                        border-radius: map-get(v.$layout, border-radius);
+                        font-size: 0.75rem;
+                        font-weight: map-get(v.$font-weights, semibold);
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        
+                        background-color: map-get(v.$colors, primary-red);
+                        color: map-get(v.$colors, white);
+
+                        &.out-of-stock {
+                            background-color: map-get(v.$colors, text-secondary);
+                            color: map-get(v.$colors, white);
+                        }
+
+                        i {
+                            font-size: 0.7rem;
+                        }
+                    }
+
+                    @include breakpoint(mobile) {
+                        height: 200px;
+                    }
+                }
+
+                .accessory-info {
+                    padding: map-get(v.$spacing, lg);
+
+                    .accessory-name {
+                        @include heading-style('h3');
+                        font-size: 1.15rem;
+                        margin-bottom: map-get(v.$spacing, sm);
+                        line-height: 1.3;
+
+                        @include breakpoint(mobile) {
+                            font-size: 1.1rem;
+                        }
+                    }
+
+                    .accessory-description {
+                        @include body-text('small');
+                        margin-bottom: map-get(v.$spacing, md);
+                        line-height: 1.4;
+                        color: map-get(v.$colors, text-secondary);
+                    }
+
+                    .accessory-footer {
+                        .price-section {
+                            margin-bottom: map-get(v.$spacing, md);
+
+                            .accessory-price {
+                                font-family: map-get(v.$fonts, cta);
+                                font-size: 1.4rem;
+                                font-weight: map-get(v.$font-weights, bold);
+                                color: map-get(v.$colors, primary-red);
+
+                                @include breakpoint(mobile) {
+                                    font-size: 1.3rem;
+                                }
+                            }
+                        }
+
+                        .accessory-actions {
+                            display: flex;
+                            flex-direction: column;
+                            gap: map-get(v.$spacing, sm);
+
+                            .accessory-btn {
+                                @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
+                                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                                font-size: map-get(v.$font-sizes, small);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: map-get(v.$spacing, xs);
+                                text-align: center;
+                                width: 100%;
+
+                                i {
+                                    font-size: 0.85rem;
+                                }
+
+                                &.btn-details {
+                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                                }
+
+                                &.btn-cart {
+                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                                }
+
+                                &.btn-login-required {
+                                    @include btn.button-style(map-get(v.$colors, text-secondary), map-get(v.$colors, white));
+                                }
+
+                                &.btn-disabled {
+                                    background-color: map-get(v.$colors, light-gray);
+                                    color: map-get(v.$colors, text-secondary);
+                                    cursor: not-allowed;
+
+                                    &:hover {
+                                        background-color: map-get(v.$colors, light-gray);
+                                        transform: none;
+                                    }
+                                }
+
+                                @include breakpoint(mobile) {
+                                    padding: 10px map-get(v.$spacing, sm);
+                                    font-size: 0.85rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @include breakpoint(desktop) {
+                    .accessory-info {
+                        .accessory-actions {
+                            .accessory-btn {
+                                font-size: 0.9rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @include breakpoint(desktop) {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: map-get(v.$spacing, lg);
+            }
+
+            @include breakpoint(mobile) {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: map-get(v.$spacing, lg);
+            }
+        }
+    }
+}
+
+/* No Accessories Message */
+.no-accessories-message {
+    text-align: center;
+    padding: map-get(v.$spacing, section) 0;
+    grid-column: 1 / -1;
+
+    .no-accessories-content {
+        max-width: 500px;
+        margin: 0 auto;
+
+        .no-accessories-icon {
+            font-size: 4rem;
+            color: map-get(v.$colors, light-gray);
+            margin-bottom: map-get(v.$spacing, xl);
+
+            @include breakpoint(mobile) {
+                font-size: 3rem;
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+        }
+
+        .no-accessories-title {
+            @include heading-style('h3');
+            margin-bottom: map-get(v.$spacing, md);
+            color: map-get(v.$colors, text-secondary);
+
+            @include breakpoint(mobile) {
+                margin-bottom: map-get(v.$spacing, sm);
+            }
+        }
+
+        .no-accessories-text {
+            @include body-text();
+            margin-bottom: map-get(v.$spacing, xl);
+            color: map-get(v.$colors, text-secondary);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, small);
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+        }
+
+        .back-home-btn {
+            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            display: inline-flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+
+            i {
+                font-size: 0.9rem;
+            }
+        }
+    }
+}
+
+/* Alert Messages */
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+}
