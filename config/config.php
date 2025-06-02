@@ -16,6 +16,7 @@ $pdo = $db->getConnection();
 
 // Mejor enrutamiento
 define('BASE_URL', '/dashboard/TFG/Public/');
+define('ASSETS_URL', '/dashboard/TFG/assets/');
 
 //Esto devuelve la conexión para que pueda ser utilizada en otros archivos
 return $pdo; 

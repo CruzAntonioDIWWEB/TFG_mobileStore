@@ -32,68 +32,90 @@ class UserController extends BaseController
     /**
      * Handle user registration
      */
-    public function processRegistration(){
-        if(!$this->isPost()){
-            $this->redirect('user', 'register'); 
-            return;
-        }
-
-        $postData = $this->getPostData();
-
-        // Validate input data
-        $requiredFields = ['name', 'surnames', 'email', 'password'];
-        $errors = $this->validateRequired($postData, $requiredFields);
-
-        if (!empty($errors)) {
-            $this->setErrorMessage('All fields are required');
-            $this->redirect('user', 'register'); 
-            return;
-        }
-
-        $name = $postData['name'];
-        $surnames = $postData['surnames'];
-        $email = $postData['email'];
-        $password = $postData['password'];
-
-        // Validate email format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->setErrorMessage('Invalid email format');
-            $this->redirect('user', 'register'); 
-            return;
-        }
-
-        // Validate password length
-        if (strlen($password) < 4) { 
-            $this->setErrorMessage('Password must be at least 4 characters long');
-            $this->redirect('user', 'register'); 
-            return;
-        }
-
-        // Create user instance and check if email already exists
-        $user = new \Models\User();
-
-        if($user->checkUserExists($email)){
-            $this->setErrorMessage('Email is already registered');
-            $this->redirect('user', 'register'); 
-            return;
-        }
-
-        $user -> setName($name);
-        $user -> setSurnames($surnames);
-        $user -> setEmail($email);
-        $user -> setPassword($password);
-
-        // Save user to database
-        $saved = $user->saveDB();
-
-        if ($saved) {
-            $this->setSuccessMessage('Registration completed successfully. You can now log in.');
-            $this->redirect('user', 'login'); 
-        } else {
-            $this->setErrorMessage('Registration failed. Please try again.');
-            $this->redirect('user', 'register'); 
-        }
+public function processRegistration(){
+    // Add this line first to see if method is called
+    error_log("processRegistration method called");
+    file_put_contents(__DIR__ . '/debug.log', "processRegistration called at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+    
+    if(!$this->isPost()){
+        error_log("Not a POST request");
+        $this->redirect('user', 'register'); 
+        return;
     }
+
+    $postData = $this->getPostData();
+    error_log("POST data received: " . print_r($postData, true));
+
+    // Validate input data
+    $requiredFields = ['name', 'surnames', 'email', 'password'];
+    $errors = $this->validateRequired($postData, $requiredFields);
+
+    if (!empty($errors)) {
+        $this->setErrorMessage('Todos los campos son obligatorios');
+        $this->redirect('user', 'register'); 
+        return;
+    }
+
+    $name = $postData['name'];
+    $surnames = $postData['surnames'];
+    $email = $postData['email'];
+    $password = $postData['password'];
+
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $this->setErrorMessage('Formato de email inválido');
+        $this->redirect('user', 'register'); 
+        return;
+    }
+
+    // Validate password length
+    if (strlen($password) < 4) { 
+        $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
+        $this->redirect('user', 'register'); 
+        return;
+    }
+
+    // Create user instance and check if email already exists
+    $user = new \Models\User();
+
+    if($user->checkUserExists($email)){
+        $this->setErrorMessage('Este email ya está registrado');
+        $this->redirect('user', 'register'); 
+        return;
+    }
+
+    $user->setName($name);
+    $user->setSurnames($surnames);
+    $user->setEmail($email);
+    $user->setPassword($password);
+
+    // Save user to database
+    $saved = $user->saveDB();
+
+    if ($saved) {
+        $this->setSuccessMessage('Registro completado con éxito. Ya puedes iniciar sesión.');
+        $this->redirect('user', 'login'); 
+    } else {
+        $this->setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
+        $this->redirect('user', 'register'); 
+    }
+}
+
+/**
+ * Show registration success page
+ */
+public function registrationSuccess(){
+    // Optional: Check if user just registered (security measure)
+    if (!isset($_SESSION['just_registered'])) {
+        $this->redirect('user', 'register');
+        return;
+    }
+    
+    // Clear the flag so user can't access this page again by direct URL
+    unset($_SESSION['just_registered']);
+    
+    $this->loadView('user/registration_success');
+}
 
     // ========================================
     // AUTHENTICATION METHODS

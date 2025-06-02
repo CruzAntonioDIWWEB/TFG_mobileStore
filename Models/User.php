@@ -18,8 +18,6 @@ class User
     private $email;
     private $password;
     private $role;
-    private $created_at;
-    private $updated_at;
     private $db;
 
     //Constructor
@@ -27,6 +25,8 @@ class User
         //Connection to the database
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
+
+        error_log("User model created, DB connection: " . ($this->db ? 'success' : 'failed'));
     }
 
     //Getters and Setters
@@ -54,14 +54,6 @@ class User
         return $this->role;
     }
 
-    public function getCreatedAt(){
-        return $this->created_at;
-    }
-
-    public function getUpdatedAt(){
-        return $this->updated_at;
-    }
-
     public function getFullName(){
         return $this->name . ' ' . $this->surnames;
     }
@@ -75,7 +67,7 @@ class User
     }
 
     public function setPassword($password){
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $password;
     }
 
     public function setSurnames($surnames){
@@ -90,32 +82,38 @@ class User
      * Saves the user in the database
      * @return bool true if successful, otherwise false
      */
-    public function saveDB(){
-        try{
-            // Save the user in the database
-            $stmt = $this->db->prepare('INSERT INTO users (name, surnames, email, password, role) VALUES (:name, :surnames, :email, :password, :role)');
-            $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
-            $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
-            $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
-            $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
-            
-            // Assigning "client" as the default role
-            $role = 'client';
-            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+public function saveDB(){
+    try {
+        error_log("Starting saveDB method");
+        error_log("User data - Name: {$this->name}, Email: {$this->email}");
+        
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+        error_log("Password hashed successfully");
 
-            $save = $stmt->execute();
-            if($save){
-                $this->id = $this->db->lastInsertId();
-                return true;
-            }
+        $stmt = $this->db->prepare('INSERT INTO users (name, surnames, email, password) VALUES (:name, :surnames, :email, :password)');
+        error_log("Query prepared");
+        
+        $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+        $stmt->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        error_log("Parameters bound");
 
-            return false;
-        } catch (\PDOException $e) {
-            // Error saving the user
-            error_log("Error saving user: " . $e->getMessage());
-            return false;
+        $save = $stmt->execute();
+        error_log("Query executed, result: " . ($save ? 'true' : 'false'));
+
+        if ($save) {
+            $this->id = $this->db->lastInsertId();
+            error_log("Last insert ID: " . $this->id);
+            return true;
         }
+
+        return false;
+    } catch (\PDOException $e) {
+        error_log("PDO Error in saveDB: " . $e->getMessage());
+        return false;
     }
+}
 
     /**
      * Verifies if the user exists in the database by email
@@ -163,8 +161,6 @@ class User
                 $this->surnames = $user['surnames'];
                 $this->email = $user['email'];
                 $this->role = $user['role'];
-                $this->created_at = $user['created_at'];
-                $this->updated_at = $user['updated_at'];
                 
                 // And now save the user in the session
                 $_SESSION['user'] = [
@@ -218,8 +214,6 @@ class User
                 $this->surnames = $user_data['surnames'];
                 $this->email = $user_data['email'];
                 $this->role = $user_data['role'];
-                $this->created_at = $user_data['created_at'];
-                $this->updated_at = $user_data['updated_at'];
 
                 return $this;
             }
@@ -251,8 +245,6 @@ class User
                 $this->surnames = $user_data['surnames'];
                 $this->email = $user_data['email'];
                 $this->role = $user_data['role'];
-                $this->created_at = $user_data['created_at'];
-                $this->updated_at = $user_data['updated_at'];
 
                 return $this;
             }

@@ -1,0 +1,366 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* User Authentication Forms           */
+/* =================================== */
+
+/* Auth Section */
+.auth-section {
+    background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    @include section-padding;
+    display: flex;
+    align-items: center;
+
+    .auth-container {
+        @include container;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: map-get(v.$spacing, xxl);
+
+        @include breakpoint(desktop) {
+            gap: map-get(v.$spacing, xl);
+        }
+    }
+}
+
+/* Auth Card */
+.auth-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, large);
+    padding: map-get(v.$spacing, xxl);
+    width: 100%;
+    max-width: 450px;
+
+    @include breakpoint(tablet) {
+        padding: map-get(v.$spacing, xl);
+        max-width: 400px;
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg);
+        max-width: 100%;
+        margin: 0 map-get(v.$spacing, md);
+        border-radius: map-get(v.$layout, border-radius);
+    }
+}
+
+/* Auth Header */
+.auth-header {
+    text-align: center;
+    margin-bottom: map-get(v.$spacing, xxl);
+
+    .auth-title {
+        @include heading-style('h1');
+        color: map-get(v.$colors, primary-red);
+        margin-bottom: map-get(v.$spacing, sm);
+        font-size: 2.2rem;
+
+        @include breakpoint(mobile) {
+            font-size: 1.8rem;
+            margin-bottom: map-get(v.$spacing, xs);
+        }
+    }
+
+    .auth-subtitle {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+
+        @include breakpoint(mobile) {
+            font-size: map-get(v.$font-sizes, small);
+        }
+    }
+}
+
+/* Auth Form */
+.auth-form {
+    .form-group {
+        margin-bottom: map-get(v.$spacing, xl);
+
+        &:last-of-type {
+            margin-bottom: map-get(v.$spacing, xxl);
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            font-family: map-get(v.$fonts, primary);
+            font-weight: map-get(v.$font-weights, medium);
+            color: map-get(v.$colors, dark-gray);
+            margin-bottom: map-get(v.$spacing, sm);
+            font-size: map-get(v.$font-sizes, regular);
+
+            i {
+                color: map-get(v.$colors, primary-red);
+                font-size: 0.9rem;
+            }
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, small);
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+            border: 2px solid map-get(v.$colors, light-gray);
+            border-radius: map-get(v.$layout, border-radius);
+            font-family: map-get(v.$fonts, secondary);
+            font-size: map-get(v.$font-sizes, regular);
+            color: map-get(v.$colors, dark-gray);
+            background-color: map-get(v.$colors, white);
+            transition: all map-get(v.$transitions, normal);
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: map-get(v.$colors, text-secondary);
+                opacity: 0.7;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: map-get(v.$colors, primary-red);
+                box-shadow: map-get(v.$shadows, focus-red);
+                background-color: map-get(v.$colors, white);
+            }
+
+            &:hover:not(:focus) {
+                border-color: darken(map-get(v.$colors, light-gray), 10%);
+            }
+
+            &.error {
+                border-color: #dc3545;
+                background-color: #fff5f5;
+            }
+
+            &.success {
+                border-color: #28a745;
+                background-color: #f8fff9;
+            }
+
+            @include breakpoint(mobile) {
+                padding: 12px map-get(v.$spacing, md);
+                font-size: map-get(v.$font-sizes, small);
+            }
+        }
+
+        .password-wrapper {
+            position: relative;
+
+            .form-input {
+                padding-right: 50px;
+            }
+
+            .password-toggle {
+                position: absolute;
+                right: map-get(v.$spacing, md);
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: map-get(v.$colors, text-secondary);
+                cursor: pointer;
+                padding: map-get(v.$spacing, xs);
+                transition: color map-get(v.$transitions, fast);
+
+                &:hover {
+                    color: map-get(v.$colors, primary-red);
+                }
+
+                &:focus {
+                    outline: none;
+                    color: map-get(v.$colors, primary-red);
+                }
+
+                i {
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .form-error {
+            display: block;
+            color: #dc3545;
+            font-size: map-get(v.$font-sizes, small);
+            margin-top: map-get(v.$spacing, xs);
+            min-height: 1.2rem;
+            opacity: 0;
+            transition: opacity map-get(v.$transitions, fast);
+
+            &.show {
+                opacity: 1;
+            }
+
+            @include breakpoint(mobile) {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+    width: 100%;
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    font-size: map-get(v.$font-sizes, regular);
+    font-weight: map-get(v.$font-weights, semibold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map-get(v.$spacing, sm);
+    margin-bottom: map-get(v.$spacing, xl);
+    border: none;
+    cursor: pointer;
+
+    i {
+        font-size: 1.1rem;
+    }
+
+    &:hover {
+        background-color: darken(map-get(v.$colors, primary-red), 10%);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        background-color: map-get(v.$colors, light-gray);
+        color: map-get(v.$colors, text-secondary);
+        cursor: not-allowed;
+        transform: none;
+
+        &:hover {
+            background-color: map-get(v.$colors, light-gray);
+            transform: none;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: 12px map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+}
+
+/* Auth Footer */
+.auth-footer {
+    text-align: center;
+
+    .auth-link-text {
+        @include body-text('small');
+        color: map-get(v.$colors, text-secondary);
+        margin: 0;
+
+        .auth-link {
+            color: map-get(v.$colors, primary-red);
+            text-decoration: none;
+            font-weight: map-get(v.$font-weights, medium);
+            transition: all map-get(v.$transitions, fast);
+            @include link-hover-effect(map-get(v.$colors, primary-red));
+
+            &:hover {
+                color: darken(map-get(v.$colors, primary-red), 10%);
+            }
+        }
+
+        @include breakpoint(mobile) {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+/* Auth Info */
+.auth-info {
+    display: flex;
+    justify-content: center;
+    gap: map-get(v.$spacing, xxl);
+    flex-wrap: wrap;
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, sm);
+        color: map-get(v.$colors, text-secondary);
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, small);
+
+        i {
+            color: map-get(v.$colors, primary-red);
+            font-size: 1.2rem;
+        }
+
+        @include breakpoint(mobile) {
+            font-size: 0.85rem;
+            
+            i {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    @include breakpoint(tablet) {
+        gap: map-get(v.$spacing, lg);
+    }
+
+    @include breakpoint(mobile) {
+        flex-direction: column;
+        gap: map-get(v.$spacing, md);
+        text-align: center;
+    }
+}
+
+/* Alert Messages */
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+
+    i {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+
+        i {
+            color: #dc3545;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+        margin: 0 map-get(v.$spacing, md) map-get(v.$spacing, lg);
+        max-width: none;
+    }
+}
