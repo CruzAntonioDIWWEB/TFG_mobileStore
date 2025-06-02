@@ -66,17 +66,26 @@ class RegistrationProcessor extends \Controllers\BaseController {
         $saved = $user->saveDB();
 
         if ($saved) {
-            $this->setSuccessMessage('¡Registro completado con éxito! Tu cuenta ha sido creada.');
-            $this->redirectToRegister(); // Stay on register page to show success message
+            // Set flag to allow access to success page
+            $_SESSION['just_registered'] = true;
+            
+            // Redirect to success page instead of showing message on register form
+            $this->redirectToSuccess();
         } else {
             $this->setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
             $this->redirectToRegister(); 
         }
     }
     
-    // Custom redirect method to always go back to register page
+    // Redirect to register page for errors
     private function redirectToRegister() {
         header('Location: index.php?controller=user&action=register');
+        exit;
+    }
+    
+    // Redirect to success page
+    private function redirectToSuccess() {
+        header('Location: index.php?controller=user&action=registrationSuccess');
         exit;
     }
 }

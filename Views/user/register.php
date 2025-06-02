@@ -29,13 +29,13 @@ $messages = $messages ?? [];
             </div>
 
             <!-- Register Form -->
-            <form method="POST" action="../../Public/process_registration.php">
-                <input type="text" name="name" placeholder="Name" required>
-                <input type="text" name="surnames" placeholder="Surnames" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
+<form method="POST" action="<?php echo BASE_URL; ?>process_registration.php">
+    <input type="text" name="name" placeholder="Nombre" required>
+    <input type="text" name="surnames" placeholder="Apellidos" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <button type="submit">Registrarse</button>
+</form>
         </div>
 
         <!-- Additional Info -->
@@ -43,14 +43,6 @@ $messages = $messages ?? [];
             <div class="info-item">
                 <i class="fas fa-shield-alt"></i>
                 <span>Tus datos están protegidos</span>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-shipping-fast"></i>
-                <span>Envíos rápidos y seguros</span>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-headset"></i>
-                <span>Soporte a tu disposicion</span>
             </div>
         </div>
     </div>

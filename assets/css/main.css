@@ -2775,4 +2775,219 @@ img {
     margin: 0 15px 20px;
     max-width: none;
   }
+}
+
+/* =================================== */
+/* Registration Success Page Styles    */
+/* =================================== */
+.success-section {
+  padding: 80px 0;
+  background-color: #F2F2F2;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .success-section {
+    padding: 60px 0;
+  }
+}
+@media (max-width: 480px) {
+  .success-section {
+    padding: 40px 0;
+  }
+}
+.success-section .success-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 600px;
+  text-align: center;
+}
+.success-section .success-container .success-card {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 80px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+.success-section .success-container .success-card .success-icon {
+  margin-bottom: 30px;
+}
+.success-section .success-container .success-card .success-icon i {
+  font-size: 4rem;
+  color: #28a745;
+  animation: successPulse 2s ease-in-out;
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-icon i {
+    font-size: 3rem;
+  }
+}
+.success-section .success-container .success-card .success-content .success-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 2.5rem;
+  color: #E60000;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-content .success-title {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-content .success-title {
+    font-size: 2rem;
+  }
+}
+.success-section .success-container .success-card .success-content .success-message {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  color: #666666;
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-content .success-message {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+}
+.success-section .success-container .success-card .success-content .success-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #E60000;
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn.btn-primary {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #E60000;
+  color: #FFFFFF;
+  border: none;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn.btn-primary:hover {
+  background-color: #b30000;
+  transform: translateY(-2px);
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn.btn-secondary {
+  padding: 10px 20px;
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  background-color: transparent;
+  color: #E60000;
+  border: 2px solid #E60000;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn.btn-secondary:hover {
+  background-color: #E60000;
+  color: #E60000;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn i {
+  font-size: 0.9em;
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-content .success-actions .success-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-card .success-content .success-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .success-section .success-container .success-card .success-content .success-actions .success-btn {
+    width: 100%;
+  }
+}
+.success-section .success-container .success-info {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+.success-section .success-container .success-info .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #666666;
+}
+.success-section .success-container .success-info .info-item i {
+  font-size: 1.5rem;
+  color: #E60000;
+}
+.success-section .success-container .success-info .info-item span {
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.95rem;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .success-section .success-container .success-info {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .success-section .success-container .success-info .info-item i {
+    font-size: 1.2rem;
+  }
+  .success-section .success-container .success-info .info-item span {
+    font-size: 0.9rem;
+  }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }/*# sourceMappingURL=main.css.map */

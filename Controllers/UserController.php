@@ -101,6 +101,22 @@ public function processRegistration(){
     }
 }
 
+/**
+ * Show registration success page
+ */
+public function registrationSuccess(){
+    // Optional: Check if user just registered (security measure)
+    if (!isset($_SESSION['just_registered'])) {
+        $this->redirect('user', 'register');
+        return;
+    }
+    
+    // Clear the flag so user can't access this page again by direct URL
+    unset($_SESSION['just_registered']);
+    
+    $this->loadView('user/registration_success');
+}
+
     // ========================================
     // AUTHENTICATION METHODS
     // ========================================

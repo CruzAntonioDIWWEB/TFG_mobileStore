@@ -1,0 +1,168 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Registration Success Page Styles    */
+/* =================================== */
+
+.success-section {
+    @include section-padding;
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .success-container {
+        @include container;
+        max-width: 600px;
+        text-align: center;
+
+        .success-card {
+            background-color: map-get(v.$colors, white);
+            border-radius: map-get(v.$layout, border-radius-lg);
+            padding: map-get(v.$spacing, section);
+            box-shadow: map-get(v.$shadows, medium);
+            margin-bottom: map-get(v.$spacing, xxl);
+
+            .success-icon {
+                margin-bottom: map-get(v.$spacing, xl);
+
+                i {
+                    font-size: 4rem;
+                    color: #28a745; // Success green
+                    animation: successPulse 2s ease-in-out;
+
+                    @include breakpoint(mobile) {
+                        font-size: 3rem;
+                    }
+                }
+            }
+
+            .success-content {
+                .success-title {
+                    @include heading-style('h1');
+                    color: map-get(v.$colors, primary-red);
+                    margin-bottom: map-get(v.$spacing, lg);
+
+                    @include breakpoint(mobile) {
+                        font-size: map-get(v.$font-sizes, h2);
+                    }
+                }
+
+                .success-message {
+                    @include body-text('large');
+                    margin-bottom: map-get(v.$spacing, xxl);
+                    line-height: 1.6;
+                    color: map-get(v.$colors, text-secondary);
+
+                    @include breakpoint(mobile) {
+                        font-size: map-get(v.$font-sizes, regular);
+                        margin-bottom: map-get(v.$spacing, xl);
+                    }
+                }
+
+                .success-actions {
+                    display: flex;
+                    gap: map-get(v.$spacing, lg);
+                    justify-content: center;
+
+                    .success-btn {
+                        @include btn.button-style;
+                        padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+                        display: inline-flex;
+                        align-items: center;
+                        gap: map-get(v.$spacing, xs);
+                        text-decoration: none;
+                        font-weight: map-get(v.$font-weights, semibold);
+
+                        &.btn-primary {
+                            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                        }
+
+                        &.btn-secondary {
+                            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                        }
+
+                        i {
+                            font-size: 0.9em;
+                        }
+
+                        @include breakpoint(mobile) {
+                            padding: 12px map-get(v.$spacing, lg);
+                            font-size: map-get(v.$font-sizes, small);
+                        }
+                    }
+
+                    @include breakpoint(mobile) {
+                        flex-direction: column;
+                        gap: map-get(v.$spacing, md);
+
+                        .success-btn {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .success-info {
+            display: flex;
+            justify-content: space-around;
+            gap: map-get(v.$spacing, lg);
+
+            .info-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: map-get(v.$spacing, sm);
+                color: map-get(v.$colors, text-secondary);
+
+                i {
+                    font-size: 1.5rem;
+                    color: map-get(v.$colors, primary-red);
+                }
+
+                span {
+                    font-family: map-get(v.$fonts, secondary);
+                    font-size: map-get(v.$font-sizes, small);
+                    text-align: center;
+                }
+            }
+
+            @include breakpoint(tablet) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, md);
+            }
+
+            @include breakpoint(mobile) {
+                .info-item {
+                    i {
+                        font-size: 1.2rem;
+                    }
+
+                    span {
+                        font-size: map-get(v.$font-sizes, xs);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Success icon animation
+@keyframes successPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
