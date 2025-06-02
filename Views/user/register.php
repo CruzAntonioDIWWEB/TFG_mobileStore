@@ -29,13 +29,13 @@ $messages = $messages ?? [];
             </div>
 
             <!-- Register Form -->
-<form method="POST" action="../../Public/register_test.php">
-    <input type="text" name="name" placeholder="Name" required>
-    <input type="text" name="surnames" placeholder="Surnames" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Register</button>
-</form>
+            <form method="POST" action="../../Public/process_registration.php">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="text" name="surnames" placeholder="Surnames" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
         </div>
 
         <!-- Additional Info -->
@@ -56,3 +56,4 @@ $messages = $messages ?? [];
     </div>
 </section>
 
+<script src="<?php echo ASSETS_URL; ?>js/register.js"></script>

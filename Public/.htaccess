@@ -5,7 +5,3 @@ RewriteBase /dashboard/TFG/Public/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
-
-# Optional: Force redirect from old URLs to new clean URLs  
-RewriteCond %{QUERY_STRING} ^controller=([^&]+)&action=([^&]+)&?(.*)$
-RewriteRule ^index\.php$ %1/%2?%3 [R=301,L]
