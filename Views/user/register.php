@@ -29,13 +29,61 @@ $messages = $messages ?? [];
             </div>
 
             <!-- Register Form -->
-<form method="POST" action="<?php echo BASE_URL; ?>process_registration.php">
-    <input type="text" name="name" placeholder="Nombre" required>
-    <input type="text" name="surnames" placeholder="Apellidos" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <button type="submit">Registrarse</button>
-</form>
+            <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>process_registration.php">
+                <div class="form-group">
+                    <label class="form-label" for="name">
+                        <i class="fas fa-user"></i>
+                        Nombre
+                    </label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Introduce tu nombre" required>
+                    <span class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="surnames">
+                        <i class="fas fa-user"></i>
+                        Apellidos
+                    </label>
+                    <input type="text" id="surnames" name="surnames" class="form-input" placeholder="Introduce tus apellidos" required>
+                    <span class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="ejemplo@correo.com" required>
+                    <span class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        <i class="fas fa-lock"></i>
+                        Contraseña
+                    </label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Introduce tu contraseña" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="form-error"></span>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <i class="fas fa-user-plus"></i>
+                    Registrarse
+                </button>
+            </form>
+
+            <!-- Auth Footer -->
+            <div class="auth-footer">
+                <p class="auth-link-text">
+                    ¿Ya tienes una cuenta? 
+                    <a href="<?php echo BASE_URL; ?>login" class="auth-link">Inicia sesión</a>
+                </p>
+            </div>
         </div>
 
         <!-- Additional Info -->
@@ -43,6 +91,14 @@ $messages = $messages ?? [];
             <div class="info-item">
                 <i class="fas fa-shield-alt"></i>
                 <span>Tus datos están protegidos</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <span>Registro rápido y sencillo</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Acceso inmediato a compras</span>
             </div>
         </div>
     </div>
