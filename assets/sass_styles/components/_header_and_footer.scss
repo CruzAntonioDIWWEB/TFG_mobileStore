@@ -85,16 +85,17 @@
 
             // Navigation Buttons
             .nav-button {
-                @include btn.button-style;
+    @include btn.button-style;
 
-                &.btn-login {
-                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
-                }
+    &.btn-login {
+        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+        @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+    }
 
-                &.btn-register {
-                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                }
-            }
+    &.btn-register {
+        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+    }
+}
 
             // Navigation Icons (when logged in)
             .nav-icon {

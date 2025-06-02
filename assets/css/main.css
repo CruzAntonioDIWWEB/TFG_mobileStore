@@ -192,6 +192,10 @@ img {
   background-color: #E60000;
   color: #E60000;
 }
+.navbar .nav-container .nav-actions .nav-button.btn-login:hover {
+  color: #FFFFFF !important;
+  background-color: #E60000;
+}
 .navbar .nav-container .nav-actions .nav-button.btn-register {
   padding: 10px 20px;
   text-decoration: none;
@@ -465,6 +469,10 @@ img {
 .hero-section .hero-container .hero-content .hero-buttons .hero-btn.btn-secondary:hover {
   background-color: #E60000;
   color: #E60000;
+}
+.hero-section .hero-container .hero-content .hero-buttons .hero-btn.btn-secondary:hover {
+  color: #FFFFFF !important;
+  background-color: #E60000;
 }
 .hero-section .hero-container .hero-image {
   flex: 1;
@@ -2922,6 +2930,10 @@ img {
 .success-section .success-container .success-card .success-content .success-actions .success-btn.btn-secondary:hover {
   background-color: #E60000;
   color: #E60000;
+}
+.success-section .success-container .success-card .success-content .success-actions .success-btn.btn-secondary:hover {
+  color: #FFFFFF !important;
+  background-color: #E60000;
 }
 .success-section .success-container .success-card .success-content .success-actions .success-btn i {
   font-size: 0.9em;

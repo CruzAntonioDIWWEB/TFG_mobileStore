@@ -83,6 +83,7 @@
 
                         &.btn-secondary {
                             @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                            @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
                         }
 
                         i {

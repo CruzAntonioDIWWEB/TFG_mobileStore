@@ -168,6 +168,14 @@
     }
 }
 
+// Button hover effect mixin for outline buttons
+@mixin button-hover-fill($bg-color: map.get(v.$colors, primary-red), $text-color: map.get(v.$colors, white)) {
+    &:hover {
+        color: $text-color !important;
+        background-color: $bg-color;
+    }
+}
+
 // Hide element accessibly
 @mixin visually-hidden {
     position: absolute;
