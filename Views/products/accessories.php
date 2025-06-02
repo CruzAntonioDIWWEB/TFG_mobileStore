@@ -1,5 +1,6 @@
 <?php
 // Get messages for display
+//TODO: BASE_URL
 $messages = $messages ?? [];
 ?>
 

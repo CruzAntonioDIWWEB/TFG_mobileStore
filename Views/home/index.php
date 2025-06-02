@@ -152,7 +152,7 @@
             <?php endforeach; ?>
         </div>
         
-        <div class="section-footer">
+        <div class="section-footer"> <!-- TODO: THIS IS NOT STYLING PROPPERLY-->
             <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="view-all-link">Catálogo de accesorios →</a>
         </div>
     </div>
