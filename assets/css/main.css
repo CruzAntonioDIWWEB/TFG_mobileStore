@@ -2785,6 +2785,82 @@ img {
   }
 }
 
+/* Checkbox Styles */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkbox-wrapper .form-checkbox {
+  display: none;
+}
+.checkbox-wrapper .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.95rem;
+  color: #333333;
+  transition: color 0.2s ease;
+}
+.checkbox-wrapper .checkbox-label:hover {
+  color: #E60000;
+}
+@media (max-width: 480px) {
+  .checkbox-wrapper .checkbox-label {
+    font-size: 0.9rem;
+  }
+}
+.checkbox-wrapper .checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #CCCCCC;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.checkbox-wrapper .checkbox-custom::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+@media (max-width: 480px) {
+  .checkbox-wrapper .checkbox-custom {
+    width: 16px;
+    height: 16px;
+  }
+  .checkbox-wrapper .checkbox-custom::after {
+    top: 1px;
+    left: 4px;
+    width: 3px;
+    height: 7px;
+  }
+}
+.checkbox-wrapper .form-checkbox:checked + .checkbox-label .checkbox-custom {
+  background-color: #E60000;
+  border-color: #E60000;
+}
+.checkbox-wrapper .form-checkbox:checked + .checkbox-label .checkbox-custom::after {
+  opacity: 1;
+}
+.checkbox-wrapper .form-checkbox:focus + .checkbox-label .checkbox-custom {
+  box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.2);
+}
+.checkbox-wrapper .checkbox-label:hover .checkbox-custom {
+  border-color: #E60000;
+}
+
 /* =================================== */
 /* Registration Success Page Styles    */
 /* =================================== */
