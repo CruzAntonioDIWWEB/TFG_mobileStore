@@ -364,3 +364,90 @@
         max-width: none;
     }
 }
+
+/* Checkbox Styles */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+
+    .form-checkbox {
+        display: none; // Hide default checkbox
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, sm);
+        cursor: pointer;
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, small);
+        color: map-get(v.$colors, dark-gray);
+        transition: color map-get(v.$transitions, fast);
+
+        &:hover {
+            color: map-get(v.$colors, primary-red);
+        }
+
+        @include breakpoint(mobile) {
+            font-size: map-get(v.$font-sizes, xs);
+        }
+    }
+
+    .checkbox-custom {
+        width: 18px;
+        height: 18px;
+        border: 2px solid map-get(v.$colors, light-gray);
+        border-radius: 3px;
+        background-color: map-get(v.$colors, white);
+        position: relative;
+        transition: all map-get(v.$transitions, fast);
+        flex-shrink: 0;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 4px;
+            height: 8px;
+            border: solid map-get(v.$colors, white);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity map-get(v.$transitions, fast);
+        }
+
+        @include breakpoint(mobile) {
+            width: 16px;
+            height: 16px;
+
+            &::after {
+                top: 1px;
+                left: 4px;
+                width: 3px;
+                height: 7px;
+            }
+        }
+    }
+
+    // When checkbox is checked
+    .form-checkbox:checked + .checkbox-label .checkbox-custom {
+        background-color: map-get(v.$colors, primary-red);
+        border-color: map-get(v.$colors, primary-red);
+
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    // Focus styles
+    .form-checkbox:focus + .checkbox-label .checkbox-custom {
+        box-shadow: map-get(v.$shadows, focus-red);
+    }
+
+    // Hover styles
+    .checkbox-label:hover .checkbox-custom {
+        border-color: map-get(v.$colors, primary-red);
+    }
+}
