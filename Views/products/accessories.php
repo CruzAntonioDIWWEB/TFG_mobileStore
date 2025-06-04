@@ -100,7 +100,7 @@ $messages = $messages ?? [];
                                 </div>
                                 
                                 <div class="accessory-actions">
-                                    <a href="index.php?controller=product&action=detail&id=<?php echo $accessory['id']; ?>" 
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $accessory['id']; ?>" 
                                        class="accessory-btn btn-details">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
@@ -115,7 +115,7 @@ $messages = $messages ?? [];
                                                 Añadir
                                             </button>
                                         <?php else: ?>
-                                            <a href="index.php?controller=user&action=login" 
+                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" 
                                                class="accessory-btn btn-login-required">
                                                 <i class="fas fa-user"></i>
                                                 Iniciar sesión
@@ -139,7 +139,7 @@ $messages = $messages ?? [];
                     <i class="fas fa-plug no-accessories-icon"></i>
                     <h3 class="no-accessories-title">No hay accesorios disponibles</h3>
                     <p class="no-accessories-text">En este momento no tenemos accesorios en stock. Vuelve pronto para ver las novedades.</p>
-                    <a href="index.php?controller=home&action=index" class="back-home-btn">
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="back-home-btn">
                         <i class="fas fa-home"></i>
                         Volver al inicio
                     </a>

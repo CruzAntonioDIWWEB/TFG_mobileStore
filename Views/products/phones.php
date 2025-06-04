@@ -100,7 +100,7 @@ $messages = $messages ?? [];
                                 </div>
                                 
                                 <div class="phone-actions">
-                                    <a href="index.php?controller=product&action=detail&id=<?php echo $phone['id']; ?>" 
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>" 
                                        class="phone-btn btn-details">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
@@ -115,7 +115,7 @@ $messages = $messages ?? [];
                                                 Añadir
                                             </button>
                                         <?php else: ?>
-                                            <a href="index.php?controller=user&action=login" 
+                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" 
                                                class="phone-btn btn-login-required">
                                                 <i class="fas fa-user"></i>
                                                 Iniciar sesión
@@ -139,7 +139,7 @@ $messages = $messages ?? [];
                     <i class="fas fa-mobile-alt no-phones-icon"></i>
                     <h3 class="no-phones-title">No hay móviles disponibles</h3>
                     <p class="no-phones-text">En este momento no tenemos móviles en stock. Vuelve pronto para ver las novedades.</p>
-                    <a href="index.php?controller=home&action=index" class="back-home-btn">
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="back-home-btn">
                         <i class="fas fa-home"></i>
                         Volver al inicio
                     </a>
