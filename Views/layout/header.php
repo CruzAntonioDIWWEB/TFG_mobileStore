@@ -52,7 +52,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- User Actions -->
                 <div class="nav-actions">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <!-- User is logged in - Show profile and cart -->
+                        <!-- User is logged in - Show settings and cart -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-icon" title="Mi Perfil">
                             <i class="fas fa-user"></i>
                         </a>
