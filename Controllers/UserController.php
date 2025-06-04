@@ -199,16 +199,31 @@ public function registrationSuccess(){
         $this->requireLogin();
 
         $currentUser = $this->getCurrentUser();
+
+        $viewData = [
+            'currentUser' => $currentUser
+        ];
+
+        $this->loadView('user/settings', $viewData);
+    }
+
+    /**
+     * Show user profile edit form
+     */
+    public function editProfile(){
+        $this->requireLogin();
+
+        $currentUser = $this->getCurrentUser();
         $user = new \Models\User();
         $userData = $user->getUserById($currentUser['id']);
 
-        if (!$userData) {
-            $this->setErrorMessage('Error loading user profile');
-            $this->redirect('home', 'index');
+        if(!$userData){
+            $this->setErrorMessage('Error loading user data');
+            $this->redirect('user', 'profile');
             return;
         }
 
-        $this->loadView('user/profile', ['user' => $userData]);
+        $this->loadView('user/settings', ['user' => $userData]);
     }
 
     /**

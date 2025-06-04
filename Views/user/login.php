@@ -89,10 +89,6 @@ $messages = $messages ?? [];
                 <i class="fas fa-clock"></i>
                 <span>Acceso rápido</span>
             </div>
-            <div class="info-item">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Gestiona tu carrito</span>
-            </div>
         </div>
     </div>
 </section>
