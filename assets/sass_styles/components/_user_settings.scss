@@ -1,0 +1,549 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* User Settings Page Styles           */
+/* =================================== */
+
+.settings-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    @include section-padding;
+
+    .settings-container {
+        @include container;
+        max-width: 1000px;
+    }
+}
+
+/* Settings Header */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: map-get(v.$spacing, section);
+    background-color: map-get(v.$colors, white);
+    padding: map-get(v.$spacing, xxl);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+
+    .settings-title-section {
+        .settings-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xs);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h2);
+            }
+        }
+
+        .settings-subtitle {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, small);
+            }
+        }
+    }
+
+    .user-avatar {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, md);
+
+        > i {
+            font-size: 3rem;
+            color: map-get(v.$colors, primary-red);
+
+            @include breakpoint(mobile) {
+                font-size: 2.5rem;
+            }
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: map-get(v.$spacing, xs);
+
+            .user-name {
+                font-family: map-get(v.$fonts, primary);
+                font-weight: map-get(v.$font-weights, semibold);
+                font-size: map-get(v.$font-sizes, large);
+                color: map-get(v.$colors, dark-gray);
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, regular);
+                }
+            }
+
+            .user-role {
+                font-size: map-get(v.$font-sizes, small);
+                color: map-get(v.$colors, text-secondary);
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, xs);
+
+                &.admin-role {
+                    color: map-get(v.$colors, primary-red);
+                    font-weight: map-get(v.$font-weights, semibold);
+
+                    i {
+                        color: #FFD700; // Gold color for crown
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+        }
+    }
+
+    @include breakpoint(tablet) {
+        flex-direction: column;
+        text-align: center;
+        gap: map-get(v.$spacing, lg);
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, xl);
+
+        .user-avatar {
+            justify-content: center;
+        }
+    }
+}
+
+/* Settings Content Grid */
+.settings-content {
+    .settings-grid {
+        @include responsive-grid(320px, map-get(v.$spacing, xl));
+
+        @include breakpoint(desktop) {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        @include breakpoint(mobile) {
+            grid-template-columns: 1fr;
+            gap: map-get(v.$spacing, lg);
+        }
+    }
+}
+
+/* Settings Cards */
+.settings-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    overflow: hidden;
+    transition: all map-get(v.$transitions, normal);
+    border: 1px solid map-get(v.$colors, light-gray);
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: map-get(v.$shadows, medium);
+    }
+
+    // Special styling for admin cards
+    &.admin-card {
+        border-left: 4px solid map-get(v.$colors, primary-red);
+
+        .card-header .card-icon.admin-icon {
+            background-color: rgba(map-get(v.$colors, primary-red), 0.1);
+            color: map-get(v.$colors, primary-red);
+        }
+    }
+
+    // Special styling for logout card
+    &.logout-card {
+        border-left: 4px solid #dc3545;
+
+        .card-header .card-icon.logout-icon {
+            background-color: rgba(#dc3545, 0.1);
+            color: #dc3545;
+        }
+    }
+
+    .card-header {
+        padding: map-get(v.$spacing, lg);
+        display: flex;
+        align-items: flex-start;
+        gap: map-get(v.$spacing, md);
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            @include flex-center;
+            background-color: rgba(map-get(v.$colors, primary-red), 0.1);
+            color: map-get(v.$colors, primary-red);
+            border-radius: map-get(v.$layout, border-radius-lg);
+            flex-shrink: 0;
+
+            i {
+                font-size: 1.5rem;
+            }
+
+            @include breakpoint(mobile) {
+                width: 50px;
+                height: 50px;
+
+                i {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+
+        .card-title {
+            h3 {
+                @include heading-style('h3');
+                font-size: 1.2rem;
+                margin-bottom: map-get(v.$spacing, xs);
+                color: map-get(v.$colors, dark-gray);
+
+                @include breakpoint(mobile) {
+                    font-size: 1.1rem;
+                }
+            }
+
+            p {
+                @include body-text('small');
+                color: map-get(v.$colors, text-secondary);
+                margin: 0;
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+        }
+    }
+
+    .card-content {
+        padding: 0 map-get(v.$spacing, lg) map-get(v.$spacing, lg);
+
+        .card-description {
+            @include body-text('small');
+            color: map-get(v.$colors, text-secondary);
+            line-height: 1.5;
+            margin: 0;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, xs);
+            }
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: map-get(v.$spacing, sm) 0;
+            border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .info-label {
+                font-family: map-get(v.$fonts, primary);
+                font-weight: map-get(v.$font-weights, medium);
+                color: map-get(v.$colors, dark-gray);
+                font-size: map-get(v.$font-sizes, small);
+            }
+
+            .info-value {
+                font-family: map-get(v.$fonts, secondary);
+                color: map-get(v.$colors, text-secondary);
+                font-size: map-get(v.$font-sizes, small);
+                text-align: right;
+                word-break: break-word;
+            }
+
+            @include breakpoint(mobile) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: map-get(v.$spacing, xs);
+
+                .info-value {
+                    text-align: left;
+                }
+            }
+        }
+
+        .admin-options {
+            display: flex;
+            flex-direction: column;
+            gap: map-get(v.$spacing, sm);
+
+            .admin-option {
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, sm);
+                @include body-text('small');
+                color: map-get(v.$colors, text-secondary);
+
+                i {
+                    color: map-get(v.$colors, primary-red);
+                    width: 16px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .card-actions {
+        padding: map-get(v.$spacing, lg);
+        border-top: 1px solid map-get(v.$colors, light-gray);
+        background-color: rgba(map-get(v.$colors, bg-light-gray), 0.3);
+
+        .settings-btn {
+            width: 100%;
+            @include btn.button-style;
+            padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+            font-size: map-get(v.$font-sizes, small);
+            font-weight: map-get(v.$font-weights, semibold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: map-get(v.$spacing, xs);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all map-get(v.$transitions, normal);
+
+            i {
+                font-size: 1rem;
+            }
+
+            &.btn-primary {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            &.btn-secondary {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            &.btn-admin {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                background: linear-gradient(45deg, map-get(v.$colors, primary-red), darken(map-get(v.$colors, primary-red), 10%));
+
+                &:hover {
+                    background: linear-gradient(45deg, darken(map-get(v.$colors, primary-red), 5%), darken(map-get(v.$colors, primary-red), 15%));
+                }
+            }
+
+            &.btn-logout {
+                @include btn.button-style(#dc3545, map-get(v.$colors, white));
+
+                &:hover {
+                    background-color: darken(#dc3545, 10%);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                padding: 12px map-get(v.$spacing, md);
+                font-size: map-get(v.$font-sizes, xs);
+            }
+        }
+    }
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    @include flex-center;
+    z-index: map-get(v.$z-index, modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all map-get(v.$transitions, normal);
+
+    &[style*="flex"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background-color: map-get(v.$colors, white);
+        border-radius: map-get(v.$layout, border-radius-lg);
+        box-shadow: map-get(v.$shadows, large);
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        transition: transform map-get(v.$transitions, normal);
+
+        .modal-overlay[style*="flex"] & {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: map-get(v.$spacing, lg);
+            border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+            h3 {
+                @include heading-style('h3');
+                margin: 0;
+                color: map-get(v.$colors, dark-gray);
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                color: map-get(v.$colors, text-secondary);
+                cursor: pointer;
+                padding: map-get(v.$spacing, xs);
+                border-radius: map-get(v.$layout, border-radius);
+                transition: all map-get(v.$transitions, fast);
+
+                &:hover {
+                    background-color: map-get(v.$colors, light-gray);
+                    color: map-get(v.$colors, dark-gray);
+                }
+            }
+        }
+
+        .modal-body {
+            padding: map-get(v.$spacing, xl);
+            text-align: center;
+
+            .modal-icon {
+                margin-bottom: map-get(v.$spacing, lg);
+
+                i {
+                    font-size: 3rem;
+                    color: #ffc107;
+
+                    @include breakpoint(mobile) {
+                        font-size: 2.5rem;
+                    }
+                }
+            }
+
+            p {
+                @include body-text();
+                margin-bottom: map-get(v.$spacing, md);
+                color: map-get(v.$colors, dark-gray);
+
+                &.modal-subtitle {
+                    @include body-text('small');
+                    color: map-get(v.$colors, text-secondary);
+                    margin-bottom: 0;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: map-get(v.$spacing, md);
+            padding: map-get(v.$spacing, lg);
+            border-top: 1px solid map-get(v.$colors, light-gray);
+
+            .modal-btn {
+                flex: 1;
+                @include btn.button-style;
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                font-size: map-get(v.$font-sizes, small);
+                font-weight: map-get(v.$font-weights, semibold);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: map-get(v.$spacing, xs);
+                text-decoration: none;
+                border: none;
+                cursor: pointer;
+                transition: all map-get(v.$transitions, normal);
+
+                &.btn-cancel {
+                    @include btn.button-style(map-get(v.$colors, light-gray), map-get(v.$colors, dark-gray));
+
+                    &:hover {
+                        background-color: darken(map-get(v.$colors, light-gray), 10%);
+                    }
+                }
+
+                &.btn-confirm {
+                    @include btn.button-style(#dc3545, map-get(v.$colors, white));
+
+                    &:hover {
+                        background-color: darken(#dc3545, 10%);
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    padding: 12px map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, sm);
+            }
+        }
+    }
+}
+
+/* Alert Messages */
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+
+    i {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+
+        i {
+            color: #dc3545;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+        margin: 0 map-get(v.$spacing, md) map-get(v.$spacing, lg);
+        max-width: none;
+    }
+}
