@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="hero-image">
-            <img src="/dashboard/TFG/assets/img/example.jpg" class="hero-img">
+            <img src="<?php echo ASSETS_URL; ?>img/example.jpg" class="hero-img">
         </div>
     </div>
 </section>

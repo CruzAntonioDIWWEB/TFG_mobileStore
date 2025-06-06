@@ -8,7 +8,7 @@
                 <!-- Logo Section -->
                 <div class="footer-logo">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index">
-                        <img src="/dashboard/TFG/assets/img/example.jpg" alt="Mobile Store Logo" class="footer-logo-img">
+                        <img src="<?php echo ASSETS_URL; ?>img/logo_footer.png" alt="Mobile Store Logo" class="footer-logo-img">
                     </a>
                 </div>
                 
