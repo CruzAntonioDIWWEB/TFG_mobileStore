@@ -19,7 +19,7 @@ a {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
 }
 
 *:focus-visible {
@@ -109,7 +109,7 @@ img {
 }
 .navbar .nav-container .nav-menu .nav-item .nav-link {
   text-decoration: none;
-  color: #333333;
+  color: #38383a;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 1rem;
@@ -289,7 +289,7 @@ img {
   transform: translateY(-2px);
 }
 .navbar .nav-container .nav-actions .nav-icon {
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -328,7 +328,7 @@ img {
 .navbar .nav-container .mobile-menu-toggle {
   display: none;
   font-size: 1.5rem;
-  color: #333333;
+  color: #38383a;
   cursor: pointer;
   transition: color 0.3s ease;
   padding: 5px;
@@ -351,7 +351,7 @@ img {
 /* Footer Styles */
 /*===============*/
 .main-footer {
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
   margin-top: auto;
   padding: 40px 0 20px;
@@ -490,7 +490,7 @@ img {
 .hero-section .hero-container .hero-content .hero-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   margin-bottom: 20px;
 }
@@ -643,7 +643,7 @@ img {
   width: 100%;
   max-width: 450px;
   height: 140px;
-  border: 2px solid #333333;
+  border: 2px solid #38383a;
   background-color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -731,7 +731,7 @@ img {
 .featured-section .section-container .section-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   text-align: center;
   margin-bottom: 50px;
@@ -799,7 +799,7 @@ img {
 .featured-section .section-container .featured-grid .product-card .product-info .product-name {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.2rem;
   margin-bottom: 10px;
@@ -848,13 +848,13 @@ img {
   transition: 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
   border: none;
   font-size: 0.95rem;
 }
 .featured-section .section-container .featured-grid .product-card .product-info .product-footer .product-btn:hover {
-  background-color: #1a1a1a;
+  background-color: #1f1f20;
   transform: translateY(-2px);
 }
 .featured-section .section-container .featured-grid .product-card .product-info .product-footer .product-btn:hover {
@@ -976,7 +976,7 @@ img {
 .home-featured-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   text-align: center;
   margin: 80px auto 30px;
@@ -1041,7 +1041,7 @@ img {
 .accessories-section .accessories-grid .accessory-card .accessory-info .accessory-name {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.1rem;
   margin-bottom: 10px;
@@ -1088,7 +1088,7 @@ img {
 .home-featured-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   text-align: center;
   margin: 60px auto 30px;
@@ -1184,7 +1184,7 @@ img {
 .features-section .features-container .feature-card .feature-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   margin-bottom: 10px;
 }
@@ -1225,7 +1225,7 @@ img {
 
 /* Newsletter Section */
 .newsletter-section {
-  background-color: #333333;
+  background-color: #38383a;
   padding: 60px 0;
 }
 .newsletter-section .newsletter-container {
@@ -1237,7 +1237,7 @@ img {
 .newsletter-section .newsletter-container .newsletter-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   color: #FFFFFF;
   margin-bottom: 15px;
@@ -1346,7 +1346,7 @@ img {
 .catalog-header .catalog-header-container .catalog-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 15px;
@@ -1391,10 +1391,10 @@ img {
 .brand-filters .filters-container .filters-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   margin-bottom: 30px;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .brand-filters .filters-container .filters-title {
@@ -1429,7 +1429,7 @@ img {
   padding: 15px 30px;
   border: 2px solid #CCCCCC;
   background-color: #FFFFFF;
-  color: #333333;
+  color: #38383a;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -1566,7 +1566,7 @@ img {
   color: #FFFFFF;
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge.out-of-stock {
-  background-color: rgba(51, 51, 51, 0.9);
+  background-color: rgba(56, 56, 58, 0.9);
   color: #FFFFFF;
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-image .stock-badge i {
@@ -1588,7 +1588,7 @@ img {
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-name {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.25rem;
   margin-bottom: 10px;
@@ -1714,12 +1714,12 @@ img {
   transition: 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
   border: none;
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-login-required:hover {
-  background-color: #1a1a1a;
+  background-color: #1f1f20;
   transform: translateY(-2px);
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-info .phone-footer .phone-actions .phone-btn.btn-disabled {
@@ -1827,7 +1827,7 @@ img {
 .no-results-message .no-results-content h3 {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   margin-bottom: 15px;
   color: #666666;
@@ -1966,7 +1966,7 @@ img {
 .catalog-header .catalog-header-container .catalog-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 15px;
@@ -2010,10 +2010,10 @@ img {
 .type-filters .filters-container .filters-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   margin-bottom: 30px;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .type-filters .filters-container .filters-title {
@@ -2040,7 +2040,7 @@ img {
   background-color: #FFFFFF;
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
-  color: #333333;
+  color: #38383a;
   cursor: pointer;
   appearance: none;
   transition: all 0.3s ease;
@@ -2206,7 +2206,7 @@ img {
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-info .accessory-name {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.15rem;
   margin-bottom: 10px;
@@ -2260,7 +2260,7 @@ img {
   transition: 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
   border: none;
   padding: 10px 15px;
@@ -2273,7 +2273,7 @@ img {
   width: 100%;
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-info .accessory-footer .accessory-actions .accessory-btn:hover {
-  background-color: #1a1a1a;
+  background-color: #1f1f20;
   transform: translateY(-2px);
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-info .accessory-footer .accessory-actions .accessory-btn i {
@@ -2390,7 +2390,7 @@ img {
 .no-accessories-message .no-accessories-content .no-accessories-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   margin-bottom: 15px;
   color: #666666;
@@ -2538,7 +2538,7 @@ img {
 .auth-header .auth-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 10px;
@@ -2581,7 +2581,7 @@ img {
   gap: 5px;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  color: #333333;
+  color: #38383a;
   margin-bottom: 10px;
   font-size: 1rem;
 }
@@ -2601,7 +2601,7 @@ img {
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
-  color: #333333;
+  color: #38383a;
   background-color: #FFFFFF;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -2880,7 +2880,7 @@ img {
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
   font-size: 0.95rem;
-  color: #333333;
+  color: #38383a;
   transition: color 0.2s ease;
 }
 .checkbox-wrapper .checkbox-label:hover {
@@ -2991,7 +2991,7 @@ img {
 .success-section .success-container .success-card .success-content .success-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 20px;
@@ -3197,7 +3197,7 @@ img {
 .settings-header .settings-title-section .settings-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 5px;
@@ -3248,7 +3248,7 @@ img {
   font-family: "Roboto", sans-serif;
   font-weight: 600;
   font-size: 1.2rem;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .settings-header .user-avatar .user-info .user-name {
@@ -3368,11 +3368,11 @@ img {
 .settings-card .card-header .card-title h3 {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.2rem;
   margin-bottom: 5px;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .settings-card .card-header .card-title h3 {
@@ -3427,7 +3427,7 @@ img {
 .settings-card .card-content .info-item .info-label {
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  color: #333333;
+  color: #38383a;
   font-size: 0.95rem;
 }
 .settings-card .card-content .info-item .info-value {
@@ -3639,10 +3639,10 @@ img {
 .modal-overlay .modal-content .modal-header h3 {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   margin: 0;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .modal-overlay .modal-content .modal-header h3 {
@@ -3661,7 +3661,7 @@ img {
 }
 .modal-overlay .modal-content .modal-header .modal-close:hover {
   background-color: #CCCCCC;
-  color: #333333;
+  color: #38383a;
 }
 .modal-overlay .modal-content .modal-body {
   padding: 30px;
@@ -3685,7 +3685,7 @@ img {
   line-height: 1.6;
   font-size: 1rem;
   margin-bottom: 15px;
-  color: #333333;
+  color: #38383a;
 }
 .modal-overlay .modal-content .modal-body p.modal-subtitle {
   font-family: "Open Sans", sans-serif;
@@ -3747,7 +3747,7 @@ img {
   cursor: pointer;
   display: inline-block;
   background-color: #CCCCCC;
-  color: #333333;
+  color: #38383a;
   border: none;
 }
 .modal-overlay .modal-content .modal-actions .modal-btn.btn-cancel:hover {
@@ -3887,7 +3887,7 @@ img {
   font-weight: 500;
 }
 .breadcrumb-nav .breadcrumb-current {
-  color: #333333;
+  color: #38383a;
   font-weight: 500;
 }
 @media (max-width: 480px) {
@@ -3967,7 +3967,7 @@ img {
   color: #FFFFFF;
 }
 .product-image-section .main-image-container .stock-badge.out-of-stock {
-  background-color: rgba(51, 51, 51, 0.9);
+  background-color: rgba(56, 56, 58, 0.9);
   color: #FFFFFF;
 }
 .product-image-section .main-image-container .stock-badge i {
@@ -4003,9 +4003,9 @@ img {
 .product-info-section .product-header .product-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2.5rem;
-  color: #333333;
+  color: #38383a;
   margin-bottom: 15px;
   line-height: 1.2;
 }
@@ -4054,10 +4054,10 @@ img {
 .product-info-section .product-description .description-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   margin-bottom: 15px;
-  color: #333333;
+  color: #38383a;
 }
 @media (max-width: 480px) {
   .product-info-section .product-description .description-title {
@@ -4109,7 +4109,7 @@ img {
   display: block;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  color: #333333;
+  color: #38383a;
   margin-bottom: 10px;
   font-size: 1rem;
 }
@@ -4128,7 +4128,7 @@ img {
   padding: 15px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  color: #333333;
+  color: #38383a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4275,7 +4275,7 @@ img {
   gap: 10px;
 }
 .product-info-section .cart-section .out-of-stock-section .out-of-stock-message i {
-  color: #333333;
+  color: #38383a;
   font-size: 1.2em;
 }
 .product-info-section .cart-section .out-of-stock-section .notify-btn {
@@ -4326,8 +4326,8 @@ img {
   cursor: pointer;
   display: inline-block;
   background-color: transparent;
-  color: #333333;
-  border: 2px solid #333333;
+  color: #38383a;
+  border: 2px solid #38383a;
   padding: 10px 20px;
   font-size: 0.95rem;
   display: flex;
@@ -4338,14 +4338,14 @@ img {
   background: transparent;
 }
 .product-info-section .product-actions .action-btn:hover {
-  background-color: #333333;
-  color: #333333;
+  background-color: #38383a;
+  color: #38383a;
 }
 .product-info-section .product-actions .action-btn i {
   font-size: 0.9em;
 }
 .product-info-section .product-actions .action-btn:hover {
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
 }
 @media (max-width: 480px) {
@@ -4382,7 +4382,7 @@ img {
 .related-products-section .related-container .related-title {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 2rem;
   text-align: center;
   margin-bottom: 40px;
@@ -4464,10 +4464,10 @@ img {
 .related-products-section .related-container .related-products-grid .related-product-card .related-info .related-name a {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  color: #333333;
+  color: #38383a;
   font-size: 1.3rem;
   font-size: 1.1rem;
-  color: #333333;
+  color: #38383a;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -4506,7 +4506,7 @@ img {
   transition: 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  background-color: #333333;
+  background-color: #38383a;
   color: #FFFFFF;
   border: none;
   padding: 10px 20px;
@@ -4515,7 +4515,7 @@ img {
   display: inline-block;
 }
 .related-products-section .related-container .related-products-grid .related-product-card .related-info .related-btn:hover {
-  background-color: #1a1a1a;
+  background-color: #1f1f20;
   transform: translateY(-2px);
 }
 .related-products-section .related-container .related-products-grid .related-product-card .related-info .related-btn:hover {
