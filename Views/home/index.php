@@ -68,9 +68,6 @@
     </article>
 </section>
 
-<!-- Título de productos destacados -->
-<h2 class="home-featured-title">Productos destacados</h2>
-
 <!-- Featured Phones Section -->
 <?php if (!empty($featuredPhones)): ?>
 <h2 class="home-featured-title">Teléfonos destacados</h2>

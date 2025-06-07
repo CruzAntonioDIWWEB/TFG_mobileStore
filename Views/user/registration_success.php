@@ -35,10 +35,6 @@
                 <span>Tu cuenta está protegida</span>
             </div>
             <div class="info-item">
-                <i class="fas fa-envelope"></i>
-                <span>Confirma tu email para mayor seguridad</span>
-            </div>
-            <div class="info-item">
                 <i class="fas fa-shopping-cart"></i>
                 <span>¡Comienza a comprar ahora!</span>
             </div>

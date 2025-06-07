@@ -20,6 +20,7 @@
 
         .hero-content {
             flex: 1;
+            margin-left: 50px;
 
             .hero-title {
                 @include heading-style('h1');
@@ -63,6 +64,10 @@
         @include breakpoint(desktop) {
             flex-direction: column;
             text-align: center;
+
+            .hero-content {
+                margin-left: 0;
+            }
 
             .hero-buttons {
                 justify-content: center;
@@ -113,7 +118,7 @@
             margin-bottom: 0;
         }
 
-        // For alternating rows
+        // For alternating rows on desktop
         &.zigzag-row-reverse {
             .zigzag-image {
                 order: 2;
@@ -125,6 +130,62 @@
 
             .zigzag-text {
                 text-align: right;
+            }
+        }
+
+        // Responsive Design
+        @include breakpoint(desktop) {
+            grid-template-columns: 1fr;
+            gap: map-get(v.$spacing, xl);
+            margin-bottom: 50px;
+
+            // Reset order and force image-first pattern for all rows
+            &.zigzag-row-reverse {
+                .zigzag-image,
+                .zigzag-content {
+                    order: unset;
+                }
+
+                .zigzag-text {
+                    text-align: center;
+                }
+            }
+
+            // Force order for all rows: image first, content second
+            .zigzag-image {
+                order: 1 !important;
+            }
+
+            .zigzag-content {
+                order: 2 !important;
+            }
+        }
+
+        @include breakpoint(tablet) {
+            gap: map-get(v.$spacing, lg);
+            margin-bottom: 40px;
+
+            // Ensure consistent order on tablet
+            .zigzag-image {
+                order: 1 !important;
+            }
+
+            .zigzag-content {
+                order: 2 !important;
+            }
+        }
+
+        @include breakpoint(mobile) {
+            gap: map-get(v.$spacing, md);
+            margin-bottom: map-get(v.$spacing, xxl);
+
+            // Force consistent order on mobile
+            .zigzag-image {
+                order: 1 !important;
+            }
+
+            .zigzag-content {
+                order: 2 !important;
             }
         }
     }
@@ -157,6 +218,21 @@
         padding: map-get(v.$spacing, lg);
         box-sizing: border-box;
         margin: 0 auto;
+
+        @include breakpoint(desktop) {
+            max-width: 400px;
+        }
+
+        @include breakpoint(tablet) {
+            height: 120px;
+            max-width: 350px;
+        }
+
+        @include breakpoint(mobile) {
+            height: 100px;
+            max-width: 300px;
+            font-size: map-get(v.$font-sizes, xs);
+        }
     }
 
     .zigzag-text {
@@ -165,61 +241,20 @@
         line-height: 1.7;
         text-align: left;
         margin: 0;
-    }
 
-    // Responsive Design
-    @include breakpoint(desktop) {
-        .zigzag-row {
-            grid-template-columns: 1fr;
-            gap: map-get(v.$spacing, xl);
-            margin-bottom: 50px;
-
-            // Reset order for mobile
-            &.zigzag-row-reverse {
-                .zigzag-image,
-                .zigzag-content {
-                    order: unset;
-                }
-
-                .zigzag-text {
-                    text-align: center;
-                }
-            }
-        }
-
-        .zigzag-text {
+        @include breakpoint(desktop) {
             text-align: center;
-        }
-
-        .image-placeholder {
-            max-width: 400px;
-        }
-    }
-
-    @include breakpoint(tablet) {
-        .zigzag-text {
             font-size: map-get(v.$font-sizes, regular);
         }
 
-        .image-placeholder {
-            height: 120px;
-            max-width: 350px;
-        }
-    }
-
-    @include breakpoint(mobile) {
-        .zigzag-row {
-            margin-bottom: map-get(v.$spacing, xxl);
+        @include breakpoint(tablet) {
+            text-align: center;
+            font-size: map-get(v.$font-sizes, regular);
         }
 
-        .zigzag-text {
+        @include breakpoint(mobile) {
+            text-align: center;
             font-size: map-get(v.$font-sizes, small);
-        }
-
-        .image-placeholder {
-            height: 100px;
-            max-width: 300px;
-            font-size: map-get(v.$font-sizes, xs);
         }
     }
 }
@@ -437,57 +472,79 @@
 /* Accessories Section */
 .accessories-section {
     background-color: map-get(v.$colors, bg-light-gray);
+    @include section-padding;
 
-    .accessories-grid {
-        @include responsive-grid(250px, map-get(v.$spacing, xl));
-        margin-bottom: map-get(v.$spacing, xxl);
+    .section-container {
+        @include container;
 
-        .accessory-card {
-            background-color: map-get(v.$colors, white);
-            border-radius: map-get(v.$layout, border-radius-lg);
-            overflow: hidden;
-            text-align: center;
-            @include card-hover;
+        .accessories-grid {
+            @include responsive-grid(250px, map-get(v.$spacing, xl));
+            margin-bottom: map-get(v.$spacing, xxl);
 
-            .accessory-image {
-                height: 200px;
+            .accessory-card {
+                background-color: map-get(v.$colors, white);
+                border-radius: map-get(v.$layout, border-radius-lg);
                 overflow: hidden;
-                background-color: map-get(v.$colors, bg-light-gray);
+                text-align: center;
+                @include card-hover;
 
-                @include product-image-style;
+                .accessory-image {
+                    height: 200px;
+                    overflow: hidden;
+                    background-color: map-get(v.$colors, bg-light-gray);
 
-                @include breakpoint(mobile) {
-                    height: 180px;
+                    @include product-image-style;
+
+                    @include breakpoint(mobile) {
+                        height: 180px;
+                    }
+                }
+
+                .accessory-info {
+                    padding: map-get(v.$spacing, lg);
+
+                    .accessory-name {
+                        @include heading-style('h3');
+                        font-size: 1.1rem;
+                        margin-bottom: map-get(v.$spacing, sm);
+                    }
+
+                    .accessory-price {
+                        font-family: map-get(v.$fonts, cta);
+                        font-size: 1.3rem;
+                        font-weight: map-get(v.$font-weights, bold);
+                        color: map-get(v.$colors, primary-red);
+                        margin-bottom: map-get(v.$spacing, md);
+                    }
+
+                    .accessory-btn {
+                        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                        padding: map-get(v.$spacing, sm) 25px;
+                        font-size: map-get(v.$font-sizes, small);
+                    }
                 }
             }
 
-            .accessory-info {
-                padding: map-get(v.$spacing, lg);
-
-                .accessory-name {
-                    @include heading-style('h3');
-                    font-size: 1.1rem;
-                    margin-bottom: map-get(v.$spacing, sm);
-                }
-
-                .accessory-price {
-                    font-family: map-get(v.$fonts, cta);
-                    font-size: 1.3rem;
-                    font-weight: map-get(v.$font-weights, bold);
-                    color: map-get(v.$colors, primary-red);
-                    margin-bottom: map-get(v.$spacing, md);
-                }
-
-                .accessory-btn {
-                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                    padding: map-get(v.$spacing, sm) 25px;
-                    font-size: map-get(v.$font-sizes, small);
-                }
+            @include breakpoint(mobile) {
+                gap: map-get(v.$spacing, lg);
             }
         }
 
-        @include breakpoint(mobile) {
-            gap: map-get(v.$spacing, lg);
+        .section-footer {
+            text-align: center;
+
+            .view-all-link {
+                color: map-get(v.$colors, primary-red);
+                text-decoration: none;
+                font-family: map-get(v.$fonts, cta);
+                font-size: map-get(v.$font-sizes, regular);
+                font-weight: map-get(v.$font-weights, semibold);
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }
