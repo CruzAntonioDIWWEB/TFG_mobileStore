@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="hero-image">
-            <img src="/dashboard/TFG/assets/img/example.jpg" class="hero-img">
+            <img src="<?php echo ASSETS_URL; ?>img/example.jpg" class="hero-img">
         </div>
     </div>
 </section>
@@ -107,7 +107,7 @@
                         
                         <div class="product-footer">
                             <span class="product-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
-                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $phone['id']; ?>" 
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>" 
                                class="product-btn">Ver más</a>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                     <div class="accessory-info">
                         <h3 class="accessory-name"><?php echo htmlspecialchars($accessory['name']); ?></h3>
                         <p class="accessory-price"><?php echo number_format($accessory['price'], 2, ',', '.'); ?> €</p>
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $accessory['id']; ?>" 
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $accessory['id']; ?>" 
                            class="accessory-btn">Ver más</a>
                     </div>
                 </article>

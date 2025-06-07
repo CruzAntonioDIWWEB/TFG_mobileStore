@@ -32,12 +32,12 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- Logo -->
                 <div class="nav-logo">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index">
-                        <img src="/dashboard/TFG/assets/img/example.jpg" alt="Mobile Store Logo" class="logo-img">
+                        <img src="<?php echo ASSETS_URL; ?>img/logo.jpg" alt="Mobile Store Logo" class="logo-img">
                     </a>
                 </div>
 
                 <!-- Navigation Menu -->
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="nav-menu">
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="nav-link">Móviles</a>
                     </li>
@@ -47,9 +47,45 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="nav-link">Contacto</a>
                     </li>
+                    
+                    <!-- Mobile User Actions (only visible in mobile menu) -->
+                    <div class="mobile-user-actions">
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <!-- User is logged in - Show settings and cart -->
+                            <li class="nav-item mobile-user-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-link mobile-user-link">
+                                    <i class="fas fa-user"></i>
+                                    Mi Perfil
+                                </a>
+                            </li>
+                            <li class="nav-item mobile-user-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-link mobile-user-link">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Carrito
+                                    <?php if (isset($_SESSION['cart_count']) && $_SESSION['cart_count'] > 0): ?>
+                                        <span class="mobile-cart-count"><?php echo $_SESSION['cart_count']; ?></span>
+                                    <?php endif; ?>
+                                </a>
+                            </li>
+                        <?php else: ?>
+                            <!-- User is not logged in - Show login and register buttons -->
+                            <li class="nav-item mobile-user-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="nav-link mobile-user-link">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Iniciar Sesión
+                                </a>
+                            </li>
+                            <li class="nav-item mobile-user-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=register" class="nav-link mobile-user-link">
+                                    <i class="fas fa-user-plus"></i>
+                                    Registrarse
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </div>
                 </ul>
 
-                <!-- User Actions -->
+                <!-- Desktop User Actions -->
                 <div class="nav-actions">
                     <?php if (isset($_SESSION['user'])): ?>
                         <!-- User is logged in - Show settings and cart -->
@@ -70,7 +106,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
 
                 <!-- Mobile Menu Toggle -->
-                <div class="mobile-menu-toggle">
+                <div class="mobile-menu-toggle" id="mobile-menu-toggle">
                     <i class="fas fa-bars"></i>
                 </div>
             </div>
@@ -79,3 +115,5 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <!-- Main Content Wrapper -->
     <main class="main-content">
+
+    <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>

@@ -22,12 +22,12 @@
         @include container;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         height: map-get(v.$layout, header-height);
 
         // Logo
         .nav-logo {
             flex-shrink: 0;
+            margin-right: map-get(v.$spacing, section); // Space after logo
 
             .logo-img {
                 height: 50px;
@@ -35,15 +35,14 @@
             }
         }
 
-        // Navigation Menu
+        // Navigation Menu - positioned next to logo
         .nav-menu {
             display: flex;
             list-style: none;
             margin: 0;
             padding: 0;
             gap: map-get(v.$spacing, xxl);
-            flex: 1;
-            justify-content: center;
+            flex: 1; // Take remaining space
 
             .nav-item {
                 position: relative;
@@ -59,43 +58,129 @@
                 }
             }
 
+            // Mobile user actions (hidden in desktop)
+            .mobile-user-actions {
+                display: none;
+            }
+
             @include breakpoint(tablet) {
                 display: none;
                 position: absolute;
                 top: map-get(v.$layout, header-height);
-                left: 0;
-                width: 100%;
+                right: 0; // Changed from left: 0 to right: 0
+                width: 280px; // Changed from 100% to a fixed width
                 background-color: map-get(v.$colors, white);
                 flex-direction: column;
-                padding: map-get(v.$spacing, lg);
-                box-shadow: map-get(v.$shadows, small);
-                gap: map-get(v.$spacing, lg);
+                padding: map-get(v.$spacing, md);
+                box-shadow: map-get(v.$shadows, medium);
+                gap: 0;
+                margin-left: 0;
+                border-radius: map-get(v.$layout, border-radius) 0 map-get(v.$layout, border-radius) map-get(v.$layout, border-radius);
 
                 &.active {
                     display: flex;
                 }
+
+                .nav-item {
+                    width: 100%;
+
+                    .nav-link {
+                        display: block;
+                        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                        border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+                        font-size: map-get(v.$font-sizes, regular);
+                        white-space: nowrap;
+
+                        &:last-child {
+                            border-bottom: none;
+                        }
+
+                        &:hover {
+                            background-color: rgba(map-get(v.$colors, primary-red), 0.05);
+                        }
+                    }
+                }
+
+                // Show mobile user actions in mobile menu
+                .mobile-user-actions {
+                    display: block;
+                    width: 100%;
+                    border-top: 1px solid map-get(v.$colors, light-gray);
+                    padding-top: map-get(v.$spacing, sm);
+                    margin-top: map-get(v.$spacing, sm);
+
+                    .mobile-user-item {
+                        width: 100%;
+
+                        .mobile-user-link {
+                            display: flex;
+                            align-items: center;
+                            gap: map-get(v.$spacing, sm);
+                            color: map-get(v.$colors, primary-red);
+                            font-weight: map-get(v.$font-weights, semibold);
+                            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                            border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.3);
+                            transition: all map-get(v.$transitions, normal);
+                            white-space: nowrap;
+
+                            &:hover {
+                                background-color: rgba(map-get(v.$colors, primary-red), 0.05);
+                                padding-left: map-get(v.$spacing, lg);
+                            }
+
+                            &:last-child {
+                                border-bottom: none;
+                            }
+
+                            i {
+                                font-size: 1.1rem;
+                                width: 20px;
+                                text-align: center;
+                                flex-shrink: 0;
+                            }
+
+                            .mobile-cart-count {
+                                background-color: map-get(v.$colors, primary-red);
+                                color: map-get(v.$colors, white);
+                                border-radius: 50%;
+                                width: 18px;
+                                height: 18px;
+                                @include flex-center;
+                                font-size: 0.65rem;
+                                font-weight: map-get(v.$font-weights, semibold);
+                                margin-left: auto;
+                                flex-shrink: 0;
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        // User Actions
+        // User Actions - shown only on desktop
         .nav-actions {
             display: flex;
             align-items: center;
             gap: map-get(v.$spacing, lg);
+            margin-left: auto; // Push to the right
+
+            @include breakpoint(tablet) {
+                display: none;
+            }
 
             // Navigation Buttons
             .nav-button {
-    @include btn.button-style;
+                @include btn.button-style;
 
-    &.btn-login {
-        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
-        @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-    }
+                &.btn-login {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                    @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                }
 
-    &.btn-register {
-        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-    }
-}
+                &.btn-register {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                }
+            }
 
             // Navigation Icons (when logged in)
             .nav-icon {
@@ -145,6 +230,13 @@
             font-size: 1.5rem;
             color: map-get(v.$colors, dark-gray);
             cursor: pointer;
+            transition: color map-get(v.$transitions, normal);
+            padding: map-get(v.$spacing, xs);
+            margin-left: auto; // Push to the right
+
+            &:hover {
+                color: map-get(v.$colors, primary-red);
+            }
 
             @include breakpoint(tablet) {
                 display: block;
