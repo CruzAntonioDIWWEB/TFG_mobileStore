@@ -171,26 +171,7 @@ $messages = $messages ?? [];
                                 <i class="fas fa-ban"></i>
                                 Este producto está agotado
                             </p>
-                            <button class="notify-btn" disabled>
-                                <i class="fas fa-bell"></i>
-                                Notificarme cuando esté disponible
-                            </button>
                         </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Product Actions -->
-                <div class="product-actions">
-                    <button class="action-btn share-btn" onclick="shareProduct()">
-                        <i class="fas fa-share-alt"></i>
-                        Compartir
-                    </button>
-                    
-                    <?php if (isset($_SESSION['user'])): ?>
-                        <button class="action-btn wishlist-btn" onclick="addToWishlist(<?php echo $product->getId(); ?>)">
-                            <i class="far fa-heart"></i>
-                            Añadir a favoritos
-                        </button>
                     <?php endif; ?>
                 </div>
             </div>
