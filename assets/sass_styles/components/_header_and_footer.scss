@@ -67,15 +67,15 @@
                 display: none;
                 position: absolute;
                 top: map-get(v.$layout, header-height);
-                left: 0; 
-                width: 100%; 
+                right: 0; // Changed from left: 0 to right: 0
+                width: 280px; // Changed from 100% to a fixed width
                 background-color: map-get(v.$colors, white);
                 flex-direction: column;
                 padding: map-get(v.$spacing, md);
                 box-shadow: map-get(v.$shadows, medium);
                 gap: 0;
                 margin-left: 0;
-                border-radius: 0 0 map-get(v.$layout, border-radius) map-get(v.$layout, border-radius);
+                border-radius: map-get(v.$layout, border-radius) 0 map-get(v.$layout, border-radius) map-get(v.$layout, border-radius);
 
                 &.active {
                     display: flex;
@@ -232,6 +232,7 @@
             cursor: pointer;
             transition: color map-get(v.$transitions, normal);
             padding: map-get(v.$spacing, xs);
+            margin-left: auto; // Push to the right
 
             &:hover {
                 color: map-get(v.$colors, primary-red);
