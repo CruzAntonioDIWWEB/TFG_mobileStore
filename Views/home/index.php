@@ -2,7 +2,7 @@
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
-            <h1 class="hero-title">Bienvenido a somalia</h1>
+            <h1 class="hero-title">Crusertel</h1>
             <p class="hero-subtitle">Tu tienda de confianza para móviles y accesorios</p>
             <div class="hero-buttons">
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="hero-btn btn-primary">Ver Móviles</a>

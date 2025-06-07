@@ -1,0 +1,875 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Shopping Cart Styles                */
+/* =================================== */
+
+/* Cart Section */
+.cart-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    @include section-padding;
+
+    .cart-container {
+        @include container;
+        max-width: 1200px;
+    }
+}
+
+/* Cart Header */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: -30px;
+    margin-bottom: map-get(v.$spacing, section);
+    background-color: map-get(v.$colors, white);
+    padding: map-get(v.$spacing, xxl);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+
+    .cart-title-section {
+        .cart-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, sm);
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, md);
+
+            i {
+                font-size: 0.9em;
+            }
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h2);
+                gap: map-get(v.$spacing, sm);
+            }
+        }
+
+        .cart-subtitle {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, small);
+            }
+        }
+    }
+
+    .cart-actions-header {
+        .cart-clear-btn {
+            @include btn.button-style(map-get(v.$colors, light-gray), map-get(v.$colors, text-secondary));
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+            font-size: map-get(v.$font-sizes, small);
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            border: none;
+            cursor: pointer;
+            transition: all map-get(v.$transitions, normal);
+
+            &:hover {
+                background-color: #dc3545;
+                color: map-get(v.$colors, white);
+            }
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+    }
+
+    @include breakpoint(tablet) {
+        flex-direction: column;
+        gap: map-get(v.$spacing, lg);
+        text-align: center;
+
+        .cart-actions-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, xl);
+    }
+}
+
+/* Cart Content Layout */
+.cart-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: map-get(v.$spacing, xxl);
+
+    @include breakpoint(desktop) {
+        grid-template-columns: 1fr;
+        gap: map-get(v.$spacing, xl);
+    }
+
+    @include breakpoint(mobile) {
+        gap: map-get(v.$spacing, lg);
+    }
+}
+
+/* Cart Items Section */
+.cart-items-section {
+    .cart-items-list {
+        display: flex;
+        flex-direction: column;
+        gap: map-get(v.$spacing, lg);
+
+        .cart-item {
+            background-color: map-get(v.$colors, white);
+            border-radius: map-get(v.$layout, border-radius-lg);
+            padding: map-get(v.$spacing, xl);
+            box-shadow: map-get(v.$shadows, small);
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: map-get(v.$spacing, lg);
+            transition: all map-get(v.$transitions, normal);
+            position: relative;
+
+            &:hover {
+                box-shadow: map-get(v.$shadows, medium);
+            }
+
+            .item-image {
+                position: relative;
+
+                .product-image {
+                    width: 100%;
+                    height: 120px;
+                    object-fit: cover;
+                    border-radius: map-get(v.$layout, border-radius);
+                    background-color: map-get(v.$colors, bg-light-gray);
+                }
+
+                .stock-warning {
+                    position: absolute;
+                    bottom: map-get(v.$spacing, xs);
+                    left: 0;
+                    right: 0;
+                    background-color: rgba(#dc3545, 0.9);
+                    color: map-get(v.$colors, white);
+                    font-size: map-get(v.$font-sizes, xs);
+                    font-weight: map-get(v.$font-weights, semibold);
+                    padding: map-get(v.$spacing, xs);
+                    text-align: center;
+                    border-radius: 0 0 map-get(v.$layout, border-radius) map-get(v.$layout, border-radius);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+
+                    i {
+                        font-size: 0.8em;
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    .product-image {
+                        height: 100px;
+                    }
+                }
+            }
+
+            .item-details {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: map-get(v.$spacing, md);
+
+                .item-info {
+                    .item-name {
+                        margin-bottom: map-get(v.$spacing, sm);
+
+                        a {
+                            @include heading-style('h3');
+                            font-size: 1.2rem;
+                            color: map-get(v.$colors, dark-gray);
+                            text-decoration: none;
+                            transition: color map-get(v.$transitions, fast);
+
+                            &:hover {
+                                color: map-get(v.$colors, primary-red);
+                            }
+
+                            @include breakpoint(mobile) {
+                                font-size: 1.1rem;
+                            }
+                        }
+                    }
+
+                    .item-meta {
+                        display: flex;
+                        align-items: center;
+                        gap: map-get(v.$spacing, lg);
+                        flex-wrap: wrap;
+
+                        .item-price {
+                            font-family: map-get(v.$fonts, cta);
+                            font-size: 1.3rem;
+                            font-weight: map-get(v.$font-weights, bold);
+                            color: map-get(v.$colors, primary-red);
+
+                            @include breakpoint(mobile) {
+                                font-size: 1.2rem;
+                            }
+                        }
+
+                        .item-availability {
+                            font-size: map-get(v.$font-sizes, small);
+                            font-weight: map-get(v.$font-weights, medium);
+                            display: flex;
+                            align-items: center;
+                            gap: map-get(v.$spacing, xs);
+
+                            &.available {
+                                color: #28a745;
+                            }
+
+                            &.unavailable {
+                                color: #dc3545;
+                            }
+
+                            i {
+                                font-size: 0.9em;
+                            }
+                        }
+
+                        @include breakpoint(mobile) {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: map-get(v.$spacing, xs);
+                        }
+                    }
+                }
+
+                .item-controls {
+                    display: flex;
+                    align-items: flex-end;
+                    gap: map-get(v.$spacing, lg);
+
+                    .quantity-section {
+                        .quantity-label {
+                            display: block;
+                            font-family: map-get(v.$fonts, primary);
+                            font-weight: map-get(v.$font-weights, medium);
+                            color: map-get(v.$colors, dark-gray);
+                            margin-bottom: map-get(v.$spacing, xs);
+                            font-size: map-get(v.$font-sizes, small);
+                        }
+
+                        .quantity-form {
+                            .quantity-controls {
+                                display: flex;
+                                align-items: center;
+                                gap: 0;
+                                border: 2px solid map-get(v.$colors, light-gray);
+                                border-radius: map-get(v.$layout, border-radius);
+                                overflow: hidden;
+                                width: fit-content;
+
+                                .quantity-btn {
+                                    background-color: map-get(v.$colors, bg-light-gray);
+                                    border: none;
+                                    padding: map-get(v.$spacing, sm);
+                                    cursor: pointer;
+                                    transition: background-color map-get(v.$transitions, fast);
+                                    color: map-get(v.$colors, dark-gray);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    min-width: 36px;
+                                    height: 36px;
+
+                                    &:hover {
+                                        background-color: map-get(v.$colors, primary-red);
+                                        color: map-get(v.$colors, white);
+                                    }
+
+                                    &:disabled {
+                                        opacity: 0.5;
+                                        cursor: not-allowed;
+                                    }
+
+                                    i {
+                                        font-size: 0.8em;
+                                    }
+                                }
+
+                                .quantity-input {
+                                    border: none;
+                                    padding: map-get(v.$spacing, sm);
+                                    text-align: center;
+                                    font-family: map-get(v.$fonts, secondary);
+                                    font-size: map-get(v.$font-sizes, small);
+                                    font-weight: map-get(v.$font-weights, medium);
+                                    min-width: 50px;
+                                    max-width: 50px;
+                                    background-color: map-get(v.$colors, white);
+                                    height: 36px;
+
+                                    &:focus {
+                                        outline: none;
+                                        background-color: map-get(v.$colors, bg-light-gray);
+                                    }
+
+                                    // Remove number input arrows
+                                    &::-webkit-outer-spin-button,
+                                    &::-webkit-inner-spin-button {
+                                        -webkit-appearance: none;
+                                        margin: 0;
+                                    }
+
+                                    &[type=number] {
+                                        -moz-appearance: textfield;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .remove-form {
+                        .remove-btn {
+                            @include btn.button-style(map-get(v.$colors, light-gray), map-get(v.$colors, text-secondary));
+                            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                            font-size: map-get(v.$font-sizes, small);
+                            display: flex;
+                            align-items: center;
+                            gap: map-get(v.$spacing, xs);
+                            border: none;
+                            cursor: pointer;
+                            transition: all map-get(v.$transitions, normal);
+
+                            &:hover {
+                                background-color: #dc3545;
+                                color: map-get(v.$colors, white);
+                            }
+
+                            i {
+                                font-size: 0.9em;
+                            }
+                        }
+                    }
+
+                    @include breakpoint(mobile) {
+                        flex-direction: column;
+                        align-items: stretch;
+                        gap: map-get(v.$spacing, md);
+
+                        .quantity-section {
+                            .quantity-controls {
+                                width: 100%;
+                                justify-content: center;
+                            }
+                        }
+
+                        .remove-btn {
+                            width: 100%;
+                            justify-content: center;
+                        }
+                    }
+                }
+            }
+
+            .item-subtotal {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: center;
+                text-align: right;
+
+                .subtotal-label {
+                    font-size: map-get(v.$font-sizes, small);
+                    color: map-get(v.$colors, text-secondary);
+                    margin-bottom: map-get(v.$spacing, xs);
+                }
+
+                .subtotal-amount {
+                    font-family: map-get(v.$fonts, cta);
+                    font-size: 1.4rem;
+                    font-weight: map-get(v.$font-weights, bold);
+                    color: map-get(v.$colors, primary-red);
+
+                    @include breakpoint(mobile) {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    align-items: center;
+                    text-align: center;
+                }
+            }
+
+            @include breakpoint(tablet) {
+                grid-template-columns: 100px 1fr;
+                grid-template-rows: auto auto;
+                gap: map-get(v.$spacing, md);
+
+                .item-subtotal {
+                    grid-column: 1 / -1;
+                    align-items: center;
+                    text-align: center;
+                }
+            }
+
+            @include breakpoint(mobile) {
+                padding: map-get(v.$spacing, lg);
+                grid-template-columns: 80px 1fr;
+            }
+        }
+    }
+}
+
+/* Cart Summary Section */
+.cart-summary-section {
+    .cart-summary {
+        background-color: map-get(v.$colors, white);
+        border-radius: map-get(v.$layout, border-radius-lg);
+        box-shadow: map-get(v.$shadows, small);
+        position: sticky;
+        top: map-get(v.$spacing, xl);
+
+        .summary-header {
+            padding: map-get(v.$spacing, xl) map-get(v.$spacing, xl) 0;
+
+            .summary-title {
+                @include heading-style('h2');
+                font-size: 1.3rem;
+                color: map-get(v.$colors, dark-gray);
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, sm);
+
+                i {
+                    color: map-get(v.$colors, primary-red);
+                    font-size: 0.9em;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+
+        .summary-content {
+            padding: map-get(v.$spacing, lg) map-get(v.$spacing, xl);
+
+            .summary-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: map-get(v.$spacing, md);
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .summary-label {
+                    font-family: map-get(v.$fonts, secondary);
+                    font-size: map-get(v.$font-sizes, regular);
+                    color: map-get(v.$colors, text-secondary);
+                }
+
+                .summary-value {
+                    font-family: map-get(v.$fonts, cta);
+                    font-size: map-get(v.$font-sizes, regular);
+                    font-weight: map-get(v.$font-weights, semibold);
+                    color: map-get(v.$colors, dark-gray);
+
+                    &.free {
+                        color: #28a745;
+                        font-weight: map-get(v.$font-weights, medium);
+                    }
+
+                    &.total {
+                        font-size: 1.4rem;
+                        font-weight: map-get(v.$font-weights, bold);
+                        color: map-get(v.$colors, primary-red);
+                    }
+                }
+
+                &.total-row {
+                    padding-top: map-get(v.$spacing, md);
+                    border-top: 2px solid map-get(v.$colors, primary-red);
+                    margin-top: map-get(v.$spacing, md);
+
+                    .summary-label {
+                        font-weight: map-get(v.$font-weights, bold);
+                        font-size: 1.1rem;
+                        color: map-get(v.$colors, dark-gray);
+                    }
+                }
+            }
+
+            .summary-divider {
+                height: 1px;
+                background-color: map-get(v.$colors, light-gray);
+                margin: map-get(v.$spacing, lg) 0;
+            }
+        }
+
+        .summary-actions {
+            padding: 0 map-get(v.$spacing, xl) map-get(v.$spacing, xl);
+            display: flex;
+            flex-direction: column;
+            gap: map-get(v.$spacing, md);
+
+            .checkout-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                padding: map-get(v.$spacing, lg) map-get(v.$spacing, xl);
+                font-size: map-get(v.$font-sizes, large);
+                font-weight: map-get(v.$font-weights, bold);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: map-get(v.$spacing, sm);
+                border: none;
+                cursor: pointer;
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    background-color: darken(map-get(v.$colors, primary-red), 10%);
+                    transform: translateY(-2px);
+                    box-shadow: map-get(v.$shadows, medium);
+                }
+
+                i {
+                    font-size: 1.1em;
+                }
+
+                @include breakpoint(mobile) {
+                    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                    font-size: map-get(v.$font-sizes, regular);
+                }
+            }
+
+            .continue-shopping-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                font-size: map-get(v.$font-sizes, regular);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: map-get(v.$spacing, sm);
+                text-decoration: none;
+                transition: all map-get(v.$transitions, normal);
+
+                i {
+                    font-size: 0.9em;
+                }
+            }
+        }
+
+        @include breakpoint(desktop) {
+            position: static;
+            margin-top: map-get(v.$spacing, xl);
+        }
+
+        @include breakpoint(mobile) {
+            .summary-header,
+            .summary-content,
+            .summary-actions {
+                padding-left: map-get(v.$spacing, lg);
+                padding-right: map-get(v.$spacing, lg);
+            }
+        }
+    }
+}
+
+/* Empty Cart Styles */
+.empty-cart {
+    @include section-padding;
+    text-align: center;
+    margin-top: -90px;
+    margin-bottom: -80px;
+
+    .empty-cart-content {
+        max-width: 600px;
+        margin: 0 auto;
+
+        .empty-cart-icon {
+            margin-bottom: map-get(v.$spacing, xl);
+
+            i {
+                font-size: 6rem;
+                color: map-get(v.$colors, light-gray);
+
+                @include breakpoint(mobile) {
+                    font-size: 4rem;
+                }
+            }
+        }
+
+        .empty-cart-title {
+            @include heading-style('h2');
+            color: map-get(v.$colors, dark-gray);
+            margin-bottom: map-get(v.$spacing, lg);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h2-mobile);
+            }
+        }
+
+        .empty-cart-text {
+            @include body-text('large');
+            color: map-get(v.$colors, text-secondary);
+            margin-bottom: map-get(v.$spacing, xxl);
+            line-height: 1.6;
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, regular);
+                margin-bottom: map-get(v.$spacing, xl);
+            }
+        }
+
+        .empty-cart-actions {
+            display: flex;
+            gap: map-get(v.$spacing, lg);
+            justify-content: center;
+
+            .shop-phones-btn,
+            .shop-accessories-btn {
+                @include btn.button-style;
+                padding: map-get(v.$spacing, lg) map-get(v.$spacing, xxl);
+                font-size: map-get(v.$font-sizes, regular);
+                font-weight: map-get(v.$font-weights, semibold);
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, sm);
+                text-decoration: none;
+
+                i {
+                    font-size: 1.1em;
+                }
+            }
+
+            .shop-phones-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            .shop-accessories-btn {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            @include breakpoint(mobile) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, md);
+
+                .shop-phones-btn,
+                .shop-accessories-btn {
+                    width: 100%;
+                    justify-content: center;
+                    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                }
+            }
+        }
+    }
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    @include flex-center;
+    z-index: map-get(v.$z-index, modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all map-get(v.$transitions, normal);
+
+    &[style*="flex"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background-color: map-get(v.$colors, white);
+        border-radius: map-get(v.$layout, border-radius-lg);
+        box-shadow: map-get(v.$shadows, large);
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        transition: transform map-get(v.$transitions, normal);
+
+        .modal-overlay[style*="flex"] & {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: map-get(v.$spacing, lg);
+            border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+            h3 {
+                @include heading-style('h3');
+                margin: 0;
+                color: map-get(v.$colors, dark-gray);
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                color: map-get(v.$colors, text-secondary);
+                cursor: pointer;
+                padding: map-get(v.$spacing, xs);
+                border-radius: map-get(v.$layout, border-radius);
+                transition: all map-get(v.$transitions, fast);
+
+                &:hover {
+                    background-color: map-get(v.$colors, light-gray);
+                    color: map-get(v.$colors, dark-gray);
+                }
+            }
+        }
+
+        .modal-body {
+            padding: map-get(v.$spacing, xl);
+            text-align: center;
+
+            .modal-icon {
+                margin-bottom: map-get(v.$spacing, lg);
+
+                i {
+                    font-size: 3rem;
+                    color: #ffc107;
+
+                    @include breakpoint(mobile) {
+                        font-size: 2.5rem;
+                    }
+                }
+            }
+
+            p {
+                @include body-text();
+                margin-bottom: map-get(v.$spacing, md);
+                color: map-get(v.$colors, dark-gray);
+
+                &.modal-subtitle {
+                    @include body-text('small');
+                    color: map-get(v.$colors, text-secondary);
+                    margin-bottom: 0;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: map-get(v.$spacing, md);
+            padding: map-get(v.$spacing, lg);
+            border-top: 1px solid map-get(v.$colors, light-gray);
+
+            .modal-btn {
+                flex: 1;
+                @include btn.button-style;
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                font-size: map-get(v.$font-sizes, small);
+                font-weight: map-get(v.$font-weights, semibold);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: map-get(v.$spacing, xs);
+                text-decoration: none;
+                border: none;
+                cursor: pointer;
+                transition: all map-get(v.$transitions, normal);
+
+                &.btn-cancel {
+                    @include btn.button-style(map-get(v.$colors, light-gray), map-get(v.$colors, dark-gray));
+
+                    &:hover {
+                        background-color: darken(map-get(v.$colors, light-gray), 10%);
+                    }
+                }
+
+                &.btn-confirm {
+                    @include btn.button-style(#dc3545, map-get(v.$colors, white));
+
+                    &:hover {
+                        background-color: darken(#dc3545, 10%);
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    padding: 12px map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, sm);
+            }
+        }
+    }
+}
+
+/* Alert Messages */
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    i {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+
+        i {
+            color: #dc3545;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+        margin: 0 map-get(v.$spacing, md) map-get(v.$spacing, lg);
+        max-width: none;
+    }
+}
