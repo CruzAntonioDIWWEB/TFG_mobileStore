@@ -1,27 +1,28 @@
 <?php
 // Get messages for display
-//TODO: BASE_URL
 $messages = $messages ?? [];
 ?>
 
 <!-- Messages Display -->
 <?php if (!empty($messages['success'])): ?>
     <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
         <?php echo htmlspecialchars($messages['success']); ?>
     </div>
 <?php endif; ?>
 
 <?php if (!empty($messages['error'])): ?>
     <div class="alert alert-error">
+        <i class="fas fa-exclamation-triangle"></i>
         <?php echo htmlspecialchars($messages['error']); ?>
     </div>
 <?php endif; ?>
 
-<!-- Begining -->
+<!-- Page Header -->
 <section class="catalog-header">
     <div class="catalog-header-container">
         <h1 class="catalog-title">Accesorios</h1>
-        <p class="catalog-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="catalog-description">Encuentra los mejores accesorios para tu móvil: fundas, cargadores, auriculares y mucho más</p>
     </div>
 </section>
 
@@ -149,4 +150,5 @@ $messages = $messages ?? [];
     </div>
 </section>
 
-<script src="../../assets/js/accessoryFiltering.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/accessoryFiltering.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/addToCart.js"></script>

@@ -6,12 +6,14 @@ $messages = $messages ?? [];
 <!-- Messages Display -->
 <?php if (!empty($messages['success'])): ?>
     <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
         <?php echo htmlspecialchars($messages['success']); ?>
     </div>
 <?php endif; ?>
 
 <?php if (!empty($messages['error'])): ?>
     <div class="alert alert-error">
+        <i class="fas fa-exclamation-triangle"></i>
         <?php echo htmlspecialchars($messages['error']); ?>
     </div>
 <?php endif; ?>
@@ -149,4 +151,5 @@ $messages = $messages ?? [];
     </div>
 </section>
 
-<script src="../../assets/js/brandFiltering.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/brandFiltering.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/addToCart.js"></script>
