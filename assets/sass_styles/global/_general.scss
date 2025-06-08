@@ -1,5 +1,6 @@
 @use "variables" as v;
 @use "mixins" as *;
+@use "buttons" as btn;
 
 
 body {
@@ -22,11 +23,117 @@ a {
     text-decoration: none;
 }
 
+// Error message styles
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-top: map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+
+        i {
+            color: #dc3545;
+        }
+    }
+
+    &.alert-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+
+        i {
+            color: #ffc107;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        margin-top: map-get(v.$spacing, xl);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+}
+
 // Global heading styles
 h1, h2, h3, h4, h5, h6 {
     font-family: map-get(v.$fonts, primary);
     font-weight: map-get(v.$font-weights, bold);
     color: map-get(v.$colors, dark-gray);
+}
+
+// Global stock badges
+.stock-badge {
+    position: absolute;
+    top: map-get(v.$spacing, sm);
+    right: map-get(v.$spacing, sm);
+    padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+    border-radius: map-get(v.$layout, border-radius);
+    font-size: map-get(v.$font-sizes, xs);
+    font-weight: map-get(v.$font-weights, semibold);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, xs);
+    z-index: 3;
+    box-shadow: map-get(v.$shadows, small);
+
+    &:not(.out-of-stock) {
+        background-color: map-get(v.$colors, primary-red);
+        color: map-get(v.$colors, white);
+    }
+
+    &.out-of-stock {
+        background-color: map-get(v.$colors, text-secondary);
+        color: map-get(v.$colors, white);
+    }
+
+    i {
+        font-size: 0.8em;
+    }
+
+    // Variantes de tamaño
+    &.stock-badge-small {
+        top: map-get(v.$spacing, xs);
+        right: map-get(v.$spacing, xs);
+        padding: 2px map-get(v.$spacing, xs);
+        font-size: 0.7rem;
+        
+        i {
+            font-size: 0.7em;
+        }
+    }
+
+    &.stock-badge-large {
+        top: map-get(v.$spacing, md);
+        right: map-get(v.$spacing, md);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+
+    @include breakpoint(mobile) {
+        font-size: 0.75rem;
+        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+    }
 }
 
 // Accessibility - Focus styles
@@ -46,4 +153,191 @@ h1, h2, h3, h4, h5, h6 {
 
 .visually-hidden {
     @include visually-hidden;
+}
+
+/* Global Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    @include flex-center;
+    z-index: map-get(v.$z-index, modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all map-get(v.$transitions, normal);
+
+    &[style*="flex"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background-color: map-get(v.$colors, white);
+        border-radius: map-get(v.$layout, border-radius-lg);
+        box-shadow: map-get(v.$shadows, large);
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        transition: transform map-get(v.$transitions, normal);
+
+        .modal-overlay[style*="flex"] & {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: map-get(v.$spacing, lg);
+            border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+            h3 {
+                @include heading-style('h3');
+                margin: 0;
+                color: map-get(v.$colors, dark-gray);
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                color: map-get(v.$colors, text-secondary);
+                cursor: pointer;
+                padding: map-get(v.$spacing, xs);
+                border-radius: map-get(v.$layout, border-radius);
+                transition: all map-get(v.$transitions, fast);
+
+                &:hover {
+                    background-color: map-get(v.$colors, light-gray);
+                    color: map-get(v.$colors, dark-gray);
+                }
+            }
+        }
+
+        .modal-body {
+            padding: map-get(v.$spacing, xl);
+            text-align: center;
+
+            .modal-icon {
+                margin-bottom: map-get(v.$spacing, lg);
+
+                i {
+                    font-size: 3rem;
+                    color: #ffc107;
+
+                    @include breakpoint(mobile) {
+                        font-size: 2.5rem;
+                    }
+                }
+
+                &.modal-icon-danger i {
+                    color: #dc3545;
+                }
+
+                &.modal-icon-success i {
+                    color: #28a745;
+                }
+
+                &.modal-icon-info i {
+                    color: #17a2b8;
+                }
+            }
+
+            p {
+                @include body-text();
+                margin-bottom: map-get(v.$spacing, md);
+                color: map-get(v.$colors, dark-gray);
+
+                &.modal-subtitle {
+                    @include body-text('small');
+                    color: map-get(v.$colors, text-secondary);
+                    margin-bottom: 0;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, small);
+                }
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: map-get(v.$spacing, md);
+            padding: map-get(v.$spacing, lg);
+            border-top: 1px solid map-get(v.$colors, light-gray);
+
+            .modal-btn {
+                flex: 1;
+                @include btn.button-style;
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                font-size: map-get(v.$font-sizes, small);
+                font-weight: map-get(v.$font-weights, semibold);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: map-get(v.$spacing, xs);
+                text-decoration: none;
+                border: none;
+                cursor: pointer;
+                transition: all map-get(v.$transitions, normal);
+
+                &.btn-cancel {
+                    @include btn.button-style(map-get(v.$colors, light-gray), map-get(v.$colors, dark-gray));
+
+                    &:hover {
+                        background-color: darken(map-get(v.$colors, light-gray), 10%);
+                    }
+                }
+
+                &.btn-confirm {
+                    @include btn.button-style(#dc3545, map-get(v.$colors, white));
+
+                    &:hover {
+                        background-color: darken(#dc3545, 10%);
+                    }
+                }
+
+                &.btn-primary {
+                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+
+                    &:hover {
+                        background-color: darken(map-get(v.$colors, primary-red), 10%);
+                    }
+                }
+
+                @include breakpoint(mobile) {
+                    padding: 12px map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                flex-direction: column;
+                gap: map-get(v.$spacing, sm);
+            }
+        }
+
+        // Variantes de tamaño para modales
+        &.modal-small {
+            max-width: 400px;
+        }
+
+        &.modal-large {
+            max-width: 700px;
+        }
+
+        &.modal-extra-large {
+            max-width: 900px;
+        }
+
+        @include breakpoint(mobile) {
+            width: 95%;
+            max-height: 95vh;
+        }
+    }
 }

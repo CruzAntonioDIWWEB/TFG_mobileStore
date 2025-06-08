@@ -3,6 +3,14 @@ function confirmLogout() {
     document.body.style.overflow = 'hidden';
 }
 
+function confirmLogout() {
+    // Clear localStorage before showing modal
+    window.userStorage.clear();
+    
+    document.getElementById('logout-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
 function closeLogoutModal() {
     document.getElementById('logout-modal').style.display = 'none';
     document.body.style.overflow = 'auto';

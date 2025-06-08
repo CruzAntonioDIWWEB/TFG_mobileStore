@@ -164,34 +164,6 @@
 
                     @include product-image-style;
 
-                    .stock-badge {
-                        position: absolute;
-                        top: map-get(v.$spacing, sm);
-                        right: map-get(v.$spacing, sm);
-                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
-                        border-radius: map-get(v.$layout, border-radius);
-                        font-size: map-get(v.$font-sizes, xs);
-                        font-weight: map-get(v.$font-weights, semibold);
-                        display: flex;
-                        align-items: center;
-                        gap: map-get(v.$spacing, xs);
-                        z-index: 3;
-
-                        &:not(.out-of-stock) {
-                            background-color: rgba(map-get(v.$colors, primary-red), 0.9);
-                            color: map-get(v.$colors, white);
-                        }
-
-                        &.out-of-stock {
-                            background-color: rgba(map-get(v.$colors, dark-gray), 0.9);
-                            color: map-get(v.$colors, white);
-                        }
-
-                        i {
-                            font-size: 0.8em;
-                        }
-                    }
-
                     @include breakpoint(tablet) {
                         height: 250px;
                     }
@@ -389,32 +361,6 @@
                 font-size: 0.9em;
             }
         }
-    }
-}
-
-/* Alert Messages */
-.alert {
-    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
-    margin-bottom: map-get(v.$spacing, lg);
-    border-radius: map-get(v.$layout, border-radius);
-    font-family: map-get(v.$fonts, secondary);
-    font-weight: map-get(v.$font-weights, medium);
-
-    &.alert-success {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    &.alert-error {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
-        font-size: map-get(v.$font-sizes, small);
     }
 }
 

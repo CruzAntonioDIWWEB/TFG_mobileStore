@@ -47,7 +47,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="nav-link">Contacto</a>
                     </li>
-                    
+
                     <!-- Mobile User Actions (only visible in mobile menu) -->
                     <div class="mobile-user-actions">
                         <?php if (isset($_SESSION['user'])): ?>
@@ -91,12 +91,12 @@ if (session_status() === PHP_SESSION_NONE) {
                         <!-- User is logged in - Show settings and cart -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-icon" title="Mi Perfil">
                             <i class="fas fa-user"></i>
-                        </a>
+                        </a> <!-- TODO: CUANDO SE CIERRE SESION QUE EL CARRITO SE GUARDE -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-icon cart-icon" title="Carrito">
                             <i class="fas fa-shopping-cart"></i>
-                            <?php if (isset($_SESSION['cart_count']) && $_SESSION['cart_count'] > 0): ?>
-                                <span class="cart-count"><?php echo $_SESSION['cart_count']; ?></span>
-                            <?php endif; ?>
+                            <span class="cart-count" <?php if (!isset($_SESSION['cart_count']) || $_SESSION['cart_count'] == 0): ?>style="display: none;" <?php endif; ?>>
+                                <?php echo $_SESSION['cart_count'] ?? 0; ?>
+                            </span>
                         </a>
                     <?php else: ?>
                         <!-- User is not logged in - Show login and register buttons -->
@@ -116,4 +116,25 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- Main Content Wrapper -->
     <main class="main-content">
 
-    <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+        
+        <!-- Include user storage management -->
+        <script src="<?php echo ASSETS_URL; ?>js/userStorage.js"></script>
+
+        <?php if (isset($_SESSION['user'])): ?>
+            <!-- Pass user data to localStorage -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Store current session user data in localStorage
+                    const userData = {
+                        id: <?php echo $_SESSION['user']['id']; ?>,
+                        name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
+                        surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
+                        email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
+                        role: '<?php echo $_SESSION['user']['role']; ?>'
+                    };
+
+                    window.userStorage.store(userData);
+                });
+            </script>
+        <?php endif; ?>
