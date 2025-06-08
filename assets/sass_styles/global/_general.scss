@@ -22,6 +22,58 @@ a {
     text-decoration: none;
 }
 
+// Error message styles
+.alert {
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    margin-top: map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg);
+    border-radius: map-get(v.$layout, border-radius);
+    font-family: map-get(v.$fonts, secondary);
+    font-weight: map-get(v.$font-weights, medium);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &.alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+
+        i {
+            color: #28a745;
+        }
+    }
+
+    &.alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+
+        i {
+            color: #dc3545;
+        }
+    }
+
+    &.alert-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+
+        i {
+            color: #ffc107;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        margin-top: map-get(v.$spacing, xl);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+}
+
 // Global heading styles
 h1, h2, h3, h4, h5, h6 {
     font-family: map-get(v.$fonts, primary);
