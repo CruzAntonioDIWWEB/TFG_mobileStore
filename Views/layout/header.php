@@ -116,25 +116,24 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- Main Content Wrapper -->
     <main class="main-content">
 
-        <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
-        
-        <!-- Include user storage management -->
-        <script src="<?php echo ASSETS_URL; ?>js/userStorage.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
 
-        <?php if (isset($_SESSION['user'])): ?>
-            <!-- Pass user data to localStorage -->
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Store current session user data in localStorage
-                    const userData = {
-                        id: <?php echo $_SESSION['user']['id']; ?>,
-                        name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
-                        surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
-                        email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
-                        role: '<?php echo $_SESSION['user']['role']; ?>'
-                    };
+    <?php if (isset($_SESSION['user'])): ?>
+        <!-- Pass user data to localStorage -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Store current session user data in localStorage
+                const userData = {
+                    id: <?php echo $_SESSION['user']['id']; ?>,
+                    name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
+                    surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
+                    email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
+                    role: '<?php echo $_SESSION['user']['role']; ?>'
+                };
 
-                    window.userStorage.store(userData);
-                });
-            </script>
-        <?php endif; ?>
+                window.userStorage.store(userData);
+            });
+        </script>
+    <?php endif; ?>

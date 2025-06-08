@@ -258,4 +258,4 @@ $messages = $messages ?? [];
         </div>
     </div>
 </div>
-<script src="<?php echo ASSETS_URL; ?>js/userSettings.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/user/userSettings.js"></script>

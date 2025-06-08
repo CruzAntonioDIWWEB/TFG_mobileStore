@@ -25,7 +25,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
 <!-- Shopping Cart Section -->
 <section class="cart-section">
     <div class="cart-container">
-        
+
         <!-- Cart Header -->
         <div class="cart-header">
             <div class="cart-title-section">
@@ -41,7 +41,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                     <?php endif; ?>
                 </p>
             </div>
-            
+
             <?php if (!empty($cartItems)): ?>
                 <div class="cart-actions-header">
                     <form method="POST" action="<?php echo BASE_URL; ?>index.php?controller=cart&action=clearCart" class="clear-cart-form">
@@ -57,7 +57,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
         <?php if (!empty($cartItems)): ?>
             <!-- Cart Content -->
             <div class="cart-content">
-                
+
                 <!-- Cart Items List -->
                 <div class="cart-items-section">
                     <div class="cart-items-list">
@@ -66,16 +66,16 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                 <div class="item-image">
                                     <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $item['product_id']; ?>">
                                         <?php if (!empty($item['image'])): ?>
-                                            <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($item['image']); ?>" 
-                                                 alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                                 class="product-image">
+                                            <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($item['image']); ?>"
+                                                alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                                class="product-image">
                                         <?php else: ?>
-                                            <img src="/dashboard/TFG/assets/img/placeholder-product.jpg" 
-                                                 alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                                 class="product-image">
+                                            <img src="/dashboard/TFG/assets/img/placeholder-product.jpg"
+                                                alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                                class="product-image">
                                         <?php endif; ?>
                                     </a>
-                                    
+
                                     <!-- Stock indicator -->
                                     <?php if ($item['stock'] <= 0): ?>
                                         <div class="stock-warning">
@@ -89,7 +89,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                
+
                                 <div class="item-details">
                                     <div class="item-info">
                                         <h3 class="item-name">
@@ -97,12 +97,12 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                                 <?php echo htmlspecialchars($item['name']); ?>
                                             </a>
                                         </h3>
-                                        
+
                                         <div class="item-meta">
                                             <span class="item-price">
                                                 <?php echo number_format($item['price'], 2, ',', '.'); ?> €
                                             </span>
-                                            
+
                                             <?php if ($item['stock'] > 0): ?>
                                                 <span class="item-availability available">
                                                     <i class="fas fa-check"></i>
@@ -116,37 +116,37 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="item-controls">
                                         <!-- Quantity Controls -->
                                         <div class="quantity-section">
                                             <label class="quantity-label">Cantidad:</label>
                                             <form class="quantity-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=cart&action=updateQuantity">
                                                 <input type="hidden" name="cart_item_id" value="<?php echo $item['id']; ?>">
-                                                
+
                                                 <div class="quantity-controls">
-                                                    <button type="button" class="quantity-btn quantity-decrease" 
-                                                            onclick="updateQuantity(<?php echo $item['id']; ?>, -1, <?php echo $item['stock']; ?>)">
+                                                    <button type="button" class="quantity-btn quantity-decrease"
+                                                        onclick="updateQuantity(<?php echo $item['id']; ?>, -1, <?php echo $item['stock']; ?>)">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    
-                                                    <input type="number" 
-                                                           name="quantity" 
-                                                           value="<?php echo $item['quantity']; ?>" 
-                                                           min="0" 
-                                                           max="<?php echo $item['stock']; ?>" 
-                                                           class="quantity-input"
-                                                           id="quantity-<?php echo $item['id']; ?>"
-                                                           onchange="submitQuantityForm(<?php echo $item['id']; ?>)">
-                                                    
-                                                    <button type="button" class="quantity-btn quantity-increase" 
-                                                            onclick="updateQuantity(<?php echo $item['id']; ?>, 1, <?php echo $item['stock']; ?>)">
+
+                                                    <input type="number"
+                                                        name="quantity"
+                                                        value="<?php echo $item['quantity']; ?>"
+                                                        min="0"
+                                                        max="<?php echo $item['stock']; ?>"
+                                                        class="quantity-input"
+                                                        id="quantity-<?php echo $item['id']; ?>"
+                                                        onchange="submitQuantityForm(<?php echo $item['id']; ?>)">
+
+                                                    <button type="button" class="quantity-btn quantity-increase"
+                                                        onclick="updateQuantity(<?php echo $item['id']; ?>, 1, <?php echo $item['stock']; ?>)">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
-                                        
+
                                         <!-- Remove Item -->
                                         <form method="POST" action="<?php echo BASE_URL; ?>index.php?controller=cart&action=removeItem" class="remove-form">
                                             <input type="hidden" name="cart_item_id" value="<?php echo $item['id']; ?>">
@@ -157,7 +157,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                         </form>
                                     </div>
                                 </div>
-                                
+
                                 <div class="item-subtotal">
                                     <span class="subtotal-label">Subtotal:</span>
                                     <span class="subtotal-amount">
@@ -168,7 +168,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                         <?php endforeach; ?>
                     </div>
                 </div>
-                
+
                 <!-- Cart Summary -->
                 <div class="cart-summary-section">
                     <div class="cart-summary">
@@ -178,32 +178,32 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                 Resumen del pedido
                             </h2>
                         </div>
-                        
+
                         <div class="summary-content">
                             <div class="summary-row">
                                 <span class="summary-label">Productos (<?php echo $totalItems; ?>):</span>
                                 <span class="summary-value"><?php echo $formattedTotal; ?></span>
                             </div>
-                            
+
                             <div class="summary-row">
                                 <span class="summary-label">Envío:</span>
                                 <span class="summary-value free">Gratis</span>
                             </div>
-                            
+
                             <div class="summary-divider"></div>
-                            
+
                             <div class="summary-row total-row">
                                 <span class="summary-label">Total:</span>
                                 <span class="summary-value total"><?php echo $formattedTotal; ?></span>
                             </div>
                         </div>
-                        
+
                         <div class="summary-actions">
                             <button class="checkout-btn" onclick="proceedToCheckout()">
                                 <i class="fas fa-credit-card"></i>
                                 Proceder al pago
                             </button>
-                            
+
                             <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="continue-shopping-btn">
                                 <i class="fas fa-arrow-left"></i>
                                 Seguir comprando
@@ -211,9 +211,9 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         <?php else: ?>
             <!-- Empty Cart -->
             <div class="empty-cart">
@@ -221,19 +221,19 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                     <div class="empty-cart-icon">
                         <i class="fas fa-shopping-cart"></i>
                     </div>
-                    
+
                     <h2 class="empty-cart-title">Tu carrito está vacío</h2>
                     <p class="empty-cart-text">
                         Parece que aún no has añadido ningún producto a tu carrito.
                         Explora nuestro catálogo y encuentra los mejores móviles y accesorios.
                     </p>
-                    
+
                     <div class="empty-cart-actions">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="shop-phones-btn">
                             <i class="fas fa-mobile-alt"></i>
                             Ver móviles
                         </a>
-                        
+
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="shop-accessories-btn">
                             <i class="fas fa-headphones"></i>
                             Ver accesorios
@@ -303,4 +303,43 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
     </div>
 </div>
 
-<script src="<?php echo ASSETS_URL; ?>js/cartFunctionality.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/cart/cartFunctionality.js"></script>
+<script>
+    // Sync cart data to localStorage when cart page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.cartStorage) {
+            // Auto-sync cart data from the current page
+            window.cartStorage.autoSync();
+
+            // Listen for form submissions to update localStorage
+
+            // When quantity is updated
+            const quantityForms = document.querySelectorAll('form[action*="updateQuantity"]');
+            quantityForms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    setTimeout(() => {
+                        window.cartStorage.autoSync();
+                    }, 500); // Small delay to let the page reload
+                });
+            });
+
+            // When item is removed
+            const removeForms = document.querySelectorAll('form[action*="removeItem"]');
+            removeForms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    setTimeout(() => {
+                        window.cartStorage.autoSync();
+                    }, 500);
+                });
+            });
+
+            // When cart is cleared
+            const clearForm = document.querySelector('form[action*="clearCart"]');
+            if (clearForm) {
+                clearForm.addEventListener('submit', function() {
+                    window.cartStorage.clear();
+                });
+            }
+        }
+    });
+</script>

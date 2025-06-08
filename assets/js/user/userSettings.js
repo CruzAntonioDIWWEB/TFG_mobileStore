@@ -1,11 +1,11 @@
 function confirmLogout() {
-    document.getElementById('logout-modal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function confirmLogout() {
-    // Clear localStorage before showing modal
-    window.userStorage.clear();
+    // Clear both user and cart localStorage before showing modal
+    if (window.userStorage) {
+        window.userStorage.clear();
+    }
+    if (window.cartStorage) {
+        window.cartStorage.clear();
+    }
     
     document.getElementById('logout-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
