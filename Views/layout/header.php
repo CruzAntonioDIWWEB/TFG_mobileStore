@@ -116,60 +116,24 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- Main Content Wrapper -->
     <main class="main-content">
 
-        <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
-        <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
-        
-        <!-- Include user storage management -->
-        <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
 
-        <?php if (isset($_SESSION['user'])): ?>
-            <!-- Pass user data to localStorage -->
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Store current session user data in localStorage
-                    const userData = {
-                        id: <?php echo $_SESSION['user']['id']; ?>,
-                        name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
-                        surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
-                        email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
-                        role: '<?php echo $_SESSION['user']['role']; ?>'
-                    };
+    <?php if (isset($_SESSION['user'])): ?>
+        <!-- Pass user data to localStorage -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Store current session user data in localStorage
+                const userData = {
+                    id: <?php echo $_SESSION['user']['id']; ?>,
+                    name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
+                    surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
+                    email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
+                    role: '<?php echo $_SESSION['user']['role']; ?>'
+                };
 
-                    window.userStorage.store(userData);
-                });
-            </script>
-        <?php endif; ?>
-
-        <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
-
-        <?php if (isset($_SESSION['user'])): ?>
-<!-- Pass cart data to localStorage -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // If user is on cart page, sync cart data
-    <?php 
-    // Check if we're on cart page and have cart data
-    $currentUrl = $_SERVER['REQUEST_URI'] ?? '';
-    if (strpos($currentUrl, 'cart') !== false && isset($cartItems)): 
-    ?>
-    // Sync cart from server data
-    const serverCartItems = <?php echo json_encode($cartItems ?? []); ?>;
-    const totalItems = <?php echo $totalItems ?? 0; ?>;
-    const totalCost = <?php echo $totalCost ?? 0; ?>;
-    const formattedTotal = '<?php echo $formattedTotal ?? '€0.00'; ?>';
-    
-    window.cartStorage.syncFromServer(serverCartItems, totalItems, totalCost, formattedTotal);
-    <?php else: ?>
-    // Store basic cart count
-    const cartCount = <?php echo $_SESSION['cart_count'] ?? 0; ?>;
-    if (cartCount > 0) {
-        const existingCart = window.cartStorage.get();
-        if (!existingCart) {
-            window.cartStorage.store([], cartCount, 0, '€0.00');
-        }
-    }
+                window.userStorage.store(userData);
+            });
+        </script>
     <?php endif; ?>
-});
-</script>
-<?php endif; ?>
-
