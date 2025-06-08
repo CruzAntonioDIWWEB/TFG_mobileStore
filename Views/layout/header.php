@@ -117,6 +117,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <main class="main-content">
 
         <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/cartStorage.js"></script>
         
         <!-- Include user storage management -->
         <script src="<?php echo ASSETS_URL; ?>js/userStorage.js"></script>
@@ -138,3 +139,37 @@ if (session_status() === PHP_SESSION_NONE) {
                 });
             </script>
         <?php endif; ?>
+
+        <script src="<?php echo ASSETS_URL; ?>js/cartStorage.js"></script>
+
+        <?php if (isset($_SESSION['user'])): ?>
+<!-- Pass cart data to localStorage -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // If user is on cart page, sync cart data
+    <?php 
+    // Check if we're on cart page and have cart data
+    $currentUrl = $_SERVER['REQUEST_URI'] ?? '';
+    if (strpos($currentUrl, 'cart') !== false && isset($cartItems)): 
+    ?>
+    // Sync cart from server data
+    const serverCartItems = <?php echo json_encode($cartItems ?? []); ?>;
+    const totalItems = <?php echo $totalItems ?? 0; ?>;
+    const totalCost = <?php echo $totalCost ?? 0; ?>;
+    const formattedTotal = '<?php echo $formattedTotal ?? '€0.00'; ?>';
+    
+    window.cartStorage.syncFromServer(serverCartItems, totalItems, totalCost, formattedTotal);
+    <?php else: ?>
+    // Store basic cart count
+    const cartCount = <?php echo $_SESSION['cart_count'] ?? 0; ?>;
+    if (cartCount > 0) {
+        const existingCart = window.cartStorage.get();
+        if (!existingCart) {
+            window.cartStorage.store([], cartCount, 0, '€0.00');
+        }
+    }
+    <?php endif; ?>
+});
+</script>
+<?php endif; ?>
+

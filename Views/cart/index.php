@@ -304,3 +304,42 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
 </div>
 
 <script src="<?php echo ASSETS_URL; ?>js/cartFunctionality.js"></script>
+<script>
+// Sync cart data to localStorage when cart page loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.cartStorage) {
+        // Auto-sync cart data from the current page
+        window.cartStorage.autoSync();
+        
+        // Listen for form submissions to update localStorage
+        
+        // When quantity is updated
+        const quantityForms = document.querySelectorAll('form[action*="updateQuantity"]');
+        quantityForms.forEach(form => {
+            form.addEventListener('submit', function() {
+                setTimeout(() => {
+                    window.cartStorage.autoSync();
+                }, 500); // Small delay to let the page reload
+            });
+        });
+        
+        // When item is removed
+        const removeForms = document.querySelectorAll('form[action*="removeItem"]');
+        removeForms.forEach(form => {
+            form.addEventListener('submit', function() {
+                setTimeout(() => {
+                    window.cartStorage.autoSync();
+                }, 500);
+            });
+        });
+        
+        // When cart is cleared
+        const clearForm = document.querySelector('form[action*="clearCart"]');
+        if (clearForm) {
+            clearForm.addEventListener('submit', function() {
+                window.cartStorage.clear();
+            });
+        }
+    }
+});
+</script>
