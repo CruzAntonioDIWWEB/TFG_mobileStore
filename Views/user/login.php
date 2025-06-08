@@ -93,4 +93,4 @@ $messages = $messages ?? [];
     </div>
 </section>
 
-<script src="<?php echo ASSETS_URL; ?>js/authValidation.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/user/authValidation.js"></script>

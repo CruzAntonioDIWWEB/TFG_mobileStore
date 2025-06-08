@@ -151,4 +151,4 @@ $messages = $messages ?? [];
 </section>
 
 <script src="<?php echo ASSETS_URL; ?>js/accessoryFiltering.js"></script>
-<script src="<?php echo ASSETS_URL; ?>js/addToCart.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/cart/addToCart.js"></script>

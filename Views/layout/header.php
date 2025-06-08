@@ -117,10 +117,10 @@ if (session_status() === PHP_SESSION_NONE) {
     <main class="main-content">
 
         <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
-        <script src="<?php echo ASSETS_URL; ?>js/cartStorage.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
         
         <!-- Include user storage management -->
-        <script src="<?php echo ASSETS_URL; ?>js/userStorage.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
 
         <?php if (isset($_SESSION['user'])): ?>
             <!-- Pass user data to localStorage -->
@@ -140,7 +140,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </script>
         <?php endif; ?>
 
-        <script src="<?php echo ASSETS_URL; ?>js/cartStorage.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
 
         <?php if (isset($_SESSION['user'])): ?>
 <!-- Pass cart data to localStorage -->

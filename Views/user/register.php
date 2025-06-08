@@ -104,4 +104,4 @@ $messages = $messages ?? [];
     </div>
 </section>
 
-<script src="<?php echo ASSETS_URL; ?>js/register.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/user/register.js"></script>
