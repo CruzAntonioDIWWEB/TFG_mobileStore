@@ -159,31 +159,6 @@
 
                     @include product-image-style;
 
-                    .stock-badge {
-                        position: absolute;
-                        top: map-get(v.$spacing, sm);
-                        right: map-get(v.$spacing, sm);
-                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
-                        border-radius: map-get(v.$layout, border-radius);
-                        font-size: 0.75rem;
-                        font-weight: map-get(v.$font-weights, semibold);
-                        display: flex;
-                        align-items: center;
-                        gap: 4px;
-                        
-                        background-color: map-get(v.$colors, primary-red);
-                        color: map-get(v.$colors, white);
-
-                        &.out-of-stock {
-                            background-color: map-get(v.$colors, text-secondary);
-                            color: map-get(v.$colors, white);
-                        }
-
-                        i {
-                            font-size: 0.7rem;
-                        }
-                    }
-
                     @include breakpoint(mobile) {
                         height: 200px;
                     }
@@ -354,31 +329,5 @@
                 font-size: 0.9rem;
             }
         }
-    }
-}
-
-/* Alert Messages */
-.alert {
-    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
-    margin-bottom: map-get(v.$spacing, lg);
-    border-radius: map-get(v.$layout, border-radius);
-    font-family: map-get(v.$fonts, secondary);
-    font-weight: map-get(v.$font-weights, medium);
-
-    &.alert-success {
-        background-color: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
-    }
-
-    &.alert-error {
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-        color: #721c24;
-    }
-
-    @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
-        font-size: map-get(v.$font-sizes, small);
     }
 }

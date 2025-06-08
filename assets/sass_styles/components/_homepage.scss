@@ -316,18 +316,6 @@
 
                     @include product-image-style;
 
-                    .stock-badge {
-                        position: absolute;
-                        top: map-get(v.$spacing, xs); // Reduced position
-                        right: map-get(v.$spacing, xs); // Reduced position
-                        background-color: map-get(v.$colors, primary-red);
-                        color: map-get(v.$colors, white);
-                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
-                        font-size: 0.75rem; // Reduced font size
-                        font-weight: map-get(v.$font-weights, semibold);
-                        border-radius: map-get(v.$layout, border-radius);
-                    }
-
                     @include breakpoint(mobile) {
                         height: 180px; // Reduced from 200px
                     }

@@ -81,6 +81,60 @@ h1, h2, h3, h4, h5, h6 {
     color: map-get(v.$colors, dark-gray);
 }
 
+// Global stock badges
+.stock-badge {
+    position: absolute;
+    top: map-get(v.$spacing, sm);
+    right: map-get(v.$spacing, sm);
+    padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+    border-radius: map-get(v.$layout, border-radius);
+    font-size: map-get(v.$font-sizes, xs);
+    font-weight: map-get(v.$font-weights, semibold);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, xs);
+    z-index: 3;
+    box-shadow: map-get(v.$shadows, small);
+
+    &:not(.out-of-stock) {
+        background-color: map-get(v.$colors, primary-red);
+        color: map-get(v.$colors, white);
+    }
+
+    &.out-of-stock {
+        background-color: map-get(v.$colors, text-secondary);
+        color: map-get(v.$colors, white);
+    }
+
+    i {
+        font-size: 0.8em;
+    }
+
+    // Variantes de tamaño
+    &.stock-badge-small {
+        top: map-get(v.$spacing, xs);
+        right: map-get(v.$spacing, xs);
+        padding: 2px map-get(v.$spacing, xs);
+        font-size: 0.7rem;
+        
+        i {
+            font-size: 0.7em;
+        }
+    }
+
+    &.stock-badge-large {
+        top: map-get(v.$spacing, md);
+        right: map-get(v.$spacing, md);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, small);
+    }
+
+    @include breakpoint(mobile) {
+        font-size: 0.75rem;
+        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+    }
+}
+
 // Accessibility - Focus styles
 *:focus-visible {
     outline: 2px solid map-get(v.$colors, primary-red);

@@ -118,49 +118,6 @@
             }
         }
 
-        .stock-badge {
-            position: absolute;
-            top: map-get(v.$spacing, md); // Reduced from lg
-            right: map-get(v.$spacing, md); // Reduced from lg
-            padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm); // Reduced padding
-            border-radius: map-get(v.$layout, border-radius);
-            font-size: map-get(v.$font-sizes, xs); // Reduced font size
-            font-weight: map-get(v.$font-weights, semibold);
-            display: flex;
-            align-items: center;
-            gap: map-get(v.$spacing, xs);
-            box-shadow: map-get(v.$shadows, small);
-            z-index: 2;
-
-            background-color: rgba(map-get(v.$colors, primary-red), 0.9);
-            color: map-get(v.$colors, white);
-
-            &.low-stock {
-                background-color: rgba(255, 165, 0, 0.9);
-                color: map-get(v.$colors, white);
-            }
-
-            &.out-of-stock {
-                background-color: rgba(map-get(v.$colors, dark-gray), 0.9);
-                color: map-get(v.$colors, white);
-            }
-
-            i {
-                font-size: 0.8em;
-            }
-
-            @include breakpoint(tablet) {
-                top: map-get(v.$spacing, sm);
-                right: map-get(v.$spacing, sm);
-            }
-
-            @include breakpoint(mobile) {
-                position: static;
-                margin-top: map-get(v.$spacing, sm); // Reduced margin
-                justify-self: start;
-            }
-        }
-
         @include breakpoint(mobile) {
             aspect-ratio: 4/3;
         }
@@ -475,22 +432,6 @@
 
                         &:hover {
                             transform: scale(1.05);
-                        }
-                    }
-
-                    .related-stock-badge {
-                        position: absolute;
-                        top: map-get(v.$spacing, xs);
-                        right: map-get(v.$spacing, xs);
-                        background-color: map-get(v.$colors, primary-red);
-                        color: map-get(v.$colors, white);
-                        padding: 2px map-get(v.$spacing, xs); // Reduced padding
-                        font-size: 0.7rem; // Reduced font size
-                        font-weight: map-get(v.$font-weights, semibold);
-                        border-radius: map-get(v.$layout, border-radius);
-
-                        &.out-of-stock {
-                            background-color: map-get(v.$colors, text-secondary);
                         }
                     }
 
