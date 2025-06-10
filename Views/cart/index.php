@@ -201,7 +201,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                         <div class="summary-actions">
                             <button class="checkout-btn" onclick="proceedToCheckout()">
                                 <i class="fas fa-credit-card"></i>
-                                Proceder al pago
+                                Finalizar Compra
                             </button>
 
                             <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="continue-shopping-btn">
