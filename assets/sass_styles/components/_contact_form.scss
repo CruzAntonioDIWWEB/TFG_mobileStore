@@ -1,0 +1,274 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* Contact Form Styles */
+.contact-section {
+    background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    @include section-padding;
+    display: flex;
+    align-items: center;
+
+    .contact-container {
+        @include container;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: map-get(v.$spacing, lg);
+    }
+}
+
+.contact-form-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, large);
+    padding: map-get(v.$spacing, lg);
+    width: 100%;
+    max-width: 420px;
+
+    @include breakpoint(tablet) {
+        padding: map-get(v.$spacing, md);
+        max-width: 380px;
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, md);
+        max-width: 100%;
+        margin: 0 map-get(v.$spacing, sm);
+        border-radius: map-get(v.$layout, border-radius);
+    }
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: map-get(v.$spacing, lg);
+
+    .contact-title {
+        @include heading-style('h1');
+        color: map-get(v.$colors, primary-red);
+        margin-bottom: map-get(v.$spacing, xs);
+        font-size: 1.8rem;
+
+        @include breakpoint(mobile) {
+            font-size: 1.5rem;
+        }
+    }
+
+    .contact-subtitle {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+        font-size: map-get(v.$font-sizes, small);
+
+        @include breakpoint(mobile) {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+.contact-form {
+    .form-group {
+        margin-bottom: map-get(v.$spacing, md);
+
+        &:last-of-type {
+            margin-bottom: map-get(v.$spacing, lg);
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            font-family: map-get(v.$fonts, primary);
+            font-weight: map-get(v.$font-weights, medium);
+            color: map-get(v.$colors, text-primary);
+            margin-bottom: 6px;
+            font-size: map-get(v.$font-sizes, small);
+
+            i {
+                color: map-get(v.$colors, primary-red);
+                font-size: 0.8rem;
+            }
+
+            @include breakpoint(mobile) {
+                font-size: 0.85rem;
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid map-get(v.$colors, light-gray);
+            border-radius: map-get(v.$layout, border-radius);
+            font-family: map-get(v.$fonts, secondary);
+            font-size: map-get(v.$font-sizes, small);
+            color: map-get(v.$colors, text-primary);
+            background-color: map-get(v.$colors, white);
+            transition: all map-get(v.$transitions, normal);
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: map-get(v.$colors, text-secondary);
+                opacity: 0.7;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: map-get(v.$colors, primary-red);
+                box-shadow: map-get(v.$shadows, focus-red);
+            }
+
+            &:hover:not(:focus) {
+                border-color: darken(map-get(v.$colors, light-gray), 10%);
+            }
+
+            @include breakpoint(mobile) {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: map-get(v.$fonts, secondary);
+            line-height: 1.4;
+        }
+
+        .form-error {
+            display: block;
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            min-height: 0.8rem;
+            opacity: 0;
+            transition: opacity map-get(v.$transitions, fast);
+
+            &.show {
+                opacity: 1;
+            }
+
+            @include breakpoint(mobile) {
+                font-size: 0.75rem;
+            }
+        }
+    }
+}
+
+.contact-submit-btn {
+    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+    width: 100%;
+    padding: 10px map-get(v.$spacing, md);
+    font-size: map-get(v.$font-sizes, small);
+    font-weight: map-get(v.$font-weights, semibold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+
+    i {
+        font-size: 0.9rem;
+    }
+
+    &:hover {
+        background-color: darken(map-get(v.$colors, primary-red), 10%);
+        transform: translateY(-2px);
+    }
+
+    @include breakpoint(mobile) {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+.contact-info-section {
+    width: 100%;
+    max-width: 480px;
+
+    @include breakpoint(tablet) {
+        max-width: 420px;
+    }
+
+    @include breakpoint(mobile) {
+        max-width: 100%;
+        margin: 0 map-get(v.$spacing, md);
+    }
+
+    .contact-methods {
+        display: flex;
+        justify-content: center;
+        gap: map-get(v.$spacing, xl);
+
+        @include breakpoint(mobile) {
+            flex-direction: column;
+            gap: map-get(v.$spacing, md);
+            text-align: center;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            @include breakpoint(mobile) {
+                justify-content: center;
+            }
+
+            .contact-method-icon {
+                flex-shrink: 0;
+                width: 32px;
+                height: 32px;
+                background-color: map-get(v.$colors, primary-red);
+                color: map-get(v.$colors, white);
+                border-radius: 50%;
+                @include flex-center;
+
+                i {
+                    font-size: 0.85rem;
+                }
+
+                @include breakpoint(mobile) {
+                    width: 28px;
+                    height: 28px;
+
+                    i {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+
+            .contact-method-text {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+
+                strong {
+                    font-family: map-get(v.$fonts, primary);
+                    font-weight: map-get(v.$font-weights, semibold);
+                    color: map-get(v.$colors, text-primary);
+                    font-size: map-get(v.$font-sizes, small);
+                }
+
+                span {
+                    @include body-text('small');
+                    color: map-get(v.$colors, text-secondary);
+                    font-size: 0.9rem;
+                }
+
+                @include breakpoint(mobile) {
+                    strong, span {
+                        font-size: 0.85rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include breakpoint(mobile) {
+    .contact-section {
+        padding: map-get(v.$spacing, section-mobile) 0;
+    }
+}
