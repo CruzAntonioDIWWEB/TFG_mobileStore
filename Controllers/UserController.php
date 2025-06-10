@@ -313,6 +313,18 @@ public function registrationSuccess(){
     }
 
     /**
+     * Display user's order history
+     * Add this method to your existing UserController.php
+     */
+    public function historialPedidos(){
+        // Check if user is logged in (this method should already exist in BaseController)
+        $this->requireLogin();
+        
+        // Load the view (uses project's layout system with header/footer)
+        $this->loadView('user/historial_pedidos');
+    }
+
+    /**
      * Delete user (admin only)
      */
     public function deleteUser(){
