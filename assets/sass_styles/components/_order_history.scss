@@ -1,0 +1,391 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Order History Page Styles           */
+/* =================================== */
+
+.order-history-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, xl) 0;
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg) 0;
+    }
+
+    .order-history-container {
+        @include container;
+        max-width: 1100px;
+    }
+}
+
+/* Header Section */
+.order-history-header {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+    margin-bottom: map-get(v.$spacing, xl);
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, lg);
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: map-get(v.$spacing, lg);
+
+        @include breakpoint(tablet) {
+            flex-direction: column;
+            text-align: center;
+            gap: map-get(v.$spacing, md);
+        }
+    }
+
+    .title-section {
+        .order-history-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xs);
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, sm);
+            font-size: map-get(v.$font-sizes, h2);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h3);
+                justify-content: center;
+            }
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+
+        .order-history-subtitle {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+            font-size: map-get(v.$font-sizes, small);
+        }
+    }
+
+    .header-actions {
+        .back-btn {
+            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+            @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+            font-size: map-get(v.$font-sizes, small);
+            white-space: nowrap;
+
+            @include breakpoint(mobile) {
+                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                font-size: map-get(v.$font-sizes, xs);
+            }
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+    }
+}
+
+/* Orders Content */
+.orders-content {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    overflow: hidden;
+}
+
+/* Loading State */
+.loading-state {
+    padding: map-get(v.$spacing, xxl);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: map-get(v.$spacing, md);
+
+    .loading-spinner i {
+        font-size: 2rem;
+        color: map-get(v.$colors, primary-red);
+    }
+
+    p {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+        margin: 0;
+    }
+}
+
+/* Empty State */
+.empty-state {
+    padding: map-get(v.$spacing, xxl);
+    text-align: center;
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xl);
+    }
+
+    .empty-icon i {
+        font-size: 4rem;
+        color: map-get(v.$colors, light-gray);
+        margin-bottom: map-get(v.$spacing, lg);
+    }
+
+    h3 {
+        @include heading-style('h3');
+        color: map-get(v.$colors, text-primary);
+        margin-bottom: map-get(v.$spacing, sm);
+    }
+
+    p {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+        margin-bottom: map-get(v.$spacing, xl);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .shop-btn {
+        @include btn.button-style();
+        display: inline-flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+
+        i {
+            font-size: 0.9em;
+        }
+    }
+}
+
+/* Error State */
+.error-state {
+    padding: map-get(v.$spacing, xxl);
+    text-align: center;
+
+    .error-icon i {
+        font-size: 3rem;
+        color: #dc3545;
+        margin-bottom: map-get(v.$spacing, lg);
+    }
+
+    h3 {
+        @include heading-style('h3');
+        color: map-get(v.$colors, text-primary);
+        margin-bottom: map-get(v.$spacing, sm);
+    }
+
+    p {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+        margin-bottom: map-get(v.$spacing, xl);
+    }
+
+    .retry-btn {
+        @include btn.button-style();
+        display: inline-flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+        border: none;
+        cursor: pointer;
+
+        i {
+            font-size: 0.9em;
+        }
+    }
+}
+
+/* Orders Table */
+.orders-table-wrapper {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: map-get(v.$fonts, secondary);
+
+        thead {
+            background-color: map-get(v.$colors, bg-light-gray);
+
+            th {
+                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                text-align: left;
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, text-primary);
+                font-size: map-get(v.$font-sizes, small);
+                border-bottom: 2px solid map-get(v.$colors, light-gray);
+
+                @include breakpoint(mobile) {
+                    padding: map-get(v.$spacing, sm);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+        }
+
+        tbody {
+            .order-row {
+                border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+                transition: background-color map-get(v.$transitions, fast);
+
+                &:hover {
+                    background-color: rgba(map-get(v.$colors, bg-light-gray), 0.3);
+                }
+
+                td {
+                    padding: map-get(v.$spacing, lg);
+                    vertical-align: middle;
+
+                    @include breakpoint(mobile) {
+                        padding: map-get(v.$spacing, md) map-get(v.$spacing, sm);
+                    }
+                }
+            }
+        }
+
+        // Column specific styles
+        .order-id {
+            .order-number {
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, primary-red);
+                font-size: map-get(v.$font-sizes, small);
+            }
+        }
+
+        .order-location {
+            .location-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .province {
+                    font-weight: map-get(v.$font-weights, medium);
+                    color: map-get(v.$colors, text-primary);
+                    font-size: map-get(v.$font-sizes, small);
+                }
+
+                .locality {
+                    color: map-get(v.$colors, text-secondary);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+        }
+
+        .order-address {
+            .address-text {
+                font-size: map-get(v.$font-sizes, small);
+                color: map-get(v.$colors, text-secondary);
+                max-width: 200px;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                @include breakpoint(mobile) {
+                    max-width: 120px;
+                }
+            }
+        }
+
+        .order-cost {
+            .cost-amount {
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, text-primary);
+                font-size: map-get(v.$font-sizes, regular);
+            }
+        }
+
+        .order-status {
+            .status-badge {
+                padding: 4px 12px;
+                border-radius: 15px;
+                font-size: map-get(v.$font-sizes, xs);
+                font-weight: map-get(v.$font-weights, medium);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+
+                &.status-pending {
+                    background-color: #fff3cd;
+                    color: #856404;
+                }
+
+                &.status-paid {
+                    background-color: #cff4fc;
+                    color: #055160;
+                }
+
+                &.status-shipped {
+                    background-color: #cfe2ff;
+                    color: #084298;
+                }
+
+                &.status-delivered {
+                    background-color: #d1e7dd;
+                    color: #0f5132;
+                }
+
+                &.status-canceled {
+                    background-color: #f8d7da;
+                    color: #721c24;
+                }
+
+                &.status-default {
+                    background-color: map-get(v.$colors, light-gray);
+                    color: map-get(v.$colors, text-secondary);
+                }
+            }
+        }
+
+        .order-date {
+            .date-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .date {
+                    font-size: map-get(v.$font-sizes, small);
+                    color: map-get(v.$colors, text-primary);
+                    font-weight: map-get(v.$font-weights, medium);
+                }
+
+                .time {
+                    font-size: map-get(v.$font-sizes, xs);
+                    color: map-get(v.$colors, text-secondary);
+                }
+            }
+        }
+    }
+}
+
+/* Mobile Table Adjustments */
+@include breakpoint(mobile) {
+    .orders-table {
+        font-size: map-get(v.$font-sizes, xs);
+
+        thead th {
+            &:nth-child(3) { // Address column
+                display: none;
+            }
+        }
+
+        tbody td {
+            &:nth-child(3) { // Address column
+                display: none;
+            }
+        }
+    }
+}

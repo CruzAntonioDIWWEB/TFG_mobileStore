@@ -3,6 +3,30 @@
 // ========================================
 
 /**
+ * Parse European price format correctly
+ * This produces: "59,99 €" which should become 59.99
+ */
+function parseEuropeanPrice(priceText) {
+    // Remove whitespace and currency symbols
+    priceText = priceText.replace(/\s/g, '').replace(/[€$]/g, '');
+    
+    // Handle European format: 59,99 or 1.299,99
+    if (/,\d{2}$/.test(priceText)) {
+        // Has comma with 2 digits at end = European decimal
+        const parts = priceText.split(',');
+        if (parts.length === 2 && parts[1].length === 2) {
+            let wholePart = parts[0].replace(/\./g, ''); // Remove thousands dots
+            let decimalPart = parts[1];
+            return parseFloat(wholePart + '.' + decimalPart) || 0;
+        }
+    }
+    
+    // Fallback: remove commas and parse
+    return parseFloat(priceText.replace(/,/g, '')) || 0;
+}
+
+
+/**
  * Store cart data in localStorage
  * @param {Array} cartItems - Array of cart items with product info
  * @param {number} totalItems - Total number of items
@@ -101,27 +125,38 @@ function autoSyncCartFromPage() {
         const itemElements = document.querySelectorAll('.cart-item');
         
         itemElements.forEach(item => {
-            const nameElement = item.querySelector('.product-name');
-            const priceElement = item.querySelector('.product-price');
-            const quantityElement = item.querySelector('.quantity-input');
+            const nameElement = item.querySelector('.product-name, .item-name, [class*="name"]');
+            const priceElement = item.querySelector('.product-price, .item-price, [class*="price"]');
+            const quantityElement = item.querySelector('.quantity-input, input[type="number"]');
             
             if (nameElement && priceElement && quantityElement) {
+                // Get price text and parse correctly
+                let priceText = priceElement.textContent.trim();
+                const price = parseEuropeanPrice(priceText);
+                const quantity = parseInt(quantityElement.value) || 0;
+                
+                // Debug: log the conversion
+                console.log(`Price conversion: "${priceText}" → ${price}`);
+                
                 cartItems.push({
                     product_name: nameElement.textContent.trim(),
-                    price: priceElement.textContent.replace('€', '').trim(),
-                    quantity: parseInt(quantityElement.value) || 0
+                    name: nameElement.textContent.trim(),
+                    price: price,
+                    quantity: quantity
                 });
             }
         });
         
-        // Get totals from page
-        const totalElement = document.querySelector('.summary-value.total');
-        const totalText = totalElement ? totalElement.textContent.trim() : '€0.00';
-        const totalCost = parseFloat(totalText.replace('€', '').replace(',', '.')) || 0;
+        // Calculate totals properly
+        const totalCost = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        const formattedTotal = `€${totalCost.toFixed(2)}`;
         
-        // Store in localStorage
-        storeCartData(cartItems, totalItems, totalCost, totalText);
+        // Debug: log the final totals
+        console.log('Cart sync - Items:', cartItems.length, 'Total cost:', totalCost);
+        
+        // Store in localStorage using existing function
+        storeCartData(cartItems, totalItems, totalCost, formattedTotal);
     }
 }
 

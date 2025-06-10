@@ -157,19 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         form.submit();
     }
     
-    /**
-     * Proceed to checkout
-     */
-    window.proceedToCheckout = function() {
-        // Check if user is logged in (this should be handled by PHP, but we can add client-side feedback)
-        showToast('Redirigiendo al proceso de pago...', 'info');
-        
-        // Redirect to checkout page (to be implemented)
-        setTimeout(() => {
-            window.location.href = 'index.php?controller=order&action=checkout';
-        }, 1000);
-    };
-    
     // ========================================
     // UTILITY FUNCTIONS
     // ========================================
@@ -354,3 +341,68 @@ function updateCartSummary(data) {
         });
     }
 }
+
+/**
+ * Proceed to checkout
+ */
+window.proceedToCheckout = function() {
+    // Get cart data from localStorage, or sync from page if not found
+    let cartData = getCartFromLocalStorage();
+    
+    if (!cartData || !cartData.items || cartData.items.length === 0) {
+        // Force sync from page
+        if (window.cartStorage && window.cartStorage.autoSync) {
+            window.cartStorage.autoSync();
+            cartData = getCartFromLocalStorage();
+        }
+    }
+    
+    // Check if cart has items
+    if (!cartData || !cartData.items || cartData.items.length === 0) {
+        alert('Tu carrito está vacío. Agrega productos antes de continuar.');
+        return;
+    }
+    
+    // Redirect to checkout page
+    window.location.href = 'index.php?controller=checkout&action=index';
+};
+
+/**
+ * Get cart data from localStorage
+ */
+function getCartFromLocalStorage() {
+    try {
+        const cartData = localStorage.getItem('mobilestore_cart');
+        return cartData ? JSON.parse(cartData) : null;
+    } catch (error) {
+        console.error('Error getting cart data:', error);
+        return null;
+    }
+}
+
+/**
+ * Get user data from localStorage
+ */
+function getUserFromLocalStorage() {
+    try {
+        const userData = localStorage.getItem('mobilestore_user');
+        return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+        console.error('Error getting user data:', error);
+        return null;
+    }
+}
+
+// Make sure the checkout button in cart works
+document.addEventListener('DOMContentLoaded', function() {
+    // Find checkout button and add event listener if it doesn't have onclick
+    const checkoutBtns = document.querySelectorAll('.checkout-btn, .btn-checkout');
+    checkoutBtns.forEach(btn => {
+        if (!btn.onclick) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                proceedToCheckout();
+            });
+        }
+    });
+});

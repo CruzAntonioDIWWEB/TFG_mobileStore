@@ -49,15 +49,24 @@ if (session_status() === PHP_SESSION_NONE) {
                     </li>
 
                     <!-- Mobile User Actions (only visible in mobile menu) -->
-                    <div class="mobile-user-actions">
+                <div class="mobile-user-actions">
                         <?php if (isset($_SESSION['user'])): ?>
-                            <!-- User is logged in - Show settings and cart -->
+                            <!-- User is logged in - Show settings, order history, and cart -->
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-link mobile-user-link">
                                     <i class="fas fa-user"></i>
                                     Mi Perfil
                                 </a>
                             </li>
+                            
+                            <!-- NEW: Order History Link for Mobile -->
+                            <li class="nav-item mobile-user-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-link mobile-user-link">
+                                    <i class="fas fa-history"></i>
+                                    Mis Pedidos
+                                </a>
+                            </li>
+                            
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-link mobile-user-link">
                                     <i class="fas fa-shopping-cart"></i>
@@ -88,10 +97,16 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- Desktop User Actions -->
                 <div class="nav-actions">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <!-- User is logged in - Show settings and cart -->
+                        <!-- User is logged in - Show settings, order history, and cart -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-icon" title="Mi Perfil">
                             <i class="fas fa-user"></i>
-                        </a> <!-- TODO: CUANDO SE CIERRE SESION QUE EL CARRITO SE GUARDE -->
+                        </a>
+                        
+                        <!-- NEW: Order History Link -->
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-icon" title="Historial de Pedidos">
+                            <i class="fas fa-history"></i>
+                        </a>
+                        
                         <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-icon cart-icon" title="Carrito">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="cart-count" <?php if (!isset($_SESSION['cart_count']) || $_SESSION['cart_count'] == 0): ?>style="display: none;" <?php endif; ?>>

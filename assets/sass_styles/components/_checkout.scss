@@ -1,0 +1,534 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Checkout Page Styles               */
+/* =================================== */
+
+.checkout-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, xl) 0;
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg) 0;
+    }
+
+    .checkout-container {
+        @include container;
+        max-width: 900px;
+    }
+}
+
+/* Header Section */
+.checkout-header {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+    margin-bottom: map-get(v.$spacing, xl);
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: map-get(v.$spacing, lg);
+
+        @include breakpoint(tablet) {
+            flex-direction: column;
+            text-align: center;
+            gap: map-get(v.$spacing, md);
+        }
+    }
+
+    .title-section {
+        .checkout-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xs);
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, sm);
+            font-size: map-get(v.$font-sizes, h2);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, h3);
+                justify-content: center;
+            }
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+
+        .checkout-subtitle {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+            font-size: map-get(v.$font-sizes, small);
+        }
+    }
+
+    .back-btn {
+        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+        @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+        font-size: map-get(v.$font-sizes, small);
+        white-space: nowrap;
+
+        i {
+            font-size: 0.9em;
+        }
+    }
+}
+
+/* Checkout Content */
+.checkout-content {
+    display: flex;
+    flex-direction: column;
+    gap: map-get(v.$spacing, xl);
+}
+
+/* Section Titles */
+.section-title {
+    @include heading-style('h3');
+    color: map-get(v.$colors, text-primary);
+    margin-bottom: map-get(v.$spacing, lg);
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, sm);
+    border-bottom: 2px solid map-get(v.$colors, light-gray);
+    padding-bottom: map-get(v.$spacing, sm);
+
+    i {
+        color: map-get(v.$colors, primary-red);
+        font-size: 0.9em;
+    }
+}
+
+/* Cart Summary Section */
+.cart-summary-section {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+
+    .loading-cart {
+        text-align: center;
+        padding: map-get(v.$spacing, xl);
+        color: map-get(v.$colors, text-secondary);
+
+        i {
+            font-size: 1.5rem;
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, sm);
+        }
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: map-get(v.$spacing, xl);
+
+        i {
+            font-size: 3rem;
+            color: map-get(v.$colors, light-gray);
+            margin-bottom: map-get(v.$spacing, lg);
+        }
+
+        p {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin-bottom: map-get(v.$spacing, lg);
+        }
+
+        .shop-btn {
+            @include btn.button-style();
+            display: inline-flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+        }
+    }
+
+    .summary-items {
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: map-get(v.$spacing, md) 0;
+            border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .item-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .item-name {
+                    font-weight: map-get(v.$font-weights, medium);
+                    color: map-get(v.$colors, text-primary);
+                }
+
+                .item-quantity {
+                    font-size: map-get(v.$font-sizes, small);
+                    color: map-get(v.$colors, text-secondary);
+                }
+            }
+
+            .item-total {
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, primary-red);
+            }
+        }
+    }
+
+    .summary-divider {
+        height: 2px;
+        background-color: map-get(v.$colors, light-gray);
+        margin: map-get(v.$spacing, lg) 0;
+    }
+
+    .summary-total {
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .total-label {
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, text-primary);
+                font-size: map-get(v.$font-sizes, regular);
+            }
+
+            .total-amount {
+                font-weight: map-get(v.$font-weights, bold);
+                color: map-get(v.$colors, primary-red);
+                font-size: map-get(v.$font-sizes, large);
+            }
+        }
+    }
+}
+
+/* Shipping Section */
+.shipping-section {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+
+    .shipping-form {
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: map-get(v.$spacing, lg);
+
+            @include breakpoint(mobile) {
+                grid-template-columns: 1fr;
+                gap: map-get(v.$spacing, md);
+            }
+        }
+
+        .form-group {
+            margin-bottom: map-get(v.$spacing, lg);
+
+            label {
+                display: block;
+                font-weight: map-get(v.$font-weights, medium);
+                color: map-get(v.$colors, text-primary);
+                margin-bottom: map-get(v.$spacing, xs);
+                font-size: map-get(v.$font-sizes, small);
+            }
+
+            input {
+                width: 100%;
+                padding: map-get(v.$spacing, md);
+                border: 2px solid map-get(v.$colors, light-gray);
+                border-radius: map-get(v.$layout, border-radius);
+                font-family: map-get(v.$fonts, secondary);
+                font-size: map-get(v.$font-sizes, regular);
+                transition: border-color map-get(v.$transitions, normal);
+
+                &:focus {
+                    outline: none;
+                    border-color: map-get(v.$colors, primary-red);
+                    box-shadow: map-get(v.$shadows, focus-red);
+                }
+
+                &:invalid {
+                    border-color: #dc3545;
+                }
+
+                &::placeholder {
+                    color: map-get(v.$colors, text-secondary);
+                }
+            }
+        }
+    }
+}
+
+/* Payment Section */
+.payment-section {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+
+    .payment-content {
+        .payment-info {
+            background-color: rgba(map-get(v.$colors, primary-red), 0.05);
+            border: 1px solid rgba(map-get(v.$colors, primary-red), 0.2);
+            border-radius: map-get(v.$layout, border-radius);
+            padding: map-get(v.$spacing, lg);
+            margin-bottom: map-get(v.$spacing, xl);
+
+            p {
+                margin: 0 0 map-get(v.$spacing, xs) 0;
+                font-weight: map-get(v.$font-weights, medium);
+                color: map-get(v.$colors, text-primary);
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, sm);
+
+                i {
+                    color: #0070ba; // PayPal blue
+                    font-size: 1.2em;
+                }
+            }
+
+            small {
+                color: map-get(v.$colors, text-secondary);
+                font-size: map-get(v.$font-sizes, xs);
+            }
+        }
+
+        #paypal-button-container {
+            min-height: 45px;
+            
+            .no-cart-message {
+                text-align: center;
+                color: map-get(v.$colors, text-secondary);
+                font-style: italic;
+                padding: map-get(v.$spacing, lg);
+            }
+        }
+
+        .payment-loading {
+            text-align: center;
+            padding: map-get(v.$spacing, xl);
+            color: map-get(v.$colors, text-secondary);
+
+            i {
+                font-size: 1.5rem;
+                color: map-get(v.$colors, primary-red);
+                margin-bottom: map-get(v.$spacing, sm);
+            }
+        }
+    }
+}
+
+/* =================================== */
+/* Order Success Page Styles          */
+/* =================================== */
+
+.order-success-section {
+    background-color: map-get(v.$colors, bg-light-gray);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, xl) 0;
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, lg) 0;
+    }
+
+    .success-container {
+        @include container;
+        max-width: 800px;
+    }
+}
+
+.success-content {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xxl);
+    text-align: center;
+    margin-bottom: map-get(v.$spacing, xl);
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xl);
+    }
+
+    .success-icon {
+        margin-bottom: map-get(v.$spacing, xl);
+
+        i {
+            font-size: 5rem;
+            color: #28a745; // Success green
+        }
+    }
+
+    .success-title {
+        @include heading-style('h1');
+        color: map-get(v.$colors, text-primary);
+        margin-bottom: map-get(v.$spacing, xl);
+        font-size: map-get(v.$font-sizes, h2);
+
+        @include breakpoint(mobile) {
+            font-size: map-get(v.$font-sizes, h3);
+        }
+    }
+
+    .success-details {
+        margin-bottom: map-get(v.$spacing, xxl);
+
+        .order-number {
+            background-color: rgba(map-get(v.$colors, primary-red), 0.1);
+            border: 1px solid rgba(map-get(v.$colors, primary-red), 0.3);
+            border-radius: map-get(v.$layout, border-radius);
+            padding: map-get(v.$spacing, md);
+            margin-bottom: map-get(v.$spacing, lg);
+            font-size: map-get(v.$font-sizes, large);
+
+            strong {
+                color: map-get(v.$colors, primary-red);
+            }
+        }
+
+        .success-message {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin-bottom: map-get(v.$spacing, xl);
+            line-height: 1.6;
+        }
+
+        .next-steps {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+
+            h3 {
+                @include heading-style('h3');
+                color: map-get(v.$colors, text-primary);
+                margin-bottom: map-get(v.$spacing, lg);
+                text-align: center;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    gap: map-get(v.$spacing, md);
+                    padding: map-get(v.$spacing, sm) 0;
+                    color: map-get(v.$colors, text-secondary);
+
+                    i {
+                        color: map-get(v.$colors, primary-red);
+                        width: 20px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+
+    .success-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: map-get(v.$spacing, md);
+        justify-content: center;
+
+        @include breakpoint(mobile) {
+            flex-direction: column;
+        }
+
+        .action-btn {
+            @include btn.button-style();
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+            text-decoration: none;
+            transition: all map-get(v.$transitions, normal);
+
+            &.primary {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            &.secondary {
+                @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            }
+
+            i {
+                font-size: 0.9em;
+            }
+
+            @include breakpoint(mobile) {
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.contact-info {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, small);
+    padding: map-get(v.$spacing, xl);
+    text-align: center;
+
+    h3 {
+        @include heading-style('h3');
+        color: map-get(v.$colors, text-primary);
+        margin-bottom: map-get(v.$spacing, md);
+    }
+
+    p {
+        @include body-text();
+        color: map-get(v.$colors, text-secondary);
+        margin-bottom: map-get(v.$spacing, lg);
+    }
+
+    .contact-methods {
+        .contact-link {
+            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+            @include button-hover-fill(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            display: inline-flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+            text-decoration: none;
+
+            i {
+                font-size: 0.9em;
+            }
+        }
+    }
+}
+
+/* Mobile Responsive Adjustments */
+@include breakpoint(mobile) {
+    .checkout-content {
+        gap: map-get(v.$spacing, lg);
+    }
+
+    .cart-summary-section,
+    .shipping-section,
+    .payment-section {
+        padding: map-get(v.$spacing, lg);
+    }
+
+    .section-title {
+        font-size: map-get(v.$font-sizes, h3);
+        margin-bottom: map-get(v.$spacing, md);
+    }
+}
