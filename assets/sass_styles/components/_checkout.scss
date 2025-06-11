@@ -626,6 +626,29 @@
     }
 }
 
+.form-validation-message {
+    background-color: rgba(map-get(v.$colors, text-secondary), 0.1);
+    border: 1px solid map-get(v.$colors, light-gray);
+    border-radius: map-get(v.$layout, border-radius);
+    padding: map-get(v.$spacing, lg);
+    text-align: center;
+    margin: map-get(v.$spacing, md) 0;
+
+    i {
+        color: map-get(v.$colors, text-secondary);
+        font-size: 1.2rem;
+        margin-bottom: map-get(v.$spacing, sm);
+        display: block;
+    }
+
+    p {
+        @include body-text('small');
+        color: map-get(v.$colors, text-secondary);
+        margin: 0;
+        font-style: italic;
+    }
+}
+
 /* Mobile Responsive Adjustments */
 @include breakpoint(mobile) {
     .checkout-content {

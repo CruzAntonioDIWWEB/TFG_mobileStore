@@ -95,7 +95,7 @@ class ContactController extends BaseController
     {
         // *** CHANGE THESE EMAIL ADDRESSES FOR YOUR PROJECT ***
         $toEmail = 'acg.purullena@gmail.com';          
-        $fromEmail = 'cruchiniptoamo@gmail.com';       // ← Your domain email
+        $fromEmail = 'cruchiniptoamo@gmail.com';
         
         $subject = 'Nuevo mensaje de contacto - ' . $name;
         
@@ -119,7 +119,7 @@ Para responder, simplemente contesta a este email.
         ";
         
         $headers = [
-            'From: TelefoniaPlus <' . $fromEmail . '>',
+            'From: Crusertel <' . $fromEmail . '>',
             'Reply-To: ' . $email,
             'X-Mailer: PHP/' . phpversion(),
             'Content-Type: text/plain; charset=UTF-8',

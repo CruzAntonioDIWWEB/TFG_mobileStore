@@ -108,7 +108,16 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 // Checkout functionality
 document.addEventListener('DOMContentLoaded', function() {
     loadCartSummary();
-    initializePayPal();
+    
+    // Initial check for PayPal button visibility
+    updatePayPalButtonVisibility();
+    
+    // Add event listeners to shipping form inputs
+    const shippingInputs = document.querySelectorAll('#shippingForm input');
+    shippingInputs.forEach(input => {
+        input.addEventListener('input', updatePayPalButtonVisibility);
+        input.addEventListener('blur', updatePayPalButtonVisibility);
+    });
 });
 
 /**
@@ -204,9 +213,52 @@ function validateShippingForm() {
 }
 
 /**
- * Initialize PayPal button
+ * Check if shipping form is valid (without alerts)
+ */
+function isShippingFormValid() {
+    const shipping = getShippingFormData();
+    return shipping.province && shipping.locality && shipping.address && shipping.address.length >= 10;
+}
+
+/**
+ * Update PayPal button visibility based on form validation
+ */
+function updatePayPalButtonVisibility() {
+    const paypalContainer = document.getElementById('paypal-button-container');
+    
+    if (isShippingFormValid()) {
+        // Show PayPal button if form is valid
+        paypalContainer.style.display = 'block';
+        if (!paypalContainer.hasAttribute('data-paypal-initialized')) {
+            initializePayPal();
+            paypalContainer.setAttribute('data-paypal-initialized', 'true');
+        }
+    } else {
+        // Hide PayPal button and show message if form is invalid
+        paypalContainer.innerHTML = `
+            <div class="form-validation-message">
+                <i class="fas fa-info-circle"></i>
+                <p>Completa todos los campos de envío para continuar con el pago</p>
+            </div>
+        `;
+        paypalContainer.style.display = 'block';
+    }
+}
+
+/**
+ * Initialize PayPal button (only called when form is valid)
  */
 function initializePayPal() {
+    const cartData = getCartFromLocalStorage();
+    
+    if (!cartData || !cartData.items || cartData.items.length === 0) {
+        document.getElementById('paypal-button-container').innerHTML = 
+            '<p class="no-cart-message">Agrega productos al carrito para continuar</p>';
+        return;
+    }
+
+    // Clear any existing content first
+    document.getElementById('paypal-button-container').innerHTML = '';
 
     paypal.Buttons({
         style: {
@@ -217,115 +269,124 @@ function initializePayPal() {
         },
         
         createOrder: function(data, actions) {
-            // Validate shipping form before creating order
-            const carritoProductos = JSON.parse(localStorage.getItem('mobilestore_cart')) || [];
+            // Double-check validation (safety net)
+            if (!validateShippingForm()) {
+                return Promise.reject(new Error('Shipping form validation failed'));
+            }
             
+            const cartData = getCartFromLocalStorage();
+            if (!cartData || cartData.totalCost <= 0) {
+                return Promise.reject(new Error('Invalid cart data'));
+            }
 
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: carritoProductos.totalCost.toFixed(2),
+                        value: cartData.totalCost.toFixed(2),
                         currency_code: 'EUR',
                         breakdown: {
                             item_total: {
-                                value: carritoProductos.totalCost.toFixed(2),
+                                value: cartData.totalCost.toFixed(2),
                                 currency_code: 'EUR'
-                            },
-                        },
+                            }
+                        }
                     },
-                    items: carritoProductos.items.map(producto => ({
-                            name: producto.product_name,
-                            unit_amount: {
-                                value: producto.price.toFixed(2),
-                                currency_code: 'EUR'
-                            },
-                            quantity: producto.quantity.toString()
-                        }))
+                    items: cartData.items.map(item => ({
+                        name: item.product_name || item.name || 'Producto',
+                        unit_amount: {
+                            value: parseFloat(item.price).toFixed(2),
+                            currency_code: 'EUR'
+                        },
+                        quantity: item.quantity.toString()
+                    }))
                 }]
             });
         },
         
-onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-        console.log(details);
-        
-        // 1. Clear cart from localStorage
-        localStorage.removeItem('mobilestore_cart');
-        
-        // 2. Clear cart from database via AJAX
-        fetch(`${BASE_URL}index.php?controller=cart&action=clearCart`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'clear_cart=1'
-        }).then(response => {
-            console.log('Database cart cleared');
-        }).catch(error => {
-            console.error('Error clearing database cart:', error);
-        });
-        
-        // 3. Update cart count in header if cartStorage exists
-        if (window.cartStorage) {
-            window.cartStorage.updateCount(0);
-        }
-        
-        // 4. Update cart count badges immediately
-        const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
-        cartCounts.forEach(element => {
-            element.style.display = 'none';
-            element.textContent = '0';
-        });
-        
-        // 5. Replace checkout section with styled success message
-        document.querySelector('.checkout-section').innerHTML = `
-            <section class="order-success-section">
-                <div class="success-container">
-                    <div class="success-content">
-                        <div class="success-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        
-                        <h1 class="success-title">¡Pago realizado con éxito!</h1>
-                        
-                        <div class="success-message">
-                            <p>Hola <strong>${details.payer.name.given_name}</strong>, tu pedido ha sido procesado correctamente.</p>
-                            <p>En breve recibirás un email de confirmación con todos los detalles.</p>
-                            
-                            <div class="next-steps">
-                                <h3>¿Qué sigue ahora?</h3>
-                                <ul>
-                                    <li><i class="fas fa-envelope"></i> Recibirás un email de confirmación</li>
-                                    <li><i class="fas fa-box"></i> Prepararemos tu pedido para el envío</li>
-                                    <li><i class="fas fa-truck"></i> Te notificaremos cuando esté en camino</li>
-                                    <li><i class="fas fa-home"></i> Recibirás tu pedido en la dirección indicada</li>
-                                </ul>
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                console.log(details);
+                
+                // Clear cart from localStorage
+                localStorage.removeItem('mobilestore_cart');
+                
+                // Clear cart from database via AJAX
+                fetch(`${BASE_URL}index.php?controller=cart&action=clearCart`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'clear_cart=1'
+                }).then(response => {
+                    console.log('Database cart cleared');
+                }).catch(error => {
+                    console.error('Error clearing database cart:', error);
+                });
+                
+                // Send order confirmation email via Formspree
+                sendOrderConfirmationEmail(details);
+                
+                // Update cart count in header if cartStorage exists
+                if (window.cartStorage) {
+                    window.cartStorage.updateCount(0);
+                }
+                
+                // Update cart count badges immediately
+                const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
+                cartCounts.forEach(element => {
+                    element.style.display = 'none';
+                    element.textContent = '0';
+                });
+                
+                // Replace checkout section with styled success message
+                document.querySelector('.checkout-section').innerHTML = `
+                    <section class="order-success-section">
+                        <div class="success-container">
+                            <div class="success-content">
+                                <div class="success-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                
+                                <h1 class="success-title">¡Pago realizado con éxito!</h1>
+                                
+                                <div class="success-message">
+                                    <p>Tu pedido ha sido procesado correctamente.</p>
+                                    <p>En breve recibirás un email de confirmación con todos los detalles.</p>
+                                    
+                                    <div class="next-steps">
+                                        <h3>¿Qué sigue ahora?</h3>
+                                        <ul>
+                                            <li><i class="fas fa-envelope"></i> Recibirás un email de confirmación</li>
+                                            <li><i class="fas fa-box"></i> Prepararemos tu pedido para el envío</li>
+                                            <li><i class="fas fa-truck"></i> Te notificaremos cuando esté en camino</li>
+                                            <li><i class="fas fa-home"></i> Recibirás tu pedido en la dirección indicada</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="success-actions">
+                                    <a href="${BASE_URL}index.php?controller=home&action=index" class="action-btn primary">
+                                        <i class="fas fa-home"></i>
+                                        Volver al Inicio
+                                    </a>
+                                    
+                                    <a href="${BASE_URL}index.php?controller=product&action=phones" class="action-btn secondary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        Seguir Comprando
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="success-actions">
-                            <a href="${BASE_URL}index.php?controller=home&action=index" class="action-btn primary">
-                                <i class="fas fa-home"></i>
-                                Volver al Inicio
-                            </a>
-                            
-                            <a href="${BASE_URL}index.php?controller=product&action=phones" class="action-btn secondary">
-                                <i class="fas fa-shopping-cart"></i>
-                                Seguir Comprando
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        `;
+                    </section>
+                `;
 
-        // 6. Scroll to the top of the page smoothly
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-},
+                // Scroll to the top of the page smoothly
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        },
         
         onCancel: function(data) {
             console.log('Payment cancelled:', data);
@@ -340,6 +401,120 @@ onApprove: function(data, actions) {
     }).render('#paypal-button-container');
 }
 
+/**
+ * Send order confirmation email via Formspree
+ */
+function sendOrderConfirmationEmail(paypalDetails) {
+    // Get user email from localStorage or session
+    const userData = getUserFromLocalStorage();
+    const userEmail = userData ? userData.email : null;
+    
+    if (!userEmail) {
+        console.error('No user email found for order confirmation');
+        return;
+    }
+    
+    // Get cart data and shipping info
+    const cartData = getCartFromLocalStorage();
+    const shippingInfo = getShippingFormData();
+    
+    // Prepare email content
+    const orderSummary = generateOrderSummary(cartData, shippingInfo, paypalDetails);
+    
+    // Send email via Formspree
+    const formspreeUrl = 'https://formspree.io/f/xpwrdpkz'; 
+    
+    const emailData = {
+        email: userEmail,
+        _replyto: userEmail,
+        _subject: `Confirmación de Pedido - TelefoniaPlus - ${paypalDetails.id}`,
+        message: orderSummary,
+        order_id: paypalDetails.id,
+        order_total: paypalDetails.purchase_units[0].amount.value,
+        customer_name: paypalDetails.payer.name.given_name + ' ' + paypalDetails.payer.name.surname
+    };
+    
+    fetch(formspreeUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('✅ Order confirmation email sent successfully');
+        } else {
+            console.error('❌ Failed to send order confirmation email');
+        }
+    })
+    .catch(error => {
+        console.error('Error sending order confirmation email:', error);
+    });
+}
+
+/**
+ * Generate order summary for email
+ */
+function generateOrderSummary(cartData, shippingInfo, paypalDetails) {
+    let summary = `
+
+¡Gracias por tu compra en Crusertel! Tu pedido ha sido procesado con éxito.
+
+=====================================
+📋 DETALLES DEL PEDIDO:
+=====================================
+ID de Pedido: ${paypalDetails.id}
+Fecha: ${new Date().toLocaleDateString('es-ES')}
+Método de Pago: PayPal
+
+=====================================
+🛒 PRODUCTOS COMPRADOS:
+=====================================`;
+
+    if (cartData && cartData.items) {
+        cartData.items.forEach(item => {
+            summary += `
+• ${item.product_name || item.name}
+  Cantidad: ${item.quantity}
+  Precio unitario: €${parseFloat(item.price).toFixed(2)}
+  Subtotal: €${(item.price * item.quantity).toFixed(2)}`;
+        });
+    }
+
+    summary += `
+
+💰 TOTAL: €${paypalDetails.purchase_units[0].amount.value}
+
+=====================================
+🚚 INFORMACIÓN DE ENVÍO:
+=====================================
+Provincia: ${shippingInfo.province}
+Localidad: ${shippingInfo.locality}
+Dirección: ${shippingInfo.address}
+
+¡Gracias por elegir Crusertel!
+
+---
+Este es un email automático de confirmación de pedido.
+Crusertel - Tu tienda de confianza
+    `;
+
+    return summary;
+}
+
+/**
+ * Get user data from localStorage (add this if you don't have it)
+ */
+function getUserFromLocalStorage() {
+    try {
+        const userData = localStorage.getItem('mobilestore_user');
+        return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+        console.error('Error getting user data:', error);
+        return null;
+    }
+}
 
 const BASE_URL = '<?php echo BASE_URL; ?>';
 </script>
