@@ -249,21 +249,35 @@ onApprove: function(data, actions) {
     return actions.order.capture().then(function(details) {
         console.log(details);
         
-        // Clear cart from localStorage
+        // 1. Clear cart from localStorage
         localStorage.removeItem('mobilestore_cart');
         
-        // Update cart count in header if cartStorage exists
+        // 2. Clear cart from database via AJAX
+        fetch(`${BASE_URL}index.php?controller=cart&action=clearCart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'clear_cart=1'
+        }).then(response => {
+            console.log('Database cart cleared');
+        }).catch(error => {
+            console.error('Error clearing database cart:', error);
+        });
+        
+        // 3. Update cart count in header if cartStorage exists
         if (window.cartStorage) {
             window.cartStorage.updateCount(0);
         }
         
-        // Update cart count badges
+        // 4. Update cart count badges immediately
         const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
         cartCounts.forEach(element => {
             element.style.display = 'none';
+            element.textContent = '0';
         });
         
-        // Replace checkout section with styled success message
+        // 5. Replace checkout section with styled success message
         document.querySelector('.checkout-section').innerHTML = `
             <section class="order-success-section">
                 <div class="success-container">
@@ -275,7 +289,7 @@ onApprove: function(data, actions) {
                         <h1 class="success-title">¡Pago realizado con éxito!</h1>
                         
                         <div class="success-message">
-                            <p>Tu pedido ha sido procesado correctamente.</p>
+                            <p>Hola <strong>${details.payer.name.given_name}</strong>, tu pedido ha sido procesado correctamente.</p>
                             <p>En breve recibirás un email de confirmación con todos los detalles.</p>
                             
                             <div class="next-steps">
@@ -301,21 +315,15 @@ onApprove: function(data, actions) {
                             </a>
                         </div>
                     </div>
-                
                 </div>
             </section>
         `;
 
-        // Scroll to the top of the page
-        const successSection = document.querySelector('.order-success-section');
-        if (successSection) {
-            successSection.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }
-        
-
+        // 6. Scroll to the top of the page smoothly
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 },
         
