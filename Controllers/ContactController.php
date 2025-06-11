@@ -56,8 +56,8 @@ class ContactController extends BaseController
             return;
         }
 
-        // Process the contact message
-        $result = $this->processContactMessage($name, $email, $message);
+        // Send contact message via Formspree
+        $result = $this->sendContactMessage($name, $email, $message);
         
         if ($result) {
             $this->setSuccessMessage('¡Gracias por contactarnos! Hemos recibido tu mensaje y te responderemos en breve.');
@@ -69,182 +69,75 @@ class ContactController extends BaseController
     }
 
     /**
-     * Process contact message - works in both development and production
+     * Send contact message via Formspree (same as order confirmation)
      */
-    private function processContactMessage($name, $email, $message)
+    private function sendContactMessage($name, $email, $message)
     {
-        // Try to send email first
-        $emailSent = $this->sendContactEmail($name, $email, $message);
+        // Generate formatted message content
+        $formattedMessage = $this->generateContactMessage($name, $email, $message);
         
-        // Always log the message (backup and for development)
-        $logged = $this->logContactMessage($name, $email, $message);
+        // Your Formspree endpoint
+        $formspreeUrl = 'https://formspree.io/f/mgvykool';
         
-        // Send confirmation to user if main email worked
-        if ($emailSent) {
-            $this->sendConfirmationEmail($email, $name);
+        // Prepare data for Formspree
+        $postData = [
+            'email' => $email,
+            '_replyto' => $email,
+            '_subject' => 'Nuevo mensaje de contacto - TelefoniaPlus - ' . $name,
+            'message' => $formattedMessage,
+            'customer_name' => $name,
+            'contact_email' => $email
+        ];
+        
+        // Send via Formspree using cURL for better reliability
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $formspreeUrl);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        
+        $result = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($result !== false && $httpCode >= 200 && $httpCode < 300) {
+            error_log("✅ Contact email sent via Formspree successfully");
+            return true;
+        } else {
+            error_log("❌ Failed to send contact email via Formspree. HTTP Code: $httpCode");
+            return false;
         }
-        
-        // Return true if either email sent OR logged successfully
-        return $emailSent || $logged;
     }
-
+    
     /**
-     * Send email using PHP's mail() function (works in production)
+     * Generate formatted contact message content
      */
-    private function sendContactEmail($name, $email, $message)
+    private function generateContactMessage($name, $email, $message)
     {
-        // *** CHANGE THESE EMAIL ADDRESSES FOR YOUR PROJECT ***
-        $toEmail = 'acg.purullena@gmail.com';          
-        $fromEmail = 'cruchiniptoamo@gmail.com';
+        $timestamp = date('d/m/Y H:i:s');
         
-        $subject = 'Nuevo mensaje de contacto - ' . $name;
-        
-        $emailBody = "
-Has recibido un nuevo mensaje desde el formulario de contacto:
+        return "
+📞 NUEVO MENSAJE
+=====================================
 
-==================================================
-DATOS DEL CONTACTO:
-==================================================
-Nombre: {$name}
-Email: {$email}
-Fecha: " . date('d/m/Y H:i:s') . "
+📅 Fecha: {$timestamp}
+👤 Nombre: {$name}
+📮 Email: {$email}
 
-==================================================
-MENSAJE:
-==================================================
+💬 MENSAJE:
+=====================================
 {$message}
 
-==================================================
-Para responder, simplemente contesta a este email.
+=====================================
+
+---
+Este mensaje fue enviado desde el formulario de contacto de Crusertel.
         ";
-        
-        $headers = [
-            'From: Crusertel <' . $fromEmail . '>',
-            'Reply-To: ' . $email,
-            'X-Mailer: PHP/' . phpversion(),
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Priority: 3'
-        ];
-        
-        $formspreeUrl = 'https://formspree.io/f/mgvykool'; //formspree.io
-    
-    $postData = [
-        'name' => $name,
-        'email' => $email,
-        'message' => $message,
-        '_replyto' => $email,
-        '_subject' => 'Nuevo mensaje de contacto - ' . $name
-    ];
-    
-    $options = [
-        'http' => [
-            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method' => 'POST',
-            'content' => http_build_query($postData)
-        ]
-    ];
-    
-    $context = stream_context_create($options);
-    $result = @file_get_contents($formspreeUrl, false, $context);
-    
-    if ($result !== false) {
-        error_log("✅ Email sent via Formspree successfully");
-        return true;
-    } else {
-        error_log("❌ Failed to send email via Formspree");
-        return false;
-    }
-    
-    }
-
-    /**
-     * Log contact message to file (works everywhere, great for development)
-     */
-    private function logContactMessage($name, $email, $message)
-    {
-        try {
-            $logFile = __DIR__ . '/../logs/contact_messages.log';
-            
-            // Create logs directory if it doesn't exist
-            $logDir = dirname($logFile);
-            if (!is_dir($logDir)) {
-                mkdir($logDir, 0755, true);
-            }
-            
-            $timestamp = date('Y-m-d H:i:s');
-            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-            
-            $logEntry = "\n" . str_repeat('=', 60) . "\n";
-            $logEntry .= "📧 NUEVO MENSAJE DE CONTACTO\n";
-            $logEntry .= str_repeat('=', 60) . "\n";
-            $logEntry .= "📅 Fecha: {$timestamp}\n";
-            $logEntry .= "👤 Nombre: {$name}\n";
-            $logEntry .= "📮 Email: {$email}\n";
-            $logEntry .= "🌐 IP: {$ip}\n";
-            $logEntry .= str_repeat('-', 60) . "\n";
-            $logEntry .= "💬 Mensaje:\n{$message}\n";
-            $logEntry .= str_repeat('=', 60) . "\n";
-            
-            $result = file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
-            
-            if ($result !== false) {
-                error_log("📝 Contact message logged to: {$logFile}");
-                return true;
-            }
-            
-        } catch (\Exception $e) {
-            error_log("Failed to log contact message: " . $e->getMessage());
-        }
-        
-        return false;
-    }
-
-    /**
-     * Send confirmation email to user
-     */
-    private function sendConfirmationEmail($userEmail, $userName)
-    {
-        $fromEmail = 'cruchiniptoamo@gmail.com';       // ← Your domain email
-        
-        $subject = '✅ Confirmación - Hemos recibido tu mensaje';
-        
-        $emailBody = "
-Hola {$userName},
-
-¡Gracias por contactarnos! 
-
-Hemos recibido tu mensaje correctamente y nuestro equipo te responderá en un plazo de 24-48 horas.
-
-==================================================
-INFORMACIÓN DE CONTACTO:
-==================================================
-📞 Teléfono: +34 912 345 678
-📧 Email: acg.purullena@gmail.com
-🕒 Horario: Lunes a Viernes, 9:00 - 18:00
-
-==================================================
-
-Si tu consulta es urgente, no dudes en llamarnos.
-
-Saludos cordiales,
-El equipo de TelefoniaPlus
-        ";
-        
-        $headers = [
-            'From: TelefoniaPlus <' . $fromEmail . '>',
-            'X-Mailer: PHP/' . phpversion(),
-            'Content-Type: text/plain; charset=UTF-8'
-        ];
-        
-        $sent = @mail($userEmail, $subject, $emailBody, implode("\r\n", $headers));
-        
-        if ($sent) {
-            error_log("✅ Confirmation sent to: {$userEmail}");
-        } else {
-            error_log("❌ Failed to send confirmation to: {$userEmail}");
-        }
-        
-        return $sent;
     }
 }
 
