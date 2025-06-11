@@ -207,13 +207,6 @@ function validateShippingForm() {
  * Initialize PayPal button
  */
 function initializePayPal() {
-    const cartData = getCartFromLocalStorage();
-    
-    if (!cartData || !cartData.items || cartData.items.length === 0) {
-        document.getElementById('paypal-button-container').innerHTML = 
-            '<p class="no-cart-message">Agrega productos al carrito para continuar</p>';
-        return;
-    }
 
     paypal.Buttons({
         style: {
@@ -225,84 +218,48 @@ function initializePayPal() {
         
         createOrder: function(data, actions) {
             // Validate shipping form before creating order
-            if (!validateShippingForm()) {
-                return Promise.reject(new Error('Shipping form validation failed'));
-            }
+            const carritoProductos = JSON.parse(localStorage.getItem('mobilestore_cart')) || [];
             
-            const cartData = getCartFromLocalStorage();
-            if (!cartData || cartData.totalCost <= 0) {
-                return Promise.reject(new Error('Invalid cart data'));
-            }
 
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: cartData.totalCost.toFixed(2),
+                        value: carritoProductos.totalCost.toFixed(2),
                         currency_code: 'EUR',
                         breakdown: {
                             item_total: {
-                                value: cartData.totalCost.toFixed(2),
+                                value: carritoProductos.totalCost.toFixed(2),
                                 currency_code: 'EUR'
-                            }
-                        }
-                    },
-                    items: cartData.items.map(item => ({
-                        name: item.product_name || item.name || 'Producto',
-                        unit_amount: {
-                            value: parseFloat(item.price).toFixed(2),
-                            currency_code: 'EUR'
+                            },
                         },
-                        quantity: item.quantity.toString()
-                    }))
+                    },
+                    items: carritoProductos.items.map(producto => ({
+                            name: producto.product_name,
+                            unit_amount: {
+                                value: producto.price.toFixed(2),
+                                currency_code: 'EUR'
+                            },
+                            quantity: producto.quantity.toString()
+                        }))
                 }]
             });
         },
         
-        onApprove: function(data, actions) {
-            // Show loading
-            document.getElementById('paymentLoading').style.display = 'block';
-            document.getElementById('paypal-button-container').style.display = 'none';
-            
-            return actions.order.capture().then(function(details) {
-                console.log('Payment successful:', details);
-                
-                // Prepare data for server
-                const requestData = {
-                    paypalDetails: details,
-                    cartData: getCartFromLocalStorage(),
-                    shippingInfo: getShippingFormData()
-                };
-                
-                // Send to server to create order
-                return fetch('<?php echo BASE_URL; ?>index.php?controller=checkout&action=processPayment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        // Clear cart from localStorage
-                        localStorage.removeItem('mobilestore_cart');
-                        
-                        // Redirect to success page
-                        window.location.href = '<?php echo BASE_URL; ?>index.php?controller=checkout&action=success&orderId=' + result.orderId;
-                    } else {
-                        throw new Error(result.message || 'Error processing order');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al procesar el pedido: ' + error.message);
-                    
-                    // Hide loading, show PayPal button again
-                    document.getElementById('paymentLoading').style.display = 'none';
-                    document.getElementById('paypal-button-container').style.display = 'block';
+        onApprove:function(data,actions){
+                return actions.order.capture().then(function(details) {
+                    console.log(details);
+                    localStorage.removeItem('mobilestore_cart');
+                    document.querySelector('.checkout-section').innerHTML = 
+                        `<div class="checkout-success">
+                            <h1>¡Pago realizado con éxito, ${details.payer.name.given_name}!</h1>
+                            <p>Tu pedido ha sido procesado correctamente. Recibirás un correo con los detalles de la compra.</p>
+                            <a href="${BASE_URL}" class="btn btn-primary" style="margin-top:20px;">
+                                Volver al inicio
+                            </a>
+                        </div>`;
+                        //TODO: VACIAR EL CARRITO Y ESTILAR ESTO
                 });
-            });
-        },
+            },
         
         onCancel: function(data) {
             console.log('Payment cancelled:', data);
