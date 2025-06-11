@@ -245,21 +245,79 @@ function initializePayPal() {
             });
         },
         
-        onApprove:function(data,actions){
-                return actions.order.capture().then(function(details) {
-                    console.log(details);
-                    localStorage.removeItem('mobilestore_cart');
-                    document.querySelector('.checkout-section').innerHTML = 
-                        `<div class="checkout-success">
-                            <h1>¡Pago realizado con éxito, ${details.payer.name.given_name}!</h1>
-                            <p>Tu pedido ha sido procesado correctamente. Recibirás un correo con los detalles de la compra.</p>
-                            <a href="${BASE_URL}" class="btn btn-primary" style="margin-top:20px;">
-                                Volver al inicio
+onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+        console.log(details);
+        
+        // Clear cart from localStorage
+        localStorage.removeItem('mobilestore_cart');
+        
+        // Update cart count in header if cartStorage exists
+        if (window.cartStorage) {
+            window.cartStorage.updateCount(0);
+        }
+        
+        // Update cart count badges
+        const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
+        cartCounts.forEach(element => {
+            element.style.display = 'none';
+        });
+        
+        // Replace checkout section with styled success message
+        document.querySelector('.checkout-section').innerHTML = `
+            <section class="order-success-section">
+                <div class="success-container">
+                    <div class="success-content">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        
+                        <h1 class="success-title">¡Pago realizado con éxito!</h1>
+                        
+                        <div class="success-message">
+                            <p>Tu pedido ha sido procesado correctamente.</p>
+                            <p>En breve recibirás un email de confirmación con todos los detalles.</p>
+                            
+                            <div class="next-steps">
+                                <h3>¿Qué sigue ahora?</h3>
+                                <ul>
+                                    <li><i class="fas fa-envelope"></i> Recibirás un email de confirmación</li>
+                                    <li><i class="fas fa-box"></i> Prepararemos tu pedido para el envío</li>
+                                    <li><i class="fas fa-truck"></i> Te notificaremos cuando esté en camino</li>
+                                    <li><i class="fas fa-home"></i> Recibirás tu pedido en la dirección indicada</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="success-actions">
+                            <a href="${BASE_URL}index.php?controller=home&action=index" class="action-btn primary">
+                                <i class="fas fa-home"></i>
+                                Volver al Inicio
                             </a>
-                        </div>`;
-                        //TODO: VACIAR EL CARRITO Y ESTILAR ESTO
-                });
-            },
+                            
+                            <a href="${BASE_URL}index.php?controller=product&action=phones" class="action-btn secondary">
+                                <i class="fas fa-shopping-cart"></i>
+                                Seguir Comprando
+                            </a>
+                        </div>
+                    </div>
+                
+                </div>
+            </section>
+        `;
+
+        // Scroll to the top of the page
+        const successSection = document.querySelector('.order-success-section');
+        if (successSection) {
+            successSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+        
+
+    });
+},
         
         onCancel: function(data) {
             console.log('Payment cancelled:', data);
@@ -274,6 +332,6 @@ function initializePayPal() {
     }).render('#paypal-button-container');
 }
 
-// Make BASE_URL available for JavaScript
+
 const BASE_URL = '<?php echo BASE_URL; ?>';
 </script>
