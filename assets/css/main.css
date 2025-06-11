@@ -6334,6 +6334,30 @@ img {
   }
 }
 
+.form-validation-message {
+  background-color: rgba(102, 102, 102, 0.1);
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin: 15px 0;
+}
+.form-validation-message i {
+  color: #666666;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+.form-validation-message p {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0;
+  font-style: italic;
+}
+
 /* Mobile Responsive Adjustments */
 @media (max-width: 480px) {
   .checkout-content {
