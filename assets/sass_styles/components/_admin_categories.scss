@@ -11,12 +11,12 @@
 .admin-section {
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
-    padding: map-get(v.$spacing, lg) 0; // Keep original for index
+    padding: map-get(v.$spacing, lg) 0;
 
     .admin-container {
         @include container;
-        padding-top: map-get(v.$spacing, md); // Keep original for index
-        padding-bottom: map-get(v.$spacing, md); // Keep original for index
+        padding-top: map-get(v.$spacing, md);
+        padding-bottom: map-get(v.$spacing, md);
     }
 }
 
@@ -24,12 +24,12 @@
 .auth-section {
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
-    padding: map-get(v.$spacing, sm) 0; // Reducido significativamente
+    padding: map-get(v.$spacing, sm) 0;
     
     .auth-container {
         @include container;
-        padding-top: map-get(v.$spacing, xs); // Muy reducido
-        padding-bottom: map-get(v.$spacing, xs); // Muy reducido
+        padding-top: map-get(v.$spacing, xs);
+        padding-bottom: map-get(v.$spacing, xs);
     }
 }
 
@@ -38,13 +38,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: map-get(v.$spacing, lg); // Keep original
-    gap: map-get(v.$spacing, md); // Keep original
+    margin-bottom: map-get(v.$spacing, lg);
+    gap: map-get(v.$spacing, md);
 
     @include breakpoint(tablet) {
         flex-direction: column;
         align-items: flex-start;
-        gap: map-get(v.$spacing, sm); // Keep original
+        gap: map-get(v.$spacing, sm);
     }
 
     .admin-title-section {
@@ -54,10 +54,10 @@
             @include heading-style('h1');
             color: map-get(v.$colors, primary-red);
             margin-bottom: map-get(v.$spacing, xs);
-            font-size: 1.8rem; // Keep original
+            font-size: 1.8rem;
 
             @include breakpoint(mobile) {
-                font-size: 1.5rem; // Keep original
+                font-size: 1.5rem;
             }
         }
 
@@ -105,10 +105,10 @@
     border-radius: map-get(v.$layout, border-radius-lg);
     box-shadow: map-get(v.$shadows, medium);
     overflow: hidden;
-    margin-bottom: map-get(v.$spacing, lg); // Keep original
+    margin-bottom: map-get(v.$spacing, lg);
 
     .card-header {
-        padding: map-get(v.$spacing, md); // Keep original
+        padding: map-get(v.$spacing, md);
         border-bottom: 1px solid map-get(v.$colors, light-gray);
         background-color: rgba(map-get(v.$colors, bg-light-gray), 0.5);
 
@@ -117,10 +117,10 @@
                 @include heading-style('h2');
                 color: map-get(v.$colors, dark-gray);
                 margin-bottom: map-get(v.$spacing, xs);
-                font-size: 1.2rem; // Keep original
+                font-size: 1.2rem;
 
                 @include breakpoint(mobile) {
-                    font-size: 1.1rem; // Keep original
+                    font-size: 1.1rem;
                 }
             }
 
@@ -133,10 +133,10 @@
     }
 
     .card-content {
-        padding: map-get(v.$spacing, md); // Keep original
+        padding: map-get(v.$spacing, md);
 
         @include breakpoint(mobile) {
-            padding: map-get(v.$spacing, sm); // Keep original
+            padding: map-get(v.$spacing, sm);
         }
     }
 }
@@ -147,28 +147,28 @@
     border-radius: map-get(v.$layout, border-radius-lg);
     box-shadow: map-get(v.$shadows, medium);
     overflow: hidden;
-    margin-bottom: map-get(v.$spacing, sm); // Reducido significativamente
-    margin-top: 0; // Eliminar margen superior
+    margin-bottom: map-get(v.$spacing, sm);
+    margin-top: 0;
 
     .auth-header {
-        padding: map-get(v.$spacing, sm); // Reducido de md
+        padding: map-get(v.$spacing, sm);
         border-bottom: 1px solid map-get(v.$colors, light-gray);
 
         .auth-title {
             @include heading-style('h1');
             color: map-get(v.$colors, primary-red);
-            margin-bottom: map-get(v.$spacing, xxs); // Muy reducido
-            font-size: 1.4rem; // Reducido
+            margin-bottom: map-get(v.$spacing, xxs);
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             gap: map-get(v.$spacing, xs);
 
             @include breakpoint(mobile) {
-                font-size: 1.2rem; // Reducido
+                font-size: 1.2rem;
             }
 
             i {
-                font-size: 1rem; // Reducido
+                font-size: 1rem;
             }
         }
 
@@ -176,15 +176,15 @@
             @include body-text('small');
             color: map-get(v.$colors, text-secondary);
             margin: 0;
-            font-size: map-get(v.$font-sizes, small); // Reducido
+            font-size: map-get(v.$font-sizes, small);
         }
     }
 
     .auth-form {
-        padding: map-get(v.$spacing, sm); // Reducido de md
+        padding: map-get(v.$spacing, sm);
 
         @include breakpoint(mobile) {
-            padding: map-get(v.$spacing, xs); // Reducido
+            padding: map-get(v.$spacing, xs);
         }
     }
 }
@@ -441,47 +441,47 @@
 
 /* FORMULARIOS - Estilos compactos para crear/editar */
 .form-group {
-    margin-bottom: map-get(v.$spacing, sm); // Reducido
+    margin-bottom: map-get(v.$spacing, sm);
 
     .form-label {
         display: flex;
         align-items: center;
         gap: map-get(v.$spacing, xs);
-        margin-bottom: map-get(v.$spacing, xxs); // Muy reducido
+        margin-bottom: map-get(v.$spacing, xxs);
         @include body-text('small');
         color: map-get(v.$colors, dark-gray);
         font-weight: map-get(v.$font-weights, semibold);
-        font-size: map-get(v.$font-sizes, small); // Reducido
+        font-size: map-get(v.$font-sizes, small);
 
         i {
             color: map-get(v.$colors, primary-red);
-            font-size: 0.8rem; // Reducido
+            font-size: 0.8rem;
         }
     }
 
     .form-input {
         width: 100%;
-        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm); // Reducido
+        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
         border: 2px solid map-get(v.$colors, light-gray);
         border-radius: map-get(v.$layout, border-radius);
         font-family: map-get(v.$fonts, secondary);
-        font-size: map-get(v.$font-sizes, small); // Reducido
+        font-size: map-get(v.$font-sizes, small);
         transition: all map-get(v.$transitions, normal);
         box-sizing: border-box;
 
         &:focus {
             outline: none;
             border-color: map-get(v.$colors, primary-red);
-            box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.2); // Reducido
+            box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.2);
         }
     }
 
     .form-hint {
         display: block;
-        margin-top: map-get(v.$spacing, xxs); // Muy reducido
+        margin-top: map-get(v.$spacing, xxs);
         @include body-text('small');
         color: map-get(v.$colors, text-secondary);
-        font-size: map-get(v.$font-sizes, xs); // Reducido
+        font-size: map-get(v.$font-sizes, xs);
     }
 }
 
@@ -489,14 +489,14 @@
 .category-info {
     background-color: rgba(map-get(v.$colors, bg-light-gray), 0.5);
     border-radius: map-get(v.$layout, border-radius);
-    padding: map-get(v.$spacing, xs); // Muy reducido
-    margin-bottom: map-get(v.$spacing, sm); // Reducido
+    padding: map-get(v.$spacing, xs);
+    margin-bottom: map-get(v.$spacing, sm);
 
     .info-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: map-get(v.$spacing, xxs) 0; // Muy reducido
+        padding: map-get(v.$spacing, xxs) 0;
 
         &:not(:last-child) {
             border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
@@ -506,14 +506,14 @@
             @include body-text('small');
             color: map-get(v.$colors, text-secondary);
             font-weight: map-get(v.$font-weights, medium);
-            font-size: map-get(v.$font-sizes, xs); // Reducido
+            font-size: map-get(v.$font-sizes, xs);
         }
 
         .info-value {
             @include body-text('small');
             color: map-get(v.$colors, dark-gray);
             font-weight: map-get(v.$font-weights, medium);
-            font-size: map-get(v.$font-sizes, xs); // Reducido
+            font-size: map-get(v.$font-sizes, xs);
         }
     }
 }
@@ -521,34 +521,34 @@
 /* Error State - COMPACTO PARA FORMULARIOS */
 .error-state {
     text-align: center;
-    padding: map-get(v.$spacing, sm); // Muy reducido
+    padding: map-get(v.$spacing, sm);
 
     .error-icon {
-        font-size: 2rem; // Reducido
+        font-size: 2rem;
         color: #dc3545;
-        margin-bottom: map-get(v.$spacing, xs); // Muy reducido
+        margin-bottom: map-get(v.$spacing, xs);
 
         @include breakpoint(mobile) {
-            font-size: 1.5rem; // Reducido
+            font-size: 1.5rem;
         }
     }
 
     h3 {
         @include heading-style('h3');
         color: map-get(v.$colors, dark-gray);
-        margin-bottom: map-get(v.$spacing, xs); // Muy reducido
-        font-size: 1rem; // Reducido
+        margin-bottom: map-get(v.$spacing, xs);
+        font-size: 1rem;
 
         @include breakpoint(mobile) {
-            font-size: 0.9rem; // Reducido
+            font-size: 0.9rem;
         }
     }
 
     p {
         @include body-text();
         color: map-get(v.$colors, text-secondary);
-        margin-bottom: map-get(v.$spacing, sm); // Reducido
-        font-size: map-get(v.$font-sizes, small); // Reducido
+        margin-bottom: map-get(v.$spacing, sm);
+        font-size: map-get(v.$font-sizes, small);
     }
 }
 
@@ -556,32 +556,56 @@
 .form-input {
     &.input-error {
         border-color: #dc3545 !important;
-        box-shadow: 0 0 0 2px rgba(#dc3545, 0.2) !important; // Reducido
+        box-shadow: 0 0 0 2px rgba(#dc3545, 0.2) !important;
     }
 
     &.input-success {
         border-color: #28a745 !important;
-        box-shadow: 0 0 0 2px rgba(#28a745, 0.2) !important; // Reducido
+        box-shadow: 0 0 0 2px rgba(#28a745, 0.2) !important;
     }
 }
 
 .form-actions {
     display: flex;
     gap: map-get(v.$spacing, sm);
-    margin-top: map-get(v.$spacing, sm);
+    margin-top: map-get(v.$spacing, xl);
 
     .auth-btn {
         display: flex;
         align-items: center;
         gap: map-get(v.$spacing, xs);
-        padding: map-get(v.$spacing, xs) map-get(v.$spacing, md);
         border-radius: map-get(v.$layout, border-radius);
         font-size: map-get(v.$font-sizes, small);
         font-weight: map-get(v.$font-weights, semibold);
         transition: all map-get(v.$transitions, normal);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+
+        &.btn-primary {
+            @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+            padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+
+            &:hover {
+                background-color: map-get(v.$colors, primary-red-dark);
+                transform: translateY(-2px);
+                box-shadow: map-get(v.$shadows, medium);
+            }
+        }
+
+        &.btn-secondary {
+            background: none;
+            color: map-get(v.$colors, primary-red);
+            padding: map-get(v.$spacing, xs) map-get(v.$spacing, md);
+
+            &:hover {
+                color: map-get(v.$colors, primary-red-dark);
+                text-decoration: underline;
+            }
+        }
 
         i {
-            font-size: 0.7rem;
+            font-size: 1em;
         }
     }
 }
@@ -744,16 +768,14 @@
 }
 
 @include breakpoint(mobile) {
-    // Específico para formularios auth
     .auth-section {
-        padding: map-get(v.$spacing, xs) 0; // Muy reducido para móvil
+        padding: map-get(v.$spacing, xs) 0;
     }
     
     .breadcrumb {
-        margin-bottom: map-get(v.$spacing, xs); // Aún más reducido en móvil
+        margin-bottom: map-get(v.$spacing, xs);
     }
 
-    // Mantener original para admin (index)
     .admin-section {
         padding: map-get(v.$spacing, md) 0;
     }
