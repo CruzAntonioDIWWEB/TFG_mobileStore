@@ -48,7 +48,6 @@ $messages = $messages ?? [];
                     <i class="fas fa-plus"></i>
                     Nueva Categoría
                 </h1>
-                <p class="auth-subtitle">Agrega una nueva categoría de productos a la tienda</p>
             </div>
 
             <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=category&action=save">
@@ -83,91 +82,7 @@ $messages = $messages ?? [];
             </form>
         </div>
 
-        <!-- Info Card -->
-        <div class="info-card">
-            <div class="info-header">
-                <i class="fas fa-info-circle"></i>
-                <h3>Información sobre categorías</h3>
-            </div>
-            <div class="info-content">
-                <ul class="info-list">
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Las categorías organizan los productos de tu tienda
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Cada producto debe pertenecer a una categoría
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Los nombres de categoría deben ser únicos
-                    </li>
-                    <li>
-                        <i class="fas fa-exclamation-triangle"></i>
-                        No podrás eliminar categorías que tengan productos asociados
-                    </li>
-                </ul>
-            </div>
-        </div>
-
     </div>
 </section>
 
-<script>
-// Form validation
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.auth-form');
-    const nameInput = document.getElementById('name');
-    
-    // Real-time validation
-    nameInput.addEventListener('input', function() {
-        const value = this.value.trim();
-        
-        // Remove any existing validation classes
-        this.classList.remove('input-error', 'input-success');
-        
-        if (value.length === 0) {
-            return;
-        }
-        
-        if (value.length > 25) {
-            this.classList.add('input-error');
-        } else if (value.length >= 2) {
-            this.classList.add('input-success');
-        }
-    });
-    
-    // Form submission validation
-    form.addEventListener('submit', function(e) {
-        const name = nameInput.value.trim();
-        
-        if (name.length === 0) {
-            e.preventDefault();
-            nameInput.classList.add('input-error');
-            nameInput.focus();
-            alert('El nombre de la categoría es obligatorio.');
-            return false;
-        }
-        
-        if (name.length > 25) {
-            e.preventDefault();
-            nameInput.classList.add('input-error');
-            nameInput.focus();
-            alert('El nombre de la categoría no puede exceder 25 caracteres.');
-            return false;
-        }
-        
-        if (name.length < 2) {
-            e.preventDefault();
-            nameInput.classList.add('input-error');
-            nameInput.focus();
-            alert('El nombre de la categoría debe tener al menos 2 caracteres.');
-            return false;
-        }
-        
-        // All validations passed
-        return true;
-    });
-});
-</script>
+<script src="<?php echo ASSETS_URL; ?>js/categoryValidation.js"></script>

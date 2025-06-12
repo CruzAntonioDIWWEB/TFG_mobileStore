@@ -3,6 +3,11 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Get categories for navigation
+require_once __DIR__ . '/../../Models/Category.php';
+$categoryModel = new \Models\Category();
+$navCategories = $categoryModel->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -38,12 +43,33 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" id="nav-menu">
+                    <!-- Keep existing static navigation -->
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="nav-link">Móviles</a>
                     </li>
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessoriesCatalog" class="nav-link">Accesorios</a>
                     </li>
+                    
+                    <!-- Dynamic Categories from Database -->
+                    <?php if (!empty($navCategories) && is_array($navCategories)): ?>
+                        <?php foreach ($navCategories as $navCategory): ?>
+                            <?php 
+                            // Skip categories that might conflict with existing static menu items
+                            $categoryName = strtolower($navCategory['name']);
+                            if (stripos($categoryName, 'móvil') !== false || 
+                                stripos($categoryName, 'teléfono') !== false ||
+                                stripos($categoryName, 'accesorio') !== false) {
+                                continue; // Skip these as they're already in the static menu
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=categoryProducts&category=<?php echo urlencode($navCategory['id']); ?>" 
+                                   class="nav-link"><?php echo htmlspecialchars($navCategory['name']); ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="nav-link">Contacto</a>
                     </li>
@@ -59,7 +85,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 </a>
                             </li>
                             
-                            <!-- NEW: Order History Link for Mobile -->
+                            <!-- Order History Link for Mobile -->
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-link mobile-user-link">
                                     <i class="fas fa-history"></i>
@@ -102,7 +128,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <i class="fas fa-user"></i>
                         </a>
                         
-                        <!-- NEW: Order History Link -->
+                        <!-- Order History Link -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-icon" title="Historial de Pedidos">
                             <i class="fas fa-history"></i>
                         </a>

@@ -525,6 +525,41 @@ class ProductController extends BaseController
     {
         $this->accessoriesCatalog();
     }
+
+    /**
+     * Display products by category ID
+     */
+    public function categoryProducts(){
+        $categoryId = $this->getGetData('category');
+        
+        if (!$categoryId || !is_numeric($categoryId)) {
+            $this->setErrorMessage('Categoría no válida');
+            $this->redirect('home', 'index');
+            return;
+        }
+
+        $productModel = new \Models\Product();
+        $categoryModel = new \Models\Category();
+        
+        // Get category info
+        $category = $categoryModel->getById($categoryId);
+        if (!$category) {
+            $this->setErrorMessage('Categoría no encontrada');
+            $this->redirect('home', 'index');
+            return;
+        }
+
+        // Get products for this category
+        $products = $productModel->getByCategory($categoryId);
+        
+        $viewData = [
+            'products' => $products,
+            'categoryName' => $category->getName(),
+            'categoryId' => $categoryId
+        ];
+
+        $this->loadView('products/category', $viewData);
+    }
 }
 
 ?>
