@@ -2,7 +2,7 @@
 function cargarPedidos() {
     showLoadingState();
     
-    fetch('obtenerPedidos.php')
+    fetch('obtainOrders.php')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {

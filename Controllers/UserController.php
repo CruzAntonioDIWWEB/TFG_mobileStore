@@ -321,7 +321,7 @@ public function registrationSuccess(){
         $this->requireLogin();
         
         // Load the view (uses project's layout system with header/footer)
-        $this->loadView('user/historial_pedidos');
+        $this->loadView('user/order_history');
     }
 
     /**
