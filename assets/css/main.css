@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   font-family: "Open Sans", sans-serif;
   color: #333333;
@@ -6674,45 +6675,49 @@ img {
   }
 }
 /* =================================== */
-/* Admin Categories Styles             */
+/* Admin Categories Styles - Compact   */
 /* =================================== */
 /* Admin Section Layout */
 .admin-section {
   background: linear-gradient(135deg, #F2F2F2 0%, #FFFFFF 100%);
   min-height: calc(100vh - 70px);
-  padding: 80px 0;
-}
-@media (max-width: 768px) {
-  .admin-section {
-    padding: 60px 0;
-  }
-}
-@media (max-width: 480px) {
-  .admin-section {
-    padding: 40px 0;
-  }
+  padding: 20px 0;
 }
 .admin-section .admin-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
-/* Admin Header */
+/* ESPECÍFICO PARA FORMULARIOS DE CREAR/EDITAR CATEGORÍAS */
+.auth-section {
+  background: linear-gradient(135deg, #F2F2F2 0%, #FFFFFF 100%);
+  min-height: calc(100vh - 70px);
+  padding: 10px 0;
+}
+.auth-section .auth-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Admin Header - MANTENER ORIGINAL PARA INDEX */
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 40px;
-  gap: 20px;
+  margin-bottom: 20px;
+  gap: 15px;
 }
 @media (max-width: 768px) {
   .admin-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 10px;
   }
 }
 .admin-header .admin-title-section {
@@ -6725,7 +6730,7 @@ img {
   font-size: 2.5rem;
   color: #E60000;
   margin-bottom: 5px;
-  font-size: 2.2rem;
+  font-size: 1.8rem;
 }
 @media (max-width: 480px) {
   .admin-header .admin-title-section .admin-title {
@@ -6734,7 +6739,7 @@ img {
 }
 @media (max-width: 480px) {
   .admin-header .admin-title-section .admin-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 }
 .admin-header .admin-title-section .admin-subtitle {
@@ -6762,7 +6767,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 15px 20px;
+  padding: 10px 15px;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 600;
@@ -6787,16 +6792,16 @@ img {
   font-size: 0.9rem;
 }
 
-/* Admin Card */
+/* Admin Card - MANTENER ORIGINAL PARA INDEX */
 .admin-card {
   background-color: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .admin-card .card-header {
-  padding: 20px;
+  padding: 15px;
   border-bottom: 1px solid #CCCCCC;
   background-color: rgba(242, 242, 242, 0.5);
 }
@@ -6807,7 +6812,7 @@ img {
   font-size: 2rem;
   color: #333333;
   margin-bottom: 5px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 @media (max-width: 480px) {
   .admin-card .card-header .card-title h2 {
@@ -6816,7 +6821,7 @@ img {
 }
 @media (max-width: 480px) {
   .admin-card .card-header .card-title h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 }
 .admin-card .card-header .card-title p {
@@ -6828,15 +6833,70 @@ img {
   margin: 0;
 }
 .admin-card .card-content {
-  padding: 20px;
+  padding: 15px;
 }
 @media (max-width: 480px) {
   .admin-card .card-content {
-    padding: 15px;
+    padding: 10px;
   }
 }
 
-/* Table Styles */
+/* ESTILOS ESPECÍFICOS PARA FORMULARIOS AUTH (CREAR/EDITAR) */
+.auth-card {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+.auth-card .auth-header {
+  padding: 10px;
+  border-bottom: 1px solid #CCCCCC;
+}
+.auth-card .auth-header .auth-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 2.5rem;
+  color: #E60000;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+@media (max-width: 480px) {
+  .auth-card .auth-header .auth-title {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .auth-card .auth-header .auth-title {
+    font-size: 1.2rem;
+  }
+}
+.auth-card .auth-header .auth-title i {
+  font-size: 1rem;
+}
+.auth-card .auth-header .auth-subtitle {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0;
+  font-size: 0.95rem;
+}
+.auth-card .auth-form {
+  padding: 10px;
+}
+@media (max-width: 480px) {
+  .auth-card .auth-form {
+    padding: 5px;
+  }
+}
+
+/* Table Styles - MANTENER ORIGINAL PARA INDEX */
 .table-wrapper {
   overflow-x: auto;
   border-radius: 5px;
@@ -6853,7 +6913,7 @@ img {
   background-color: rgba(230, 0, 0, 0.1);
 }
 .admin-table thead th {
-  padding: 15px 20px;
+  padding: 10px 15px;
   text-align: left;
   font-weight: 600;
   color: #333333;
@@ -6864,7 +6924,7 @@ img {
 }
 @media (max-width: 480px) {
   .admin-table thead th {
-    padding: 10px 15px;
+    padding: 5px 10px;
     font-size: 0.9rem;
   }
 }
@@ -6879,21 +6939,21 @@ img {
   border-bottom: none;
 }
 .admin-table tbody tr td {
-  padding: 15px 20px;
+  padding: 10px 15px;
   vertical-align: middle;
   color: #333333;
 }
 @media (max-width: 480px) {
   .admin-table tbody tr td {
-    padding: 10px 15px;
+    padding: 5px 10px;
   }
 }
 
-/* Table Cell Specific Styles */
+/* Table Cell Specific Styles - MANTENER ORIGINAL */
 .category-id .id-badge {
   background-color: rgba(230, 0, 0, 0.1);
   color: #E60000;
-  padding: 5px 10px;
+  padding: 2px 5px;
   border-radius: 5px;
   font-weight: 600;
   font-size: 0.9rem;
@@ -6909,7 +6969,7 @@ img {
 .category-date .date-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 .category-date .date-info .date {
   font-weight: 500;
@@ -6939,14 +6999,14 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 .category-actions .action-buttons .action-btn.btn-edit {
   background-color: rgba(40, 167, 69, 0.1);
@@ -6969,19 +7029,19 @@ img {
   box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
 }
 
-/* No Categories State */
+/* No Categories State - MANTENER ORIGINAL */
 .no-categories {
   text-align: center;
-  padding: 40px 20px;
+  padding: 20px 15px;
 }
 .no-categories .no-data-icon {
-  font-size: 4rem;
+  font-size: 3rem;
   color: #CCCCCC;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 @media (max-width: 480px) {
   .no-categories .no-data-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 .no-categories h3 {
@@ -6991,7 +7051,7 @@ img {
   font-size: 1.3rem;
   color: #333333;
   margin-bottom: 10px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 @media (max-width: 480px) {
   .no-categories h3 {
@@ -7000,7 +7060,7 @@ img {
 }
 @media (max-width: 480px) {
   .no-categories h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 .no-categories p {
@@ -7009,7 +7069,7 @@ img {
   line-height: 1.6;
   font-size: 1rem;
   color: #666666;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
@@ -7038,7 +7098,7 @@ img {
   gap: 5px;
   background-color: #E60000;
   color: #FFFFFF;
-  padding: 15px 30px;
+  padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 600;
@@ -7055,18 +7115,17 @@ img {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Breadcrumb Navigation */
+/* Breadcrumb Navigation - COMPACTO PARA FORMULARIOS */
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 30px;
-  font-size: 0.95rem;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
 }
 .breadcrumb .breadcrumb-link {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
   color: #666666;
   text-decoration: none;
@@ -7076,29 +7135,74 @@ img {
   color: #E60000;
 }
 .breadcrumb .breadcrumb-link i {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 .breadcrumb .fas.fa-chevron-right {
   color: #CCCCCC;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 .breadcrumb .breadcrumb-current {
   color: #E60000;
   font-weight: 500;
 }
 
-/* Category Info in Edit Form */
+/* FORMULARIOS - Estilos compactos para crear/editar */
+.form-group {
+  margin-bottom: 10px;
+}
+.form-group .form-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #333333;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.form-group .form-label i {
+  color: #E60000;
+  font-size: 0.8rem;
+}
+.form-group .form-input {
+  width: 100%;
+  padding: 5px 10px;
+  border: 2px solid #CCCCCC;
+  border-radius: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+.form-group .form-input:focus {
+  outline: none;
+  border-color: #E60000;
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+}
+.form-group .form-hint {
+  display: block;
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #666666;
+  font-size: 0.9rem;
+}
+
+/* Category Info in Edit Form - COMPACTO */
 .category-info {
   background-color: rgba(242, 242, 242, 0.5);
   border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 5px;
+  margin-bottom: 10px;
 }
 .category-info .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 0;
+  padding: 0;
 }
 .category-info .info-item:not(:last-child) {
   border-bottom: 1px solid rgba(204, 204, 204, 0.5);
@@ -7110,6 +7214,7 @@ img {
   font-size: 0.95rem;
   color: #666666;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 .category-info .info-item .info-value {
   font-family: "Open Sans", sans-serif;
@@ -7118,143 +7223,22 @@ img {
   font-size: 0.95rem;
   color: #333333;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
-/* Info Card */
-.info-card {
-  background-color: rgba(23, 162, 184, 0.1);
-  border: 1px solid rgba(23, 162, 184, 0.2);
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 30px;
-}
-.info-card .info-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-.info-card .info-header i {
-  color: #17a2b8;
-  font-size: 1.2rem;
-}
-.info-card .info-header h3 {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  color: #333333;
-  font-size: 1.3rem;
-  color: #17a2b8;
-  margin: 0;
-  font-size: 1.1rem;
-}
-@media (max-width: 480px) {
-  .info-card .info-header h3 {
-    font-size: 1.2rem;
-  }
-}
-.info-card .info-content .info-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.info-card .info-content .info-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-  font-family: "Open Sans", sans-serif;
-  color: #666666;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  color: #333333;
-}
-.info-card .info-content .info-list li:last-child {
-  margin-bottom: 0;
-}
-.info-card .info-content .info-list li i {
-  color: #17a2b8;
-  font-size: 0.8rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-.info-card .info-content .info-list li i.fa-exclamation-triangle {
-  color: #ffc107;
-}
-
-/* Warning Card */
-.warning-card {
-  background-color: rgba(255, 193, 7, 0.1);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 30px;
-}
-.warning-card .warning-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-.warning-card .warning-header i {
-  color: #ffc107;
-  font-size: 1.2rem;
-}
-.warning-card .warning-header h3 {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  color: #333333;
-  font-size: 1.3rem;
-  color: #ffc107;
-  margin: 0;
-  font-size: 1.1rem;
-}
-@media (max-width: 480px) {
-  .warning-card .warning-header h3 {
-    font-size: 1.2rem;
-  }
-}
-.warning-card .warning-content .warning-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.warning-card .warning-content .warning-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-  font-family: "Open Sans", sans-serif;
-  color: #666666;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  color: #333333;
-}
-.warning-card .warning-content .warning-list li:last-child {
-  margin-bottom: 0;
-}
-.warning-card .warning-content .warning-list li i {
-  color: #ffc107;
-  font-size: 0.8rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-.warning-card .warning-content .warning-list li i.fa-warning {
-  color: #dc3545;
-}
-
-/* Error State */
+/* Error State - COMPACTO PARA FORMULARIOS */
 .error-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: 10px;
 }
 .error-state .error-icon {
-  font-size: 4rem;
+  font-size: 2rem;
   color: #dc3545;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 @media (max-width: 480px) {
   .error-state .error-icon {
-    font-size: 3rem;
+    font-size: 1.5rem;
   }
 }
 .error-state h3 {
@@ -7263,8 +7247,8 @@ img {
   color: #333333;
   font-size: 1.3rem;
   color: #333333;
-  margin-bottom: 10px;
-  font-size: 1.3rem;
+  margin-bottom: 5px;
+  font-size: 1rem;
 }
 @media (max-width: 480px) {
   .error-state h3 {
@@ -7273,7 +7257,7 @@ img {
 }
 @media (max-width: 480px) {
   .error-state h3 {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 }
 .error-state p {
@@ -7282,20 +7266,40 @@ img {
   line-height: 1.6;
   font-size: 1rem;
   color: #666666;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
 }
 
 /* Form Validation States */
 .form-input.input-error {
   border-color: #dc3545 !important;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2) !important;
 }
 .form-input.input-success {
   border-color: #28a745 !important;
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2) !important;
 }
 
-/* Modal Styles Enhancement */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.form-actions .auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.form-actions .auth-btn i {
+  font-size: 0.7rem;
+}
+
+/* Modal Styles Enhancement - MANTENER ORIGINAL */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -7307,13 +7311,13 @@ img {
   align-items: center;
   justify-content: center;
   z-index: 1100;
-  padding: 20px;
+  padding: 15px;
 }
 .modal-overlay .modal-content {
   background-color: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
+  max-width: 450px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -7322,7 +7326,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   border-bottom: 1px solid #CCCCCC;
 }
 .modal-overlay .modal-content .modal-header h3 {
@@ -7332,7 +7336,7 @@ img {
   font-size: 1.3rem;
   color: #333333;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 @media (max-width: 480px) {
   .modal-overlay .modal-content .modal-header h3 {
@@ -7342,7 +7346,7 @@ img {
 .modal-overlay .modal-content .modal-header .modal-close {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #666666;
   cursor: pointer;
   padding: 5px;
@@ -7354,12 +7358,12 @@ img {
   color: #333333;
 }
 .modal-overlay .modal-content .modal-body {
-  padding: 20px;
+  padding: 15px;
   text-align: center;
 }
 .modal-overlay .modal-content .modal-body .modal-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 .modal-overlay .modal-content .modal-body .modal-icon.danger {
   color: #dc3545;
@@ -7373,7 +7377,7 @@ img {
   line-height: 1.6;
   font-size: 1rem;
   color: #333333;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .modal-overlay .modal-content .modal-body p strong {
   color: #E60000;
@@ -7388,10 +7392,10 @@ img {
   margin-bottom: 0;
 }
 .modal-overlay .modal-content .modal-actions {
-  padding: 20px;
+  padding: 15px;
   border-top: 1px solid #CCCCCC;
   display: flex;
-  gap: 10px;
+  gap: 5px;
   justify-content: flex-end;
 }
 @media (max-width: 480px) {
@@ -7416,7 +7420,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 10px 20px;
+  padding: 5px 15px;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 500;
@@ -7449,7 +7453,7 @@ img {
   box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
 }
 .modal-overlay .modal-content .modal-actions .modal-btn i {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 /* Responsive Adjustments */
@@ -7462,18 +7466,24 @@ img {
   }
 }
 @media (max-width: 480px) {
+  .auth-section {
+    padding: 5px 0;
+  }
+  .breadcrumb {
+    margin-bottom: 5px;
+  }
   .admin-section {
-    padding: 20px 0;
+    padding: 15px 0;
   }
   .admin-header {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   .admin-card {
     margin-bottom: 20px;
   }
   .category-actions .action-buttons {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     gap: 5px;
   }
 }/*# sourceMappingURL=main.css.map */

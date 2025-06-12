@@ -136,6 +136,11 @@ class Category
      * @param int $id
      * @return Category|false category object on success, false on failure
      */
+/**
+     * Get a category by ID
+     * @param int $id
+     * @return Category|false category object on success, false on failure
+     */
     public function getById($id){
         try{
             $query = $this->db->prepare("SELECT * FROM categories WHERE id = :id");
@@ -149,8 +154,10 @@ class Category
                 $category = new Category();
                 $category->id = $category_data['id'];
                 $category->name = $category_data['name'];
-                $category->created_at = $category_data['created_at'];
-                $category->updated_at = $category_data['updated_at'];
+                
+                // Handle created_at and updated_at safely
+                $category->created_at = isset($category_data['created_at']) ? $category_data['created_at'] : null;
+                $category->updated_at = isset($category_data['updated_at']) ? $category_data['updated_at'] : null;
 
                 return $category;
             }

@@ -4,34 +4,47 @@
 @use '../global/buttons' as btn;
 
 /* =================================== */
-/* Admin Categories Styles             */
+/* Admin Categories Styles - Compact   */
 /* =================================== */
 
 /* Admin Section Layout */
 .admin-section {
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
-    @include section-padding;
+    padding: map-get(v.$spacing, lg) 0; // Keep original for index
 
     .admin-container {
         @include container;
-        padding-top: map-get(v.$spacing, xl);
-        padding-bottom: map-get(v.$spacing, xl);
+        padding-top: map-get(v.$spacing, md); // Keep original for index
+        padding-bottom: map-get(v.$spacing, md); // Keep original for index
     }
 }
 
-/* Admin Header */
+/* ESPECÍFICO PARA FORMULARIOS DE CREAR/EDITAR CATEGORÍAS */
+.auth-section {
+    background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, sm) 0; // Reducido significativamente
+    
+    .auth-container {
+        @include container;
+        padding-top: map-get(v.$spacing, xs); // Muy reducido
+        padding-bottom: map-get(v.$spacing, xs); // Muy reducido
+    }
+}
+
+/* Admin Header - MANTENER ORIGINAL PARA INDEX */
 .admin-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: map-get(v.$spacing, xxl);
-    gap: map-get(v.$spacing, lg);
+    margin-bottom: map-get(v.$spacing, lg); // Keep original
+    gap: map-get(v.$spacing, md); // Keep original
 
     @include breakpoint(tablet) {
         flex-direction: column;
         align-items: flex-start;
-        gap: map-get(v.$spacing, md);
+        gap: map-get(v.$spacing, sm); // Keep original
     }
 
     .admin-title-section {
@@ -41,10 +54,10 @@
             @include heading-style('h1');
             color: map-get(v.$colors, primary-red);
             margin-bottom: map-get(v.$spacing, xs);
-            font-size: 2.2rem;
+            font-size: 1.8rem; // Keep original
 
             @include breakpoint(mobile) {
-                font-size: 1.8rem;
+                font-size: 1.5rem; // Keep original
             }
         }
 
@@ -60,7 +73,7 @@
             @include btn.button-style;
             @include flex-center;
             gap: map-get(v.$spacing, xs);
-            padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
             border-radius: map-get(v.$layout, border-radius);
             text-decoration: none;
             font-weight: map-get(v.$font-weights, semibold);
@@ -86,16 +99,16 @@
     }
 }
 
-/* Admin Card */
+/* Admin Card - MANTENER ORIGINAL PARA INDEX */
 .admin-card {
     background-color: map-get(v.$colors, white);
     border-radius: map-get(v.$layout, border-radius-lg);
     box-shadow: map-get(v.$shadows, medium);
     overflow: hidden;
-    margin-bottom: map-get(v.$spacing, xl);
+    margin-bottom: map-get(v.$spacing, lg); // Keep original
 
     .card-header {
-        padding: map-get(v.$spacing, lg);
+        padding: map-get(v.$spacing, md); // Keep original
         border-bottom: 1px solid map-get(v.$colors, light-gray);
         background-color: rgba(map-get(v.$colors, bg-light-gray), 0.5);
 
@@ -104,10 +117,10 @@
                 @include heading-style('h2');
                 color: map-get(v.$colors, dark-gray);
                 margin-bottom: map-get(v.$spacing, xs);
-                font-size: 1.4rem;
+                font-size: 1.2rem; // Keep original
 
                 @include breakpoint(mobile) {
-                    font-size: 1.2rem;
+                    font-size: 1.1rem; // Keep original
                 }
             }
 
@@ -120,15 +133,63 @@
     }
 
     .card-content {
-        padding: map-get(v.$spacing, lg);
+        padding: map-get(v.$spacing, md); // Keep original
 
         @include breakpoint(mobile) {
-            padding: map-get(v.$spacing, md);
+            padding: map-get(v.$spacing, sm); // Keep original
         }
     }
 }
 
-/* Table Styles */
+/* ESTILOS ESPECÍFICOS PARA FORMULARIOS AUTH (CREAR/EDITAR) */
+.auth-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: map-get(v.$shadows, medium);
+    overflow: hidden;
+    margin-bottom: map-get(v.$spacing, sm); // Reducido significativamente
+    margin-top: 0; // Eliminar margen superior
+
+    .auth-header {
+        padding: map-get(v.$spacing, sm); // Reducido de md
+        border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+        .auth-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xxs); // Muy reducido
+            font-size: 1.4rem; // Reducido
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+
+            @include breakpoint(mobile) {
+                font-size: 1.2rem; // Reducido
+            }
+
+            i {
+                font-size: 1rem; // Reducido
+            }
+        }
+
+        .auth-subtitle {
+            @include body-text('small');
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+            font-size: map-get(v.$font-sizes, small); // Reducido
+        }
+    }
+
+    .auth-form {
+        padding: map-get(v.$spacing, sm); // Reducido de md
+
+        @include breakpoint(mobile) {
+            padding: map-get(v.$spacing, xs); // Reducido
+        }
+    }
+}
+
+/* Table Styles - MANTENER ORIGINAL PARA INDEX */
 .table-wrapper {
     overflow-x: auto;
     border-radius: map-get(v.$layout, border-radius);
@@ -145,7 +206,7 @@
         background-color: rgba(map-get(v.$colors, primary-red), 0.1);
 
         th {
-            padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
             text-align: left;
             font-weight: map-get(v.$font-weights, semibold);
             color: map-get(v.$colors, dark-gray);
@@ -155,7 +216,7 @@
             border-bottom: 2px solid map-get(v.$colors, light-gray);
 
             @include breakpoint(mobile) {
-                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
                 font-size: map-get(v.$font-sizes, xs);
             }
         }
@@ -175,24 +236,24 @@
             }
 
             td {
-                padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
                 vertical-align: middle;
                 color: map-get(v.$colors, text-primary);
 
                 @include breakpoint(mobile) {
-                    padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                    padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
                 }
             }
         }
     }
 }
 
-/* Table Cell Specific Styles */
+/* Table Cell Specific Styles - MANTENER ORIGINAL */
 .category-id {
     .id-badge {
         background-color: rgba(map-get(v.$colors, primary-red), 0.1);
         color: map-get(v.$colors, primary-red);
-        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+        padding: 2px map-get(v.$spacing, xs);
         border-radius: map-get(v.$layout, border-radius);
         font-weight: map-get(v.$font-weights, semibold);
         font-size: map-get(v.$font-sizes, xs);
@@ -214,7 +275,7 @@
     .date-info {
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: 1px;
 
         .date {
             font-weight: map-get(v.$font-weights, medium);
@@ -246,14 +307,14 @@
 
         .action-btn {
             @include flex-center;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border: none;
             border-radius: map-get(v.$layout, border-radius);
             cursor: pointer;
             transition: all map-get(v.$transitions, fast);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
 
             &.btn-edit {
                 background-color: rgba(#28a745, 0.1);
@@ -282,18 +343,18 @@
     }
 }
 
-/* No Categories State */
+/* No Categories State - MANTENER ORIGINAL */
 .no-categories {
     text-align: center;
-    padding: map-get(v.$spacing, xxl) map-get(v.$spacing, lg);
+    padding: map-get(v.$spacing, lg) map-get(v.$spacing, md);
 
     .no-data-icon {
-        font-size: 4rem;
+        font-size: 3rem;
         color: map-get(v.$colors, light-gray);
-        margin-bottom: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, md);
 
         @include breakpoint(mobile) {
-            font-size: 3rem;
+            font-size: 2.5rem;
         }
     }
 
@@ -301,17 +362,17 @@
         @include heading-style('h3');
         color: map-get(v.$colors, dark-gray);
         margin-bottom: map-get(v.$spacing, sm);
-        font-size: 1.3rem;
+        font-size: 1.2rem;
 
         @include breakpoint(mobile) {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
     }
 
     p {
         @include body-text();
         color: map-get(v.$colors, text-secondary);
-        margin-bottom: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, md);
         max-width: 400px;
         margin-left: auto;
         margin-right: auto;
@@ -327,7 +388,7 @@
         gap: map-get(v.$spacing, xs);
         background-color: map-get(v.$colors, primary-red);
         color: map-get(v.$colors, white);
-        padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
         border-radius: map-get(v.$layout, border-radius);
         text-decoration: none;
         font-weight: map-get(v.$font-weights, semibold);
@@ -342,16 +403,17 @@
     }
 }
 
-/* Breadcrumb Navigation */
+/* Breadcrumb Navigation - COMPACTO PARA FORMULARIOS */
 .breadcrumb {
     display: flex;
     align-items: center;
     gap: map-get(v.$spacing, sm);
-    margin-bottom: map-get(v.$spacing, xl);
-    font-size: map-get(v.$font-sizes, small);
+    margin-bottom: map-get(v.$spacing, sm);
+    font-size: map-get(v.$font-sizes, xs);
 
     .breadcrumb-link {
-        @include flex-center;
+        display: flex;
+        align-items: center;
         gap: map-get(v.$spacing, xs);
         color: map-get(v.$colors, text-secondary);
         text-decoration: none;
@@ -362,13 +424,13 @@
         }
 
         i {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
     }
 
     .fas.fa-chevron-right {
         color: map-get(v.$colors, light-gray);
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
     .breadcrumb-current {
@@ -377,18 +439,64 @@
     }
 }
 
-/* Category Info in Edit Form */
+/* FORMULARIOS - Estilos compactos para crear/editar */
+.form-group {
+    margin-bottom: map-get(v.$spacing, sm); // Reducido
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        margin-bottom: map-get(v.$spacing, xxs); // Muy reducido
+        @include body-text('small');
+        color: map-get(v.$colors, dark-gray);
+        font-weight: map-get(v.$font-weights, semibold);
+        font-size: map-get(v.$font-sizes, small); // Reducido
+
+        i {
+            color: map-get(v.$colors, primary-red);
+            font-size: 0.8rem; // Reducido
+        }
+    }
+
+    .form-input {
+        width: 100%;
+        padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm); // Reducido
+        border: 2px solid map-get(v.$colors, light-gray);
+        border-radius: map-get(v.$layout, border-radius);
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, small); // Reducido
+        transition: all map-get(v.$transitions, normal);
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: map-get(v.$colors, primary-red);
+            box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.2); // Reducido
+        }
+    }
+
+    .form-hint {
+        display: block;
+        margin-top: map-get(v.$spacing, xxs); // Muy reducido
+        @include body-text('small');
+        color: map-get(v.$colors, text-secondary);
+        font-size: map-get(v.$font-sizes, xs); // Reducido
+    }
+}
+
+/* Category Info in Edit Form - COMPACTO */
 .category-info {
     background-color: rgba(map-get(v.$colors, bg-light-gray), 0.5);
     border-radius: map-get(v.$layout, border-radius);
-    padding: map-get(v.$spacing, md);
-    margin-bottom: map-get(v.$spacing, lg);
+    padding: map-get(v.$spacing, xs); // Muy reducido
+    margin-bottom: map-get(v.$spacing, sm); // Reducido
 
     .info-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: map-get(v.$spacing, xs) 0;
+        padding: map-get(v.$spacing, xxs) 0; // Muy reducido
 
         &:not(:last-child) {
             border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
@@ -398,166 +506,49 @@
             @include body-text('small');
             color: map-get(v.$colors, text-secondary);
             font-weight: map-get(v.$font-weights, medium);
+            font-size: map-get(v.$font-sizes, xs); // Reducido
         }
 
         .info-value {
             @include body-text('small');
             color: map-get(v.$colors, dark-gray);
             font-weight: map-get(v.$font-weights, medium);
+            font-size: map-get(v.$font-sizes, xs); // Reducido
         }
     }
 }
 
-/* Info Card */
-.info-card {
-    background-color: rgba(#17a2b8, 0.1);
-    border: 1px solid rgba(#17a2b8, 0.2);
-    border-radius: map-get(v.$layout, border-radius-lg);
-    padding: map-get(v.$spacing, lg);
-    margin-top: map-get(v.$spacing, xl);
-
-    .info-header {
-        display: flex;
-        align-items: center;
-        gap: map-get(v.$spacing, sm);
-        margin-bottom: map-get(v.$spacing, md);
-
-        i {
-            color: #17a2b8;
-            font-size: 1.2rem;
-        }
-
-        h3 {
-            @include heading-style('h3');
-            color: #17a2b8;
-            margin: 0;
-            font-size: 1.1rem;
-        }
-    }
-
-    .info-content {
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-                display: flex;
-                align-items: flex-start;
-                gap: map-get(v.$spacing, sm);
-                margin-bottom: map-get(v.$spacing, sm);
-                @include body-text('small');
-                color: map-get(v.$colors, text-primary);
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-
-                i {
-                    color: #17a2b8;
-                    font-size: 0.8rem;
-                    margin-top: 2px;
-                    flex-shrink: 0;
-
-                    &.fa-exclamation-triangle {
-                        color: #ffc107;
-                    }
-                }
-            }
-        }
-    }
-}
-
-/* Warning Card */
-.warning-card {
-    background-color: rgba(#ffc107, 0.1);
-    border: 1px solid rgba(#ffc107, 0.2);
-    border-radius: map-get(v.$layout, border-radius-lg);
-    padding: map-get(v.$spacing, lg);
-    margin-top: map-get(v.$spacing, xl);
-
-    .warning-header {
-        display: flex;
-        align-items: center;
-        gap: map-get(v.$spacing, sm);
-        margin-bottom: map-get(v.$spacing, md);
-
-        i {
-            color: #ffc107;
-            font-size: 1.2rem;
-        }
-
-        h3 {
-            @include heading-style('h3');
-            color: #ffc107;
-            margin: 0;
-            font-size: 1.1rem;
-        }
-    }
-
-    .warning-content {
-        .warning-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-                display: flex;
-                align-items: flex-start;
-                gap: map-get(v.$spacing, sm);
-                margin-bottom: map-get(v.$spacing, sm);
-                @include body-text('small');
-                color: map-get(v.$colors, text-primary);
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-
-                i {
-                    color: #ffc107;
-                    font-size: 0.8rem;
-                    margin-top: 2px;
-                    flex-shrink: 0;
-
-                    &.fa-warning {
-                        color: #dc3545;
-                    }
-                }
-            }
-        }
-    }
-}
-
-/* Error State */
+/* Error State - COMPACTO PARA FORMULARIOS */
 .error-state {
     text-align: center;
-    padding: map-get(v.$spacing, xxl) map-get(v.$spacing, lg);
+    padding: map-get(v.$spacing, sm); // Muy reducido
 
     .error-icon {
-        font-size: 4rem;
+        font-size: 2rem; // Reducido
         color: #dc3545;
-        margin-bottom: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, xs); // Muy reducido
 
         @include breakpoint(mobile) {
-            font-size: 3rem;
+            font-size: 1.5rem; // Reducido
         }
     }
 
     h3 {
         @include heading-style('h3');
         color: map-get(v.$colors, dark-gray);
-        margin-bottom: map-get(v.$spacing, sm);
-        font-size: 1.3rem;
+        margin-bottom: map-get(v.$spacing, xs); // Muy reducido
+        font-size: 1rem; // Reducido
 
         @include breakpoint(mobile) {
-            font-size: 1.1rem;
+            font-size: 0.9rem; // Reducido
         }
     }
 
     p {
         @include body-text();
         color: map-get(v.$colors, text-secondary);
-        margin-bottom: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, sm); // Reducido
+        font-size: map-get(v.$font-sizes, small); // Reducido
     }
 }
 
@@ -565,16 +556,37 @@
 .form-input {
     &.input-error {
         border-color: #dc3545 !important;
-        box-shadow: 0 0 0 3px rgba(#dc3545, 0.2) !important;
+        box-shadow: 0 0 0 2px rgba(#dc3545, 0.2) !important; // Reducido
     }
 
     &.input-success {
         border-color: #28a745 !important;
-        box-shadow: 0 0 0 3px rgba(#28a745, 0.2) !important;
+        box-shadow: 0 0 0 2px rgba(#28a745, 0.2) !important; // Reducido
     }
 }
 
-/* Modal Styles Enhancement */
+.form-actions {
+    display: flex;
+    gap: map-get(v.$spacing, sm);
+    margin-top: map-get(v.$spacing, sm);
+
+    .auth-btn {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, xs) map-get(v.$spacing, md);
+        border-radius: map-get(v.$layout, border-radius);
+        font-size: map-get(v.$font-sizes, small);
+        font-weight: map-get(v.$font-weights, semibold);
+        transition: all map-get(v.$transitions, normal);
+
+        i {
+            font-size: 0.7rem;
+        }
+    }
+}
+
+/* Modal Styles Enhancement - MANTENER ORIGINAL */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -586,13 +598,13 @@
     align-items: center;
     justify-content: center;
     z-index: map-get(v.$z-index, modal);
-    padding: map-get(v.$spacing, lg);
+    padding: map-get(v.$spacing, md);
 
     .modal-content {
         background-color: map-get(v.$colors, white);
         border-radius: map-get(v.$layout, border-radius-lg);
         box-shadow: map-get(v.$shadows, large);
-        max-width: 500px;
+        max-width: 450px;
         width: 100%;
         max-height: 90vh;
         overflow-y: auto;
@@ -601,20 +613,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: map-get(v.$spacing, lg);
+            padding: map-get(v.$spacing, md);
             border-bottom: 1px solid map-get(v.$colors, light-gray);
 
             h3 {
                 @include heading-style('h3');
                 color: map-get(v.$colors, dark-gray);
                 margin: 0;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .modal-close {
                 background: none;
                 border: none;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 color: map-get(v.$colors, text-secondary);
                 cursor: pointer;
                 padding: map-get(v.$spacing, xs);
@@ -629,12 +641,12 @@
         }
 
         .modal-body {
-            padding: map-get(v.$spacing, lg);
+            padding: map-get(v.$spacing, md);
             text-align: center;
 
             .modal-icon {
-                font-size: 3rem;
-                margin-bottom: map-get(v.$spacing, md);
+                font-size: 2.5rem;
+                margin-bottom: map-get(v.$spacing, sm);
 
                 &.danger {
                     color: #dc3545;
@@ -648,7 +660,7 @@
             p {
                 @include body-text();
                 color: map-get(v.$colors, text-primary);
-                margin-bottom: map-get(v.$spacing, sm);
+                margin-bottom: map-get(v.$spacing, xs);
 
                 strong {
                     color: map-get(v.$colors, primary-red);
@@ -664,10 +676,10 @@
         }
 
         .modal-actions {
-            padding: map-get(v.$spacing, lg);
+            padding: map-get(v.$spacing, md);
             border-top: 1px solid map-get(v.$colors, light-gray);
             display: flex;
-            gap: map-get(v.$spacing, sm);
+            gap: map-get(v.$spacing, xs);
             justify-content: flex-end;
 
             @include breakpoint(mobile) {
@@ -678,7 +690,7 @@
                 @include btn.button-style;
                 @include flex-center;
                 gap: map-get(v.$spacing, xs);
-                padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+                padding: map-get(v.$spacing, xs) map-get(v.$spacing, md);
                 border-radius: map-get(v.$layout, border-radius);
                 text-decoration: none;
                 font-weight: map-get(v.$font-weights, medium);
@@ -711,7 +723,7 @@
                 }
 
                 i {
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                 }
             }
         }
@@ -732,12 +744,22 @@
 }
 
 @include breakpoint(mobile) {
+    // Específico para formularios auth
+    .auth-section {
+        padding: map-get(v.$spacing, xs) 0; // Muy reducido para móvil
+    }
+    
+    .breadcrumb {
+        margin-bottom: map-get(v.$spacing, xs); // Aún más reducido en móvil
+    }
+
+    // Mantener original para admin (index)
     .admin-section {
-        padding: map-get(v.$spacing, lg) 0;
+        padding: map-get(v.$spacing, md) 0;
     }
 
     .admin-header {
-        margin-bottom: map-get(v.$spacing, lg);
+        margin-bottom: map-get(v.$spacing, md);
     }
 
     .admin-card {
@@ -745,8 +767,8 @@
     }
 
     .category-actions .action-buttons {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        justify-content: center;
         gap: map-get(v.$spacing, xs);
     }
 }
