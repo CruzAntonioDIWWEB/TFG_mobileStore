@@ -48,7 +48,7 @@ $messages = $messages ?? [];
 
         <div class="settings-content">
             <div class="settings-grid">
-                
+
                 <!-- Account Management Card -->
                 <div class="settings-card">
                     <div class="card-header">
@@ -93,7 +93,7 @@ $messages = $messages ?? [];
                         <p class="card-description">Revisa el estado de tus pedidos y el historial de compras realizadas.</p>
                     </div>
                     <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=order&action=myOrders" class="settings-btn btn-secondary">
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="settings-btn btn-secondary">
                             <i class="fas fa-history"></i>
                             Ver pedidos
                         </a>
@@ -122,38 +122,38 @@ $messages = $messages ?? [];
                     </div>
                 </div>
 
-                <?php if ($isAdmin): ?>
-                <!-- Admin Panel Card -->
+    <?php if ($isAdmin): ?>
+                <!-- Category Management Card -->
                 <div class="settings-card admin-card">
                     <div class="card-header">
                         <div class="card-icon admin-icon">
-                            <i class="fas fa-tools"></i>
+                            <i class="fas fa-tags"></i>
                         </div>
                         <div class="card-title">
-                            <h3>Panel de administración</h3>
-                            <p>Gestiona la tienda y usuarios</p>
+                            <h3>Gestión de Categorías</h3>
+                            <p>Administrar las categorías de productos</p>
                         </div>
                     </div>
                     <div class="card-content">
                         <div class="admin-options">
                             <div class="admin-option">
-                                <i class="fas fa-box"></i>
-                                <span>Gestionar productos</span>
+                                <i class="fas fa-list"></i>
+                                <span>Ver todas las categorías</span>
                             </div>
                             <div class="admin-option">
-                                <i class="fas fa-users"></i>
-                                <span>Gestionar usuarios</span>
+                                <i class="fas fa-plus"></i>
+                                <span>Crear nueva categoría</span>
                             </div>
                             <div class="admin-option">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Ver estadísticas</span>
+                                <i class="fas fa-edit"></i>
+                                <span>Editar y eliminar categorías</span>
                             </div>
                         </div>
                     </div>
                     <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=admin&action=dashboard" class="settings-btn btn-admin">
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=index" class="settings-btn btn-admin">
                             <i class="fas fa-cog"></i>
-                            Acceder al panel
+                            Gestionar categorías
                         </a>
                     </div>
                 </div>
