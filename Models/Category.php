@@ -134,7 +134,7 @@ class Category
     /**
      * Get a category by ID
      * @param int $id
-     * @return array|false category data on success, false on failure
+     * @return Category|false category object on success, false on failure
      */
     public function getById($id){
         try{
@@ -144,12 +144,15 @@ class Category
 
             if($query->rowCount() > 0){
                 $category_data = $query->fetch(PDO::FETCH_ASSOC);
-                $this->id = $category_data['id'];
-                $this->name = $category_data['name'];
-                $this->created_at = $category_data['created_at'];
-                $this->updated_at = $category_data['updated_at'];
+                
+                // Create new instance instead of modifying $this
+                $category = new Category();
+                $category->id = $category_data['id'];
+                $category->name = $category_data['name'];
+                $category->created_at = $category_data['created_at'];
+                $category->updated_at = $category_data['updated_at'];
 
-                return $this;
+                return $category;
             }
 
             return false;
@@ -163,7 +166,7 @@ class Category
     /**
      * Get a category by name
      * @param string $name
-     * @return array|false category data on success, false on failure
+     * @return Category|false category object on success, false on failure
      */
     public function getByName($name){
         try{
@@ -173,12 +176,15 @@ class Category
 
             if($query->rowCount() > 0){
                 $category_data = $query->fetch(PDO::FETCH_ASSOC);
-                $this->id = $category_data['id'];
-                $this->name = $category_data['name'];
-                $this->created_at = $category_data['created_at'];
-                $this->updated_at = $category_data['updated_at'];
+                
+                // Create new instance instead of modifying $this
+                $category = new Category();
+                $category->id = $category_data['id'];
+                $category->name = $category_data['name'];
+                $category->created_at = $category_data['created_at'];
+                $category->updated_at = $category_data['updated_at'];
 
-                return $this;
+                return $category;
             }
 
             return false;
