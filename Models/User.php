@@ -78,6 +78,10 @@ class User
         $this->email = $email;
     }
 
+    public function setRole($role){
+        $this->role = $role;
+    }
+
     /**
      * Saves the user in the database
      * @return bool true if successful, otherwise false
