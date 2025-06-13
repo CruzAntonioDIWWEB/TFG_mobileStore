@@ -403,42 +403,6 @@
     }
 }
 
-/* Breadcrumb Navigation - COMPACTO PARA FORMULARIOS */
-.breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: map-get(v.$spacing, sm);
-    margin-bottom: map-get(v.$spacing, sm);
-    font-size: map-get(v.$font-sizes, xs);
-
-    .breadcrumb-link {
-        display: flex;
-        align-items: center;
-        gap: map-get(v.$spacing, xs);
-        color: map-get(v.$colors, text-secondary);
-        text-decoration: none;
-        transition: color map-get(v.$transitions, fast);
-
-        &:hover {
-            color: map-get(v.$colors, primary-red);
-        }
-
-        i {
-            font-size: 0.7rem;
-        }
-    }
-
-    .fas.fa-chevron-right {
-        color: map-get(v.$colors, light-gray);
-        font-size: 0.6rem;
-    }
-
-    .breadcrumb-current {
-        color: map-get(v.$colors, primary-red);
-        font-weight: map-get(v.$font-weights, medium);
-    }
-}
-
 /* FORMULARIOS - Estilos compactos para crear/editar */
 .form-group {
     margin-bottom: map-get(v.$spacing, sm);

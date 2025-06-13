@@ -32,90 +32,90 @@ class UserController extends BaseController
     /**
      * Handle user registration
      */
-public function processRegistration(){
-    // Add this line first to see if method is called
-    error_log("processRegistration method called");
-    file_put_contents(__DIR__ . '/debug.log', "processRegistration called at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
-    
-    if(!$this->isPost()){
-        error_log("Not a POST request");
-        $this->redirect('user', 'register'); 
-        return;
+    public function processRegistration(){
+        // Add this line first to see if method is called
+        error_log("processRegistration method called");
+        file_put_contents(__DIR__ . '/debug.log', "processRegistration called at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+        
+        if(!$this->isPost()){
+            error_log("Not a POST request");
+            $this->redirect('user', 'register'); 
+            return;
+        }
+
+        $postData = $this->getPostData();
+        error_log("POST data received: " . print_r($postData, true));
+
+        // Validate input data
+        $requiredFields = ['name', 'surnames', 'email', 'password'];
+        $errors = $this->validateRequired($postData, $requiredFields);
+
+        if (!empty($errors)) {
+            $this->setErrorMessage('Todos los campos son obligatorios');
+            $this->redirect('user', 'register'); 
+            return;
+        }
+
+        $name = $postData['name'];
+        $surnames = $postData['surnames'];
+        $email = $postData['email'];
+        $password = $postData['password'];
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->setErrorMessage('Formato de email inválido');
+            $this->redirect('user', 'register'); 
+            return;
+        }
+
+        // Validate password length
+        if (strlen($password) < 4) { 
+            $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
+            $this->redirect('user', 'register'); 
+            return;
+        }
+
+        // Create user instance and check if email already exists
+        $user = new \Models\User();
+
+        if($user->checkUserExists($email)){
+            $this->setErrorMessage('Este email ya está registrado');
+            $this->redirect('user', 'register'); 
+            return;
+        }
+
+        $user->setName($name);
+        $user->setSurnames($surnames);
+        $user->setEmail($email);
+        $user->setPassword($password);
+
+        // Save user to database
+        $saved = $user->saveDB();
+
+        if ($saved) {
+            $this->setSuccessMessage('Registro completado con éxito. Ya puedes iniciar sesión.');
+            $this->redirect('user', 'login'); 
+        } else {
+            $this->setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
+            $this->redirect('user', 'register'); 
+        }
     }
 
-    $postData = $this->getPostData();
-    error_log("POST data received: " . print_r($postData, true));
-
-    // Validate input data
-    $requiredFields = ['name', 'surnames', 'email', 'password'];
-    $errors = $this->validateRequired($postData, $requiredFields);
-
-    if (!empty($errors)) {
-        $this->setErrorMessage('Todos los campos son obligatorios');
-        $this->redirect('user', 'register'); 
-        return;
+    /**
+     * Show registration success page
+     */
+    public function registrationSuccess(){
+        // Optional: Check if user just registered (security measure)
+        if (!isset($_SESSION['just_registered'])) {
+            $this->redirect('user', 'register');
+            return;
+        }
+        
+        // Clear the flag so user can't access this page again by direct URL
+        unset($_SESSION['just_registered']);
+        
+        $this->loadView('user/registration_success');
     }
-
-    $name = $postData['name'];
-    $surnames = $postData['surnames'];
-    $email = $postData['email'];
-    $password = $postData['password'];
-
-    // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $this->setErrorMessage('Formato de email inválido');
-        $this->redirect('user', 'register'); 
-        return;
-    }
-
-    // Validate password length
-    if (strlen($password) < 4) { 
-        $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
-        $this->redirect('user', 'register'); 
-        return;
-    }
-
-    // Create user instance and check if email already exists
-    $user = new \Models\User();
-
-    if($user->checkUserExists($email)){
-        $this->setErrorMessage('Este email ya está registrado');
-        $this->redirect('user', 'register'); 
-        return;
-    }
-
-    $user->setName($name);
-    $user->setSurnames($surnames);
-    $user->setEmail($email);
-    $user->setPassword($password);
-
-    // Save user to database
-    $saved = $user->saveDB();
-
-    if ($saved) {
-        $this->setSuccessMessage('Registro completado con éxito. Ya puedes iniciar sesión.');
-        $this->redirect('user', 'login'); 
-    } else {
-        $this->setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
-        $this->redirect('user', 'register'); 
-    }
-}
-
-/**
- * Show registration success page
- */
-public function registrationSuccess(){
-    // Optional: Check if user just registered (security measure)
-    if (!isset($_SESSION['just_registered'])) {
-        $this->redirect('user', 'register');
-        return;
-    }
-    
-    // Clear the flag so user can't access this page again by direct URL
-    unset($_SESSION['just_registered']);
-    
-    $this->loadView('user/registration_success');
-}
 
     // ========================================
     // AUTHENTICATION METHODS
@@ -296,52 +296,233 @@ public function registrationSuccess(){
         $this->redirect('user', 'profile');
     }
 
+    /**
+     * Display user's order history
+     */
+    public function historialPedidos(){
+        $this->requireLogin();
+        $this->loadView('user/historial_pedidos');
+    }
+
     // ========================================
-    // ADMIN METHODS
+    // ADMIN USER MANAGEMENT METHODS (NEW CRUD)
     // ========================================
 
     /**
-     * List all users (admin only)
+     * Display all users (admin only)
      */
-    public function listUsers(){
+    public function index(){
         $this->requireAdmin();
 
-        $user = new \Models\User();
-        $users = $user->getAll();
+        $userModel = new \Models\User();
+        $users = $userModel->getAll();
 
-        $this->loadView('admin/users', ['users' => $users]);
+        $this->loadView('admin/users/index', ['users' => $users]);
     }
 
     /**
-     * Display user's order history
-     * Add this method to your existing UserController.php
+     * Show form to create a new user (admin only)
      */
-    public function historialPedidos(){
-        // Check if user is logged in (this method should already exist in BaseController)
-        $this->requireLogin();
+    public function create(){
+        $this->requireAdmin();
+        $this->loadView('admin/users/create');
+    }
+
+    /**
+     * Show form to edit an existing user (admin only)
+     */
+    public function edit(){
+        $this->requireAdmin();
+
+        $userId = $this->getGetData('id');
         
-        // Load the view (uses project's layout system with header/footer)
-        $this->loadView('user/historial_pedidos');
+        if (!$userId || !is_numeric($userId)) {
+            $this->setErrorMessage('ID de usuario inválido');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        $userModel = new \Models\User();
+        $user = $userModel->getUserById($userId);
+
+        if (!$user) {
+            $this->setErrorMessage('Usuario no encontrado');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        $this->loadView('admin/users/edit', ['user' => $user]);
+    }
+
+    // ========================================
+    // ADMIN USER CRUD OPERATIONS (NEW)
+    // ========================================
+
+    /**
+     * Save a new user (admin only)
+     */
+    public function save(){
+        $this->requireAdmin();
+
+        if (!$this->isPost()) {
+            $this->setErrorMessage('Método de petición inválido');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        $postData = $this->getPostData();
+        $name = trim($postData['name'] ?? '');
+        $surnames = trim($postData['surnames'] ?? '');
+        $email = trim($postData['email'] ?? '');
+        $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? 'cliente');
+
+        // Validate required fields
+        if (empty($name) || empty($surnames) || empty($email) || empty($password)) {
+            $this->setErrorMessage('Todos los campos son obligatorios');
+            $this->redirect('user', 'create');
+            return;
+        }
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->setErrorMessage('Formato de email inválido');
+            $this->redirect('user', 'create');
+            return;
+        }
+
+        // Validate password length
+        if (strlen($password) < 4) {
+            $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
+            $this->redirect('user', 'create');
+            return;
+        }
+
+        // Validate role
+        if (!in_array($role, ['cliente', 'admin'])) {
+            $this->setErrorMessage('Rol inválido');
+            $this->redirect('user', 'create');
+            return;
+        }
+
+        // Check if email already exists
+        $userModel = new \Models\User();
+        if ($userModel->checkUserExists($email)) {
+            $this->setErrorMessage('Este email ya está registrado');
+            $this->redirect('user', 'create');
+            return;
+        }
+
+        // Create new user
+        $userModel->setName($name);
+        $userModel->setSurnames($surnames);
+        $userModel->setEmail($email);
+        $userModel->setPassword($password);
+        $userModel->setRole($role);  
+
+        $saved = $userModel->saveDB();
+
+        if ($saved && $role === 'admin') {
+            $userModel->setId($userModel->getId());
+            $userModel->updateDB();
+        }
+    }
+
+    /**
+     * Update an existing user (admin only)
+     */
+    public function update(){
+        $this->requireAdmin();
+
+        if (!$this->isPost()) {
+            $this->setErrorMessage('Método de petición inválido');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        $postData = $this->getPostData();
+        $userId = intval($postData['id'] ?? 0);
+        $name = trim($postData['name'] ?? '');
+        $surnames = trim($postData['surnames'] ?? '');
+        $email = trim($postData['email'] ?? '');
+        $password = trim($postData['password'] ?? '');
+
+        // Validate user ID
+        if (!$userId) {
+            $this->setErrorMessage('ID de usuario inválido');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        // Validate required fields (password is optional for updates)
+        if (empty($name) || empty($surnames) || empty($email)) {
+            $this->setErrorMessage('Nombre, apellidos y email son obligatorios');
+            $this->redirect('user', 'edit', ['id' => $userId]);
+            return;
+        }
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->setErrorMessage('Formato de email inválido');
+            $this->redirect('user', 'edit', ['id' => $userId]);
+            return;
+        }
+
+        // Validate password if provided
+        if (!empty($password) && strlen($password) < 4) {
+            $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
+            $this->redirect('user', 'edit', ['id' => $userId]);
+            return;
+        }
+
+        // Get user and update
+        $userModel = new \Models\User();
+        $user = $userModel->getUserById($userId);
+
+        if (!$user) {
+            $this->setErrorMessage('Usuario no encontrado');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        // Update user data
+        $user->setName($name);
+        $user->setSurnames($surnames);
+        $user->setEmail($email);
+        
+        // Only update password if provided
+        if (!empty($password)) {
+            $user->setPassword($password);
+        }
+
+        $updated = $user->updateDB();
+
+        if ($updated) {
+            $this->setSuccessMessage('Usuario actualizado exitosamente');
+            $this->redirect('user', 'index');
+        } else {
+            $this->setErrorMessage('Error al actualizar el usuario');
+            $this->redirect('user', 'edit', ['id' => $userId]);
+        }
     }
 
     /**
      * Delete user (admin only)
      */
-    public function deleteUser(){
+    public function delete(){
         $this->requireAdmin();
 
-        // Only allow POST requests for delete operations
         if (!$this->isPost()) {
-            $this->setErrorMessage('Invalid request method');
-            $this->redirect('user', 'listUsers');
+            $this->setErrorMessage('Método de petición inválido');
+            $this->redirect('user', 'index');
             return;
         }
 
-        $userId = $this->getPostData('id');
+        $userId = intval($this->getPostData('id') ?? 0);
         
-        if (!$userId || !is_numeric($userId)) {
-            $this->setErrorMessage('Invalid user ID');
-            $this->redirect('user', 'listUsers');
+        if (!$userId) {
+            $this->setErrorMessage('ID de usuario inválido');
+            $this->redirect('user', 'index');
             return;
         }
 
@@ -349,43 +530,49 @@ public function registrationSuccess(){
         
         // Prevent admin from deleting themselves
         if ($userId == $currentUser['id']) {
-            $this->setErrorMessage('You cannot delete your own account');
-            $this->redirect('user', 'listUsers');
+            $this->setErrorMessage('No puedes eliminar tu propia cuenta');
+            $this->redirect('user', 'index');
             return;
         }
 
-        $user = new \Models\User();
+        $userModel = new \Models\User();
+        $user = $userModel->getUserById($userId);
+
+        if (!$user) {
+            $this->setErrorMessage('Usuario no encontrado');
+            $this->redirect('user', 'index');
+            return;
+        }
+
+        // Delete user
         $user->setId($userId);
         $deleted = $user->delete();
 
         if ($deleted) {
-            $this->setSuccessMessage('User deleted successfully');
+            $this->setSuccessMessage('Usuario eliminado exitosamente');
         } else {
-            $this->setErrorMessage('Error deleting user');
+            $this->setErrorMessage('Error al eliminar el usuario');
         }
 
-        $this->redirect('user', 'listUsers');
+        $this->redirect('user', 'index');
     }
 
     // ========================================
-    // HELPER METHODS
+    // LEGACY ADMIN METHODS (KEEPING FOR COMPATIBILITY)
     // ========================================
 
     /**
-     * Load view with layout
-     * @param string $view View file path
-     * @param array $data Data to pass to view
+     * List all users (admin only) - Legacy method, redirects to index
      */
-    protected function loadView($view, $data = []){
-        // Extract data for use in view
-        extract($data);
-        
-        // Get messages for display
-        $messages = $this->getMessages();
-        
-        require_once __DIR__ . '/../Views/layout/header.php';
-        require_once __DIR__ . "/../Views/{$view}.php";
-        require_once __DIR__ . '/../Views/layout/footer.php';
+    public function listUsers(){
+        $this->redirect('user', 'index');
+    }
+
+    /**
+     * Delete user (admin only) - Legacy method, redirects to delete
+     */
+    public function deleteUser(){
+        $this->delete();
     }
 }
 

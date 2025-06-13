@@ -100,28 +100,6 @@ $messages = $messages ?? [];
                     </div>
                 </div>
 
-                <!-- Shopping Cart Card -->
-                <div class="settings-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <div class="card-title">
-                            <h3>Mi carrito</h3>
-                            <p>Productos guardados para comprar</p>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-description">Revisa los productos que has añadido a tu carrito de compras.</p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="settings-btn btn-secondary">
-                            <i class="fas fa-eye"></i>
-                            Ver carrito
-                        </a>
-                    </div>
-                </div>
-
     <?php if ($isAdmin): ?>
                 <!-- Category Management Card -->
                 <div class="settings-card admin-card">
@@ -131,7 +109,7 @@ $messages = $messages ?? [];
                         </div>
                         <div class="card-title">
                             <h3>Gestión de Categorías</h3>
-                            <p>Administrar las categorías de productos</p>
+                            <p>Administrar las categorías</p>
                         </div>
                     </div>
                     <div class="card-content">
@@ -142,7 +120,7 @@ $messages = $messages ?? [];
                             </div>
                             <div class="admin-option">
                                 <i class="fas fa-plus"></i>
-                                <span>Crear nueva categoría</span>
+                                <span>Añadir categoría</span>
                             </div>
                             <div class="admin-option">
                                 <i class="fas fa-edit"></i>
@@ -166,11 +144,20 @@ $messages = $messages ?? [];
                         </div>
                         <div class="card-title">
                             <h3>Gestión de productos</h3>
-                            <p>Añadir, editar y eliminar productos</p>
+                            <p>Administrar los productos</p>
                         </div>
                     </div>
                     <div class="card-content">
-                        <p class="card-description">Administra el catálogo de móviles y accesorios de la tienda.</p>
+                        <div class="admin-options">
+                            <div class="admin-option">
+                                <i class="fas fa-plus"></i>
+                                <span>Añadir productos</span>
+                            </div>
+                            <div class="admin-option">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar y eliminar productos</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-actions">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=index" class="settings-btn btn-admin">
@@ -215,7 +202,7 @@ $messages = $messages ?? [];
                         </div>
                     </div>
                     <div class="card-content">
-                        <p class="card-description">¿Estás seguro de que quieres cerrar tu sesión? Tendrás que volver a iniciar sesión para acceder a tu cuenta.</p>
+                        <p class="card-description">¿Estás seguro de que quieres cerrar sesión? Tendrás que volver a iniciar sesión para acceder a tu cuenta.</p>
                     </div>
                     <div class="card-actions">
                         <button type="button" class="settings-btn btn-logout" onclick="confirmLogout()">
