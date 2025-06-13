@@ -559,41 +559,6 @@
     }
 }
 
-/* Breadcrumb */
-.breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: map-get(v.$spacing, xs);
-    margin-bottom: map-get(v.$spacing, lg);
-    font-size: map-get(v.$font-sizes, small);
-
-    .breadcrumb-link {
-        @include flex-center;
-        gap: map-get(v.$spacing, xxs);
-        color: map-get(v.$colors, primary-red);
-        text-decoration: none;
-        transition: color map-get(v.$transitions, fast);
-
-        &:hover {
-            color: darken(map-get(v.$colors, primary-red), 15%);
-        }
-
-        i {
-            font-size: 0.8rem;
-        }
-    }
-
-    .breadcrumb-current {
-        color: map-get(v.$colors, text-secondary);
-        font-weight: map-get(v.$font-weights, medium);
-    }
-
-    i.fas.fa-chevron-right {
-        color: map-get(v.$colors, text-light);
-        font-size: 0.7rem;
-    }
-}
-
 /* Grid Layout for Price/Stock */
 .form-group {
     &:has(> div[style*="grid"]) {
