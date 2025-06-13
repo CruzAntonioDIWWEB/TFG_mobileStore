@@ -173,7 +173,7 @@ class ProductController extends BaseController
     // ========================================
 
     /**
-     * Display all products (for admin view)
+     * Display all products (admin only) - UPDATED
      */
     public function index(){
         $this->requireAdmin();
@@ -185,18 +185,18 @@ class ProductController extends BaseController
     }
 
     /**
-     * Show form to create new product
+     * Show form to create a new product
      */
-    public function createProduct()
-    {
+    public function create(){
         $this->requireAdmin();
 
+        // Get categories and accessory types for dropdowns
         $categoryModel = new \Models\Category();
         $accessoryTypeModel = new \Models\AccessoryType();
-
+        
         $categories = $categoryModel->getAll();
         $accessoryTypes = $accessoryTypeModel->getAll();
-        
+
         $viewData = [
             'categories' => $categories,
             'accessoryTypes' => $accessoryTypes
@@ -206,53 +206,96 @@ class ProductController extends BaseController
     }
 
     /**
-     * Show form to create a new product (alias method)
+     * Show form to edit an existing product
      */
-    public function create(){
-        $this->createProduct();
+     public function edit(){
+        $this->requireAdmin();
+
+        $productId = $this->getGetData('id');
+        
+        if (!$productId || !is_numeric($productId)) {
+            $this->setErrorMessage('ID de producto inválido');
+            $this->redirect('product', 'index');
+            return;
+        }
+
+        $productModel = new \Models\Product();
+        $product = $productModel->getProductById($productId);
+
+        if (!$product) {
+            $this->setErrorMessage('Producto no encontrado');
+            $this->redirect('product', 'index');
+            return;
+        }
+
+        // Get categories and accessory types for dropdowns
+        $categoryModel = new \Models\Category();
+        $accessoryTypeModel = new \Models\AccessoryType();
+        
+        $categories = $categoryModel->getAll();
+        $accessoryTypes = $accessoryTypeModel->getAll();
+
+        $viewData = [
+            'product' => $product,
+            'categories' => $categories,
+            'accessoryTypes' => $accessoryTypes
+        ];
+
+        $this->loadView('admin/products/edit', $viewData);
     }
 
+    // ========================================
+    // PRODUCT CRUD OPERATIONS
+    // ========================================
+
     /**
-     * Process new product creation
+     * Save a new product
      */
-    public function createProductSubmit()
-    {
+    public function save(){
         $this->requireAdmin();
-        
+
         if (!$this->isPost()) {
-            $this->redirect('product', 'create');
+            $this->setErrorMessage('Método de petición inválido');
+            $this->redirect('product', 'index');
             return;
         }
 
         $postData = $this->getPostData();
         
-        // Validate required fields
-        $requiredFields = ['name', 'description', 'price', 'stock', 'category_id'];
-        $errors = $this->validateRequired($postData, $requiredFields);
-        
-        if (!empty($errors)) {
-            $this->setErrorMessage('All fields are required');
+        // Basic validation
+        $name = trim($postData['name'] ?? '');
+        $description = trim($postData['description'] ?? '');
+        $price = trim($postData['price'] ?? '');
+        $stock = trim($postData['stock'] ?? '');
+        $categoryId = trim($postData['category_id'] ?? '');
+
+        if (empty($name) || empty($description) || empty($price) || empty($stock) || empty($categoryId)) {
+            $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
             $this->redirect('product', 'create');
             return;
         }
 
-        // Additional validation
-        $price = floatval($postData['price']);
-        $stock = intval($postData['stock']);
-        $categoryId = intval($postData['category_id']);
+        // Validate numeric fields
+        if (!is_numeric($price) || floatval($price) <= 0) {
+            $this->setErrorMessage('El precio debe ser un número mayor que 0');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        if (!is_numeric($stock) || intval($stock) < 0) {
+            $this->setErrorMessage('El stock debe ser un número mayor o igual a 0');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        if (!is_numeric($categoryId)) {
+            $this->setErrorMessage('Categoría inválida');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        // Handle optional accessory type
         $accessoryTypeId = !empty($postData['accessory_type_id']) ? intval($postData['accessory_type_id']) : null;
-        
-        if ($price <= 0) {
-            $this->setErrorMessage('Price must be greater than 0');
-            $this->redirect('product', 'create');
-            return;
-        }
-        
-        if ($stock < 0) {
-            $this->setErrorMessage('Stock cannot be negative');
-            $this->redirect('product', 'create');
-            return;
-        }
 
         // Handle image upload
         $imageName = null;
@@ -266,142 +309,108 @@ class ProductController extends BaseController
 
         // Create product
         $product = new \Models\Product();
-        $product->setCategoryId($categoryId);
+        $product->setName($name);
+        $product->setDescription($description);
+        $product->setPrice(floatval($price));
+        $product->setStock(intval($stock));
+        $product->setCategoryId(intval($categoryId));
         $product->setAccessoryType($accessoryTypeId);
-        $product->setName($postData['name']);
-        $product->setDescription($postData['description']);
-        $product->setPrice($price);
-        $product->setStock($stock);
         $product->setImage($imageName);
-        
-        $saved = $product->saveDB();
-        
+
+        $saved = $product->saveDB(); // Use saveDB method to match your project pattern
+
         if ($saved) {
-            $this->setSuccessMessage('Product created successfully');
+            $this->setSuccessMessage('Producto creado exitosamente');
             $this->redirect('product', 'index');
         } else {
-            $this->setErrorMessage('Error creating product');
+            $this->setErrorMessage('Error al crear el producto');
             $this->redirect('product', 'create');
         }
     }
 
     /**
-     * Save a new product (alias method)
+     * Update an existing product
      */
-    public function save(){
-        $this->createProductSubmit();
-    }
-
-    /**
-     * Show form to edit existing product
-     */
-    public function editProduct()
-    {
+    public function update(){
         $this->requireAdmin();
-        
-        $productId = $this->getGetData('id');
-        
-        if (!$productId || !is_numeric($productId)) {
-            $this->setErrorMessage('Invalid product ID');
-            $this->redirect('product', 'index');
-            return;
-        }
 
-        $productModel = new \Models\Product();
-        $product = $productModel->getProductById($productId);
-        
-        if (!$product) {
-            $this->setErrorMessage('Product not found');
-            $this->redirect('product', 'index');
-            return;
-        }
-
-        $categoryModel = new \Models\Category();
-        $accessoryTypeModel = new \Models\AccessoryType();
-        
-        $categories = $categoryModel->getAll();
-        $accessoryTypes = $accessoryTypeModel->getAll();
-        
-        $viewData = [
-            'product' => $product,
-            'categories' => $categories,
-            'accessoryTypes' => $accessoryTypes
-        ];
-
-        $this->loadView('admin/products/edit', $viewData);
-    }
-
-    /**
-     * Show form to edit an existing product (alias method)
-     */
-    public function edit(){
-        $this->editProduct();
-    }
-
-    /**
-     * Process product update
-     */
-    public function updateProduct()
-    {
-        $this->requireAdmin();
-        
         if (!$this->isPost()) {
+            $this->setErrorMessage('Método de petición inválido');
             $this->redirect('product', 'index');
             return;
         }
 
         $postData = $this->getPostData();
         $productId = intval($postData['id'] ?? 0);
-        
+
         if (!$productId) {
-            $this->setErrorMessage('Invalid product ID');
+            $this->setErrorMessage('ID de producto inválido');
             $this->redirect('product', 'index');
             return;
         }
 
-        // Validate required fields
-        $requiredFields = ['name', 'description', 'price', 'stock', 'category_id'];
-        $errors = $this->validateRequired($postData, $requiredFields);
-        
-        if (!empty($errors)) {
-            $this->setErrorMessage('All fields are required');
+        // Basic validation
+        $name = trim($postData['name'] ?? '');
+        $description = trim($postData['description'] ?? '');
+        $price = trim($postData['price'] ?? '');
+        $stock = trim($postData['stock'] ?? '');
+        $categoryId = trim($postData['category_id'] ?? '');
+
+        if (empty($name) || empty($description) || empty($price) || empty($stock) || empty($categoryId)) {
+            $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
             $this->redirect('product', 'edit', ['id' => $productId]);
             return;
         }
 
-        // Additional validation
-        $price = floatval($postData['price']);
-        $stock = intval($postData['stock']);
-        $categoryId = intval($postData['category_id']);
+        // Validate numeric fields
+        if (!is_numeric($price) || floatval($price) <= 0) {
+            $this->setErrorMessage('El precio debe ser un número mayor que 0');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        if (!is_numeric($stock) || intval($stock) < 0) {
+            $this->setErrorMessage('El stock debe ser un número mayor o igual a 0');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        if (!is_numeric($categoryId)) {
+            $this->setErrorMessage('Categoría inválida');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        // Check if product exists and get current image
+        $productModel = new \Models\Product();
+        $existingProductResult = $productModel->getProductById($productId);
+
+        if (!$existingProductResult) {
+            $this->setErrorMessage('Producto no encontrado');
+            $this->redirect('product', 'index');
+            return;
+        }
+
+        // Handle the current image - work with both object and array returns
+        $currentImage = null;
+        if (is_object($existingProductResult)) {
+            $currentImage = $existingProductResult->getImage();
+        } elseif (is_array($existingProductResult)) {
+            $currentImage = $existingProductResult['image'] ?? null;
+        }
+
+        // Handle optional accessory type
         $accessoryTypeId = !empty($postData['accessory_type_id']) ? intval($postData['accessory_type_id']) : null;
-        
-        if ($price <= 0) {
-            $this->setErrorMessage('Price must be greater than 0');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
-        
-        if ($stock < 0) {
-            $this->setErrorMessage('Stock cannot be negative');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
 
-        // Get existing product
-        $product = new \Models\Product();
-        if (!$product->getProductById($productId)) {
-            $this->setErrorMessage('Product not found');
-            $this->redirect('product', 'index');
-            return;
-        }
-
-        // Handle image upload if new image provided
-        $imageName = $product->getImage();
+        // Handle image upload
+        $imageName = $currentImage; // Keep existing image by default
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
             $newImageName = $this->handleImageUpload($_FILES['image']);
             if ($newImageName) {
-                // Delete old image
-                $this->deleteProductImage($imageName);
+                // Delete old image if it exists
+                if ($imageName) {
+                    $this->deleteImage($imageName);
+                }
                 $imageName = $newImageName;
             } else {
                 $this->redirect('product', 'edit', ['id' => $productId]);
@@ -409,151 +418,155 @@ class ProductController extends BaseController
             }
         }
 
-        // Update product
+        // Create a new Product instance for updating
+        $product = new \Models\Product();
         $product->setId($productId);
-        $product->setCategoryId($categoryId);
+        $product->setName($name);
+        $product->setDescription($description);
+        $product->setPrice(floatval($price));
+        $product->setStock(intval($stock));
+        $product->setCategoryId(intval($categoryId));
         $product->setAccessoryType($accessoryTypeId);
-        $product->setName($postData['name']);
-        $product->setDescription($postData['description']);
-        $product->setPrice($price);
-        $product->setStock($stock);
         $product->setImage($imageName);
-        
+
         $updated = $product->updateDB();
-        
+
         if ($updated) {
-            $this->setSuccessMessage('Product updated successfully');
+            $this->setSuccessMessage('Producto actualizado exitosamente');
             $this->redirect('product', 'index');
         } else {
-            $this->setErrorMessage('Error updating product');
+            $this->setErrorMessage('Error al actualizar el producto');
             $this->redirect('product', 'edit', ['id' => $productId]);
         }
     }
 
     /**
-     * Update an existing product (alias method)
+     * Delete a product
      */
-    public function update(){
-        $this->updateProduct();
-    }
-
-    /**
-     * Delete product
-     */
-    public function deleteProduct()
-    {
+    public function delete(){
         $this->requireAdmin();
-        
+
         if (!$this->isPost()) {
-            $this->setErrorMessage('Invalid request method');
+            $this->setErrorMessage('Método de petición inválido');
             $this->redirect('product', 'index');
             return;
         }
 
-        $productId = $this->getPostData('id');
-        
-        if (!$productId || !is_numeric($productId)) {
-            $this->setErrorMessage('Invalid product ID');
+        $productId = intval($this->getPostData('id') ?? 0);
+
+        if (!$productId) {
+            $this->setErrorMessage('ID de producto inválido');
             $this->redirect('product', 'index');
             return;
         }
 
+        // Check if product exists and get current image
+        $productModel = new \Models\Product();
+        $existingProductResult = $productModel->getProductById($productId);
+
+        if (!$existingProductResult) {
+            $this->setErrorMessage('Producto no encontrado');
+            $this->redirect('product', 'index');
+            return;
+        }
+
+        // Handle the current image - work with both object and array returns
+        $currentImage = null;
+        if (is_object($existingProductResult)) {
+            $currentImage = $existingProductResult->getImage();
+        } elseif (is_array($existingProductResult)) {
+            $currentImage = $existingProductResult['image'] ?? null;
+        }
+
+        // Delete product image if it exists (before deleting the product)
+        if ($currentImage) {
+            $this->deleteImage($currentImage);
+        }
+
+        // Create a new Product instance for deletion
         $product = new \Models\Product();
-        if (!$product->getProductById($productId)) {
-            $this->setErrorMessage('Product not found');
-            $this->redirect('product', 'index');
-            return;
-        }
-
-        // Delete product
+        $product->setId($productId);
         $deleted = $product->delete();
-        
+
         if ($deleted) {
-            // Delete product image
-            $this->deleteProductImage($product->getImage());
-            $this->setSuccessMessage('Product deleted successfully');
+            $this->setSuccessMessage('Producto eliminado exitosamente');
         } else {
-            $this->setErrorMessage('Error deleting product');
+            $this->setErrorMessage('Error al eliminar el producto');
         }
 
         $this->redirect('product', 'index');
     }
 
-    /**
-     * Delete a product (alias method)
-     */
-    public function delete(){
-        $this->deleteProduct();
-    }
-
     // ========================================
-    // HELPER METHODS
+    // IMAGE HANDLING HELPER METHODS
     // ========================================
 
     /**
      * Handle image upload
-     * @param array $file $_FILES array element
-     * @return string|false Filename on success, false on failure
+     * @param array $file The uploaded file from $_FILES
+     * @return string|false The filename on success, false on failure
      */
-    private function handleImageUpload($file)
-    {
-        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        $maxSize = 5 * 1024 * 1024; // 5MB
-        
-        // Validate file type
-        if (!in_array($file['type'], $allowedTypes)) {
-            $this->setErrorMessage('Invalid image format. Allowed: JPG, PNG, GIF');
-            return false;
-        }
-        
-        // Validate file size
-        if ($file['size'] > $maxSize) {
-            $this->setErrorMessage('Image size must be less than 5MB');
-            return false;
-        }
-        
-        // Generate unique filename
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $filename = 'product_' . time() . '_' . uniqid() . '.' . $extension;
-        
-        // Create upload directory if it doesn't exist
+    private function handleImageUpload($file){
+        // Define upload directory (same as your project structure)
         $uploadDir = __DIR__ . '/../assets/img/products/';
+        
+        // Create directory if it doesn't exist
         if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+            mkdir($uploadDir, 0755, true);
         }
+
+        // Validate file type
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         
+        if (!in_array($fileExtension, $allowedTypes)) {
+            $this->setErrorMessage('Tipo de archivo no válido. Solo se permiten: jpg, jpeg, png, gif');
+            return false;
+        }
+
+        // Validate file size (max 5MB)
+        $maxSize = 5 * 1024 * 1024; // 5MB in bytes
+        if ($file['size'] > $maxSize) {
+            $this->setErrorMessage('El archivo es demasiado grande. Tamaño máximo: 5MB');
+            return false;
+        }
+
+        // Generate unique filename
+        $fileName = uniqid('product_') . '.' . $fileExtension;
+        $filePath = $uploadDir . $fileName;
+
         // Move uploaded file
-        if (move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
-            return $filename;
-        }
-        
-        $this->setErrorMessage('Error uploading image');
-        return false;
-    }
-
-    /**
-     * Delete product image from server
-     * @param string $filename Image filename
-     */
-    private function deleteProductImage($filename)
-    {
-        if (!empty($filename)) {
-            $imagePath = __DIR__ . '/../assets/img/products/' . $filename;
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            return $fileName;
+        } else {
+            $this->setErrorMessage('Error al subir la imagen');
+            return false;
         }
     }
 
     /**
-     * Delete an image file (alias method)
+     * Delete an image file
      * @param string $imageName The image filename to delete
      * @return bool Success/failure
      */
     private function deleteImage($imageName){
-        $this->deleteProductImage($imageName);
-        return true;
+        if (empty($imageName)) {
+            return true;
+        }
+
+        $imagePath = __DIR__ . '/../assets/img/products/' . $imageName;
+        
+        if (file_exists($imagePath)) {
+            return unlink($imagePath);
+        }
+        
+        return true; // File doesn't exist, consider it deleted
     }
+
+
+    // ========================================
+    // COMPATIBILITY/ALIAS METHODS
+    // ========================================
 
     /**
      * Display mobile phones - simple alias for phoneCatalog
@@ -605,6 +618,17 @@ class ProductController extends BaseController
 
         $this->loadView('products/category', $viewData);
     }
+
+    // ========================================
+    // DEPRECATED/LEGACY METHODS (kept for compatibility)
+    // ========================================
+
+    public function createProduct() { $this->create(); }
+    public function createProductSubmit() { $this->save(); }
+    public function editProduct() { $this->edit(); }
+    public function updateProduct() { $this->update(); }
+    public function deleteProduct() { $this->delete(); }
+    private function deleteProductImage($filename) { $this->deleteImage($filename); }
 }
 
 ?>

@@ -142,45 +142,61 @@ class Product
      * Update a product to the database
      * @return bool true on success, false on failure
      */
-    public function updateDB(){
-        try{
-            $sql = 'UPDATE products SET category_id = :category_id, accessory_type_id = :accessory_type_id,
-                    name = :name, description = :description, price = :price, stock = :stock';
-            
-            $params = [
-                ':id' => $this->id,
-                ':category_id' => $this->category_id,
-                ':accessory_type_id' => $this->accessory_type,
-                ':name' => $this->name,
-                ':description' => $this->description,
-                ':price' => $this->price,
-                ':stock' => $this->stock
-            ];
-
-            // Check if an image was uploaded
-            if (!empty($this->image)) {
-                $sql .= ', image = :image';
-                $params[':image'] = $this->image;
-            }
-
-            $sql .= ' WHERE id = :id';
-            $stmt = $this->db->prepare($sql);
-
-            foreach ($params as $param => $value){
-                if ($param == ':id' || $param == ':category_id' || $param == ':accessory_type_id' || $param == ':stock'){
-                    $stmt->bindParam($param, $value, PDO::PARAM_INT);
-                } else {
-                    $stmt->bindParam($param, $value, PDO::PARAM_STR);
-                }
-            }
-
-            return $stmt->execute();
-        }catch (\PDOException $e) {
-            error_log("Error updating product: " . $e->getMessage());
-            return false;
+   public function updateDB(){
+    try{
+        // Build the SQL query
+        $sql = 'UPDATE products SET 
+                category_id = :category_id, 
+                accessory_type_id = :accessory_type_id,
+                name = :name, 
+                description = :description, 
+                price = :price, 
+                stock = :stock';
+        
+        // Add image to query if it's provided
+        if (!empty($this->image)) {
+            $sql .= ', image = :image';
         }
+        
+        $sql .= ' WHERE id = :id';
+        
+        $stmt = $this->db->prepare($sql);
+        
+        // Bind parameters individually (avoiding the reference issue)
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+        $stmt->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
+        $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+        $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+        $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
+        $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
+        
+        // Only bind image if it's provided
+        if (!empty($this->image)) {
+            $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
+        }
+        
+        // Debug logging
+        error_log("SQL: " . $sql);
+        error_log("Updating product - ID: {$this->id}, Name: {$this->name}, Price: {$this->price}, Stock: {$this->stock}");
+        
+        $result = $stmt->execute();
+        
+        if ($result) {
+            error_log("Product update successful for ID: " . $this->id);
+        } else {
+            error_log("Product update failed for ID: " . $this->id);
+            $errorInfo = $stmt->errorInfo();
+            error_log("SQL Error: " . print_r($errorInfo, true));
+        }
+        
+        return $result;
+        
+    }catch (\PDOException $e) {
+        error_log("Error updating product: " . $e->getMessage());
+        return false;
     }
-
+}
     /**
      * Delete a product from the database
      * @return bool true on success, false on failure
