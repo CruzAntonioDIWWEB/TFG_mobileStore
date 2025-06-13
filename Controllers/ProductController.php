@@ -19,18 +19,6 @@ class ProductController extends BaseController
     // ========================================
 
     /**
-     * Display all products (for admin view)
-     */
-    public function index(){
-        $this->requireAdmin();
-
-        $productModel = new \Models\Product();
-        $products = $productModel->getAll();
-
-        $this->loadView('admin/products/index', ['products' => $products]);
-    }
-
-    /**
      * Display mobile phones catalog
      */
     public function phoneCatalog(){
@@ -185,6 +173,18 @@ class ProductController extends BaseController
     // ========================================
 
     /**
+     * Display all products (for admin view)
+     */
+    public function index(){
+        $this->requireAdmin();
+
+        $productModel = new \Models\Product();
+        $products = $productModel->getAll();
+
+        $this->loadView('admin/products/index', ['products' => $products]);
+    }
+
+    /**
      * Show form to create new product
      */
     public function createProduct()
@@ -203,6 +203,13 @@ class ProductController extends BaseController
         ];
 
         $this->loadView('admin/products/create', $viewData);
+    }
+
+    /**
+     * Show form to create a new product (alias method)
+     */
+    public function create(){
+        $this->createProduct();
     }
 
     /**
@@ -279,6 +286,13 @@ class ProductController extends BaseController
     }
 
     /**
+     * Save a new product (alias method)
+     */
+    public function save(){
+        $this->createProductSubmit();
+    }
+
+    /**
      * Show form to edit existing product
      */
     public function editProduct()
@@ -315,6 +329,13 @@ class ProductController extends BaseController
         ];
 
         $this->loadView('admin/products/edit', $viewData);
+    }
+
+    /**
+     * Show form to edit an existing product (alias method)
+     */
+    public function edit(){
+        $this->editProduct();
     }
 
     /**
@@ -410,6 +431,13 @@ class ProductController extends BaseController
     }
 
     /**
+     * Update an existing product (alias method)
+     */
+    public function update(){
+        $this->updateProduct();
+    }
+
+    /**
      * Delete product
      */
     public function deleteProduct()
@@ -449,6 +477,13 @@ class ProductController extends BaseController
         }
 
         $this->redirect('product', 'index');
+    }
+
+    /**
+     * Delete a product (alias method)
+     */
+    public function delete(){
+        $this->deleteProduct();
     }
 
     // ========================================
@@ -508,6 +543,16 @@ class ProductController extends BaseController
                 unlink($imagePath);
             }
         }
+    }
+
+    /**
+     * Delete an image file (alias method)
+     * @param string $imageName The image filename to delete
+     * @return bool Success/failure
+     */
+    private function deleteImage($imageName){
+        $this->deleteProductImage($imageName);
+        return true;
     }
 
     /**

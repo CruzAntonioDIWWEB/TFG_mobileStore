@@ -27,7 +27,7 @@ $messages = $messages ?? [];
     <div class="auth-container">
         
         <!-- Navigation Breadcrumb -->
-        <div class="breadcrumb">
+        <div class="breadcrumb breadcrumb-compact">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-user"></i>
                 Perfil

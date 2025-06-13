@@ -1,0 +1,914 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/functions' as f;
+@use '../global/buttons' as btn;
+
+/* =================================== */
+/* Admin Products Styles - Clean       */
+/* =================================== */
+
+/* Admin Section Layout */
+.admin-section {
+    background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, lg) 0;
+
+    .admin-container {
+        @include container;
+        padding-top: map-get(v.$spacing, md);
+        padding-bottom: map-get(v.$spacing, md);
+    }
+}
+
+/* Admin Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: map-get(v.$spacing, lg);
+    gap: map-get(v.$spacing, md);
+
+    @include breakpoint(tablet) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: map-get(v.$spacing, sm);
+    }
+
+    .admin-title-section {
+        flex: 1;
+
+        .admin-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xs);
+            font-size: 1.8rem;
+
+            @include breakpoint(mobile) {
+                font-size: 1.5rem;
+            }
+        }
+
+        .admin-subtitle {
+            @include body-text();
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+        }
+    }
+
+    .admin-actions {
+        .admin-btn {
+            @include btn.button-style;
+            @include flex-center;
+            gap: map-get(v.$spacing, xs);
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+            border-radius: map-get(v.$layout, border-radius);
+            text-decoration: none;
+            font-weight: map-get(v.$font-weights, semibold);
+            transition: map-get(v.$transitions, normal);
+
+            &.btn-primary {
+                background-color: map-get(v.$colors, primary-red);
+                color: map-get(v.$colors, white);
+
+                &:hover {
+                    background-color: darken(map-get(v.$colors, primary-red), 10%);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(map-get(v.$colors, primary-red), 0.3);
+                }
+            }
+        }
+    }
+}
+
+/* Admin Card */
+.admin-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: 0 2px 10px rgba(map-get(v.$colors, dark-gray), 0.1);
+    overflow: hidden;
+
+    .card-header {
+        padding: map-get(v.$spacing, lg);
+        border-bottom: 1px solid map-get(v.$colors, light-gray);
+
+        .card-title {
+            h2 {
+                @include heading-style('h2');
+                color: map-get(v.$colors, dark-gray);
+                margin-bottom: map-get(v.$spacing, xs);
+                font-size: 1.3rem;
+            }
+
+            p {
+                @include body-text('small');
+                color: map-get(v.$colors, text-secondary);
+                margin: 0;
+            }
+        }
+    }
+
+    .card-content {
+        padding: 0;
+    }
+}
+
+/* Table Styles */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: map-get(v.$fonts, secondary);
+    background-color: map-get(v.$colors, white);
+
+    thead {
+        background-color: rgba(map-get(v.$colors, primary-red), 0.1);
+
+        th {
+            padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+            text-align: left;
+            font-weight: map-get(v.$font-weights, semibold);
+            color: map-get(v.$colors, dark-gray);
+            font-size: map-get(v.$font-sizes, small);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid map-get(v.$colors, light-gray);
+
+            @include breakpoint(mobile) {
+                padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                font-size: map-get(v.$font-sizes, xs);
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+            transition: background-color map-get(v.$transitions, fast);
+
+            &:hover {
+                background-color: rgba(map-get(v.$colors, bg-light-gray), 0.3);
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            td {
+                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                vertical-align: middle;
+                color: map-get(v.$colors, text-primary);
+
+                @include breakpoint(mobile) {
+                    padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                }
+            }
+        }
+    }
+}
+
+/* Product-specific table cell styles */
+.product-id {
+    .id-badge {
+        background-color: rgba(map-get(v.$colors, primary-red), 0.1);
+        color: map-get(v.$colors, primary-red);
+        padding: 2px map-get(v.$spacing, xs);
+        border-radius: map-get(v.$layout, border-radius);
+        font-weight: map-get(v.$font-weights, semibold);
+        font-size: map-get(v.$font-sizes, xs);
+        display: inline-block;
+    }
+}
+
+.product-image {
+    width: 60px;
+
+    .product-thumbnail {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: map-get(v.$layout, border-radius);
+        border: 1px solid map-get(v.$colors, light-gray);
+    }
+
+    .no-image {
+        width: 50px;
+        height: 50px;
+        @include flex-center;
+        background-color: map-get(v.$colors, bg-light-gray);
+        border-radius: map-get(v.$layout, border-radius);
+        color: map-get(v.$colors, text-light);
+
+        i {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.product-name {
+    .name-info {
+        .name-text {
+            font-weight: map-get(v.$font-weights, medium);
+            color: map-get(v.$colors, dark-gray);
+            font-size: map-get(v.$font-sizes, regular);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .description-text {
+            color: map-get(v.$colors, text-secondary);
+            font-size: map-get(v.$font-sizes, xs);
+            display: block;
+            line-height: 1.3;
+        }
+    }
+}
+
+.product-category {
+    .category-badge {
+        background-color: rgba(map-get(v.$colors, dark-gray), 0.1);
+        color: map-get(v.$colors, dark-gray);
+        padding: 2px map-get(v.$spacing, xs);
+        border-radius: map-get(v.$layout, border-radius);
+        font-size: map-get(v.$font-sizes, xs);
+        font-weight: map-get(v.$font-weights, medium);
+        display: inline-block;
+    }
+}
+
+.product-price {
+    .price-amount {
+        font-weight: map-get(v.$font-weights, bold);
+        color: map-get(v.$colors, primary-red);
+        font-size: map-get(v.$font-sizes, regular);
+    }
+}
+
+.product-stock {
+    .stock-badge {
+        padding: 2px map-get(v.$spacing, xs);
+        border-radius: map-get(v.$layout, border-radius);
+        font-size: map-get(v.$font-sizes, xs);
+        font-weight: map-get(v.$font-weights, medium);
+        display: inline-block;
+
+        &.in-stock {
+            background-color: rgba(#28a745, 0.1);
+            color: #28a745;
+        }
+
+        &.out-of-stock {
+            background-color: rgba(#dc3545, 0.1);
+            color: #dc3545;
+        }
+    }
+}
+
+.product-date {
+    .date-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+
+        .date {
+            font-weight: map-get(v.$font-weights, medium);
+            color: map-get(v.$colors, dark-gray);
+            font-size: map-get(v.$font-sizes, small);
+        }
+
+        .time {
+            color: map-get(v.$colors, text-secondary);
+            font-size: map-get(v.$font-sizes, xs);
+        }
+    }
+
+    .no-date {
+        color: map-get(v.$colors, text-light);
+        font-style: italic;
+        font-size: map-get(v.$font-sizes, xs);
+    }
+}
+
+.product-actions {
+    .action-buttons {
+        display: flex;
+        gap: map-get(v.$spacing, xs);
+        justify-content: flex-end;
+
+        @include breakpoint(mobile) {
+            justify-content: center;
+        }
+
+        .action-btn {
+            @include flex-center;
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: map-get(v.$layout, border-radius);
+            cursor: pointer;
+            transition: all map-get(v.$transitions, fast);
+            text-decoration: none;
+            font-size: 0.8rem;
+
+            &.btn-edit {
+                background-color: rgba(#28a745, 0.1);
+                color: #28a745;
+
+                &:hover {
+                    background-color: #28a745;
+                    color: map-get(v.$colors, white);
+                    transform: translateY(-2px);
+                    box-shadow: 0 3px 10px rgba(#28a745, 0.3);
+                }
+            }
+
+            &.btn-delete {
+                background-color: rgba(#dc3545, 0.1);
+                color: #dc3545;
+
+                &:hover {
+                    background-color: #dc3545;
+                    color: map-get(v.$colors, white);
+                    transform: translateY(-2px);
+                    box-shadow: 0 3px 10px rgba(#dc3545, 0.3);
+                }
+            }
+        }
+    }
+}
+
+/* No Products State */
+.no-products {
+    text-align: center;
+    padding: map-get(v.$spacing, xl);
+    color: map-get(v.$colors, text-secondary);
+
+    .no-products-icon {
+        font-size: 3rem;
+        color: map-get(v.$colors, text-light);
+        margin-bottom: map-get(v.$spacing, md);
+
+        i {
+            opacity: 0.5;
+        }
+    }
+
+    h3 {
+        @include heading-style('h3');
+        color: map-get(v.$colors, dark-gray);
+        margin-bottom: map-get(v.$spacing, sm);
+        font-size: 1.2rem;
+    }
+
+    p {
+        @include body-text();
+        margin-bottom: map-get(v.$spacing, lg);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        @include btn.button-style;
+        @include flex-center;
+        gap: map-get(v.$spacing, xs);
+        display: inline-flex;
+    }
+}
+
+/* Forms Section (for create/edit) */
+.auth-section {
+    background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
+    min-height: calc(100vh - map-get(v.$layout, header-height));
+    padding: map-get(v.$spacing, md) 0;
+    
+    .auth-container {
+        @include container;
+        padding-top: map-get(v.$spacing, sm);
+        padding-bottom: map-get(v.$spacing, sm);
+    }
+}
+
+.auth-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: 0 4px 20px rgba(map-get(v.$colors, dark-gray), 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+
+    .auth-header {
+        padding: map-get(v.$spacing, lg);
+        border-bottom: 1px solid map-get(v.$colors, light-gray);
+        text-align: center;
+
+        .auth-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, xs);
+            @include flex-center;
+            gap: map-get(v.$spacing, sm);
+            font-size: 1.5rem;
+
+            @include breakpoint(mobile) {
+                font-size: 1.2rem;
+            }
+
+            i {
+                font-size: 1rem;
+            }
+        }
+
+        .auth-subtitle {
+            @include body-text('small');
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+            font-size: map-get(v.$font-sizes, small);
+        }
+    }
+
+    .auth-form {
+        padding: map-get(v.$spacing, lg);
+
+        @include breakpoint(mobile) {
+            padding: map-get(v.$spacing, md);
+        }
+    }
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: map-get(v.$spacing, md);
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        margin-bottom: map-get(v.$spacing, xs);
+        @include body-text('small');
+        color: map-get(v.$colors, dark-gray);
+        font-weight: map-get(v.$font-weights, semibold);
+        font-size: map-get(v.$font-sizes, small);
+
+        i {
+            color: map-get(v.$colors, primary-red);
+            font-size: 0.8rem;
+        }
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        padding: map-get(v.$spacing, sm);
+        border: 2px solid map-get(v.$colors, light-gray);
+        border-radius: map-get(v.$layout, border-radius);
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, small);
+        transition: all map-get(v.$transitions, normal);
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: map-get(v.$colors, primary-red);
+            box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.2);
+        }
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .form-file {
+        border: 2px dashed map-get(v.$colors, light-gray);
+        border-radius: map-get(v.$layout, border-radius);
+        padding: map-get(v.$spacing, md);
+        text-align: center;
+        transition: all map-get(v.$transitions, normal);
+
+        &:hover {
+            border-color: map-get(v.$colors, primary-red);
+            background-color: rgba(map-get(v.$colors, primary-red), 0.05);
+        }
+
+        input[type="file"] {
+            margin-top: map-get(v.$spacing, xs);
+        }
+
+        .file-icon {
+            color: map-get(v.$colors, text-light);
+            font-size: 1.5rem;
+            margin-bottom: map-get(v.$spacing, xs);
+        }
+    }
+
+    .form-hint {
+        display: block;
+        margin-top: map-get(v.$spacing, xs);
+        @include body-text('small');
+        color: map-get(v.$colors, text-secondary);
+        font-size: map-get(v.$font-sizes, xs);
+    }
+}
+
+/* Form Buttons */
+.form-buttons {
+    display: flex;
+    gap: map-get(v.$spacing, sm);
+    justify-content: center;
+    margin-top: map-get(v.$spacing, lg);
+
+    @include breakpoint(mobile) {
+        flex-direction: column;
+    }
+
+    .btn {
+        @include btn.button-style;
+        @include flex-center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+        border-radius: map-get(v.$layout, border-radius);
+        font-weight: map-get(v.$font-weights, semibold);
+        transition: map-get(v.$transitions, normal);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+
+        &.btn-primary {
+            background-color: map-get(v.$colors, primary-red);
+            color: map-get(v.$colors, white);
+
+            &:hover {
+                background-color: darken(map-get(v.$colors, primary-red), 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(map-get(v.$colors, primary-red), 0.3);
+            }
+        }
+
+        &.btn-secondary {
+            background-color: map-get(v.$colors, light-gray);
+            color: map-get(v.$colors, dark-gray);
+
+            &:hover {
+                background-color: darken(map-get(v.$colors, light-gray), 10%);
+            }
+        }
+    }
+}
+
+/* Grid Layout for Price/Stock */
+.form-group {
+    &:has(> div[style*="grid"]) {
+        div[style*="grid"] {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: map-get(v.$spacing, md);
+
+            @include breakpoint(mobile) {
+                grid-template-columns: 1fr;
+                gap: map-get(v.$spacing, sm);
+            }
+        }
+    }
+}
+
+/* Current Image Display in Edit Form */
+.current-image {
+    margin-bottom: map-get(v.$spacing, md);
+    
+    img {
+        max-width: 150px;
+        height: auto;
+        border-radius: map-get(v.$layout, border-radius);
+        border: 1px solid map-get(v.$colors, light-gray);
+        box-shadow: 0 2px 8px rgba(map-get(v.$colors, dark-gray), 0.1);
+    }
+}
+
+/* Enhanced File Upload Styling */
+.form-file {
+    border: 2px dashed map-get(v.$colors, light-gray);
+    border-radius: map-get(v.$layout, border-radius);
+    padding: map-get(v.$spacing, lg);
+    text-align: center;
+    transition: all map-get(v.$transitions, normal);
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        border-color: map-get(v.$colors, primary-red);
+        background-color: rgba(map-get(v.$colors, primary-red), 0.05);
+    }
+
+    &:focus-within {
+        border-color: map-get(v.$colors, primary-red);
+        box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.2);
+    }
+
+    input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .file-icon {
+        color: map-get(v.$colors, text-light);
+        font-size: 2rem;
+        margin-bottom: map-get(v.$spacing, sm);
+
+        i {
+            display: block;
+        }
+    }
+
+    p {
+        margin: 0;
+        color: map-get(v.$colors, text-secondary);
+        font-size: map-get(v.$font-sizes, small);
+        font-weight: map-get(v.$font-weights, medium);
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, md);
+
+        .file-icon {
+            font-size: 1.5rem;
+            margin-bottom: map-get(v.$spacing, xs);
+        }
+
+        p {
+            font-size: map-get(v.$font-sizes, xs);
+        }
+    }
+}
+
+/* Form Select Styling */
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right map-get(v.$spacing, sm) center;
+    background-size: 1rem;
+    padding-right: map-get(v.$spacing, xl);
+
+    option {
+        padding: map-get(v.$spacing, xs);
+    }
+}
+
+/* Enhanced Form Button Styling */
+.form-buttons {
+    display: flex;
+    gap: map-get(v.$spacing, sm);
+    justify-content: center;
+    margin-top: map-get(v.$spacing, xl);
+    padding-top: map-get(v.$spacing, md);
+    border-top: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+
+    @include breakpoint(mobile) {
+        flex-direction: column;
+        gap: map-get(v.$spacing, xs);
+    }
+
+    .btn {
+        @include btn.button-style;
+        @include flex-center;
+        gap: map-get(v.$spacing, xs);
+        padding: map-get(v.$spacing, sm) map-get(v.$spacing, xl);
+        border-radius: map-get(v.$layout, border-radius);
+        font-weight: map-get(v.$font-weights, semibold);
+        transition: all map-get(v.$transitions, normal);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-size: map-get(v.$font-sizes, small);
+        min-width: 140px;
+
+        @include breakpoint(mobile) {
+            min-width: auto;
+            width: 100%;
+            justify-content: center;
+        }
+
+        i {
+            font-size: 0.9rem;
+        }
+
+        &.btn-primary {
+            background-color: map-get(v.$colors, primary-red);
+            color: map-get(v.$colors, white);
+
+            &:hover {
+                background-color: darken(map-get(v.$colors, primary-red), 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(map-get(v.$colors, primary-red), 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 8px rgba(map-get(v.$colors, primary-red), 0.3);
+            }
+        }
+
+        &.btn-secondary {
+            background-color: map-get(v.$colors, light-gray);
+            color: map-get(v.$colors, dark-gray);
+            border: 1px solid map-get(v.$colors, light-gray);
+
+            &:hover {
+                background-color: darken(map-get(v.$colors, light-gray), 8%);
+                border-color: darken(map-get(v.$colors, light-gray), 15%);
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(map-get(v.$colors, dark-gray), 0.15);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 1px 4px rgba(map-get(v.$colors, dark-gray), 0.15);
+            }
+        }
+    }
+}
+
+/* Enhanced Form Group Spacing */
+.form-group {
+    margin-bottom: map-get(v.$spacing, lg);
+
+    &:last-of-type {
+        margin-bottom: map-get(v.$spacing, md);
+    }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, xs);
+        margin-bottom: map-get(v.$spacing, sm);
+        @include body-text('small');
+        color: map-get(v.$colors, dark-gray);
+        font-weight: map-get(v.$font-weights, semibold);
+        font-size: map-get(v.$font-sizes, small);
+
+        i {
+            color: map-get(v.$colors, primary-red);
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+        }
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        padding: map-get(v.$spacing, sm);
+        border: 2px solid map-get(v.$colors, light-gray);
+        border-radius: map-get(v.$layout, border-radius);
+        font-family: map-get(v.$fonts, secondary);
+        font-size: map-get(v.$font-sizes, small);
+        transition: all map-get(v.$transitions, normal);
+        box-sizing: border-box;
+        background-color: map-get(v.$colors, white);
+
+        &:focus {
+            outline: none;
+            border-color: map-get(v.$colors, primary-red);
+            box-shadow: 0 0 0 3px rgba(map-get(v.$colors, primary-red), 0.15);
+        }
+
+        &:hover:not(:focus) {
+            border-color: darken(map-get(v.$colors, light-gray), 10%);
+        }
+
+        &::placeholder {
+            color: map-get(v.$colors, text-light);
+            opacity: 0.8;
+        }
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+        line-height: 1.5;
+
+        @include breakpoint(mobile) {
+            min-height: 80px;
+        }
+    }
+
+    .form-hint {
+        display: block;
+        margin-top: map-get(v.$spacing, xs);
+        @include body-text('small');
+        color: map-get(v.$colors, text-secondary);
+        font-size: map-get(v.$font-sizes, xs);
+        font-style: italic;
+    }
+}
+
+/* Error State for Edit Form */
+.error-state {
+    text-align: center;
+    padding: map-get(v.$spacing, xxl);
+    color: map-get(v.$colors, text-secondary);
+
+    .error-icon {
+        font-size: 3rem;
+        color: #dc3545;
+        margin-bottom: map-get(v.$spacing, lg);
+        opacity: 0.8;
+
+        i {
+            display: block;
+        }
+    }
+
+    h3 {
+        @include heading-style('h3');
+        color: map-get(v.$colors, dark-gray);
+        margin-bottom: map-get(v.$spacing, sm);
+        font-size: 1.2rem;
+    }
+
+    p {
+        @include body-text();
+        margin-bottom: map-get(v.$spacing, xl);
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .btn {
+        @include btn.button-style;
+        @include flex-center;
+        gap: map-get(v.$spacing, xs);
+        display: inline-flex;
+    }
+}
+
+/* Enhanced Auth Card for Better Visual Hierarchy */
+.auth-card {
+    background-color: map-get(v.$colors, white);
+    border-radius: map-get(v.$layout, border-radius-lg);
+    box-shadow: 0 8px 25px rgba(map-get(v.$colors, dark-gray), 0.12);
+    max-width: 650px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgba(map-get(v.$colors, light-gray), 0.3);
+
+    .auth-header {
+        padding: map-get(v.$spacing, xl);
+        border-bottom: 1px solid rgba(map-get(v.$colors, light-gray), 0.5);
+        text-align: center;
+        background: linear-gradient(135deg, rgba(map-get(v.$colors, primary-red), 0.02) 0%, rgba(map-get(v.$colors, bg-light-gray), 0.3) 100%);
+
+        .auth-title {
+            @include heading-style('h1');
+            color: map-get(v.$colors, primary-red);
+            margin-bottom: map-get(v.$spacing, sm);
+            @include flex-center;
+            gap: map-get(v.$spacing, sm);
+            font-size: 1.6rem;
+
+            @include breakpoint(mobile) {
+                font-size: 1.3rem;
+                gap: map-get(v.$spacing, xs);
+            }
+
+            i {
+                font-size: 1.1rem;
+                opacity: 0.9;
+            }
+        }
+
+        .auth-subtitle {
+            @include body-text('small');
+            color: map-get(v.$colors, text-secondary);
+            margin: 0;
+            font-size: map-get(v.$font-sizes, small);
+            line-height: 1.4;
+
+            strong {
+                color: map-get(v.$colors, dark-gray);
+                font-weight: map-get(v.$font-weights, semibold);
+            }
+        }
+    }
+
+    .auth-form {
+        padding: map-get(v.$spacing, xl);
+
+        @include breakpoint(mobile) {
+            padding: map-get(v.$spacing, lg);
+        }
+    }
+}

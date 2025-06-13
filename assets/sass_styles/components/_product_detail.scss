@@ -25,56 +25,6 @@
     }
 }
 
-/* Breadcrumb Navigation - Compact */
-.breadcrumb-nav {
-    display: flex;
-    align-items: center;
-    gap: map-get(v.$spacing, sm);
-    margin-bottom: map-get(v.$spacing, lg); // Reduced from xxl
-    padding: map-get(v.$spacing, sm) 0; // Reduced padding
-    font-family: map-get(v.$fonts, secondary);
-    font-size: map-get(v.$font-sizes, small);
-
-    .breadcrumb-link {
-        color: map-get(v.$colors, text-secondary);
-        text-decoration: none;
-        transition: color map-get(v.$transitions, fast);
-        display: flex;
-        align-items: center;
-        gap: map-get(v.$spacing, xs);
-
-        &:hover {
-            color: map-get(v.$colors, primary-red);
-        }
-
-        i {
-            font-size: 0.9em;
-        }
-    }
-
-    .breadcrumb-separator {
-        color: map-get(v.$colors, light-gray);
-        font-weight: map-get(v.$font-weights, medium);
-    }
-
-    .breadcrumb-current {
-        color: map-get(v.$colors, dark-gray);
-        font-weight: map-get(v.$font-weights, medium);
-    }
-
-    @include breakpoint(mobile) {
-        font-size: map-get(v.$font-sizes, xs);
-        margin-bottom: map-get(v.$spacing, md);
-        
-        .breadcrumb-current {
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    }
-}
-
 /* Main Product Detail Layout - Compact Grid */
 .product-detail-main {
     display: grid;
