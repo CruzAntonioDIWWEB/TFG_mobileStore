@@ -235,16 +235,24 @@ class Product
      * @return array of products
      */
     public function getAll(){
-        try{
-            $query = $this->db->prepare('SELECT * FROM products ORDER BY id DESC');
-            $query->execute();
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        }catch (\PDOException $e) {
-            error_log("Error getting all products: " . $e->getMessage());
-            return false;
-        }
+    try{
+        $query = $this->db->prepare('
+            SELECT p.*, 
+                   c.name as category_name,
+                   at.name as accessory_type_name
+            FROM products p 
+            LEFT JOIN categories c ON p.category_id = c.id 
+            LEFT JOIN accessory_types at ON p.accessory_type_id = at.id
+            ORDER BY p.id DESC
+        ');
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }catch (\PDOException $e) {
+        error_log("Error getting all products: " . $e->getMessage());
+        return false;
     }
+}
 
     /**
      * Gets prodcuts by category
