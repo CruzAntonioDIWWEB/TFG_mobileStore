@@ -418,15 +418,13 @@ class UserController extends BaseController
         $userModel->setSurnames($surnames);
         $userModel->setEmail($email);
         $userModel->setPassword($password);
+        $userModel->setRole($role);  
 
         $saved = $userModel->saveDB();
 
-        if ($saved) {
-            $this->setSuccessMessage('Usuario creado exitosamente');
-            $this->redirect('user', 'index');
-        } else {
-            $this->setErrorMessage('Error al crear el usuario');
-            $this->redirect('user', 'create');
+        if ($saved && $role === 'admin') {
+            $userModel->setId($userModel->getId());
+            $userModel->updateDB();
         }
     }
 
