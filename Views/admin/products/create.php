@@ -198,3 +198,4 @@ $accessoryTypes = $accessoryTypes ?? [];
         </div>
     </div>
 </section>
+<script src="<?php echo ASSETS_URL; ?>js/productFormValidation.js"></script>

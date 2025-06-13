@@ -175,7 +175,7 @@ class ProductController extends BaseController
     /**
      * Display all products (admin only) - UPDATED
      */
-    public function index(){
+     public function index(){
         $this->requireAdmin();
 
         $productModel = new \Models\Product();
@@ -208,7 +208,7 @@ class ProductController extends BaseController
     /**
      * Show form to edit an existing product
      */
-     public function edit(){
+    public function edit(){
         $this->requireAdmin();
 
         $productId = $this->getGetData('id');
@@ -428,6 +428,12 @@ class ProductController extends BaseController
         $product->setCategoryId(intval($categoryId));
         $product->setAccessoryType($accessoryTypeId);
         $product->setImage($imageName);
+
+        // Debug: Let's see what values we're trying to update
+        error_log("DEBUG - Updating product ID: " . $productId);
+        error_log("DEBUG - New name: " . $name);
+        error_log("DEBUG - New price: " . $price);
+        error_log("DEBUG - New stock: " . $stock);
 
         $updated = $product->updateDB();
 
