@@ -282,45 +282,63 @@ public function saveDB(){
      */
 
     public function updateDB(){
-        try{
-            $sql = "UPDATE users SET name = :name, surnames = :surnames, email = :email";
-            $params = [
-                ':name' => $this->name,
-                ':surnames' => $this->surnames,
-                ':email' => $this->email,
-                ':id' => $this->id
-            ];
-
-            // If there is a new password, add it to the query
-            if(!empty($this->password)){
-                $sql .= ", password = :password";
-                $params[':password'] = $this->password;
-            }
-
-            // If there is a role, add it to the query
-            if(!empty($this->role)){
-                $sql .= ", role = :role";
-                $params[':role'] = $this->role;
-            }
-
-            $sql .= " WHERE id = :id";
-            $update = $this->db->prepare($sql);
-
-            foreach($params as $param => $value){
-                if ($param == ':id'){
-                    $update->bindParam($param, $value, PDO::PARAM_INT);
-                } else {
-                    $update->bindParam($param, $value, PDO::PARAM_STR);
-                }
-            }
-
-            return $update->execute();
-
-        } catch (\PDOException $e) {
-            error_log("Error updating user: " . $e->getMessage());
-            return false;
+    try{
+        // Build the base SQL query
+        $sql = "UPDATE users SET name = :name, surnames = :surnames, email = :email";
+        
+        // Hash password if provided
+        $hashedPassword = null;
+        if(!empty($this->password)){
+            $sql .= ", password = :password";
+            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
         }
+
+        // Add role if provided
+        if(!empty($this->role)){
+            $sql .= ", role = :role";
+        }
+
+        $sql .= " WHERE id = :id";
+        
+        $update = $this->db->prepare($sql);
+        
+        // Bind parameters individually (avoiding the reference issue)
+        $update->bindParam(':id', $this->id, PDO::PARAM_INT);
+        $update->bindParam(':name', $this->name, PDO::PARAM_STR);
+        $update->bindParam(':surnames', $this->surnames, PDO::PARAM_STR);
+        $update->bindParam(':email', $this->email, PDO::PARAM_STR);
+        
+        // Only bind password if it's provided
+        if(!empty($this->password)){
+            $update->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        }
+        
+        // Only bind role if it's provided
+        if(!empty($this->role)){
+            $update->bindParam(':role', $this->role, PDO::PARAM_STR);
+        }
+        
+        // Debug logging
+        error_log("SQL: " . $sql);
+        error_log("Updating user - ID: {$this->id}, Name: {$this->name}, Email: {$this->email}");
+        
+        $result = $update->execute();
+        
+        if ($result) {
+            error_log("User update successful for ID: " . $this->id);
+        } else {
+            error_log("User update failed for ID: " . $this->id);
+            $errorInfo = $update->errorInfo();
+            error_log("SQL Error: " . print_r($errorInfo, true));
+        }
+        
+        return $result;
+
+    } catch (\PDOException $e) {
+        error_log("Error updating user: " . $e->getMessage());
+        return false;
     }
+}
 
     /**
      * Deletes the user from the database
