@@ -64,7 +64,6 @@ $orderId = $orderId ?? null;
 <script>
     // Clear any remaining cart data
     document.addEventListener('DOMContentLoaded', function() {
-        // Make sure cart is cleared from localStorage
         localStorage.removeItem('mobilestore_cart');
 
         // Update cart count in header if it exists

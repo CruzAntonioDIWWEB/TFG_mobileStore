@@ -29,7 +29,7 @@ $accessoryTypes = $accessoryTypes ?? [];
 <!-- Create Product Section -->
 <section class="auth-section">
     <div class="auth-container">
-        
+
         <!-- Navigation Breadcrumb -->
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
@@ -56,21 +56,21 @@ $accessoryTypes = $accessoryTypes ?? [];
             </div>
 
             <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=product&action=save" enctype="multipart/form-data">
-                
+
                 <!-- Product Name -->
                 <div class="form-group">
                     <label for="name" class="form-label">
                         <i class="fas fa-tag"></i>
                         Nombre del producto
                     </label>
-                    <input type="text" 
-                           id="name" 
-                           name="name" 
-                           class="form-input" 
-                           placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24..."
-                           required
-                           maxlength="25"
-                           autocomplete="off">
+                    <input type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24..."
+                        required
+                        maxlength="25"
+                        autocomplete="off">
                     <small class="form-hint">Máximo 25 caracteres.</small>
                 </div>
 
@@ -80,12 +80,12 @@ $accessoryTypes = $accessoryTypes ?? [];
                         <i class="fas fa-align-left"></i>
                         Descripción
                     </label>
-                    <textarea id="description" 
-                              name="description" 
-                              class="form-textarea" 
-                              placeholder="Describe las características principales del producto..."
-                              required
-                              maxlength="255"></textarea>
+                    <textarea id="description"
+                        name="description"
+                        class="form-textarea"
+                        placeholder="Describe las características principales del producto..."
+                        required
+                        maxlength="255"></textarea>
                     <small class="form-hint">Máximo 255 caracteres.</small>
                 </div>
 
@@ -97,15 +97,15 @@ $accessoryTypes = $accessoryTypes ?? [];
                             <i class="fas fa-euro-sign"></i>
                             Precio
                         </label>
-                        <input type="number" 
-                               id="price" 
-                               name="price" 
-                               class="form-input" 
-                               placeholder="99.99"
-                               step="0.01"
-                               min="0"
-                               max="999.99"
-                               required>
+                        <input type="number"
+                            id="price"
+                            name="price"
+                            class="form-input"
+                            placeholder="99.99"
+                            step="0.01"
+                            min="0"
+                            max="999.99"
+                            required>
                         <small class="form-hint">En euros (€).</small>
                     </div>
 
@@ -115,13 +115,13 @@ $accessoryTypes = $accessoryTypes ?? [];
                             <i class="fas fa-boxes"></i>
                             Stock
                         </label>
-                        <input type="number" 
-                               id="stock" 
-                               name="stock" 
-                               class="form-input" 
-                               placeholder="0"
-                               min="0"
-                               required>
+                        <input type="number"
+                            id="stock"
+                            name="stock"
+                            class="form-input"
+                            placeholder="0"
+                            min="0"
+                            required>
                         <small class="form-hint">Unidades disponibles.</small>
                     </div>
                 </div>
@@ -183,17 +183,17 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Solo si el producto es un accesorio.</small>
                 </div>
 
-            <!-- Product Image -->
+                <!-- Product Image -->
                 <div class="form-group">
                     <label for="image" class="form-label">
                         <i class="fas fa-image"></i>
                         Imagen del Producto
                     </label>
-                    <input type="file" 
-                           id="image" 
-                           name="image" 
-                           class="form-input form-file" 
-                           accept="image/*">
+                    <input type="file"
+                        id="image"
+                        name="image"
+                        class="form-input form-file"
+                        accept="image/*">
                     <small class="form-help">Formatos permitidos: JPG, PNG, GIF (máximo 5MB)</small>
                 </div>
 

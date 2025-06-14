@@ -25,14 +25,13 @@ $messages = $messages ?? [];
 <!-- Products Management Section -->
 <section class="admin-section">
     <div class="admin-container">
-        <!-- Back Navigation -->
-                 <div class="breadcrumb">
+        <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-arrow-left"></i>
                 Volver a configuración
             </a>
         </div>
-        
+
         <div class="admin-header">
             <div class="admin-title-section">
                 <h1 class="admin-title">Gestión de Productos</h1>
@@ -82,9 +81,9 @@ $messages = $messages ?? [];
                                             <!-- Product Image -->
                                             <td class="product-image">
                                                 <?php if (!empty($product['image'])): ?>
-                                                    <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($product['image']); ?>" 
-                                                         alt="<?php echo htmlspecialchars($product['name']); ?>"
-                                                         class="product-thumbnail">
+                                                    <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($product['image']); ?>"
+                                                        alt="<?php echo htmlspecialchars($product['name']); ?>"
+                                                        class="product-thumbnail">
                                                 <?php else: ?>
                                                     <div class="no-image">
                                                         <i class="fas fa-image"></i>
@@ -143,19 +142,19 @@ $messages = $messages ?? [];
                                             <!-- Actions -->
                                             <td class="product-actions">
                                                 <div class="action-buttons">
-                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=edit&id=<?php echo $product['id']; ?>" 
-                                                       class="action-btn btn-edit" 
-                                                       title="Editar producto">
+                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=edit&id=<?php echo $product['id']; ?>"
+                                                        class="action-btn btn-edit"
+                                                        title="Editar producto">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form method="POST" 
-                                                          action="<?php echo BASE_URL; ?>index.php?controller=product&action=delete" 
-                                                          style="display: inline;"
-                                                          onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                                                    <form method="POST"
+                                                        action="<?php echo BASE_URL; ?>index.php?controller=product&action=delete"
+                                                        style="display: inline;"
+                                                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
                                                         <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-                                                        <button type="submit" 
-                                                                class="action-btn btn-delete" 
-                                                                title="Eliminar producto">
+                                                        <button type="submit"
+                                                            class="action-btn btn-delete"
+                                                            title="Eliminar producto">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>

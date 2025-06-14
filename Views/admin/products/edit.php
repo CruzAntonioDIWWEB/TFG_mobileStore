@@ -1,6 +1,7 @@
 <?php
 // Include the BrandHelper for brand detection
 require_once __DIR__ . '/../../../Helpers/BrandHelper.php';
+
 use Helpers\BrandHelper;
 
 // Get current user data
@@ -50,7 +51,7 @@ if ($productName) {
 <!-- Edit Product Section -->
 <section class="auth-section">
     <div class="auth-container">
-        
+
         <!-- Navigation Breadcrumb -->
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
@@ -78,25 +79,25 @@ if ($productName) {
 
             <?php if ($product): ?>
                 <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=product&action=update" enctype="multipart/form-data">
-                    
+
                     <!-- Hidden Product ID -->
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($productId); ?>">
-                    
+
                     <!-- Product Name -->
                     <div class="form-group">
                         <label for="name" class="form-label">
                             <i class="fas fa-tag"></i>
                             Nombre del producto
                         </label>
-                        <input type="text" 
-                               id="name" 
-                               name="name" 
-                               class="form-input" 
-                               value="<?php echo htmlspecialchars($productName); ?>"
-                               placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24..."
-                               required
-                               maxlength="25"
-                               autocomplete="off">
+                        <input type="text"
+                            id="name"
+                            name="name"
+                            class="form-input"
+                            value="<?php echo htmlspecialchars($productName); ?>"
+                            placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24..."
+                            required
+                            maxlength="25"
+                            autocomplete="off">
                         <small class="form-hint">Máximo 25 caracteres.</small>
                     </div>
 
@@ -106,12 +107,12 @@ if ($productName) {
                             <i class="fas fa-align-left"></i>
                             Descripción
                         </label>
-                        <textarea id="description" 
-                                  name="description" 
-                                  class="form-textarea" 
-                                  placeholder="Describe las características principales del producto..."
-                                  required
-                                  maxlength="255"><?php echo htmlspecialchars($productDescription); ?></textarea>
+                        <textarea id="description"
+                            name="description"
+                            class="form-textarea"
+                            placeholder="Describe las características principales del producto..."
+                            required
+                            maxlength="255"><?php echo htmlspecialchars($productDescription); ?></textarea>
                         <small class="form-hint">Máximo 255 caracteres.</small>
                     </div>
 
@@ -123,16 +124,16 @@ if ($productName) {
                                 <i class="fas fa-euro-sign"></i>
                                 Precio
                             </label>
-                            <input type="number" 
-                                   id="price" 
-                                   name="price" 
-                                   class="form-input" 
-                                   value="<?php echo htmlspecialchars($productPrice); ?>"
-                                   placeholder="99.99"
-                                   step="0.01"
-                                   min="0"
-                                   max="999.99"
-                                   required>
+                            <input type="number"
+                                id="price"
+                                name="price"
+                                class="form-input"
+                                value="<?php echo htmlspecialchars($productPrice); ?>"
+                                placeholder="99.99"
+                                step="0.01"
+                                min="0"
+                                max="999.99"
+                                required>
                             <small class="form-hint">En euros (€).</small>
                         </div>
 
@@ -142,14 +143,14 @@ if ($productName) {
                                 <i class="fas fa-boxes"></i>
                                 Stock
                             </label>
-                            <input type="number" 
-                                   id="stock" 
-                                   name="stock" 
-                                   class="form-input" 
-                                   value="<?php echo htmlspecialchars($productStock); ?>"
-                                   placeholder="0"
-                                   min="0"
-                                   required>
+                            <input type="number"
+                                id="stock"
+                                name="stock"
+                                class="form-input"
+                                value="<?php echo htmlspecialchars($productStock); ?>"
+                                placeholder="0"
+                                min="0"
+                                required>
                             <small class="form-hint">Unidades disponibles.</small>
                         </div>
                     </div>
@@ -165,7 +166,7 @@ if ($productName) {
                             <?php if (!empty($categories) && is_array($categories)): ?>
                                 <?php foreach ($categories as $category): ?>
                                     <option value="<?php echo htmlspecialchars($category['id']); ?>"
-                                            <?php echo ($category['id'] == $productCategoryId) ? 'selected' : ''; ?>>
+                                        <?php echo ($category['id'] == $productCategoryId) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($category['name']); ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -193,7 +194,7 @@ if ($productName) {
                         <small class="form-hint">Solo si el producto es un móvil.</small>
                     </div>
 
-                    <!-- Accessory Type Selection - EXISTING (keep exactly as is) -->
+                    <!-- Accessory Type Selection -->
                     <div class="form-group">
                         <label for="accessory_type_id" class="form-label">
                             <i class="fas fa-puzzle-piece"></i>
@@ -204,7 +205,7 @@ if ($productName) {
                             <?php if (!empty($accessoryTypes) && is_array($accessoryTypes)): ?>
                                 <?php foreach ($accessoryTypes as $accessoryType): ?>
                                     <option value="<?php echo htmlspecialchars($accessoryType['id']); ?>"
-                                            <?php echo ($accessoryType['id'] == $productAccessoryTypeId) ? 'selected' : ''; ?>>
+                                        <?php echo ($accessoryType['id'] == $productAccessoryTypeId) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($accessoryType['name']); ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -221,9 +222,9 @@ if ($productName) {
                                 Imagen Actual
                             </label>
                             <div class="current-image-container" style="display: flex; align-items: center; gap: 15px; padding: 15px; border: 2px dashed #CCCCCC; border-radius: 5px; background-color: #F2F2F2;">
-                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($productImage); ?>" 
-                                     alt="<?php echo htmlspecialchars($productName); ?>"
-                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #CCCCCC;">
+                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($productImage); ?>"
+                                    alt="<?php echo htmlspecialchars($productName); ?>"
+                                    style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #CCCCCC;">
                                 <p style="margin: 0; color: #666666; font-size: 0.9rem;"><?php echo htmlspecialchars($productImage); ?></p>
                             </div>
                         </div>
@@ -235,11 +236,11 @@ if ($productName) {
                             <i class="fas fa-image"></i>
                             <?php echo !empty($productImage) ? 'Cambiar Imagen' : 'Imagen del Producto'; ?>
                         </label>
-                        <input type="file" 
-                               id="image" 
-                               name="image" 
-                               class="form-input form-file" 
-                               accept="image/*">
+                        <input type="file"
+                            id="image"
+                            name="image"
+                            class="form-input form-file"
+                            accept="image/*">
                         <small class="form-help">
                             <?php echo !empty($productImage) ? 'Deja vacío para mantener la imagen actual. ' : ''; ?>
                             Formatos permitidos: JPG, PNG, GIF (máximo 5MB)

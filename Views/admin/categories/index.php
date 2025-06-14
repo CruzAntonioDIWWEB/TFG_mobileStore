@@ -26,13 +26,13 @@ $messages = $messages ?? [];
 <section class="admin-section">
     <div class="admin-container">
         <!-- Back Navigation -->
-                <div class="breadcrumb">
+        <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-arrow-left"></i>
                 Volver a configuración
             </a>
         </div>
-        
+
         <div class="admin-header">
             <div class="admin-title-section">
                 <h1 class="admin-title">Gestión de Categorías</h1>
@@ -90,14 +90,14 @@ $messages = $messages ?? [];
                                             </td>
                                             <td class="category-actions">
                                                 <div class="action-buttons">
-                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=edit&id=<?php echo $category['id']; ?>" 
-                                                       class="action-btn btn-edit" title="Editar categoría">
+                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=edit&id=<?php echo $category['id']; ?>"
+                                                        class="action-btn btn-edit" title="Editar categoría">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <button type="button" 
-                                                            class="action-btn btn-delete" 
-                                                            title="Eliminar categoría"
-                                                            onclick="confirmDelete(<?php echo $category['id']; ?>, '<?php echo htmlspecialchars($category['name']); ?>')">
+                                                    <button type="button"
+                                                        class="action-btn btn-delete"
+                                                        title="Eliminar categoría"
+                                                        onclick="confirmDelete(<?php echo $category['id']; ?>, '<?php echo htmlspecialchars($category['name']); ?>')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -159,20 +159,20 @@ $messages = $messages ?? [];
 </div>
 
 <script>
-function confirmDelete(categoryId, categoryName) {
-    document.getElementById('category-id-to-delete').value = categoryId;
-    document.getElementById('category-name-to-delete').textContent = categoryName;
-    document.getElementById('delete-modal').style.display = 'flex';
-}
-
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
-}
-
-// Close modal when clicking outside
-document.getElementById('delete-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeDeleteModal();
+    function confirmDelete(categoryId, categoryName) {
+        document.getElementById('category-id-to-delete').value = categoryId;
+        document.getElementById('category-name-to-delete').textContent = categoryName;
+        document.getElementById('delete-modal').style.display = 'flex';
     }
-});
+
+    function closeDeleteModal() {
+        document.getElementById('delete-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('delete-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
 </script>

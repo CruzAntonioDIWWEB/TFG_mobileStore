@@ -25,8 +25,7 @@ $messages = $messages ?? [];
 <!-- Create User Section -->
 <section class="auth-section">
     <div class="auth-container">
-        
-        <!-- Navigation Breadcrumb -->
+
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-user"></i>
@@ -52,20 +51,20 @@ $messages = $messages ?? [];
             </div>
 
             <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=user&action=save">
-                
+
                 <div class="form-group">
                     <label for="name" class="form-label">
                         <i class="fas fa-user"></i>
                         Nombre
                     </label>
-                    <input type="text" 
-                           id="name" 
-                           name="name" 
-                           class="form-input" 
-                           placeholder="Ej: Antonio, María, Carlos..."
-                           required
-                           maxlength="25"
-                           autocomplete="given-name">
+                    <input type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Ej: Antonio, María, Carlos..."
+                        required
+                        maxlength="25"
+                        autocomplete="given-name">
                     <small class="form-hint">Máximo 25 caracteres.</small>
                 </div>
 
@@ -74,14 +73,14 @@ $messages = $messages ?? [];
                         <i class="fas fa-user"></i>
                         Apellidos
                     </label>
-                    <input type="text" 
-                           id="surnames" 
-                           name="surnames" 
-                           class="form-input" 
-                           placeholder="Ej: García López, Martín Ruiz..."
-                           required
-                           maxlength="40"
-                           autocomplete="family-name">
+                    <input type="text"
+                        id="surnames"
+                        name="surnames"
+                        class="form-input"
+                        placeholder="Ej: García López, Martín Ruiz..."
+                        required
+                        maxlength="40"
+                        autocomplete="family-name">
                     <small class="form-hint">Máximo 40 caracteres.</small>
                 </div>
 
@@ -90,14 +89,14 @@ $messages = $messages ?? [];
                         <i class="fas fa-envelope"></i>
                         Email
                     </label>
-                    <input type="email" 
-                           id="email" 
-                           name="email" 
-                           class="form-input" 
-                           placeholder="ejemplo@correo.com"
-                           required
-                           maxlength="100"
-                           autocomplete="email">
+                    <input type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="ejemplo@correo.com"
+                        required
+                        maxlength="100"
+                        autocomplete="email">
                     <small class="form-hint">Debe ser único. Máximo 100 caracteres.</small>
                 </div>
 
@@ -106,14 +105,14 @@ $messages = $messages ?? [];
                         <i class="fas fa-lock"></i>
                         Contraseña
                     </label>
-                    <input type="password" 
-                           id="password" 
-                           name="password" 
-                           class="form-input" 
-                           placeholder="Mínimo 4 caracteres"
-                           required
-                           minlength="4"
-                           autocomplete="new-password">
+                    <input type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Mínimo 4 caracteres"
+                        required
+                        minlength="4"
+                        autocomplete="new-password">
                     <small class="form-hint">Mínimo 4 caracteres. Se encriptará automáticamente.</small>
                 </div>
 
@@ -122,10 +121,10 @@ $messages = $messages ?? [];
                         <i class="fas fa-crown"></i>
                         Rol de usuario
                     </label>
-                    <select id="role" 
-                            name="role" 
-                            class="form-select" 
-                            required>
+                    <select id="role"
+                        name="role"
+                        class="form-select"
+                        required>
                         <option value="cliente" selected>Cliente</option>
                         <option value="admin">Administrador</option>
                     </select>
@@ -137,7 +136,7 @@ $messages = $messages ?? [];
                         <i class="fas fa-save"></i>
                         Crear Usuario
                     </button>
-                    
+
                     <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=index" class="auth-btn btn-secondary">
                         <i class="fas fa-arrow-left"></i>
                         Volver al listado
@@ -149,48 +148,4 @@ $messages = $messages ?? [];
     </div>
 </section>
 
-<script>
-// Simple client-side validation
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.auth-form');
-    const nameInput = document.getElementById('name');
-    const surnamesInput = document.getElementById('surnames');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-
-    form.addEventListener('submit', function(e) {
-        let isValid = true;
-        let errors = [];
-
-        // Validate name
-        if (nameInput.value.trim().length < 2) {
-            errors.push('El nombre debe tener al menos 2 caracteres');
-            isValid = false;
-        }
-
-        // Validate surnames
-        if (surnamesInput.value.trim().length < 2) {
-            errors.push('Los apellidos deben tener al menos 2 caracteres');
-            isValid = false;
-        }
-
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value)) {
-            errors.push('El formato del email no es válido');
-            isValid = false;
-        }
-
-        // Validate password
-        if (passwordInput.value.length < 4) {
-            errors.push('La contraseña debe tener al menos 4 caracteres');
-            isValid = false;
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-            alert('Errores encontrados:\n' + errors.join('\n'));
-        }
-    });
-});
-</script>
+<script src="<?php echo ASSETS_URL; ?>js/user/userFormValidation.js"></script>
