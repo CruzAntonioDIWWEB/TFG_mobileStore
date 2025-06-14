@@ -118,7 +118,7 @@ $accessoryTypes = $accessoryTypes ?? [];
                                id="stock" 
                                name="stock" 
                                class="form-input" 
-                               placeholder="10"
+                               placeholder="0"
                                min="0"
                                required>
                         <small class="form-hint">Unidades disponibles.</small>
