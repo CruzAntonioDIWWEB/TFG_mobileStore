@@ -912,3 +912,43 @@
         }
     }
 }
+
+.current-image-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 2px dashed #CCCCCC;
+    border-radius: 5px;
+    background-color: #F2F2F2;
+}
+
+.current-product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
+}
+
+.current-image-name {
+    margin: 0;
+    color: #666666;
+    font-size: 0.9rem;
+}
+
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #E60000;
+}
+
+.error-message h3 {
+    margin: 10px 0;
+    color: #333333;
+}
+
+.error-message p {
+    margin-bottom: 20px;
+    color: #666666;
+}
