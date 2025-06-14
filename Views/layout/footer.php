@@ -15,7 +15,7 @@
                 <!-- Links Section -->
                 <div class="footer-links">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=info&action=license" class="footer-link">Licencia</a>
-                    <a href="<?php echo BASE_URL; ?>index.php?controller=info&action=privacy" class="footer-link">Política y Privacidad</a>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=info&action=privacy" class="footer-link">Políticas de Privacidad</a>
                     <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="footer-link">Contacto</a>
                 </div>
                 

@@ -25,6 +25,14 @@ $messages = $messages ?? [];
 <!-- Products Management Section -->
 <section class="admin-section">
     <div class="admin-container">
+        <!-- Back Navigation -->
+                 <div class="breadcrumb">
+            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
+                <i class="fas fa-arrow-left"></i>
+                Volver a configuración
+            </a>
+        </div>
+        
         <div class="admin-header">
             <div class="admin-title-section">
                 <h1 class="admin-title">Gestión de Productos</h1>
@@ -108,9 +116,16 @@ $messages = $messages ?? [];
 
                                             <!-- Stock -->
                                             <td class="product-stock">
-                                                <span class="stock-badge <?php echo ($product['stock'] > 0) ? 'in-stock' : 'out-of-stock'; ?>">
-                                                    <?php echo htmlspecialchars($product['stock']); ?> unidades
-                                                </span>
+                                                <?php if (isset($product['stock'])): ?>
+                                                    <span class="stock-badge <?php echo ($product['stock'] > 0) ? 'in-stock' : 'out-of-stock'; ?>">
+                                                        <?php echo htmlspecialchars($product['stock']); ?> unidades
+                                                    </span>
+                                                    <span><?php echo $product['stock']; ?></span>
+                                                <?php else: ?>
+                                                    <span class="stock-badge out-of-stock">
+                                                        Stock no disponible
+                                                    </span>
+                                                <?php endif; ?>
                                             </td>
 
                                             <!-- Date -->
@@ -152,16 +167,15 @@ $messages = $messages ?? [];
                             </table>
                         </div>
                     <?php else: ?>
-                        <!-- No Products State -->
                         <div class="no-products">
                             <div class="no-products-icon">
                                 <i class="fas fa-box-open"></i>
                             </div>
-                            <h3>No hay productos registrados</h3>
-                            <p>Comienza agregando productos a tu catálogo para que aparezcan aquí.</p>
-                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=create" class="btn btn-primary">
+                            <h3>No hay productos disponibles</h3>
+                            <p>Aún no has añadido ningún producto al catálogo.</p>
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=create" class="admin-btn btn-primary">
                                 <i class="fas fa-plus"></i>
-                                Crear primer producto
+                                Añadir Primer Producto
                             </a>
                         </div>
                     <?php endif; ?>
