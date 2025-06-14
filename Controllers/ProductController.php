@@ -293,7 +293,7 @@ class ProductController extends BaseController
         }
 
         if ($price <= 0 || $price > 999.99) {
-            $this->setErrorMessage('El precio debe estar entre 0.01 € y 999.99 €');
+            $this->setErrorMessage('El precio no puede ser 0 ni negativo');
             $this->redirect('product', 'create');
             return;
         }
@@ -412,7 +412,7 @@ class ProductController extends BaseController
         }
 
         if ($price <= 0 || $price > 999.99) {
-            $this->setErrorMessage('El precio debe estar entre 0.01 € y 999.99 €');
+            $this->setErrorMessage('El precio no puede ser 0 ni negativo');
             $this->redirect('product', 'edit', ['id' => $productId]);
             return;
         }

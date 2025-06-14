@@ -61,16 +61,17 @@ $accessoryTypes = $accessoryTypes ?? [];
                 <div class="form-group">
                     <label for="name" class="form-label">
                         <i class="fas fa-tag"></i>
-                        Nombre del Producto
+                        Nombre del producto
                     </label>
                     <input type="text" 
                            id="name" 
                            name="name" 
                            class="form-input" 
-                           placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24, etc." 
-                           required 
-                           maxlength="25">
-                    <small class="form-help">Máximo 25 caracteres</small>
+                           placeholder="Ej: iPhone 15 Pro, Samsung Galaxy S24..."
+                           required
+                           maxlength="25"
+                           autocomplete="off">
+                    <small class="form-hint">Máximo 25 caracteres.</small>
                 </div>
 
                 <!-- Product Description -->
@@ -81,48 +82,51 @@ $accessoryTypes = $accessoryTypes ?? [];
                     </label>
                     <textarea id="description" 
                               name="description" 
-                              class="form-input form-textarea" 
-                              placeholder="Describe las características principales del producto..." 
-                              maxlength="255" 
-                              rows="4"></textarea>
-                    <small class="form-help">Máximo 255 caracteres</small>
+                              class="form-textarea" 
+                              placeholder="Describe las características principales del producto..."
+                              required
+                              maxlength="255"></textarea>
+                    <small class="form-hint">Máximo 255 caracteres.</small>
                 </div>
 
-                <!-- Product Price -->
-                <div class="form-group">
-                    <label for="price" class="form-label">
-                        <i class="fas fa-euro-sign"></i>
-                        Precio
-                    </label>
-                    <input type="number" 
-                           id="price" 
-                           name="price" 
-                           class="form-input" 
-                           placeholder="Ej: 699.99" 
-                           step="0.01" 
-                           min="0" 
-                           max="999.99" 
-                           required>
-                    <small class="form-help">Precio en euros (máximo 999.99 €)</small>
+                <!-- Price and Stock Row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label for="price" class="form-label">
+                            <i class="fas fa-euro-sign"></i>
+                            Precio
+                        </label>
+                        <input type="number" 
+                               id="price" 
+                               name="price" 
+                               class="form-input" 
+                               placeholder="99.99"
+                               step="0.01"
+                               min="0"
+                               max="999.99"
+                               required>
+                        <small class="form-hint">En euros (€).</small>
+                    </div>
+
+                    <!-- Stock -->
+                    <div class="form-group">
+                        <label for="stock" class="form-label">
+                            <i class="fas fa-boxes"></i>
+                            Stock
+                        </label>
+                        <input type="number" 
+                               id="stock" 
+                               name="stock" 
+                               class="form-input" 
+                               placeholder="0"
+                               min="0"
+                               required>
+                        <small class="form-hint">Unidades disponibles.</small>
+                    </div>
                 </div>
 
-                <!-- Product Stock -->
-                <div class="form-group">
-                    <label for="stock" class="form-label">
-                        <i class="fas fa-boxes"></i>
-                        Stock
-                    </label>
-                    <input type="number" 
-                           id="stock" 
-                           name="stock" 
-                           class="form-input" 
-                           placeholder="Ej: 50" 
-                           min="0" 
-                           required>
-                    <small class="form-help">Cantidad disponible en inventario</small>
-                </div>
-
-                <!-- Category Selection -->
+                <!-- Category -->
                 <div class="form-group">
                     <label for="category_id" class="form-label">
                         <i class="fas fa-folder"></i>
@@ -141,14 +145,14 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Categoría principal del producto.</small>
                 </div>
 
-                <!-- Mobile Brand Selection - EXACT COPY OF ACCESSORY PATTERN -->
+                <!-- Mobile Brand Selection (Initially Hidden) -->
                 <div class="form-group">
                     <label for="mobile_brand" class="form-label">
                         <i class="fas fa-mobile-alt"></i>
                         Marca del Móvil (Opcional)
                     </label>
                     <select id="mobile_brand" name="mobile_brand" class="form-select">
-                        <option value="">Selecciona marca (si es móvil)</option>
+                        <option value="">Selecciona la marca</option>
                         <option value="iphone">iPhone</option>
                         <option value="samsung">Samsung</option>
                         <option value="xiaomi">Xiaomi</option>
@@ -162,7 +166,7 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Solo si el producto es un móvil.</small>
                 </div>
 
-                <!-- Accessory Type Selection - EXISTING (keep exactly as is) -->
+                <!-- Accessory Type (Optional) -->
                 <div class="form-group">
                     <label for="accessory_type_id" class="form-label">
                         <i class="fas fa-puzzle-piece"></i>
@@ -181,7 +185,7 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Solo si el producto es un accesorio.</small>
                 </div>
 
-                <!-- Product Image -->
+            <!-- Product Image -->
                 <div class="form-group">
                     <label for="image" class="form-label">
                         <i class="fas fa-image"></i>
@@ -195,126 +199,21 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-help">Formatos permitidos: JPG, PNG, GIF (máximo 5MB)</small>
                 </div>
 
-                <!-- Form Actions -->
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Crear Producto
-                    </button>
+                <!-- Form Buttons -->
+                <div class="form-buttons">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=index" class="btn btn-secondary">
                         <i class="fas fa-times"></i>
                         Cancelar
                     </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Crear Producto
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>
 </section>
 
-<!-- Use your existing productFormValidation.js -->
 <script src="<?php echo ASSETS_URL; ?>js/productFormValidation.js"></script>
-
-<!-- Add the mobile brand logic -->
-<script>
-// Mobile Brand Logic - Following the exact same pattern as accessory logic
-document.addEventListener('DOMContentLoaded', function() {
-    const categorySelect = document.getElementById('category_id');
-    const mobileBrandSelect = document.getElementById('mobile_brand');
-    const mobileBrandGroup = mobileBrandSelect ? mobileBrandSelect.closest('.form-group') : null;
-    const form = document.querySelector('.auth-form');
-    
-    // Detect if we're in edit mode (has hidden input with product id)
-    const isEditMode = document.querySelector('input[name="id"][type="hidden"]') !== null;
-
-    // Function to check if selected category is mobile-related
-    function isMobileCategory(categoryText) {
-        if (!categoryText) return false;
-        const lowerText = categoryText.toLowerCase();
-        return lowerText.includes('móvil') || 
-               lowerText.includes('movil') || 
-               lowerText.includes('teléfono') || 
-               lowerText.includes('telefono') ||
-               lowerText.includes('mobile') ||
-               lowerText.includes('phone');
-    }
-
-    // Function to update mobile brand field requirement and visibility
-    function updateMobileBrandRequirement() {
-        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
-        const categoryText = selectedOption ? selectedOption.text : '';
-        const isMobile = isMobileCategory(categoryText);
-
-        if (mobileBrandGroup) {
-            if (isMobile) {
-                // Show and make mobile brand required
-                mobileBrandGroup.style.display = 'block';
-                mobileBrandSelect.setAttribute('required', 'required');
-                
-                // Update label to show it's required
-                const label = mobileBrandGroup.querySelector('.form-label');
-                if (label && !label.innerHTML.includes('*')) {
-                    label.innerHTML = label.innerHTML.replace('(Opcional)', '<span style="color: #E60000;">*</span>');
-                }
-                
-                // Update hint
-                const hint = mobileBrandGroup.querySelector('.form-help');
-                if (hint) {
-                    hint.innerHTML = '<i class="fas fa-info-circle"></i> Requerido para productos móviles - se usa para filtrar por marca en la tienda.';
-                    hint.style.color = '#E60000';
-                }
-                
-            } else {
-                // Hide and make mobile brand optional
-                mobileBrandGroup.style.display = 'none';
-                mobileBrandSelect.removeAttribute('required');
-                
-                // Clear selection behavior based on mode
-                if (!isEditMode) {
-                    // In create mode: clear selection when hidden
-                    mobileBrandSelect.value = '';
-                }
-                
-                // Reset label to optional
-                const label = mobileBrandGroup.querySelector('.form-label');
-                if (label) {
-                    label.innerHTML = label.innerHTML.replace('<span style="color: #E60000;">*</span>', '(Opcional)');
-                }
-                
-                // Reset hint
-                const hint = mobileBrandGroup.querySelector('.form-help');
-                if (hint) {
-                    hint.innerHTML = '<i class="fas fa-info-circle"></i> Esta información se usa para filtrar los móviles por marca en la tienda';
-                    hint.style.color = '';
-                }
-            }
-        }
-    }
-
-    // Listen for category changes
-    if (categorySelect && mobileBrandGroup) {
-        categorySelect.addEventListener('change', updateMobileBrandRequirement);
-    }
-
-    // Form submission validation
-    if (form && mobileBrandSelect) {
-        form.addEventListener('submit', function(e) {
-            const selectedOption = categorySelect.options[categorySelect.selectedIndex];
-            const categoryText = selectedOption ? selectedOption.text : '';
-            const isMobile = isMobileCategory(categoryText);
-            
-            // Only validate if the mobile brand field is visible and category is mobile
-            if (isMobile && mobileBrandGroup && mobileBrandGroup.style.display !== 'none' && !mobileBrandSelect.value) {
-                e.preventDefault();
-                alert('Por favor, selecciona una marca para este producto móvil.');
-                mobileBrandSelect.focus();
-                return false;
-            }
-        });
-    }
-
-    // Initial check on page load
-    if (categorySelect && mobileBrandGroup) {
-        updateMobileBrandRequirement();
-    }
-});
-</script>
