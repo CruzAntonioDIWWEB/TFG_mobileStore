@@ -43,7 +43,6 @@ $navCategories = $categoryModel->getAll();
 
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" id="nav-menu">
-                    <!-- Keep existing static navigation -->
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="nav-link">Móviles</a>
                     </li>
@@ -62,7 +61,7 @@ $navCategories = $categoryModel->getAll();
                                 stripos($categoryName, 'teléfono') !== false ||
                                 stripos($categoryName, 'accesorio') !== false
                             ) {
-                                continue; // Skip these as they're already in the static menu
+                                continue;
                             }
                             ?>
                             <li class="nav-item">
@@ -87,7 +86,7 @@ $navCategories = $categoryModel->getAll();
                                 </a>
                             </li>
 
-                            <!-- Simple Logout Link with Confirmation - REPLACES Order History -->
+                            <!-- Simple Logout Link with Confirmation -->
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=logout"
                                     onclick="return confirm('¿Estás seguro de que quieres cerrar sesión?')"
@@ -107,7 +106,7 @@ $navCategories = $categoryModel->getAll();
                                 </a>
                             </li>
                         <?php else: ?>
-                            <!-- User is not logged in - Show login and register buttons -->
+                            <!-- User is not logged in -->
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="nav-link mobile-user-link">
                                     <i class="fas fa-sign-in-alt"></i>
@@ -144,7 +143,7 @@ $navCategories = $categoryModel->getAll();
                             </span>
                         </a>
                     <?php else: ?>
-                        <!-- User is not logged in - Show login and register buttons -->
+                        <!-- User is not logged in -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="nav-button btn-login">Iniciar Sesión</a>
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=register" class="nav-button btn-register">Registrarse</a>
                     <?php endif; ?>

@@ -37,8 +37,8 @@ $messages = $messages ?? [];
                 </option>
                 <?php if (!empty($accessoryTypes) && is_array($accessoryTypes)): ?>
                     <?php foreach ($accessoryTypes as $type): ?>
-                        <option value="<?php echo $type['id']; ?>" 
-                                <?php echo ($selectedType == $type['id']) ? 'selected' : ''; ?>>
+                        <option value="<?php echo $type['id']; ?>"
+                            <?php echo ($selectedType == $type['id']) ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars($type['name']); ?>
                         </option>
                     <?php endforeach; ?>
@@ -58,15 +58,15 @@ $messages = $messages ?? [];
                     <article class="accessory-card" data-type="<?php echo $accessory['accessory_type_id'] ?? 'none'; ?>">
                         <div class="accessory-image">
                             <?php if (!empty($accessory['image'])): ?>
-                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($accessory['image']); ?>" 
-                                     alt="<?php echo htmlspecialchars($accessory['name']); ?>"
-                                     loading="lazy">
+                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($accessory['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($accessory['name']); ?>"
+                                    loading="lazy">
                             <?php else: ?>
-                                <img src="/dashboard/TFG/assets/img/placeholder-product.jpg" 
-                                     alt="<?php echo htmlspecialchars($accessory['name']); ?>"
-                                     loading="lazy">
+                                <img src="/dashboard/TFG/assets/img/placeholder-product.jpg"
+                                    alt="<?php echo htmlspecialchars($accessory['name']); ?>"
+                                    loading="lazy">
                             <?php endif; ?>
-                            
+
                             <!-- Stock Badge -->
                             <?php if ($accessory['stock'] > 0): ?>
                                 <span class="stock-badge">
@@ -85,39 +85,39 @@ $messages = $messages ?? [];
                                 </span>
                             <?php endif; ?>
                         </div>
-                        
+
                         <div class="accessory-info">
                             <h3 class="accessory-name"><?php echo htmlspecialchars($accessory['name']); ?></h3>
-                            
+
                             <?php if (!empty($accessory['description'])): ?>
                                 <p class="accessory-description">
                                     <?php echo htmlspecialchars(substr($accessory['description'], 0, 100)) . (strlen($accessory['description']) > 100 ? '...' : ''); ?>
                                 </p>
                             <?php endif; ?>
-                            
+
                             <div class="accessory-footer">
                                 <div class="price-section">
                                     <span class="accessory-price"><?php echo number_format($accessory['price'], 2, ',', '.'); ?> €</span>
                                 </div>
-                                
+
                                 <div class="accessory-actions">
-                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $accessory['id']; ?>" 
-                                       class="accessory-btn btn-details">
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $accessory['id']; ?>"
+                                        class="accessory-btn btn-details">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
                                     </a>
-                                    
+
                                     <?php if ($accessory['stock'] > 0): ?>
                                         <?php if (isset($_SESSION['user'])): ?>
-                                            <button class="accessory-btn btn-cart" 
-                                                    data-product-id="<?php echo $accessory['id']; ?>"
-                                                    data-product-name="<?php echo htmlspecialchars($accessory['name']); ?>">
+                                            <button class="accessory-btn btn-cart"
+                                                data-product-id="<?php echo $accessory['id']; ?>"
+                                                data-product-name="<?php echo htmlspecialchars($accessory['name']); ?>">
                                                 <i class="fas fa-shopping-cart"></i>
                                                 Añadir
                                             </button>
                                         <?php else: ?>
-                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" 
-                                               class="accessory-btn btn-login-required">
+                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login"
+                                                class="accessory-btn btn-login-required">
                                                 <i class="fas fa-user"></i>
                                                 Iniciar sesión
                                             </a>
