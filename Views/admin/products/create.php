@@ -157,10 +157,8 @@ $accessoryTypes = $accessoryTypes ?? [];
                         <option value="samsung">Samsung</option>
                         <option value="xiaomi">Xiaomi</option>
                         <option value="huawei">Huawei</option>
-                        <option value="oneplus">OnePlus</option>
                         <option value="google">Google Pixel</option>
                         <option value="oppo">Oppo</option>
-                        <option value="vivo">Vivo</option>
                         <option value="other">Otra marca</option>
                     </select>
                     <small class="form-hint">Solo si el producto es un móvil.</small>

@@ -1,4 +1,8 @@
 <?php
+// Include the BrandHelper for brand detection
+require_once __DIR__ . '/../../../Helpers/BrandHelper.php';
+use Helpers\BrandHelper;
+
 // Get current user data
 $currentUser = $_SESSION['user'] ?? null;
 $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] === 'admin';
@@ -20,6 +24,12 @@ $productStock = $product ? $product->getStock() : '';
 $productCategoryId = $product ? $product->getCategoryId() : '';
 $productAccessoryTypeId = $product ? $product->getAccessoryType() : '';
 $productImage = $product ? $product->getImage() : '';
+
+// Detect current brand if it's a mobile product 
+$currentBrand = '';
+if ($productName) {
+    $currentBrand = BrandHelper::detectBrand($productName);
+}
 ?>
 
 <!-- Messages Display -->
@@ -68,23 +78,10 @@ $productImage = $product ? $product->getImage() : '';
 
             <?php if ($product): ?>
                 <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=product&action=update" enctype="multipart/form-data">
+                    
+                    <!-- Hidden Product ID -->
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($productId); ?>">
                     
-                    <!-- Current Product Image (if exists) -->
-                    <?php if (!empty($productImage)): ?>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-image"></i>
-                                Imagen actual
-                            </label>
-                            <div style="margin-bottom: 1rem;">
-                                <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($productImage); ?>" 
-                                     alt="<?php echo htmlspecialchars($productName); ?>"
-                                     style="max-width: 150px; height: auto; border-radius: 8px; border: 1px solid #ddd;">
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
                     <!-- Product Name -->
                     <div class="form-group">
                         <label for="name" class="form-label">
@@ -134,6 +131,7 @@ $productImage = $product ? $product->getImage() : '';
                                    placeholder="99.99"
                                    step="0.01"
                                    min="0"
+                                   max="999.99"
                                    required>
                             <small class="form-hint">En euros (€).</small>
                         </div>
@@ -176,7 +174,26 @@ $productImage = $product ? $product->getImage() : '';
                         <small class="form-hint">Categoría principal del producto.</small>
                     </div>
 
-                    <!-- Accessory Type (Optional) -->
+                    <!-- Mobile Brand Selection -->
+                    <div class="form-group">
+                        <label for="mobile_brand" class="form-label">
+                            <i class="fas fa-mobile-alt"></i>
+                            Marca del Móvil (Opcional)
+                        </label>
+                        <select id="mobile_brand" name="mobile_brand" class="form-select">
+                            <option value="">Selecciona la marca</option>
+                            <option value="iphone" <?php echo ($currentBrand === 'iphone') ? 'selected' : ''; ?>>iPhone</option>
+                            <option value="samsung" <?php echo ($currentBrand === 'samsung') ? 'selected' : ''; ?>>Samsung</option>
+                            <option value="xiaomi" <?php echo ($currentBrand === 'xiaomi') ? 'selected' : ''; ?>>Xiaomi</option>
+                            <option value="huawei" <?php echo ($currentBrand === 'huawei') ? 'selected' : ''; ?>>Huawei</option>
+                            <option value="google" <?php echo ($currentBrand === 'google') ? 'selected' : ''; ?>>Google Pixel</option>
+                            <option value="oppo" <?php echo ($currentBrand === 'oppo') ? 'selected' : ''; ?>>Oppo</option>
+                            <option value="other" <?php echo ($currentBrand === 'other') ? 'selected' : ''; ?>>Otra marca</option>
+                        </select>
+                        <small class="form-hint">Solo si el producto es un móvil.</small>
+                    </div>
+
+                    <!-- Accessory Type Selection - EXISTING (keep exactly as is) -->
                     <div class="form-group">
                         <label for="accessory_type_id" class="form-label">
                             <i class="fas fa-puzzle-piece"></i>
@@ -196,23 +213,37 @@ $productImage = $product ? $product->getImage() : '';
                         <small class="form-hint">Solo si el producto es un accesorio.</small>
                     </div>
 
+                    <!-- Current Image Display -->
+                    <?php if (!empty($productImage)): ?>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-image"></i>
+                                Imagen Actual
+                            </label>
+                            <div class="current-image-container" style="display: flex; align-items: center; gap: 15px; padding: 15px; border: 2px dashed #CCCCCC; border-radius: 5px; background-color: #F2F2F2;">
+                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($productImage); ?>" 
+                                     alt="<?php echo htmlspecialchars($productName); ?>"
+                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #CCCCCC;">
+                                <p style="margin: 0; color: #666666; font-size: 0.9rem;"><?php echo htmlspecialchars($productImage); ?></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Product Image -->
                     <div class="form-group">
                         <label for="image" class="form-label">
                             <i class="fas fa-image"></i>
-                            <?php echo !empty($productImage) ? 'Cambiar imagen (Opcional)' : 'Imagen del producto (Opcional)'; ?>
+                            <?php echo !empty($productImage) ? 'Cambiar Imagen' : 'Imagen del Producto'; ?>
                         </label>
-                        <div class="form-file">
-                            <div class="file-icon">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                            </div>
-                            <p><?php echo !empty($productImage) ? 'Subir nueva imagen (la actual será reemplazada)' : 'Arrastra una imagen aquí o haz clic para seleccionar'; ?></p>
-                            <input type="file" 
-                                   id="image" 
-                                   name="image" 
-                                   accept="image/jpeg,image/jpg,image/png,image/gif">
-                        </div>
-                        <small class="form-hint">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB.</small>
+                        <input type="file" 
+                               id="image" 
+                               name="image" 
+                               class="form-input form-file" 
+                               accept="image/*">
+                        <small class="form-help">
+                            <?php echo !empty($productImage) ? 'Deja vacío para mantener la imagen actual. ' : ''; ?>
+                            Formatos permitidos: JPG, PNG, GIF (máximo 5MB)
+                        </small>
                     </div>
 
                     <!-- Form Buttons -->
@@ -223,26 +254,24 @@ $productImage = $product ? $product->getImage() : '';
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i>
-                            Actualizar Producto
+                            Guardar Cambios
                         </button>
                     </div>
 
                 </form>
             <?php else: ?>
-                <!-- Error State -->
-                <div class="error-state">
-                    <div class="error-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <h3>Producto no encontrado</h3>
-                    <p>El producto que intentas editar no existe o ha sido eliminado.</p>
+                <div class="error-message" style="text-align: center; padding: 40px 20px; color: #E60000;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3 style="margin: 10px 0; color: #333333;">Producto no encontrado</h3>
+                    <p style="margin-bottom: 20px; color: #666666;">El producto que intentas editar no existe o ha sido eliminado.</p>
                     <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=index" class="btn btn-primary">
                         <i class="fas fa-arrow-left"></i>
-                        Volver a productos
+                        Volver a Productos
                     </a>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 </section>
+
 <script src="<?php echo ASSETS_URL; ?>js/productFormValidation.js"></script>
