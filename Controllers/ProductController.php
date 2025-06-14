@@ -46,9 +46,23 @@ class ProductController extends BaseController
         // Get all phones
         $phones = $productModel->getByCategory($phoneCategoryId);
         
+        // Filter by brand if specified in URL
+        $selectedBrand = $this->getGetData('brand');
+        $filteredPhones = $phones;
+        
+        if ($selectedBrand && $selectedBrand !== 'all') {
+            require_once __DIR__ . '/../Helpers/BrandHelper.php';
+            $filteredPhones = array_filter($phones, function($phone) use ($selectedBrand) {
+                $detectedBrand = \Helpers\BrandHelper::detectBrand($phone['name']);
+                return $detectedBrand === $selectedBrand;
+            });
+        }
+        
         $viewData = [
-            'phones' => $phones,
-            'categoryName' => 'Móviles'
+            'phones' => $filteredPhones,
+            'allPhones' => $phones, // For brand extraction
+            'categoryName' => 'Móviles',
+            'selectedBrand' => $selectedBrand
         ];
 
         $this->loadView('products/phones', $viewData);
@@ -173,7 +187,7 @@ class ProductController extends BaseController
     // ========================================
 
     /**
-     * Display all products (admin only) - UPDATED
+     * Display all products in admin panel
      */
      public function index(){
         $this->requireAdmin();
@@ -249,7 +263,7 @@ class ProductController extends BaseController
     // ========================================
 
     /**
-     * Save a new product
+     * Save a new product 
      */
     public function save(){
         $this->requireAdmin();
@@ -265,35 +279,63 @@ class ProductController extends BaseController
         // Basic validation
         $name = trim($postData['name'] ?? '');
         $description = trim($postData['description'] ?? '');
-        $price = trim($postData['price'] ?? '');
-        $stock = trim($postData['stock'] ?? '');
-        $categoryId = trim($postData['category_id'] ?? '');
-
-        if (empty($name) || empty($description) || empty($price) || $stock === '' || empty($categoryId)) {
-            $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
-            $this->redirect('product', 'create');
-            return;
-        }
-
-        // Validate numeric fields
-        if (!is_numeric($price) || floatval($price) <= 0) {
-            $this->setErrorMessage('El precio debe ser un número mayor que 0');
-            $this->redirect('product', 'create');
-            return;
-        }
-
-        if (!is_numeric($categoryId)) {
-            $this->setErrorMessage('Categoría inválida');
-            $this->redirect('product', 'create');
-            return;
-        }
-
-        // Handle optional accessory type
+        $price = floatval($postData['price'] ?? 0);
+        $stock = intval($postData['stock'] ?? 0);
+        $categoryId = intval($postData['category_id'] ?? 0);
         $accessoryTypeId = !empty($postData['accessory_type_id']) ? intval($postData['accessory_type_id']) : null;
+        $mobileBrand = trim($postData['mobile_brand'] ?? '');
+
+        // Validation
+        if (empty($name)) {
+            $this->setErrorMessage('El nombre del producto es obligatorio');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        if ($price <= 0 || $price > 999.99) {
+            $this->setErrorMessage('El precio debe estar entre 0.01 € y 999.99 €');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        if ($stock < 0) {
+            $this->setErrorMessage('El stock no puede ser negativo');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        if ($categoryId <= 0) {
+            $this->setErrorMessage('Debe seleccionar una categoría válida');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        // Check if it's a mobile category and validate brand
+        $categoryModel = new \Models\Category();
+        $category = $categoryModel->getById($categoryId);
+        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false || 
+                                        stripos($category->getName(), 'teléfono') !== false);
+
+        if ($isMobileCategory && empty($mobileBrand)) {
+            $this->setErrorMessage('Debe seleccionar una marca para productos móviles');
+            $this->redirect('product', 'create');
+            return;
+        }
+
+        // For mobile products, validate that the name matches the selected brand
+        if ($isMobileCategory && !empty($mobileBrand)) {
+            require_once __DIR__ . '/../Helpers/BrandHelper.php';
+            $detectedBrand = \Helpers\BrandHelper::detectBrand($name);
+            
+            if ($mobileBrand !== 'other' && $detectedBrand !== $mobileBrand) {
+                // Log the discrepancy but don't block - admin might know better
+                error_log("Brand mismatch for product '$name': selected '$mobileBrand', detected '$detectedBrand'");
+            }
+        }
 
         // Handle image upload
         $imageName = null;
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $imageName = $this->handleImageUpload($_FILES['image']);
             if (!$imageName) {
                 $this->redirect('product', 'create');
@@ -305,9 +347,9 @@ class ProductController extends BaseController
         $product = new \Models\Product();
         $product->setName($name);
         $product->setDescription($description);
-        $product->setPrice(floatval($price));
-        $product->setStock(intval($stock));
-        $product->setCategoryId(intval($categoryId));
+        $product->setPrice($price);
+        $product->setStock($stock);
+        $product->setCategoryId($categoryId);
         $product->setAccessoryType($accessoryTypeId);
         $product->setImage($imageName);
 
@@ -337,45 +379,13 @@ class ProductController extends BaseController
         $postData = $this->getPostData();
         $productId = intval($postData['id'] ?? 0);
 
-        if (!$productId) {
+        if ($productId <= 0) {
             $this->setErrorMessage('ID de producto inválido');
             $this->redirect('product', 'index');
             return;
         }
 
-        // Basic validation
-        $name = trim($postData['name'] ?? '');
-        $description = trim($postData['description'] ?? '');
-        $price = trim($postData['price'] ?? '');
-        $stock = trim($postData['stock'] ?? '');
-        $categoryId = trim($postData['category_id'] ?? '');
-
-        if (empty($name) || empty($description) || empty($price) || $stock === '' || empty($categoryId)) {
-            $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
-
-        // Validate numeric fields
-        if (!is_numeric($price) || floatval($price) <= 0) {
-            $this->setErrorMessage('El precio debe ser un número mayor que 0');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
-
-        if (!is_numeric($stock) || intval($stock) < 0) {
-            $this->setErrorMessage('El stock debe ser un número mayor o igual a 0');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
-
-        if (!is_numeric($categoryId)) {
-            $this->setErrorMessage('Categoría inválida');
-            $this->redirect('product', 'edit', ['id' => $productId]);
-            return;
-        }
-
-        // Check if product exists and get current image
+        // Get existing product
         $productModel = new \Models\Product();
         $existingProductResult = $productModel->getProductById($productId);
 
@@ -383,6 +393,63 @@ class ProductController extends BaseController
             $this->setErrorMessage('Producto no encontrado');
             $this->redirect('product', 'index');
             return;
+        }
+
+        // Validate input data
+        $name = trim($postData['name'] ?? '');
+        $description = trim($postData['description'] ?? '');
+        $price = floatval($postData['price'] ?? 0);
+        $stock = intval($postData['stock'] ?? 0);
+        $categoryId = intval($postData['category_id'] ?? 0);
+        $accessoryTypeId = !empty($postData['accessory_type_id']) ? intval($postData['accessory_type_id']) : null;
+        $mobileBrand = trim($postData['mobile_brand'] ?? '');
+
+        // Validation
+        if (empty($name)) {
+            $this->setErrorMessage('El nombre del producto es obligatorio');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        if ($price <= 0 || $price > 999.99) {
+            $this->setErrorMessage('El precio debe estar entre 0.01 € y 999.99 €');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        if ($stock < 0) {
+            $this->setErrorMessage('El stock no puede ser negativo');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        if ($categoryId <= 0) {
+            $this->setErrorMessage('Debe seleccionar una categoría válida');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        // Check if it's a mobile category and validate brand
+        $categoryModel = new \Models\Category();
+        $category = $categoryModel->getById($categoryId);
+        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false || 
+                                        stripos($category->getName(), 'teléfono') !== false);
+
+        if ($isMobileCategory && empty($mobileBrand)) {
+            $this->setErrorMessage('Debe seleccionar una marca para productos móviles');
+            $this->redirect('product', 'edit', ['id' => $productId]);
+            return;
+        }
+
+        // For mobile products, validate that the name matches the selected brand
+        if ($isMobileCategory && !empty($mobileBrand)) {
+            require_once __DIR__ . '/../Helpers/BrandHelper.php';
+            $detectedBrand = \Helpers\BrandHelper::detectBrand($name);
+            
+            if ($mobileBrand !== 'other' && $detectedBrand !== $mobileBrand) {
+                // Log the discrepancy but don't block - admin might know better
+                error_log("Brand mismatch for product '$name': selected '$mobileBrand', detected '$detectedBrand'");
+            }
         }
 
         // Handle the current image - work with both object and array returns
@@ -393,12 +460,9 @@ class ProductController extends BaseController
             $currentImage = $existingProductResult['image'] ?? null;
         }
 
-        // Handle optional accessory type
-        $accessoryTypeId = !empty($postData['accessory_type_id']) ? intval($postData['accessory_type_id']) : null;
-
-        // Handle image upload
+        // Handle image upload (only if new image provided)
         $imageName = $currentImage; // Keep existing image by default
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $newImageName = $this->handleImageUpload($_FILES['image']);
             if ($newImageName) {
                 // Delete old image if it exists
@@ -417,17 +481,11 @@ class ProductController extends BaseController
         $product->setId($productId);
         $product->setName($name);
         $product->setDescription($description);
-        $product->setPrice(floatval($price));
-        $product->setStock(intval($stock));
-        $product->setCategoryId(intval($categoryId));
+        $product->setPrice($price);
+        $product->setStock($stock);
+        $product->setCategoryId($categoryId);
         $product->setAccessoryType($accessoryTypeId);
         $product->setImage($imageName);
-
-        // Debug: Let's see what values we're trying to update
-        error_log("DEBUG - Updating product ID: " . $productId);
-        error_log("DEBUG - New name: " . $name);
-        error_log("DEBUG - New price: " . $price);
-        error_log("DEBUG - New stock: " . $stock);
 
         $updated = $product->updateDB();
 
@@ -502,46 +560,52 @@ class ProductController extends BaseController
     // ========================================
 
     /**
-     * Handle image upload
+     * Handle image upload for products 
      * @param array $file The uploaded file from $_FILES
      * @return string|false The filename on success, false on failure
      */
     private function handleImageUpload($file){
-        // Define upload directory (same as your project structure)
+        // Validate file
+        if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+            return false;
+        }
+
+        // Check file size (max 5MB)
+        if ($file['size'] > 5 * 1024 * 1024) {
+            $this->setErrorMessage('La imagen es demasiado grande (máximo 5MB)');
+            return false;
+        }
+
+        // Check file type
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $fileType = mime_content_type($file['tmp_name']);
+        
+        if (!in_array($fileType, $allowedTypes)) {
+            $this->setErrorMessage('Tipo de archivo no permitido. Use JPG, PNG, GIF o WebP');
+            return false;
+        }
+
+        // Generate unique filename
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = uniqid('product_') . '.' . strtolower($extension);
+        
+        // Upload directory
         $uploadDir = __DIR__ . '/../assets/img/products/';
         
         // Create directory if it doesn't exist
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
-
-        // Validate file type
-        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         
-        if (!in_array($fileExtension, $allowedTypes)) {
-            $this->setErrorMessage('Tipo de archivo no válido. Solo se permiten: jpg, jpeg, png, gif');
-            return false;
-        }
-
-        // Validate file size (max 5MB)
-        $maxSize = 5 * 1024 * 1024; // 5MB in bytes
-        if ($file['size'] > $maxSize) {
-            $this->setErrorMessage('El archivo es demasiado grande. Tamaño máximo: 5MB');
-            return false;
-        }
-
-        // Generate unique filename
-        $fileName = uniqid('product_') . '.' . $fileExtension;
-        $filePath = $uploadDir . $fileName;
-
+        $uploadPath = $uploadDir . $filename;
+        
         // Move uploaded file
-        if (move_uploaded_file($file['tmp_name'], $filePath)) {
-            return $fileName;
-        } else {
-            $this->setErrorMessage('Error al subir la imagen');
-            return false;
+        if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            return $filename;
         }
+        
+        $this->setErrorMessage('Error al subir la imagen');
+        return false;
     }
 
     /**

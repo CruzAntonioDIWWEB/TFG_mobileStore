@@ -1,6 +1,17 @@
 <?php
+// Include the BrandHelper
+require_once __DIR__ . '/../../Helpers/BrandHelper.php';
+use Helpers\BrandHelper;
+
 // Get messages for display
 $messages = $messages ?? [];
+
+// Get available brands from phones
+$availableBrands = [];
+if (!empty($phones) && is_array($phones)) {
+    $availableBrands = BrandHelper::getAvailableBrands($phones);
+}
+$brandLabels = BrandHelper::getBrandLabels();
 ?>
 
 <!-- Messages Display -->
@@ -31,21 +42,17 @@ $messages = $messages ?? [];
     <div class="filters-container">
         <h2 class="filters-title">Filtrar por marca</h2>
         <div class="brand-buttons">
+            <!-- Always show "All" button -->
             <button class="brand-btn active" data-brand="all">
                 <span class="brand-text">Todos</span>
             </button>
-            <button class="brand-btn" data-brand="apple">
-                <span class="brand-text">Apple</span>
-            </button>
-            <button class="brand-btn" data-brand="samsung">
-                <span class="brand-text">Samsung</span>
-            </button>
-            <button class="brand-btn" data-brand="xiaomi">
-                <span class="brand-text">Xiaomi</span>
-            </button>
-            <button class="brand-btn" data-brand="huawei">
-                <span class="brand-text">Huawei</span>
-            </button>
+            
+            <!-- Dynamic brand buttons based on available products -->
+            <?php foreach ($availableBrands as $brandKey): ?>
+                <button class="brand-btn" data-brand="<?php echo htmlspecialchars($brandKey); ?>">
+                    <span class="brand-text"><?php echo htmlspecialchars($brandLabels[$brandKey] ?? ucfirst($brandKey)); ?></span>
+                </button>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -56,7 +63,8 @@ $messages = $messages ?? [];
         <?php if (!empty($phones) && is_array($phones)): ?>
             <div class="phones-grid" id="phones-grid">
                 <?php foreach ($phones as $phone): ?>
-                    <article class="phone-card" data-brand="<?php echo strtolower(htmlspecialchars($phone['name'])); ?>">
+                    <?php $brandKey = BrandHelper::detectBrand($phone['name']); ?>
+                    <article class="phone-card" data-brand="<?php echo htmlspecialchars($brandKey); ?>">
                         <div class="phone-image">
                             <?php if (!empty($phone['image'])): ?>
                                 <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($phone['image']); ?>" 
@@ -69,87 +77,183 @@ $messages = $messages ?? [];
                             <?php endif; ?>
                             
                             <!-- Stock Badge -->
-                            <?php if ($phone['stock'] > 0): ?>
-                                <span class="stock-badge">
-                                    <?php if ($phone['stock'] <= 5): ?>
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                        Quedan <?php echo $phone['stock']; ?>
-                                    <?php else: ?>
-                                        <i class="fas fa-check"></i>
-                                        En stock
-                                    <?php endif; ?>
-                                </span>
-                            <?php else: ?>
-                                <span class="stock-badge out-of-stock">
+                            <?php if ($phone['stock'] <= 0): ?>
+                                <div class="stock-badge out-of-stock">
                                     <i class="fas fa-times"></i>
-                                    Agotado
-                                </span>
+                                    Sin Stock
+                                </div>
+                            <?php elseif ($phone['stock'] <= 5): ?>
+                                <div class="stock-badge low-stock">
+                                    <i class="fas fa-exclamation"></i>
+                                    Últimas unidades
+                                </div>
                             <?php endif; ?>
                         </div>
-                        
+
                         <div class="phone-info">
-                            <h3 class="phone-name"><?php echo htmlspecialchars($phone['name']); ?></h3>
+                            <h3 class="phone-name">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=show&id=<?php echo $phone['id']; ?>">
+                                    <?php echo htmlspecialchars($phone['name']); ?>
+                                </a>
+                            </h3>
                             
-                            <?php if (!empty($phone['description'])): ?>
-                                <p class="phone-description">
-                                    <?php echo htmlspecialchars(substr($phone['description'], 0, 120)) . (strlen($phone['description']) > 120 ? '...' : ''); ?>
-                                </p>
-                            <?php endif; ?>
+                            <p class="phone-description">
+                                <?php echo htmlspecialchars(substr($phone['description'] ?? '', 0, 100)); ?>
+                                <?php if (strlen($phone['description'] ?? '') > 100): ?>...<?php endif; ?>
+                            </p>
                             
-                            <div class="phone-footer">
-                                <div class="price-section">
-                                    <span class="phone-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
-                                </div>
-                                
-                                <div class="phone-actions">
-                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>" 
-                                       class="phone-btn btn-details">
+                            <div class="phone-price">
+                                <span class="current-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
+                            </div>
+                            
+                            <div class="phone-actions">
+                                <?php if ($phone['stock'] > 0): ?>
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=show&id=<?php echo $phone['id']; ?>" 
+                                       class="btn btn-primary">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
                                     </a>
-                                    
-                                    <?php if ($phone['stock'] > 0): ?>
-                                        <?php if (isset($_SESSION['user'])): ?>
-                                            <button class="phone-btn btn-cart" 
-                                                    data-product-id="<?php echo $phone['id']; ?>"
-                                                    data-product-name="<?php echo htmlspecialchars($phone['name']); ?>">
-                                                <i class="fas fa-shopping-cart"></i>
-                                                Añadir
-                                            </button>
-                                        <?php else: ?>
-                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" 
-                                               class="phone-btn btn-login-required">
-                                                <i class="fas fa-user"></i>
-                                                Iniciar sesión
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php else: ?>
-                                        <button class="phone-btn btn-disabled" disabled>
-                                            <i class="fas fa-ban"></i>
-                                            No disponible
-                                        </button>
-                                    <?php endif; ?>
-                                </div>
+                                    <button class="btn btn-secondary add-to-cart-btn" 
+                                            data-product-id="<?php echo $phone['id']; ?>"
+                                            data-product-name="<?php echo htmlspecialchars($phone['name']); ?>">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        Añadir al carrito
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn btn-disabled" disabled>
+                                        <i class="fas fa-times"></i>
+                                        Sin stock
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <div class="no-phones-message">
-                <div class="no-phones-content">
-                    <i class="fas fa-mobile-alt no-phones-icon"></i>
-                    <h3 class="no-phones-title">No hay móviles disponibles</h3>
-                    <p class="no-phones-text">En este momento no tenemos móviles en stock. Vuelve pronto para ver las novedades.</p>
-                    <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="back-home-btn">
-                        <i class="fas fa-home"></i>
-                        Volver al inicio
-                    </a>
+            <div class="no-products">
+                <div class="no-products-content">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>No hay móviles disponibles</h3>
+                    <p>Actualmente no tenemos móviles en nuestro catálogo.</p>
                 </div>
             </div>
         <?php endif; ?>
     </div>
 </section>
 
-<script src="<?php echo ASSETS_URL; ?>js/brandFiltering.js"></script>
-<script src="<?php echo ASSETS_URL; ?>js/cart/addToCart.js"></script>
+<!-- Brand Filtering JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const brandButtons = document.querySelectorAll('.brand-btn');
+    const phoneCards = document.querySelectorAll('.phone-card');
+    
+    brandButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            brandButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Get selected brand
+            const selectedBrand = this.getAttribute('data-brand');
+            
+            // Filter phones
+            phoneCards.forEach(card => {
+                const cardBrand = card.getAttribute('data-brand');
+                
+                if (selectedBrand === 'all' || cardBrand === selectedBrand) {
+                    card.style.display = 'block';
+                    // Add animation
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                    }, 50);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update URL without page reload (optional)
+            const url = new URL(window.location);
+            if (selectedBrand === 'all') {
+                url.searchParams.delete('brand');
+            } else {
+                url.searchParams.set('brand', selectedBrand);
+            }
+            window.history.replaceState({}, '', url);
+        });
+    });
+    
+    // Check for brand parameter in URL on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const brandParam = urlParams.get('brand');
+    
+    if (brandParam) {
+        const targetButton = document.querySelector(`[data-brand="${brandParam}"]`);
+        if (targetButton) {
+            targetButton.click();
+        }
+    }
+});
+
+// Add to cart functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            
+            // Add loading state
+            const originalContent = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Añadiendo...';
+            this.disabled = true;
+            
+            // Send AJAX request to add to cart
+            fetch('<?php echo BASE_URL; ?>index.php?controller=cart&action=add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${productId}&quantity=1`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    this.innerHTML = '<i class="fas fa-check"></i> ¡Añadido!';
+                    this.classList.remove('btn-secondary');
+                    this.classList.add('btn-success');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-secondary');
+                        this.disabled = false;
+                    }, 2000);
+                } else {
+                    // Show error message
+                    this.innerHTML = '<i class="fas fa-exclamation"></i> Error';
+                    this.classList.add('btn-error');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.classList.remove('btn-error');
+                        this.disabled = false;
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                this.innerHTML = originalContent;
+                this.disabled = false;
+            });
+        });
+    });
+});
+</script>

@@ -86,11 +86,6 @@
                                  alt="<?php echo htmlspecialchars($phone['name']); ?>">
                         <?php endif; ?>
                         
-                        <?php if ($phone['stock'] > 0): ?>
-                            <div class="stock-badge">En stock</div>
-                        <?php else: ?>
-                            <div class="stock-badge">Agotado</div>
-                        <?php endif; ?>
                     </div>
                     
                     <div class="product-info">
