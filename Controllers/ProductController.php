@@ -269,7 +269,7 @@ class ProductController extends BaseController
         $stock = trim($postData['stock'] ?? '');
         $categoryId = trim($postData['category_id'] ?? '');
 
-        if (empty($name) || empty($description) || empty($price) || empty($stock) || empty($categoryId)) {
+        if (empty($name) || empty($description) || empty($price) || $stock === '' || empty($categoryId)) {
             $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
             $this->redirect('product', 'create');
             return;
@@ -278,12 +278,6 @@ class ProductController extends BaseController
         // Validate numeric fields
         if (!is_numeric($price) || floatval($price) <= 0) {
             $this->setErrorMessage('El precio debe ser un número mayor que 0');
-            $this->redirect('product', 'create');
-            return;
-        }
-
-        if (!is_numeric($stock) || intval($stock) < 0) {
-            $this->setErrorMessage('El stock debe ser un número mayor o igual a 0');
             $this->redirect('product', 'create');
             return;
         }
@@ -356,7 +350,7 @@ class ProductController extends BaseController
         $stock = trim($postData['stock'] ?? '');
         $categoryId = trim($postData['category_id'] ?? '');
 
-        if (empty($name) || empty($description) || empty($price) || empty($stock) || empty($categoryId)) {
+        if (empty($name) || empty($description) || empty($price) || $stock === '' || empty($categoryId)) {
             $this->setErrorMessage('Todos los campos obligatorios deben ser completados');
             $this->redirect('product', 'edit', ['id' => $productId]);
             return;

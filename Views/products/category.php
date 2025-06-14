@@ -5,101 +5,94 @@ $categoryName = $categoryName ?? 'Productos';
 $categoryId = $categoryId ?? null;
 ?>
 
-<!-- Category Products Section -->
-<section class="catalog-section">
+<!-- Page Header -->
+<section class="catalog-header">
+    <div class="catalog-header-container">
+        <h1 class="catalog-title"><?php echo htmlspecialchars($categoryName); ?></h1>
+        <p class="catalog-description">
+            <?php
+                $count = count($products);
+                echo 'Contamos con ' . $count . ' producto' . ($count === 1 ? ' disponible' : 's disponibles');
+            ?>
+        </p>
+    </div>
+</section>
+
+<!-- Products Grid -->
+<section class="accessories-catalog">
     <div class="catalog-container">
-        
-        <!-- Header -->
-        <div class="catalog-header">
-            <div class="catalog-title-section">
-                <h1 class="catalog-title"><?php echo htmlspecialchars($categoryName); ?></h1>
-            </div>
-            <div class="catalog-info">
-                <span class="product-count"><?php echo count($products); ?> productos disponibles</span>
-            </div>
-        </div>
-
-        <!-- Breadcrumb -->
-                <!-- Breadcrumb (only show when there are products) -->
         <?php if (!empty($products) && is_array($products)): ?>
-        <div class="breadcrumb">
-            <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="breadcrumb-link">
-                <i class="fas fa-home"></i>
-                Inicio
-            </a>
-            <i class="fas fa-chevron-right"></i>
-            <span class="breadcrumb-current"><?php echo htmlspecialchars($categoryName); ?></span>
-        </div>
-        <?php endif; ?>
+            <div class="accessories-grid">
+                <?php foreach ($products as $product): ?>
+                    <article class="accessory-card">
+                        <div class="accessory-image">
+                            <?php if (!empty($product['image'])): ?>
+                                <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($product['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>"
+                                    loading="lazy">
+                            <?php else: ?>
+                                <img src="<?php echo ASSETS_URL; ?>img/placeholder-product.jpg"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>"
+                                    loading="lazy">
+                            <?php endif; ?>
 
-        <!-- Products Display -->
-        <div class="products-content">
-            <?php if (!empty($products) && is_array($products)): ?>
-                <div class="products-grid">
-                    <?php foreach ($products as $product): ?>
-                        <div class="accessory-card">
-                            <div class="accessory-image">
-                                <?php if (!empty($product['image'])): ?>
-                                    <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($product['image']); ?>" 
-                                         alt="<?php echo htmlspecialchars($product['name']); ?>"
-                                         loading="lazy">
-                                <?php else: ?>
-                                    <div class="image-placeholder">
-                                        <i class="fas fa-image"></i>
-                                        <span>Sin imagen</span>
-                                    </div>
-                                <?php endif; ?>
-                                
-                                <?php if ($product['stock'] <= 0): ?>
-                                    <div class="stock-overlay">
-                                        <span class="out-of-stock">Agotado</span>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
+                            <!-- Stock Badge -->
+                            <?php if ($product['stock'] > 0): ?>
+                                <span class="stock-badge">
+                                    <?php if ($product['stock'] <= 5): ?>
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        Quedan <?php echo $product['stock']; ?>
+                                    <?php else: ?>
+                                        <i class="fas fa-check"></i>
+                                        En stock
+                                    <?php endif; ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="stock-badge out-of-stock">
+                                    <i class="fas fa-times"></i>
+                                    Agotado
+                                </span>
+                            <?php endif; ?>
+                        </div>
 
-                            <div class="accessory-info">
-                                <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                
-                                <?php if (!empty($product['description'])): ?>
-                                    <p class="product-description"><?php echo htmlspecialchars($product['description']); ?></p>
-                                <?php endif; ?>
+                        <div class="accessory-info">
+                            <h3 class="accessory-name"><?php echo htmlspecialchars($product['name']); ?></h3>
 
-                                <div class="product-details">
-                                    <div class="product-price">
-                                        <span class="price"><?php echo number_format($product['price'], 2); ?>€</span>
-                                    </div>
-                                    
-                                    <div class="product-stock">
-                                        <?php if ($product['stock'] > 0): ?>
-                                            <span class="stock in-stock">
-                                                <i class="fas fa-check-circle"></i>
-                                                <?php echo $product['stock']; ?> disponibles
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="stock out-of-stock">
-                                                <i class="fas fa-times-circle"></i>
-                                                Sin stock
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
+                            <?php if (!empty($product['description'])): ?>
+                                <p class="accessory-description">
+                                    <?php echo htmlspecialchars(substr($product['description'], 0, 100)) . (strlen($product['description']) > 100 ? '...' : ''); ?>
+                                </p>
+                            <?php endif; ?>
+
+                            <div class="accessory-footer">
+                                <div class="price-section">
+                                    <span class="accessory-price"><?php echo number_format($product['price'], 2, ',', '.'); ?> €</span>
                                 </div>
 
-                                <div class="product-actions">
-                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $product['id']; ?>" 
-                                       class="product-btn btn-view">
+                                <div class="accessory-actions">
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $product['id']; ?>"
+                                        class="accessory-btn btn-details">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
                                     </a>
-                                    
+
                                     <?php if ($product['stock'] > 0): ?>
-                                        <button type="button" 
-                                                class="product-btn btn-cart" 
-                                                onclick="addToCart(<?php echo $product['id']; ?>)">
-                                            <i class="fas fa-cart-plus"></i>
-                                            Añadir al carrito
-                                        </button>
+                                        <?php if (isset($_SESSION['user'])): ?>
+                                            <button class="accessory-btn btn-cart"
+                                                data-product-id="<?php echo $product['id']; ?>"
+                                                data-product-name="<?php echo htmlspecialchars($product['name']); ?>">
+                                                <i class="fas fa-shopping-cart"></i>
+                                                Añadir
+                                            </button>
+                                        <?php else: ?>
+                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login"
+                                                class="accessory-btn btn-login-required">
+                                                <i class="fas fa-user"></i>
+                                                Iniciar sesión
+                                            </a>
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                        <button type="button" class="product-btn btn-disabled" disabled>
+                                        <button class="accessory-btn btn-disabled" disabled>
                                             <i class="fas fa-ban"></i>
                                             No disponible
                                         </button>
@@ -107,55 +100,19 @@ $categoryId = $categoryId ?? null;
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="no-accessories-message">
+                <div class="no-accessories-content">
+                    <i class="fas fa-box-open no-accessories-icon"></i>
+                    <h3 class="no-accessories-title">No hay productos disponibles</h3>
+                    <p class="no-accessories-text">En este momento no hay productos en esta categoría.</p>
                 </div>
-            <?php else: ?>
-                <div class="no-products">
-                    <div class="no-products-icon">
-                        <i class="fas fa-box-open"></i>
-                    </div>
-                    <h3>No hay productos disponibles</h3>
-                    <p>Actualmente no hay productos en la categoría "<?php echo htmlspecialchars($categoryName); ?>".</p>
-                    <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="back-home-btn">
-                        <i class="fas fa-arrow-left"></i>
-                        Volver al inicio
-                    </a>
-                </div>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
-<script>
-// Add to cart functionality
-function addToCart(productId) {
-    // Check if user is logged in
-    <?php if (!isset($_SESSION['user'])): ?>
-        alert('Debes iniciar sesión para añadir productos al carrito');
-        window.location.href = '<?php echo BASE_URL; ?>index.php?controller=user&action=login';
-        return;
-    <?php endif; ?>
-
-    // Create form data
-    const formData = new FormData();
-    formData.append('product_id', productId);
-    formData.append('quantity', 1);
-
-    // Send AJAX request
-    fetch('<?php echo BASE_URL; ?>index.php?controller=cart&action=addToCart', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        // Simple feedback
-        alert('Producto añadido al carrito');
-        // Refresh page to update cart count
-        location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error al añadir el producto al carrito');
-    });
-}
-</script>
+<script src="<?php echo ASSETS_URL; ?>js/cart/addToCart.js"></script>

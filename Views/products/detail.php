@@ -28,7 +28,6 @@ $messages = $messages ?? [];
                 <i class="fas fa-home"></i>
                 Inicio
             </a>
-            <span class="breadcrumb-separator">></span>
             
             <?php if ($product->isPhone()): ?>
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="breadcrumb-link">

@@ -149,7 +149,7 @@ $productImage = $product ? $product->getImage() : '';
                                    name="stock" 
                                    class="form-input" 
                                    value="<?php echo htmlspecialchars($productStock); ?>"
-                                   placeholder="10"
+                                   placeholder="0"
                                    min="0"
                                    required>
                             <small class="form-hint">Unidades disponibles.</small>
