@@ -25,6 +25,14 @@ $messages = $messages ?? [];
 <!-- Categories Management Section -->
 <section class="admin-section">
     <div class="admin-container">
+        <!-- Back Navigation -->
+                <div class="breadcrumb">
+            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
+                <i class="fas fa-arrow-left"></i>
+                Volver a configuración
+            </a>
+        </div>
+        
         <div class="admin-header">
             <div class="admin-title-section">
                 <h1 class="admin-title">Gestión de Categorías</h1>
