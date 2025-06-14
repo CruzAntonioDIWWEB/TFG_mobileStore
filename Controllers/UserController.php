@@ -212,20 +212,29 @@ class UserController extends BaseController
      * Show user profile edit form
      */
     public function editProfile(){
-        $this->requireLogin();
+    $this->requireLogin();
 
-        $currentUser = $this->getCurrentUser();
-        $user = new \Models\User();
-        $userData = $user->getUserById($currentUser['id']);
+    $currentUser = $this->getCurrentUser();
+    $user = new \Models\User();
+    $userData = $user->getUserById($currentUser['id']);
 
-        if(!$userData){
-            $this->setErrorMessage('Error loading user data');
-            $this->redirect('user', 'profile');
-            return;
-        }
-
-        $this->loadView('user/settings', ['user' => $userData]);
+    if(!$userData){
+        $this->setErrorMessage('Error loading user data');
+        $this->redirect('user', 'profile');
+        return;
     }
+
+    // Convert User object to array for the view
+    $userArray = [
+        'id' => $userData->getId(),
+        'name' => $userData->getName(),
+        'surnames' => $userData->getSurnames(),
+        'email' => $userData->getEmail(),
+        'role' => $userData->getRole()
+    ];
+
+    $this->loadView('user/edit_profile', ['user' => $userArray]);
+}
 
     /**
      * Update user profile
