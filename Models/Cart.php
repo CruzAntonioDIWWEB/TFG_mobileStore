@@ -17,7 +17,8 @@ class Cart
     private $db;
 
     // Constructor
-    public function __construct(){
+    public function __construct()
+    {
 
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
@@ -26,54 +27,65 @@ class Cart
         $dataTime = new DateTime();
         $this->date_added = $dataTime->format('Y-m-d H:i:s');
     }
-    
+
     // Getters
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    
-    public function getUserId() {
+
+    public function getUserId()
+    {
         return $this->user_id;
     }
-    
-    public function getProductId() {
+
+    public function getProductId()
+    {
         return $this->product_id;
     }
-    
-    public function getQuantity() {
+
+    public function getQuantity()
+    {
         return $this->quantity;
     }
-    
-    public function getDateAdded() {
+
+    public function getDateAdded()
+    {
         return $this->date_added;
     }
-    
-    public function getDb() {
+
+    public function getDb()
+    {
         return $this->db;
     }
-    
+
     // Setters
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
         return $this;
     }
-    
-    public function setUserId($user_id) {
+
+    public function setUserId($user_id)
+    {
         $this->user_id = $user_id;
         return $this;
     }
-    
-    public function setProductId($product_id) {
+
+    public function setProductId($product_id)
+    {
         $this->product_id = $product_id;
         return $this;
     }
-    
-    public function setQuantity($quantity) {
+
+    public function setQuantity($quantity)
+    {
         $this->quantity = $quantity;
         return $this;
     }
-    
-    public function setDateAdded($date_added) {
+
+    public function setDateAdded($date_added)
+    {
         $this->date_added = $date_added;
         return $this;
     }
@@ -82,15 +94,16 @@ class Cart
      * Add product to cart or update quantity if already exists
      * @return bool true on success, false on failure
      */
-    public function addToCart(){
-        try{
+    public function addToCart()
+    {
+        try {
             // Check if product already exists in cart
             $check = $this->db->prepare("SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id");
             $check->bindParam(':user_id', $this->user_id);
             $check->bindParam(':product_id', $this->product_id);
             $check->execute();
 
-            if($check->rowCount() > 0){
+            if ($check->rowCount() > 0) {
                 // Product exists, update quantity
                 $existingProduct = $check->fetch(PDO::FETCH_ASSOC);
                 $newQuantity = $existingProduct['quantity'] + $this->quantity;
@@ -110,13 +123,13 @@ class Cart
                 $insert->bindParam(':date_added', $this->date_added, PDO::PARAM_STR);
                 $result = $insert->execute();
 
-                if($result){
+                if ($result) {
                     $this->id = $this->db->lastInsertId();
                 }
 
                 return $result;
             }
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error adding to cart: " . $e->getMessage());
             return false;
         }
@@ -134,7 +147,7 @@ class Cart
                 // If quantity is zero or negative, remove the item
                 return $this->removeFromCart();
             }
-            
+
             $this->quantity = $quantity;
             $update = $this->db->prepare('
                 UPDATE cart 
@@ -144,7 +157,7 @@ class Cart
             $update->bindParam(':quantity', $this->quantity, PDO::PARAM_INT);
             $update->bindParam(':date_added', $this->date_added, PDO::PARAM_STR);
             $update->bindParam(':id', $this->id, PDO::PARAM_INT);
-            
+
             return $update->execute();
         } catch (\PDOException $e) {
             error_log("Error updating cart quantity: " . $e->getMessage());
@@ -156,8 +169,9 @@ class Cart
      * Remove item from cart
      * @return bool true on success, false on failure
      */
-    public function removeFromCart(){
-        try{
+    public function removeFromCart()
+    {
+        try {
             $delete = $this->db->prepare('DELETE FROM cart WHERE id = :id');
             $delete->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $delete->execute();
@@ -173,8 +187,9 @@ class Cart
      * @param int $product_id Product ID
      * @return bool true on success, false on failure
      */
-    public function removeProductFromCart($user_id, $product_id){
-        try{
+    public function removeProductFromCart($user_id, $product_id)
+    {
+        try {
             $delete = $this->db->prepare('DELETE FROM cart WHERE user_id = :user_id AND product_id = :product_id');
             $delete->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $delete->bindParam(':product_id', $product_id, PDO::PARAM_INT);
@@ -190,8 +205,9 @@ class Cart
      * @param int $user_id User ID
      * @return bool true on success, false on failure
      */
-    public function clearCart($user_id){
-        try{
+    public function clearCart($user_id)
+    {
+        try {
             $delete = $this->db->prepare('DELETE FROM cart WHERE user_id = :user_id');
             $delete->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             return $delete->execute();
@@ -206,13 +222,14 @@ class Cart
      * @param int $id Cart item ID
      * @return Cart|false Cart object or false on failure
      */
-    public function getCartItemById($id){
-        try{
+    public function getCartItemById($id)
+    {
+        try {
             $query = $this->db->prepare('SELECT * FROM cart WHERE id = :id');
             $query->bindParam(':id', $id, PDO::PARAM_INT);
             $query->execute();
-            
-            if($query->rowCount() > 0){
+
+            if ($query->rowCount() > 0) {
                 $cartItem = $query->fetch(PDO::FETCH_ASSOC);
                 $this->setId($cartItem['id']);
                 $this->setUserId($cartItem['user_id']);
@@ -221,7 +238,7 @@ class Cart
                 $this->setDateAdded($cartItem['date_added']);
                 return $this;
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error fetching cart item: " . $e->getMessage());
@@ -235,14 +252,15 @@ class Cart
      * @param int $product_id Product ID
      * @return Cart|false Cart object or false on failure
      */
-    public function getCartItemByUserAndProduct($user_id, $product_id){
-        try{
+    public function getCartItemByUserAndProduct($user_id, $product_id)
+    {
+        try {
             $query = $this->db->prepare('SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_INT);
             $query->execute();
-            
-            if($query->rowCount() > 0){
+
+            if ($query->rowCount() > 0) {
                 $cartItem = $query->fetch(PDO::FETCH_ASSOC);
                 $this->setId($cartItem['id']);
                 $this->setUserId($cartItem['user_id']);
@@ -251,7 +269,7 @@ class Cart
                 $this->setDateAdded($cartItem['date_added']);
                 return $this;
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting cart item by user and product: " . $e->getMessage());
@@ -270,11 +288,11 @@ class Cart
             $query = $this->db->prepare('SELECT * FROM cart WHERE user_id = :user_id');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting cart by user: " . $e->getMessage());
@@ -295,11 +313,11 @@ class Cart
                                          WHERE c.user_id = :user_id ORDER BY c.date_added DESC');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting detailed cart by user: " . $e->getMessage());
@@ -312,12 +330,13 @@ class Cart
      * @param int $user_id User ID
      * @return int Total items in cart
      */
-    public function getTotalItems($user_id){
-        try{
+    public function getTotalItems($user_id)
+    {
+        try {
             $query = $this->db->prepare('SELECT SUM(quantity) as total_items FROM cart WHERE user_id = :user_id');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result['total_items'] ?: 0; // Return 0 if no items found
 
@@ -340,7 +359,7 @@ class Cart
                                          WHERE c.user_id = :user_id');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result['total'] ?: 0;
         } catch (\PDOException $e) {
@@ -355,8 +374,9 @@ class Cart
      * @param int $product_id Product ID
      * @return bool true if product is in cart, false otherwise
      */
-    public function isProductInCart($user_id, $product_id){
-        try{
+    public function isProductInCart($user_id, $product_id)
+    {
+        try {
             $query = $this->db->prepare('SELECT COUNT(*) as count FROM cart WHERE user_id = :user_id AND product_id = :product_id');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_INT);
@@ -364,7 +384,7 @@ class Cart
 
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result['count'] > 0;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error checking if product is in cart: " . $e->getMessage());
             return false;
         }
@@ -375,8 +395,9 @@ class Cart
      * @param int $days Number of days
      * @return bool true on success, false on failure
      */
-    public function cleanOldCartItems($days = 30){
-        try{
+    public function cleanOldCartItems($days = 30)
+    {
+        try {
             $date = new DateTime();
             $date->modify("-$days days");
             $formattedDate = $date->format('Y-m-d H:i:s');
@@ -394,11 +415,12 @@ class Cart
      * Get the product associated with this cart item
      * @return Product|false Product object or false on failure
      */
-    public function getProduct(){
-        try{
+    public function getProduct()
+    {
+        try {
             $product = new Product();
             return $product->getProductById($this->product_id);
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error getting product for cart item: " . $e->getMessage());
             return false;
         }
@@ -454,19 +476,20 @@ class Cart
      * @param int $user_id User ID
      * @return bool|array true if all have stock, array of problematic products otherwise
      */
-    public function verifyStock($user_id){
-        try{
+    public function verifyStock($user_id)
+    {
+        try {
             $cartItems = $this->getDetailedCartByUser($user_id);
 
 
-            if(!$cartItems){
+            if (!$cartItems) {
                 return true; // No items in cart
             }
 
             $problematicProducts = [];
 
-            foreach($cartItems as $item){
-                if($item['quantity'] < $item['stock']){
+            foreach ($cartItems as $item) {
+                if ($item['quantity'] < $item['stock']) {
                     $problematicProducts[] = [
                         'product_id' => $item['product_id'],
                         'product_name' => $item['name'],
@@ -477,13 +500,9 @@ class Cart
             }
 
             return empty($problematicProducts) ? true : $problematicProducts;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error verifying stock: " . $e->getMessage());
             return false;
         }
     }
-
 }
-
-
-?>
