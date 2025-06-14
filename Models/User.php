@@ -179,7 +179,7 @@ public function saveDB(){
 
                 if($remember){
                     // Set a cookie to remember the user for 30 days
-                    setcookie('emailLogin', $this->email, time() + (30 * 24 * 60 * 60), "/");
+                    setcookie('emailLogin', $this->email, time() + (7 * 24 * 60 * 60), "/");
                 } else {
                     // If remember is not ticked, delete the cookie
                     setcookie('emailLogin', '', time() - 3600, "/");
@@ -362,11 +362,6 @@ public function saveDB(){
     public function logout(){
         $_SESSION['user'] = null;
         $_SESSION['login'] = false;
-
-        // Destroy the cookie
-        if(isset($_COOKIE['emailLogin'])){
-            setcookie('emailLogin', '', time() - 3600, "/");
-        }
 
         // Destroy the session
         session_destroy();

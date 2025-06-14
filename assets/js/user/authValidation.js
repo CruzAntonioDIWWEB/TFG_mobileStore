@@ -2,6 +2,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const authForm = document.querySelector('.auth-form');
     const passwordInput = document.getElementById('password');
     const passwordToggle = document.querySelector('.password-toggle');
+
+/**
+ * Check for remembered email and populate the field
+ */
+function checkRememberedEmail() {
+    // Function to get cookie value
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+    
+    const emailInput = document.getElementById('email');
+    const rememberCheckbox = document.getElementById('remember');
+    const rememberedEmail = getCookie('emailLogin');
+    
+    if (rememberedEmail && emailInput) {
+        // Decode the URL-encoded email
+        const decodedEmail = decodeURIComponent(rememberedEmail);
+        emailInput.value = decodedEmail;
+        
+        // Optionally check the remember checkbox since email was remembered
+        if (rememberCheckbox) {
+            rememberCheckbox.checked = true;
+        }
+    }
+}
+
+    // Call the function when page loads
+    checkRememberedEmail();
     
     if (!authForm) {
         console.warn('Auth form not found');
