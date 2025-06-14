@@ -8636,6 +8636,28 @@ img {
   color: #666666;
 }
 
+#mobile-brand-group {
+  transition: opacity 0.3s ease;
+}
+
+#accessory-type-group {
+  transition: opacity 0.3s ease;
+}
+
+/* Debug styles - remove in production */
+.debug-info {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 9999;
+  max-width: 300px;
+}
+
 /* =================================== */
 /* Admin Users Management Styles      */
 /* =================================== */
