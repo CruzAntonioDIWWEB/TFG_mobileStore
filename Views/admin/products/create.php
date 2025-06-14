@@ -104,6 +104,7 @@ $accessoryTypes = $accessoryTypes ?? [];
                                placeholder="99.99"
                                step="0.01"
                                min="0"
+                               max="999.99"
                                required>
                         <small class="form-hint">En euros (€).</small>
                     </div>
@@ -144,6 +145,25 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Categoría principal del producto.</small>
                 </div>
 
+                <!-- Mobile Brand Selection (Initially Hidden) -->
+                <div class="form-group">
+                    <label for="mobile_brand" class="form-label">
+                        <i class="fas fa-mobile-alt"></i>
+                        Marca del Móvil (Opcional)
+                    </label>
+                    <select id="mobile_brand" name="mobile_brand" class="form-select">
+                        <option value="">Selecciona la marca</option>
+                        <option value="iphone">iPhone</option>
+                        <option value="samsung">Samsung</option>
+                        <option value="xiaomi">Xiaomi</option>
+                        <option value="huawei">Huawei</option>
+                        <option value="google">Google Pixel</option>
+                        <option value="oppo">Oppo</option>
+                        <option value="other">Otra marca</option>
+                    </select>
+                    <small class="form-hint">Solo si el producto es un móvil.</small>
+                </div>
+
                 <!-- Accessory Type (Optional) -->
                 <div class="form-group">
                     <label for="accessory_type_id" class="form-label">
@@ -163,23 +183,18 @@ $accessoryTypes = $accessoryTypes ?? [];
                     <small class="form-hint">Solo si el producto es un accesorio.</small>
                 </div>
 
-                <!-- Product Image -->
+            <!-- Product Image -->
                 <div class="form-group">
                     <label for="image" class="form-label">
                         <i class="fas fa-image"></i>
-                        Imagen del producto (Opcional)
+                        Imagen del Producto
                     </label>
-                    <div class="form-file">
-                        <div class="file-icon">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                        </div>
-                        <p>Arrastra una imagen aquí o haz clic para seleccionar</p>
-                        <input type="file" 
-                               id="image" 
-                               name="image" 
-                               accept="image/jpeg,image/jpg,image/png,image/gif">
-                    </div>
-                    <small class="form-hint">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB.</small>
+                    <input type="file" 
+                           id="image" 
+                           name="image" 
+                           class="form-input form-file" 
+                           accept="image/*">
+                    <small class="form-help">Formatos permitidos: JPG, PNG, GIF (máximo 5MB)</small>
                 </div>
 
                 <!-- Form Buttons -->
@@ -198,4 +213,5 @@ $accessoryTypes = $accessoryTypes ?? [];
         </div>
     </div>
 </section>
+
 <script src="<?php echo ASSETS_URL; ?>js/productFormValidation.js"></script>
