@@ -3,6 +3,7 @@
 namespace Controllers;
 
 require_once __DIR__ . '/../Models/Order.php';
+require_once __DIR__ . '/../Models/OrderItem.php'; 
 require_once __DIR__ . '/../Models/Product.php';
 require_once __DIR__ . '/BaseController.php';
 
@@ -31,14 +32,17 @@ class CheckoutController extends BaseController
      * Process PayPal payment and create order
      */
     public function processPayment(){
-        // Require user to be logged in
+        // Clean any output buffer to prevent HTML errors
+        ob_clean();
+        
         $this->requireLogin();
         
         header('Content-Type: application/json');
+        header('Cache-Control: no-cache, must-revalidate');
         
         if (!$this->isPost()) {
             echo json_encode(['success' => false, 'message' => 'Invalid request method']);
-            return;
+            exit;
         }
 
         try {
@@ -86,18 +90,24 @@ class CheckoutController extends BaseController
             }
 
         } catch (Exception $e) {
+            error_log("Error in processPayment: " . $e->getMessage());
             echo json_encode([
                 'success' => false, 
                 'message' => $e->getMessage()
             ]);
         }
+        
+        exit;
     }
 
     /**
-     * Create order from localStorage cart data
+     * Create order from localStorage cart data - FIXED VERSION
      */
     private function createOrderFromCart($userId, $cartData, $shippingInfo, $paypalDetails) {
         try {
+            // Log the cart data for debugging
+            error_log("Creating order for user $userId with cart data: " . json_encode($cartData));
+            
             // Create new order
             $order = new \Models\Order();
             $order->setUserId($userId);
@@ -111,18 +121,35 @@ class CheckoutController extends BaseController
 
             // Save order
             if (!$order->saveDB()) {
-                throw new Exception('Error saving order');
+                throw new Exception('Error saving order to database');
             }
+
+            $orderId = $order->getId();
+            error_log("Order created with ID: $orderId");
 
             // Create order items and update stock
             foreach ($cartData['items'] as $item) {
-                // Find product by name (since localStorage might not have product_id)
-                $product = new \Models\Product();
-                $productData = $this->findProductByName($item['product_name'] ?? $item['name']);
+                // Use multiple possible field names for product identification
+                $productName = $item['product_name'] ?? $item['name'] ?? $item['title'] ?? null;
+                $productId = $item['product_id'] ?? $item['id'] ?? null;
+                
+                error_log("Processing item: " . json_encode($item));
+                
+                // Try to find product by ID first (more reliable), then by name
+                $productData = null;
+                if ($productId) {
+                    $productData = $this->findProductById($productId);
+                }
+                
+                if (!$productData && $productName) {
+                    $productData = $this->findProductByExactName($productName);
+                }
                 
                 if (!$productData) {
-                    throw new Exception('Producto no encontrado: ' . ($item['product_name'] ?? $item['name']));
+                    throw new Exception('Producto no encontrado: ' . ($productName ?: 'ID: ' . $productId));
                 }
+
+                error_log("Found product: " . json_encode($productData));
 
                 // Verify stock
                 if ($productData['stock'] < $item['quantity']) {
@@ -131,42 +158,88 @@ class CheckoutController extends BaseController
 
                 // Create order item
                 $orderItem = new \Models\OrderItem();
-                $orderItem->setOrderId($order->getId());
+                $orderItem->setOrderId($orderId);
                 $orderItem->setProductId($productData['id']);
                 $orderItem->setQuantity($item['quantity']);
                 
                 if (!$orderItem->save()) {
-                    throw new Exception('Error saving order item');
+                    throw new Exception('Error saving order item for product: ' . $productData['name']);
                 }
 
+                error_log("Order item created for product ID: " . $productData['id']);
+
                 // Update product stock
-                $product->getProductById($productData['id']);
-                $newStock = $productData['stock'] - $item['quantity'];
-                $product->setStock($newStock);
-                $product->updateDB();
+                $product = new \Models\Product();
+                if ($product->getProductById($productData['id'])) {
+                    $newStock = $productData['stock'] - $item['quantity'];
+                    $product->setStock($newStock);
+                    $product->updateDB();
+                    error_log("Updated stock for product ID " . $productData['id'] . " to: $newStock");
+                }
             }
 
-            return $order->getId();
+            error_log("Order creation completed successfully with ID: $orderId");
+            return $orderId;
 
         } catch (Exception $e) {
             error_log("Error creating order from cart: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
             return false;
         }
     }
 
     /**
-     * Find product by name (helper method)
+     * Find product by ID - MORE RELIABLE METHOD
      */
-    private function findProductByName($productName) {
+    private function findProductById($productId) {
         try {
             require_once __DIR__ . '/../config/config.php';
             global $pdo;
             
-            $stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE :name LIMIT 1");
-            $stmt->bindValue(':name', '%' . $productName . '%', PDO::PARAM_STR);
+            $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
+            $stmt->bindParam(':id', $productId, PDO::PARAM_INT);
             $stmt->execute();
             
             return $stmt->fetch(PDO::FETCH_ASSOC);
+            
+        } catch (Exception $e) {
+            error_log("Error finding product by ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Find product by EXACT name - IMPROVED METHOD
+     */
+    private function findProductByExactName($productName) {
+        try {
+            require_once __DIR__ . '/../config/config.php';
+            global $pdo;
+            
+            // First try exact match
+            $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
+            $stmt->bindParam(':name', $productName, PDO::PARAM_STR);
+            $stmt->execute();
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // If no exact match, try case-insensitive
+            if (!$result) {
+                $stmt = $pdo->prepare("SELECT * FROM products WHERE LOWER(name) = LOWER(:name)");
+                $stmt->bindParam(':name', $productName, PDO::PARAM_STR);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+            
+            // If still no match, try LIKE as last resort
+            if (!$result) {
+                $stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE :name LIMIT 1");
+                $stmt->bindValue(':name', '%' . $productName . '%', PDO::PARAM_STR);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+            
+            return $result;
             
         } catch (Exception $e) {
             error_log("Error finding product by name: " . $e->getMessage());
