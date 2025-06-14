@@ -50,49 +50,53 @@ $navCategories = $categoryModel->getAll();
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessoriesCatalog" class="nav-link">Accesorios</a>
                     </li>
-                    
+
                     <!-- Dynamic Categories from Database -->
                     <?php if (!empty($navCategories) && is_array($navCategories)): ?>
                         <?php foreach ($navCategories as $navCategory): ?>
-                            <?php 
+                            <?php
                             // Skip categories that might conflict with existing static menu items
                             $categoryName = strtolower($navCategory['name']);
-                            if (stripos($categoryName, 'móvil') !== false || 
+                            if (
+                                stripos($categoryName, 'móvil') !== false ||
                                 stripos($categoryName, 'teléfono') !== false ||
-                                stripos($categoryName, 'accesorio') !== false) {
+                                stripos($categoryName, 'accesorio') !== false
+                            ) {
                                 continue; // Skip these as they're already in the static menu
                             }
                             ?>
                             <li class="nav-item">
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=categoryProducts&category=<?php echo urlencode($navCategory['id']); ?>" 
-                                   class="nav-link"><?php echo htmlspecialchars($navCategory['name']); ?></a>
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=categoryProducts&category=<?php echo urlencode($navCategory['id']); ?>"
+                                    class="nav-link"><?php echo htmlspecialchars($navCategory['name']); ?></a>
                             </li>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    
+
                     <li class="nav-item">
                         <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="nav-link">Contacto</a>
                     </li>
 
                     <!-- Mobile User Actions (only visible in mobile menu) -->
-                <div class="mobile-user-actions">
+                    <div class="mobile-user-actions">
                         <?php if (isset($_SESSION['user'])): ?>
-                            <!-- User is logged in - Show settings, order history, and cart -->
+                            <!-- User is logged in - Show settings, logout, and cart -->
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-link mobile-user-link">
                                     <i class="fas fa-user"></i>
                                     Mi Perfil
                                 </a>
                             </li>
-                            
-                            <!-- Order History Link for Mobile -->
+
+                            <!-- Simple Logout Link with Confirmation - REPLACES Order History -->
                             <li class="nav-item mobile-user-item">
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="nav-link mobile-user-link">
-                                    <i class="fas fa-history"></i>
-                                    Mis Pedidos
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=logout"
+                                    onclick="return confirm('¿Estás seguro de que quieres cerrar sesión?')"
+                                    class="nav-link mobile-user-link">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Cerrar Sesión
                                 </a>
                             </li>
-                            
+
                             <li class="nav-item mobile-user-item">
                                 <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-link mobile-user-link">
                                     <i class="fas fa-shopping-cart"></i>
@@ -127,12 +131,12 @@ $navCategories = $categoryModel->getAll();
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="nav-icon" title="Mi Perfil">
                             <i class="fas fa-user"></i>
                         </a>
-                        
+
                         <!-- Order History Link -->
                         <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="nav-icon" title="Historial de Pedidos">
                             <i class="fas fa-history"></i>
                         </a>
-                        
+
                         <a href="<?php echo BASE_URL; ?>index.php?controller=cart&action=index" class="nav-icon cart-icon" title="Carrito">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="cart-count" <?php if (!isset($_SESSION['cart_count']) || $_SESSION['cart_count'] == 0): ?>style="display: none;" <?php endif; ?>>
@@ -157,24 +161,24 @@ $navCategories = $categoryModel->getAll();
     <!-- Main Content Wrapper -->
     <main class="main-content">
 
-    <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
-    <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
-    <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/navMenuMobile.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/user/userStorage.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>js/cart/cartStorage.js"></script>
 
-    <?php if (isset($_SESSION['user'])): ?>
-        <!-- Pass user data to localStorage -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Store current session user data in localStorage
-                const userData = {
-                    id: <?php echo $_SESSION['user']['id']; ?>,
-                    name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
-                    surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
-                    email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
-                    role: '<?php echo $_SESSION['user']['role']; ?>'
-                };
+        <?php if (isset($_SESSION['user'])): ?>
+            <!-- Pass user data to localStorage -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Store current session user data in localStorage
+                    const userData = {
+                        id: <?php echo $_SESSION['user']['id']; ?>,
+                        name: '<?php echo htmlspecialchars($_SESSION['user']['name']); ?>',
+                        surnames: '<?php echo htmlspecialchars($_SESSION['user']['surnames']); ?>',
+                        email: '<?php echo htmlspecialchars($_SESSION['user']['email']); ?>',
+                        role: '<?php echo $_SESSION['user']['role']; ?>'
+                    };
 
-                window.userStorage.store(userData);
-            });
-        </script>
-    <?php endif; ?>
+                    window.userStorage.store(userData);
+                });
+            </script>
+        <?php endif; ?>
