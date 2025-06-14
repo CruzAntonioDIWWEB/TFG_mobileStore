@@ -615,6 +615,11 @@ class ProductController extends BaseController
 
         // Get products for this category
         $products = $productModel->getByCategory($categoryId);
+
+        // Ensure products is always an array, even if empty
+        if (!$products || !is_array($products)) {
+            $products = [];
+        }
         
         $viewData = [
             'products' => $products,

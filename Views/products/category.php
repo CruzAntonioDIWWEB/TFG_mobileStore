@@ -13,7 +13,6 @@ $categoryId = $categoryId ?? null;
         <div class="catalog-header">
             <div class="catalog-title-section">
                 <h1 class="catalog-title"><?php echo htmlspecialchars($categoryName); ?></h1>
-                <p class="catalog-subtitle">Descubre todos los productos de esta categoría</p>
             </div>
             <div class="catalog-info">
                 <span class="product-count"><?php echo count($products); ?> productos disponibles</span>
@@ -21,6 +20,8 @@ $categoryId = $categoryId ?? null;
         </div>
 
         <!-- Breadcrumb -->
+                <!-- Breadcrumb (only show when there are products) -->
+        <?php if (!empty($products) && is_array($products)): ?>
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=home&action=index" class="breadcrumb-link">
                 <i class="fas fa-home"></i>
@@ -29,14 +30,15 @@ $categoryId = $categoryId ?? null;
             <i class="fas fa-chevron-right"></i>
             <span class="breadcrumb-current"><?php echo htmlspecialchars($categoryName); ?></span>
         </div>
+        <?php endif; ?>
 
         <!-- Products Display -->
         <div class="products-content">
             <?php if (!empty($products) && is_array($products)): ?>
                 <div class="products-grid">
                     <?php foreach ($products as $product): ?>
-                        <div class="product-card">
-                            <div class="product-image">
+                        <div class="accessory-card">
+                            <div class="accessory-image">
                                 <?php if (!empty($product['image'])): ?>
                                     <img src="<?php echo ASSETS_URL; ?>img/products/<?php echo htmlspecialchars($product['image']); ?>" 
                                          alt="<?php echo htmlspecialchars($product['name']); ?>"
@@ -55,7 +57,7 @@ $categoryId = $categoryId ?? null;
                                 <?php endif; ?>
                             </div>
 
-                            <div class="product-info">
+                            <div class="accessory-info">
                                 <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
                                 
                                 <?php if (!empty($product['description'])): ?>
