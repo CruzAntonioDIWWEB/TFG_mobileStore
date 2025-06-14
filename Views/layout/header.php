@@ -87,7 +87,7 @@ $navCategories = $categoryModel->getAll();
                             
                             <!-- Order History Link for Mobile -->
                             <li class="nav-item mobile-user-item">
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-link mobile-user-link">
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="nav-link mobile-user-link">
                                     <i class="fas fa-history"></i>
                                     Mis Pedidos
                                 </a>
@@ -129,7 +129,7 @@ $navCategories = $categoryModel->getAll();
                         </a>
                         
                         <!-- Order History Link -->
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="nav-icon" title="Historial de Pedidos">
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="nav-icon" title="Historial de Pedidos">
                             <i class="fas fa-history"></i>
                         </a>
                         

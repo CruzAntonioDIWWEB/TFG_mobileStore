@@ -93,7 +93,7 @@ $messages = $messages ?? [];
                         <p class="card-description">Revisa el estado de tus pedidos y el historial de compras realizadas.</p>
                     </div>
                     <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="settings-btn btn-secondary">
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="settings-btn btn-secondary">
                             <i class="fas fa-history"></i>
                             Ver pedidos
                         </a>

@@ -2,17 +2,41 @@
 function cargarPedidos() {
     showLoadingState();
     
-    fetch('obtainOrders.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                mostrarPedidos(data.data);
-            } else {
-                showErrorState(data.message || 'Error desconocido');
+    // Use the correct endpoint with BASE_URL from PHP
+    const url = BASE_URL + 'index.php?controller=user&action=getOrders';
+    console.log('Fetching orders from:', url);
+    
+    fetch(url)
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return response.text(); // Get as text first to debug
+        })
+        .then(text => {
+            console.log('Raw response:', text);
+            
+            try {
+                const data = JSON.parse(text);
+                console.log('Parsed JSON:', data);
+                
+                if (data.status === 'success') {
+                    mostrarPedidos(data.data);
+                } else {
+                    showErrorState(data.message || 'Error desconocido');
+                }
+            } catch (parseError) {
+                console.error('JSON Parse Error:', parseError);
+                console.error('Response text:', text);
+                showErrorState('Error en la respuesta del servidor');
             }
         })
         .catch(error => {
-            console.error('Error en la petición:', error);
+            console.error('Fetch Error:', error);
             showErrorState('Error de conexión con el servidor');
         });
 }

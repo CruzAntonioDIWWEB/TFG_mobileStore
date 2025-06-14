@@ -3,6 +3,7 @@
 namespace Controllers;
 
 require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Models/Order.php';
 require_once __DIR__ . '/BaseController.php';
 
 /**
@@ -253,7 +254,7 @@ class UserController extends BaseController
         $name = $postData['name'];
         $surnames = $postData['surnames'];
         $email = $postData['email'];
-        $password = $postData['password'] ?? '';
+        $password = $postData['password'] ?? null;
 
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -262,24 +263,24 @@ class UserController extends BaseController
             return;
         }
 
-        // Create user instance and update data
+        // Validate password length if provided
+        if ($password && strlen($password) < 4) {
+            $this->setErrorMessage('Password must be at least 4 characters');
+            $this->redirect('user', 'profile');
+            return;
+        }
+
+        // Update user
         $user = new \Models\User();
         $user->setId($currentUser['id']);
         $user->setName($name);
         $user->setSurnames($surnames);
         $user->setEmail($email);
-
-        // Update password if provided
-        if (!empty($password)) {
-            if (strlen($password) < 4) {
-                $this->setErrorMessage('Password must be at least 4 characters long');
-                $this->redirect('user', 'profile');
-                return;
-            }
+        
+        if ($password) {
             $user->setPassword($password);
         }
 
-        // Update in database
         $updated = $user->updateDB();
 
         if ($updated) {
@@ -287,7 +288,7 @@ class UserController extends BaseController
             $_SESSION['user']['name'] = $name;
             $_SESSION['user']['surnames'] = $surnames;
             $_SESSION['user']['email'] = $email;
-
+            
             $this->setSuccessMessage('Profile updated successfully');
         } else {
             $this->setErrorMessage('Error updating profile. Please try again.');
@@ -299,9 +300,59 @@ class UserController extends BaseController
     /**
      * Display user's order history
      */
-    public function historialPedidos(){
+    public function orderHistory(){
         $this->requireLogin();
-        $this->loadView('user/historial_pedidos');
+        $this->loadView('user/order_history');
+    }
+
+    /**
+     * Get user orders as JSON (for AJAX requests)
+     */
+    public function getOrders(){
+        // Clean any output buffer to prevent HTML errors
+        ob_clean();
+        
+        $this->requireLogin();
+        
+        header('Content-Type: application/json');
+        header('Cache-Control: no-cache, must-revalidate');
+        
+        try {
+            $currentUser = $this->getCurrentUser();
+            
+            if (!$currentUser || !isset($currentUser['id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'Usuario no válido']);
+                exit;
+            }
+            
+            $userId = intval($currentUser['id']);
+            
+            // Create order model instance
+            $orderModel = new \Models\Order();
+            $orders = $orderModel->getOrderByUser($userId);
+            
+            // Return response
+            if ($orders !== false) {
+                echo json_encode([
+                    'status' => 'success', 
+                    'data' => $orders ?: []
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'success', 
+                    'data' => []
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            error_log("Error in getOrders: " . $e->getMessage());
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'Error al cargar pedidos'
+            ]);
+        }
+        
+        exit;
     }
 
     // ========================================
@@ -375,7 +426,7 @@ class UserController extends BaseController
         $surnames = trim($postData['surnames'] ?? '');
         $email = trim($postData['email'] ?? '');
         $password = trim($postData['password'] ?? '');
-        $role = trim($postData['role'] ?? 'cliente');
+        $role = trim($postData['role'] ?? 'user');
 
         // Validate required fields
         if (empty($name) || empty($surnames) || empty($email) || empty($password)) {
@@ -398,33 +449,30 @@ class UserController extends BaseController
             return;
         }
 
-        // Validate role
-        if (!in_array($role, ['cliente', 'admin'])) {
-            $this->setErrorMessage('Rol inválido');
-            $this->redirect('user', 'create');
-            return;
-        }
-
         // Check if email already exists
         $userModel = new \Models\User();
-        if ($userModel->checkUserExists($email)) {
+        if($userModel->checkUserExists($email)){
             $this->setErrorMessage('Este email ya está registrado');
             $this->redirect('user', 'create');
             return;
         }
 
         // Create new user
-        $userModel->setName($name);
-        $userModel->setSurnames($surnames);
-        $userModel->setEmail($email);
-        $userModel->setPassword($password);
-        $userModel->setRole($role);  
+        $user = new \Models\User();
+        $user->setName($name);
+        $user->setSurnames($surnames);
+        $user->setEmail($email);
+        $user->setPassword($password);
+        $user->setRole($role);
 
-        $saved = $userModel->saveDB();
+        $saved = $user->saveDB();
 
-        if ($saved && $role === 'admin') {
-            $userModel->setId($userModel->getId());
-            $userModel->updateDB();
+        if ($saved) {
+            $this->setSuccessMessage('Usuario creado exitosamente');
+            $this->redirect('user', 'index');
+        } else {
+            $this->setErrorMessage('Error al crear el usuario');
+            $this->redirect('user', 'create');
         }
     }
 

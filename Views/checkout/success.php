@@ -45,7 +45,7 @@ $orderId = $orderId ?? null;
             
             <!-- Action Buttons -->
             <div class="success-actions">
-                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=historialPedidos" class="action-btn primary">
+                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="action-btn primary">
                     <i class="fas fa-history"></i>
                     Ver Mis Pedidos
                 </a>
