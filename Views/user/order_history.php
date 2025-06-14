@@ -89,4 +89,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     </div>
 </section>
 
+<script>
+// Make BASE_URL available for JavaScript
+const BASE_URL = '<?php echo BASE_URL; ?>';
+</script>
 <script src="<?php echo ASSETS_URL; ?>js/user/orderHistory.js"></script>

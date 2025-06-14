@@ -427,7 +427,7 @@ function sendOrderConfirmationEmail(paypalDetails) {
     const emailData = {
         email: userEmail,
         _replyto: userEmail,
-        _subject: `Confirmación de Pedido - TelefoniaPlus - ${paypalDetails.id}`,
+        _subject: `Confirmación de Pedido - Crusertel - ${paypalDetails.id}`,
         message: orderSummary,
         order_id: paypalDetails.id,
         order_total: paypalDetails.purchase_units[0].amount.value,

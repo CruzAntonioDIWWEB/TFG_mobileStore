@@ -83,7 +83,7 @@ class ContactController extends BaseController
         $postData = [
             'email' => $email,
             '_replyto' => $email,
-            '_subject' => 'Nuevo mensaje de contacto - TelefoniaPlus - ' . $name,
+            '_subject' => 'Nuevo mensaje de contacto - Crusertel - ' . $name,
             'message' => $formattedMessage,
             'customer_name' => $name,
             'contact_email' => $email
