@@ -262,19 +262,33 @@ function updatePayPalButtonVisibility() {
  * Initialize PayPal button (only called when form is valid)
  */
 function initializePayPal() {
+    const cartData = getCartFromLocalStorage();
     
+    if (!cartData || !cartData.items || cartData.items.length === 0) {
+        document.getElementById('paypal-button-container').innerHTML = 
+            '<p class="no-cart-message">Agrega productos al carrito para continuar</p>';
+        return;
+    }
+
     // Clear any existing PayPal buttons
     document.getElementById('paypal-button-container').innerHTML = '';
     
     paypal.Buttons({
+        style: {
+            color: 'blue',
+            shape: 'pill',
+            label: 'pay',
+            height: 45
+        },
+        
         createOrder: function(data, actions) {
             console.log('Creating PayPal order...');
             
-            // Validate form before creating order
+            // Double-check validation (safety net)
             if (!validateShippingForm()) {
                 return Promise.reject(new Error('Shipping form validation failed'));
             }
-
+            
             const cartData = getCartFromLocalStorage();
             if (!cartData || cartData.totalCost <= 0) {
                 return Promise.reject(new Error('Invalid cart data'));
@@ -344,7 +358,31 @@ function initializePayPal() {
                         
                         // Clear cart from localStorage
                         localStorage.removeItem('mobilestore_cart');
-                        console.log('Database cart cleared');
+                        
+                        // Clear cart from database via AJAX (fallback)
+                        fetch(`<?php echo BASE_URL; ?>index.php?controller=cart&action=clearCart`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: 'clear_cart=1'
+                        }).then(response => {
+                            console.log('Database cart cleared');
+                        }).catch(error => {
+                            console.error('Error clearing database cart:', error);
+                        });
+                        
+                        // Update cart count in header if cartStorage exists
+                        if (window.cartStorage) {
+                            window.cartStorage.updateCount(0);
+                        }
+                        
+                        // Update cart count badges immediately
+                        const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
+                        cartCounts.forEach(element => {
+                            element.style.display = 'none';
+                            element.textContent = '0';
+                        });
                         
                         // Redirect to success page
                         window.location.href = '<?php echo BASE_URL; ?>index.php?controller=checkout&action=success&orderId=' + result.orderId;

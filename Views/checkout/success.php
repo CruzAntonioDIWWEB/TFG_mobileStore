@@ -33,11 +33,10 @@ $orderId = $orderId ?? null;
                 </p>
                 
                 <div class="next-steps">
-                    <h3>¿Qué sigue ahora?</h3>
+                    <h3>¿Y ahora?</h3>
                     <ul>
                         <li><i class="fas fa-envelope"></i> Recibirás un email de confirmación</li>
                         <li><i class="fas fa-box"></i> Prepararemos tu pedido para el envío</li>
-                        <li><i class="fas fa-truck"></i> Te notificaremos cuando esté en camino</li>
                         <li><i class="fas fa-home"></i> Recibirás tu pedido en la dirección indicada</li>
                     </ul>
                 </div>
@@ -58,18 +57,6 @@ $orderId = $orderId ?? null;
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="action-btn secondary">
                     <i class="fas fa-shopping-cart"></i>
                     Seguir Comprando
-                </a>
-            </div>
-        </div>
-        
-        <!-- Contact Info -->
-        <div class="contact-info">
-            <h3>¿Necesitas Ayuda?</h3>
-            <p>Si tienes alguna pregunta sobre tu pedido, no dudes en contactarnos:</p>
-            <div class="contact-methods">
-                <a href="<?php echo BASE_URL; ?>index.php?controller=contact&action=index" class="contact-link">
-                    <i class="fas fa-envelope"></i>
-                    Contactar Soporte
                 </a>
             </div>
         </div>
