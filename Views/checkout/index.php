@@ -48,7 +48,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 </div>
             </div>
 
-            <!-- Shipping Form -->
+            <!-- Shipping Information -->
             <div class="shipping-section">
                 <h2 class="section-title">
                     <i class="fas fa-truck"></i>
@@ -56,20 +56,29 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 </h2>
                 
                 <form id="shippingForm" class="shipping-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="province">Provincia *</label>
-                            <input type="text" id="province" name="province" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="locality">Localidad *</label>
-                            <input type="text" id="locality" name="locality" required>
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
-                        <label for="address">Dirección Completa *</label>
-                        <input type="text" id="address" name="address" placeholder="Calle, número, piso, puerta..." required>
+                        <label for="province" class="form-label">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Provincia *
+                        </label>
+                        <input type="text" id="province" name="province" class="form-input" placeholder="Ej: Madrid" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locality" class="form-label">
+                            <i class="fas fa-city"></i>
+                            Localidad *
+                        </label>
+                        <input type="text" id="locality" name="locality" class="form-input" placeholder="Ej: Madrid" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="form-label">
+                            <i class="fas fa-home"></i>
+                            Dirección Completa *
+                        </label>
+                        <input type="text" id="address" name="address" class="form-input" placeholder="Ej: Calle Gran Vía, 45, 3º B" required>
+                        <small class="form-hint">Incluye calle, número, piso y puerta</small>
                     </div>
                 </form>
             </div>
@@ -77,7 +86,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             <!-- Payment Section -->
             <div class="payment-section">
                 <h2 class="section-title">
-                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-credit-card"></i>
                     Método de Pago
                 </h2>
                 
@@ -132,41 +141,45 @@ function loadCartSummary() {
             <div class="empty-cart">
                 <i class="fas fa-shopping-cart"></i>
                 <p>Tu carrito está vacío</p>
-                <a href="${BASE_URL}index.php?controller=product&action=phones" class="shop-btn">
+                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="shop-btn">
                     <i class="fas fa-shopping-cart"></i>
-                    Ir a Comprar
+                    Ir de Compras
                 </a>
             </div>
         `;
         return;
     }
 
-    let itemsHtml = '';
+    let summaryHTML = '<div class="cart-items">';
+    
     cartData.items.forEach(item => {
-        const itemTotal = (item.price * item.quantity).toFixed(2);
-        itemsHtml += `
-            <div class="summary-item">
+        summaryHTML += `
+            <div class="cart-item-summary">
                 <div class="item-info">
-                    <span class="item-name">${item.product_name || item.name}</span>
-                    <span class="item-quantity">x${item.quantity}</span>
+                    <img src="<?php echo ASSETS_URL; ?>img/products/${item.image || 'default.jpg'}" alt="${item.product_name || item.name}" class="item-image">
+                    <div class="item-details">
+                        <h4 class="item-name">${item.product_name || item.name}</h4>
+                        <p class="item-quantity">Cantidad: ${item.quantity}</p>
+                    </div>
                 </div>
-                <span class="item-total">€${itemTotal}</span>
+                <div class="item-price">
+                    <span class="price">€${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
             </div>
         `;
     });
 
-    summaryContainer.innerHTML = `
-        <div class="summary-items">
-            ${itemsHtml}
+    summaryHTML += `
         </div>
-        <div class="summary-divider"></div>
-        <div class="summary-total">
-            <div class="total-row">
-                <span class="total-label">Total (${cartData.totalItems} productos)</span>
+        <div class="cart-total">
+            <div class="total-line">
+                <span class="total-label">Total:</span>
                 <span class="total-amount">€${cartData.totalCost.toFixed(2)}</span>
             </div>
         </div>
     `;
+
+    summaryContainer.innerHTML = summaryHTML;
 }
 
 /**
@@ -249,31 +262,19 @@ function updatePayPalButtonVisibility() {
  * Initialize PayPal button (only called when form is valid)
  */
 function initializePayPal() {
-    const cartData = getCartFromLocalStorage();
     
-    if (!cartData || !cartData.items || cartData.items.length === 0) {
-        document.getElementById('paypal-button-container').innerHTML = 
-            '<p class="no-cart-message">Agrega productos al carrito para continuar</p>';
-        return;
-    }
-
-    // Clear any existing content first
+    // Clear any existing PayPal buttons
     document.getElementById('paypal-button-container').innerHTML = '';
-
+    
     paypal.Buttons({
-        style: {
-            color: 'blue',
-            shape: 'pill',
-            label: 'pay',
-            height: 45
-        },
-        
         createOrder: function(data, actions) {
-            // Double-check validation (safety net)
+            console.log('Creating PayPal order...');
+            
+            // Validate form before creating order
             if (!validateShippingForm()) {
                 return Promise.reject(new Error('Shipping form validation failed'));
             }
-            
+
             const cartData = getCartFromLocalStorage();
             if (!cartData || cartData.totalCost <= 0) {
                 return Promise.reject(new Error('Invalid cart data'));
@@ -304,86 +305,60 @@ function initializePayPal() {
         },
         
         onApprove: function(data, actions) {
+            console.log('PayPal payment approved, capturing...');
+            
+            // Show loading
+            document.getElementById('paymentLoading').style.display = 'block';
+            document.getElementById('paypal-button-container').style.display = 'none';
+            
             return actions.order.capture().then(function(details) {
-                console.log(details);
+                console.log('Payment captured successfully:', details);
                 
-                // Clear cart from localStorage
-                localStorage.removeItem('mobilestore_cart');
+                // Prepare data for server
+                const requestData = {
+                    paypalDetails: details,
+                    cartData: getCartFromLocalStorage(),
+                    shippingInfo: getShippingFormData()
+                };
                 
-                // Clear cart from database via AJAX
-                fetch(`${BASE_URL}index.php?controller=cart&action=clearCart`, {
+                console.log('Sending order data to server:', requestData);
+                
+                // Send to server to create order
+                return fetch('<?php echo BASE_URL; ?>index.php?controller=checkout&action=processPayment', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json'
                     },
-                    body: 'clear_cart=1'
-                }).then(response => {
-                    console.log('Database cart cleared');
-                }).catch(error => {
-                    console.error('Error clearing database cart:', error);
-                });
-                
-                // Send order confirmation email via Formspree
-                sendOrderConfirmationEmail(details);
-                
-                // Update cart count in header if cartStorage exists
-                if (window.cartStorage) {
-                    window.cartStorage.updateCount(0);
-                }
-                
-                // Update cart count badges immediately
-                const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
-                cartCounts.forEach(element => {
-                    element.style.display = 'none';
-                    element.textContent = '0';
-                });
-                
-                // Replace checkout section with styled success message
-                document.querySelector('.checkout-section').innerHTML = `
-                    <section class="order-success-section">
-                        <div class="success-container">
-                            <div class="success-content">
-                                <div class="success-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                
-                                <h1 class="success-title">¡Pago realizado con éxito!</h1>
-                                
-                                <div class="success-message">
-                                    <p>Tu pedido ha sido procesado correctamente.</p>
-                                    <p>En breve recibirás un email de confirmación con todos los detalles.</p>
-                                    
-                                    <div class="next-steps">
-                                        <h3>¿Qué sigue ahora?</h3>
-                                        <ul>
-                                            <li><i class="fas fa-envelope"></i> Recibirás un email de confirmación</li>
-                                            <li><i class="fas fa-box"></i> Prepararemos tu pedido para el envío</li>
-                                            <li><i class="fas fa-truck"></i> Te notificaremos cuando esté en camino</li>
-                                            <li><i class="fas fa-home"></i> Recibirás tu pedido en la dirección indicada</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                
-                                <div class="success-actions">
-                                    <a href="${BASE_URL}index.php?controller=home&action=index" class="action-btn primary">
-                                        <i class="fas fa-home"></i>
-                                        Volver al Inicio
-                                    </a>
-                                    
-                                    <a href="${BASE_URL}index.php?controller=product&action=phones" class="action-btn secondary">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        Seguir Comprando
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                `;
-
-                // Scroll to the top of the page smoothly
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => {
+                    console.log('Server response received:', response.status);
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('Server response parsed:', result);
+                    
+                    if (result.success) {
+                        // Send confirmation email
+                        sendOrderConfirmationEmail(details);
+                        
+                        // Clear cart from localStorage
+                        localStorage.removeItem('mobilestore_cart');
+                        console.log('Database cart cleared');
+                        
+                        // Redirect to success page
+                        window.location.href = '<?php echo BASE_URL; ?>index.php?controller=checkout&action=success&orderId=' + result.orderId;
+                    } else {
+                        throw new Error(result.message || 'Error processing order');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error processing order:', error);
+                    alert('Error al procesar el pedido: ' + error.message);
+                    
+                    // Hide loading, show PayPal button again
+                    document.getElementById('paymentLoading').style.display = 'none';
+                    document.getElementById('paypal-button-container').style.display = 'block';
                 });
             });
         },
@@ -427,7 +402,7 @@ function sendOrderConfirmationEmail(paypalDetails) {
     const emailData = {
         email: userEmail,
         _replyto: userEmail,
-        _subject: `Confirmación de Pedido - Crusertel - ${paypalDetails.id}`,
+        _subject: `Confirmación de Pedido - TelefoniaPlus - ${paypalDetails.id}`,
         message: orderSummary,
         order_id: paypalDetails.id,
         order_total: paypalDetails.purchase_units[0].amount.value,
@@ -504,7 +479,7 @@ Crusertel - Tu tienda de confianza
 }
 
 /**
- * Get user data from localStorage (add this if you don't have it)
+ * Get user data from localStorage
  */
 function getUserFromLocalStorage() {
     try {
@@ -516,5 +491,6 @@ function getUserFromLocalStorage() {
     }
 }
 
+// Make BASE_URL available for JavaScript
 const BASE_URL = '<?php echo BASE_URL; ?>';
 </script>
