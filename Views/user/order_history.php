@@ -4,6 +4,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header('Location: ' . BASE_URL . 'index.php?controller=user&action=login');
     exit;
 }
+
+// Check if user is admin
+$currentUser = $_SESSION['user'] ?? null;
+$isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] === 'admin';
 ?>
 
 <!-- Order History Section -->
@@ -16,9 +20,11 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <div class="title-section">
                     <h1 class="order-history-title">
                         <i class="fas fa-history"></i>
-                        Historial de Pedidos
+                        <?php echo $isAdmin ? 'Gestión de Pedidos' : 'Historial de Pedidos'; ?>
                     </h1>
-                    <p class="order-history-subtitle">Consulta el estado y detalles de tus pedidos</p>
+                    <p class="order-history-subtitle">
+                        <?php echo $isAdmin ? 'Administra todos los pedidos del sistema' : 'Consulta el estado y detalles de tus pedidos'; ?>
+                    </p>
                 </div>
                 
                 <div class="header-actions">
@@ -46,11 +52,14 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                     <i class="fas fa-shopping-bag"></i>
                 </div>
                 <h3>No hay pedidos que mostrar</h3>
-                <p>Aún no has realizado ningún pedido. ¡Explora nuestro catálogo y haz tu primera compra!</p>
+                <p>Aún no <?php echo $isAdmin ? 'hay' : 'has realizado ningún'; ?> pedido<?php echo $isAdmin ? 's en el sistema' : ''; ?>.</p>
+                <?php if (!$isAdmin): ?>
+                <p>¡Explora nuestro catálogo y haz tu primera compra!</p>
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="shop-btn">
                     <i class="fas fa-shopping-cart"></i>
                     Ir a Comprar
                 </a>
+                <?php endif; ?>
             </div>
 
             <!-- Orders Table -->
@@ -60,6 +69,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         <thead>
                             <tr>
                                 <th>Pedido</th>
+                                <?php if ($isAdmin): ?>
+                                <th>Usuario</th>
+                                <?php endif; ?>
                                 <th>Ubicación</th>
                                 <th>Dirección</th>
                                 <th>Total</th>
@@ -79,7 +91,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <h3>Error al cargar pedidos</h3>
-                <p id="errorMessage">Ha ocurrido un error al cargar tus pedidos. Por favor, inténtalo de nuevo.</p>
+                <p id="errorMessage">Ha ocurrido un error al cargar los pedidos. Por favor, inténtalo de nuevo.</p>
                 <button class="retry-btn" onclick="cargarPedidos()">
                     <i class="fas fa-redo"></i>
                     Reintentar
@@ -90,7 +102,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 </section>
 
 <script>
-// Make BASE_URL available for JavaScript
+// Make variables available for JavaScript
 const BASE_URL = '<?php echo BASE_URL; ?>';
+const IS_ADMIN = <?php echo $isAdmin ? 'true' : 'false'; ?>;
 </script>
 <script src="<?php echo ASSETS_URL; ?>js/user/orderHistory.js"></script>

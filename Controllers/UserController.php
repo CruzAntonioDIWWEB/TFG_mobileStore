@@ -605,6 +605,117 @@ class UserController extends BaseController
         $this->redirect('user', 'index');
     }
 
+    /**
+     * Update order status (admin only)
+     */
+    public function updateOrderStatus(){
+        // Require admin access
+        $this->requireLogin();
+        
+        if (!$this->checkAdminRole()) {
+            echo json_encode(['success' => false, 'message' => 'Access denied']);
+            return;
+        }
+        
+        header('Content-Type: application/json');
+        
+        if (!$this->isPost()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+            return;
+        }
+
+        try {
+            $postData = $this->getPostData();
+            $orderId = intval($postData['order_id'] ?? 0);
+            $newStatus = trim($postData['status'] ?? '');
+            
+            // Validate input
+            if (!$orderId || !$newStatus) {
+                throw new \Exception('Missing order ID or status');
+            }
+            
+            // Validate status value
+            $validStatuses = ['pending', 'paid', 'shipped', 'delivered', 'canceled'];
+            if (!in_array($newStatus, $validStatuses)) {
+                throw new \Exception('Invalid status value');
+            }
+            
+            // Load order and update status
+            $order = new \Models\Order();
+            if ($order->getOrderById($orderId)) {
+                $order->setStatus($newStatus);
+                
+                if ($order->updateDB()) {
+                    echo json_encode([
+                        'success' => true, 
+                        'message' => 'Order status updated successfully',
+                        'orderId' => $orderId,
+                        'newStatus' => $newStatus
+                    ]);
+                } else {
+                    throw new \Exception('Failed to update order status in database');
+                }
+            } else {
+                throw new \Exception('Order not found');
+            }
+            
+        } catch (\Exception $e) {
+            error_log("Error updating order status: " . $e->getMessage());
+            echo json_encode([
+                'success' => false, 
+                'message' => $e->getMessage()
+            ]);
+        }
+        
+        exit;
+    }
+
+    /**
+     * Get all orders for admin users 
+     */
+    public function getAllOrders(){
+        // Clean any output buffer to prevent HTML errors
+        ob_clean();
+        
+        $this->requireLogin();
+        
+        if (!$this->checkAdminRole()) {
+            echo json_encode(['status' => 'error', 'message' => 'Access denied']);
+            exit;
+        }
+        
+        header('Content-Type: application/json');
+        header('Cache-Control: no-cache, must-revalidate');
+        
+        try {
+            // Create order model instance
+            $orderModel = new \Models\Order();
+            $orders = $orderModel->getAllOrders();
+            
+            // Return response
+            if ($orders !== false) {
+                echo json_encode([
+                    'status' => 'success', 
+                    'data' => $orders ?: []
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'success', 
+                    'data' => []
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            error_log("Error in getAllOrders: " . $e->getMessage());
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'Error al cargar pedidos'
+            ]);
+        }
+        
+        exit;
+    }
+
     // ========================================
     // LEGACY ADMIN METHODS (KEEPING FOR COMPATIBILITY)
     // ========================================

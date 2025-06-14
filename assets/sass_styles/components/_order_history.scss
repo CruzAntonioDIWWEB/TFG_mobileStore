@@ -371,6 +371,84 @@
     }
 }
 
+/* Status select dropdown - inherits from .status-badge */
+.status-select {
+    // Base select styling
+    background-color: inherit;
+    color: inherit;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 4px 12px;
+    font-size: map-get(v.$font-sizes, xs);
+    font-weight: map-get(v.$font-weights, medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+    min-width: 120px;
+    
+    // Transitions
+    transition: all map-get(v.$transitions, fast);
+
+    &:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(map-get(v.$colors, primary-red), 0.3);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+}
+
+/* User column for admin */
+.order-user {
+    .user-info {
+        font-size: map-get(v.$font-sizes, xs);
+        color: map-get(v.$colors, text-secondary);
+        font-weight: map-get(v.$font-weights, medium);
+    }
+}
+
+/* Temporary message styles */
+.temp-message {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@include breakpoint(mobile) {
+    .status-select {
+        min-width: 90px;
+        font-size: 10px;
+        padding: 3px 8px;
+        padding-right: 20px;
+    }
+
+    .order-user {
+        display: none; // Hide user column on mobile
+    }
+}
+
 /* Mobile Table Adjustments */
 @include breakpoint(mobile) {
     .orders-table {
