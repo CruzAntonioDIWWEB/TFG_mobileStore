@@ -31,7 +31,7 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
             <div class="cart-title-section">
                 <h1 class="cart-title">
                     <i class="fas fa-shopping-cart"></i>
-                    Mi carrito de compras
+                    Mi carrito
                 </h1>
                 <p class="cart-subtitle">
                     <?php if ($totalItems > 0): ?>

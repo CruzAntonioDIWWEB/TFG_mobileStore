@@ -126,6 +126,10 @@
 
         .accessories-grid {
             @include responsive-grid(280px, map-get(v.$spacing, xl));
+            
+            // Override the mixin's output to prevent card stretching
+            grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
+            justify-content: center;
 
             .accessory-card {
                 @include product-card;
@@ -271,12 +275,12 @@
             }
 
             @include breakpoint(desktop) {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(250px, 250px)) !important;
                 gap: map-get(v.$spacing, lg);
             }
 
             @include breakpoint(mobile) {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
                 gap: map-get(v.$spacing, lg);
             }
         }

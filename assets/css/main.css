@@ -2284,6 +2284,8 @@ img {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 320px)) !important;
+  justify-content: center;
 }
 .phones-catalog .catalog-container .phones-grid .phone-card {
   background-color: #FFFFFF;
@@ -2560,19 +2562,19 @@ img {
 }
 @media (max-width: 992px) {
   .phones-catalog .catalog-container .phones-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
     gap: 20px;
   }
 }
 @media (max-width: 768px) {
   .phones-catalog .catalog-container .phones-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 250px)) !important;
     gap: 20px;
   }
 }
 @media (max-width: 480px) {
   .phones-catalog .catalog-container .phones-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
     gap: 15px;
   }
 }
@@ -2874,6 +2876,8 @@ img {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
+  justify-content: center;
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card {
   background-color: #FFFFFF;
@@ -3163,13 +3167,13 @@ img {
 }
 @media (max-width: 992px) {
   .accessories-catalog .catalog-container .accessories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 250px)) !important;
     gap: 20px;
   }
 }
 @media (max-width: 480px) {
   .accessories-catalog .catalog-container .accessories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 280px)) !important;
     gap: 20px;
   }
 }
