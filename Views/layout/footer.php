@@ -21,13 +21,13 @@
 
             <!-- Social Media Icons -->
             <div class="footer-social">
-                <a href="#" class="social-icon" title="Instagram" target="_blank">
+                <a href="https://www.instagram.com/crusertel_shop/" class="social-icon" title="Instagram" target="_blank">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" class="social-icon" title="Facebook" target="_blank">
+                <a href="https://www.facebook.com/profile.php?id=61577182569946" class="social-icon" title="Facebook" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="#" class="social-icon" title="Twitter" target="_blank">
+                <a href="https://x.com/crusertel" class="social-icon" title="Twitter" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
             </div>
