@@ -13,7 +13,7 @@ require_once __DIR__ . '/BaseController.php';
  */
 class ProductController extends BaseController
 {
-    
+
     // ========================================
     // PUBLIC PRODUCT DISPLAY METHODS
     // ========================================
@@ -21,22 +21,25 @@ class ProductController extends BaseController
     /**
      * Display mobile phones catalog
      */
-    public function phoneCatalog(){
+    public function phoneCatalog()
+    {
         $productModel = new \Models\Product();
         $categoryModel = new \Models\Category();
-        
+
         // Get phones category
         $categories = $categoryModel->getAll();
         $phoneCategoryId = null;
-        
+
         foreach ($categories as $category) {
-            if (stripos($category['name'], 'móvil') !== false || 
-                stripos($category['name'], 'teléfono') !== false) {
+            if (
+                stripos($category['name'], 'móvil') !== false ||
+                stripos($category['name'], 'teléfono') !== false
+            ) {
                 $phoneCategoryId = $category['id'];
                 break;
             }
         }
-        
+
         if (!$phoneCategoryId) {
             $this->setErrorMessage('Phone category not found');
             $this->redirect('home', 'index');
@@ -45,19 +48,19 @@ class ProductController extends BaseController
 
         // Get all phones
         $phones = $productModel->getByCategory($phoneCategoryId);
-        
+
         // Filter by brand if specified in URL
         $selectedBrand = $this->getGetData('brand');
         $filteredPhones = $phones;
-        
+
         if ($selectedBrand && $selectedBrand !== 'all') {
             require_once __DIR__ . '/../Helpers/BrandHelper.php';
-            $filteredPhones = array_filter($phones, function($phone) use ($selectedBrand) {
+            $filteredPhones = array_filter($phones, function ($phone) use ($selectedBrand) {
                 $detectedBrand = \Helpers\BrandHelper::detectBrand($phone['name']);
                 return $detectedBrand === $selectedBrand;
             });
         }
-        
+
         $viewData = [
             'phones' => $filteredPhones,
             'allPhones' => $phones, // For brand extraction
@@ -71,22 +74,23 @@ class ProductController extends BaseController
     /**
      * Display accessories catalog with filter options
      */
-    public function accessoriesCatalog(){
+    public function accessoriesCatalog()
+    {
         $productModel = new \Models\Product();
         $categoryModel = new \Models\Category();
         $accessoryTypeModel = new \Models\AccessoryType();
-        
+
         // Get accessories category
         $categories = $categoryModel->getAll();
         $accessoryCategoryId = null;
-        
+
         foreach ($categories as $category) {
             if (stripos($category['name'], 'accesorio') !== false) {
                 $accessoryCategoryId = $category['id'];
                 break;
             }
         }
-        
+
         if (!$accessoryCategoryId) {
             $this->setErrorMessage('Accessories category not found');
             $this->redirect('home', 'index');
@@ -95,17 +99,17 @@ class ProductController extends BaseController
 
         // Get filter parameters
         $typeFilter = $this->getGetData('type');
-        
+
         // Get all accessory types for filter menu
         $accessoryTypes = $accessoryTypeModel->getAll();
-        
+
         // Get accessories based on filter
         if ($typeFilter && is_numeric($typeFilter)) {
             $accessories = $productModel->getByAccessoryType($typeFilter);
         } else {
             $accessories = $productModel->getByCategory($accessoryCategoryId);
         }
-        
+
         $viewData = [
             'accessories' => $accessories,
             'accessoryTypes' => $accessoryTypes,
@@ -119,9 +123,10 @@ class ProductController extends BaseController
     /**
      * Display detailed view of a single product
      */
-    public function detailProd(){
+    public function detailProd()
+    {
         $productId = $this->getGetData('id');
-        
+
         if (!$productId || !is_numeric($productId)) {
             $this->setErrorMessage('Invalid product ID');
             $this->goBack();
@@ -130,7 +135,7 @@ class ProductController extends BaseController
 
         $productModel = new \Models\Product();
         $product = $productModel->getProductById($productId);
-        
+
         if (!$product) {
             $this->setErrorMessage('Product not found');
             $this->goBack();
@@ -140,7 +145,7 @@ class ProductController extends BaseController
         // Get related products (same category, different product)
         $relatedProducts = [];
         $categoryProducts = $productModel->getByCategory($productModel->getCategoryId());
-        
+
         if ($categoryProducts) {
             $count = 0;
             foreach ($categoryProducts as $relatedProduct) {
@@ -162,9 +167,10 @@ class ProductController extends BaseController
     /**
      * Search products by keyword
      */
-    public function searchProduct(){
+    public function searchProduct()
+    {
         $keyword = $this->getGetData('q');
-        
+
         if (empty($keyword)) {
             $this->redirect('home', 'index');
             return;
@@ -172,7 +178,7 @@ class ProductController extends BaseController
 
         $productModel = new \Models\Product();
         $results = $productModel->search($keyword);
-        
+
         $viewData = [
             'results' => $results,
             'keyword' => $keyword,
@@ -189,7 +195,8 @@ class ProductController extends BaseController
     /**
      * Display all products in admin panel
      */
-     public function index(){
+    public function index()
+    {
         $this->requireAdmin();
 
         $productModel = new \Models\Product();
@@ -199,15 +206,16 @@ class ProductController extends BaseController
     }
 
     /**
-     * Show form to create a new product
+     * Show form to create a new product (admin only)
      */
-    public function create(){
+    public function create()
+    {
         $this->requireAdmin();
 
         // Get categories and accessory types for dropdowns
         $categoryModel = new \Models\Category();
         $accessoryTypeModel = new \Models\AccessoryType();
-        
+
         $categories = $categoryModel->getAll();
         $accessoryTypes = $accessoryTypeModel->getAll();
 
@@ -220,13 +228,14 @@ class ProductController extends BaseController
     }
 
     /**
-     * Show form to edit an existing product
+     * Show form to edit an existing product (admin only)
      */
-    public function edit(){
+    public function edit()
+    {
         $this->requireAdmin();
 
         $productId = $this->getGetData('id');
-        
+
         if (!$productId || !is_numeric($productId)) {
             $this->setErrorMessage('ID de producto inválido');
             $this->redirect('product', 'index');
@@ -245,7 +254,7 @@ class ProductController extends BaseController
         // Get categories and accessory types for dropdowns
         $categoryModel = new \Models\Category();
         $accessoryTypeModel = new \Models\AccessoryType();
-        
+
         $categories = $categoryModel->getAll();
         $accessoryTypes = $accessoryTypeModel->getAll();
 
@@ -265,7 +274,8 @@ class ProductController extends BaseController
     /**
      * Save a new product 
      */
-    public function save(){
+    public function save()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -275,7 +285,7 @@ class ProductController extends BaseController
         }
 
         $postData = $this->getPostData();
-        
+
         // Basic validation
         $name = trim($postData['name'] ?? '');
         $description = trim($postData['description'] ?? '');
@@ -313,8 +323,8 @@ class ProductController extends BaseController
         // Check if it's a mobile category and validate brand
         $categoryModel = new \Models\Category();
         $category = $categoryModel->getById($categoryId);
-        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false || 
-                                        stripos($category->getName(), 'teléfono') !== false);
+        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false ||
+            stripos($category->getName(), 'teléfono') !== false);
 
         if ($isMobileCategory && empty($mobileBrand)) {
             $this->setErrorMessage('Debe seleccionar una marca para productos móviles');
@@ -326,9 +336,9 @@ class ProductController extends BaseController
         if ($isMobileCategory && !empty($mobileBrand)) {
             require_once __DIR__ . '/../Helpers/BrandHelper.php';
             $detectedBrand = \Helpers\BrandHelper::detectBrand($name);
-            
+
             if ($mobileBrand !== 'other' && $detectedBrand !== $mobileBrand) {
-                // Log the discrepancy but don't block - admin might know better
+                // Log the discrepancy
                 error_log("Brand mismatch for product '$name': selected '$mobileBrand', detected '$detectedBrand'");
             }
         }
@@ -353,7 +363,7 @@ class ProductController extends BaseController
         $product->setAccessoryType($accessoryTypeId);
         $product->setImage($imageName);
 
-        $saved = $product->saveDB(); // Use saveDB method to match your project pattern
+        $saved = $product->saveDB();
 
         if ($saved) {
             $this->setSuccessMessage('Producto creado exitosamente');
@@ -365,9 +375,10 @@ class ProductController extends BaseController
     }
 
     /**
-     * Update an existing product
+     * Update an existing product (admin only)
      */
-    public function update(){
+    public function update()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -432,8 +443,8 @@ class ProductController extends BaseController
         // Check if it's a mobile category and validate brand
         $categoryModel = new \Models\Category();
         $category = $categoryModel->getById($categoryId);
-        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false || 
-                                        stripos($category->getName(), 'teléfono') !== false);
+        $isMobileCategory = $category && (stripos($category->getName(), 'móvil') !== false ||
+            stripos($category->getName(), 'teléfono') !== false);
 
         if ($isMobileCategory && empty($mobileBrand)) {
             $this->setErrorMessage('Debe seleccionar una marca para productos móviles');
@@ -445,14 +456,14 @@ class ProductController extends BaseController
         if ($isMobileCategory && !empty($mobileBrand)) {
             require_once __DIR__ . '/../Helpers/BrandHelper.php';
             $detectedBrand = \Helpers\BrandHelper::detectBrand($name);
-            
+
             if ($mobileBrand !== 'other' && $detectedBrand !== $mobileBrand) {
-                // Log the discrepancy but don't block - admin might know better
+                // Log the discrepancy
                 error_log("Brand mismatch for product '$name': selected '$mobileBrand', detected '$detectedBrand'");
             }
         }
 
-        // Handle the current image - work with both object and array returns
+        // Handle the current image
         $currentImage = null;
         if (is_object($existingProductResult)) {
             $currentImage = $existingProductResult->getImage();
@@ -499,9 +510,10 @@ class ProductController extends BaseController
     }
 
     /**
-     * Delete a product
+     * Delete a product (admin only)
      */
-    public function delete(){
+    public function delete()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -528,7 +540,7 @@ class ProductController extends BaseController
             return;
         }
 
-        // Handle the current image - work with both object and array returns
+        // Handle the current image
         $currentImage = null;
         if (is_object($existingProductResult)) {
             $currentImage = $existingProductResult->getImage();
@@ -564,7 +576,8 @@ class ProductController extends BaseController
      * @param array $file The uploaded file from $_FILES
      * @return string|false The filename on success, false on failure
      */
-    private function handleImageUpload($file){
+    private function handleImageUpload($file)
+    {
         // Validate file
         if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
             return false;
@@ -579,7 +592,7 @@ class ProductController extends BaseController
         // Check file type
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $fileType = mime_content_type($file['tmp_name']);
-        
+
         if (!in_array($fileType, $allowedTypes)) {
             $this->setErrorMessage('Tipo de archivo no permitido. Use JPG, PNG, GIF o WebP');
             return false;
@@ -588,22 +601,22 @@ class ProductController extends BaseController
         // Generate unique filename
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = uniqid('product_') . '.' . strtolower($extension);
-        
+
         // Upload directory
         $uploadDir = __DIR__ . '/../assets/img/products/';
-        
+
         // Create directory if it doesn't exist
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
-        
+
         $uploadPath = $uploadDir . $filename;
-        
+
         // Move uploaded file
         if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
             return $filename;
         }
-        
+
         $this->setErrorMessage('Error al subir la imagen');
         return false;
     }
@@ -613,17 +626,18 @@ class ProductController extends BaseController
      * @param string $imageName The image filename to delete
      * @return bool Success/failure
      */
-    private function deleteImage($imageName){
+    private function deleteImage($imageName)
+    {
         if (empty($imageName)) {
             return true;
         }
 
         $imagePath = __DIR__ . '/../assets/img/products/' . $imageName;
-        
+
         if (file_exists($imagePath)) {
             return unlink($imagePath);
         }
-        
+
         return true; // File doesn't exist, consider it deleted
     }
 
@@ -651,9 +665,10 @@ class ProductController extends BaseController
     /**
      * Display products by category ID
      */
-    public function categoryProducts(){
+    public function categoryProducts()
+    {
         $categoryId = $this->getGetData('category');
-        
+
         if (!$categoryId || !is_numeric($categoryId)) {
             $this->setErrorMessage('Categoría no válida');
             $this->redirect('home', 'index');
@@ -662,7 +677,7 @@ class ProductController extends BaseController
 
         $productModel = new \Models\Product();
         $categoryModel = new \Models\Category();
-        
+
         // Get category info
         $category = $categoryModel->getById($categoryId);
         if (!$category) {
@@ -678,7 +693,7 @@ class ProductController extends BaseController
         if (!$products || !is_array($products)) {
             $products = [];
         }
-        
+
         $viewData = [
             'products' => $products,
             'categoryName' => $category->getName(),
@@ -689,15 +704,27 @@ class ProductController extends BaseController
     }
 
     // ========================================
-    // DEPRECATED/LEGACY METHODS (kept for compatibility)
+    // DEPRECATED/LEGACY METHODS 
     // ========================================
 
-    public function createProduct() { $this->create(); }
-    public function createProductSubmit() { $this->save(); }
-    public function editProduct() { $this->edit(); }
-    public function updateProduct() { $this->update(); }
-    public function deleteProduct() { $this->delete(); }
-    private function deleteProductImage($filename) { $this->deleteImage($filename); }
+    public function createProduct()
+    {
+        $this->create();
+    }
+    public function createProductSubmit()
+    {
+        $this->save();
+    }
+    public function editProduct()
+    {
+        $this->edit();
+    }
+    public function updateProduct()
+    {
+        $this->update();
+    }
+    public function deleteProduct()
+    {
+        $this->delete();
+    }
 }
-
-?>

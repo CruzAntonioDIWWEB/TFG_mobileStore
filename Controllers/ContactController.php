@@ -58,27 +58,27 @@ class ContactController extends BaseController
 
         // Send contact message via Formspree
         $result = $this->sendContactMessage($name, $email, $message);
-        
+
         if ($result) {
             $this->setSuccessMessage('¡Gracias por contactarnos! Hemos recibido tu mensaje y te responderemos en breve.');
         } else {
             $this->setErrorMessage('Ha ocurrido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.');
         }
-        
+
         $this->redirect('contact', 'index');
     }
 
     /**
-     * Send contact message via Formspree (same as order confirmation)
+     * Send contact message via Formspree 
      */
     private function sendContactMessage($name, $email, $message)
     {
         // Generate formatted message content
         $formattedMessage = $this->generateContactMessage($name, $email, $message);
-        
+
         // Your Formspree endpoint
         $formspreeUrl = 'https://formspree.io/f/mgvykool';
-        
+
         // Prepare data for Formspree
         $postData = [
             'email' => $email,
@@ -88,7 +88,7 @@ class ContactController extends BaseController
             'customer_name' => $name,
             'contact_email' => $email
         ];
-        
+
         // Send via Formspree using cURL for better reliability
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $formspreeUrl);
@@ -100,11 +100,11 @@ class ContactController extends BaseController
             'Accept: application/json'
         ]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        
+
         $result = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        
+
         if ($result !== false && $httpCode >= 200 && $httpCode < 300) {
             error_log("✅ Contact email sent via Formspree successfully");
             return true;
@@ -113,14 +113,14 @@ class ContactController extends BaseController
             return false;
         }
     }
-    
+
     /**
      * Generate formatted contact message content
      */
     private function generateContactMessage($name, $email, $message)
     {
         $timestamp = date('d/m/Y H:i:s');
-        
+
         return "
 📞 NUEVO MENSAJE
 =====================================
@@ -140,5 +140,3 @@ Este mensaje fue enviado desde el formulario de contacto de Crusertel.
         ";
     }
 }
-
-?>

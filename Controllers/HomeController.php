@@ -20,18 +20,20 @@ class HomeController extends BaseController
     {
         $productModel = new \Models\Product();
         $categoryModel = new \Models\Category();
-        
+
         // Get all categories to find phones and accessories
         $categories = $categoryModel->getAll();
-        
+
         // Find the category IDs for phones and accessories
         $phonesCategoryId = null;
         $accessoriesCategoryId = null;
-        
+
         foreach ($categories as $category) {
-            // Look for phones category (could be "Móviles", "Teléfonos", etc.)
-            if (stripos($category['name'], 'móvil') !== false || 
-                stripos($category['name'], 'teléfono') !== false) {
+            // Look for phones category 
+            if (
+                stripos($category['name'], 'móvil') !== false ||
+                stripos($category['name'], 'teléfono') !== false
+            ) {
                 $phonesCategoryId = $category['id'];
             }
             // Look for accessories category
@@ -39,7 +41,7 @@ class HomeController extends BaseController
                 $accessoriesCategoryId = $category['id'];
             }
         }
-        
+
         // Get 4 newest phones with stock
         $featuredPhones = [];
         if ($phonesCategoryId) {
@@ -54,7 +56,7 @@ class HomeController extends BaseController
                 }
             }
         }
-        
+
         // Get 3 newest accessories with stock
         $featuredAccessories = [];
         if ($accessoriesCategoryId) {
@@ -69,13 +71,12 @@ class HomeController extends BaseController
                 }
             }
         }
-        
+
         $viewData = [
             'featuredPhones' => $featuredPhones,
             'featuredAccessories' => $featuredAccessories
         ];
-        
+
         $this->loadView('home/index', $viewData);
     }
 }
-?>

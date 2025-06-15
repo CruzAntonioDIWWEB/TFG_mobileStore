@@ -22,28 +22,28 @@ class Router
      */
     private function parseUrl()
     {
-        // First check if we have query parameters (for backwards compatibility)
+        // First check if we have query parameters
         if (isset($_GET['controller'])) {
             $this->controller = ucfirst(strtolower($_GET['controller']));
             $this->action = isset($_GET['action']) ? strtolower($_GET['action']) : 'index';
-            
+
             // Get any additional parameters
             $this->params = $_GET;
             unset($this->params['controller']);
             unset($this->params['action']);
-            
+
             return;
         }
-        
+
         // Otherwise, parse clean URL
         $url = $_SERVER['REQUEST_URI'];
-        
+
         // Remove query string if present
         $url = strtok($url, '?');
-        
+
         // Remove leading and trailing slashes
         $url = trim($url, '/');
-        
+
         // If empty URL, use defaults (home page)
         if (empty($url)) {
             return;
@@ -51,14 +51,14 @@ class Router
 
         // Split URL into segments
         $segments = explode('/', $url);
-        
+
         // Remove empty segments
         $segments = array_filter($segments);
-        
+
         // Reset array keys
         $segments = array_values($segments);
-        
-        // Remove 'dashboard/TFG/Public' from segments if present (for XAMPP)
+
+        // Remove 'dashboard/TFG/Public' from segments if present 
         if (isset($segments[0]) && $segments[0] === 'dashboard') {
             if (isset($segments[1]) && $segments[1] === 'TFG') {
                 if (isset($segments[2]) && $segments[2] === 'Public') {
@@ -124,74 +124,74 @@ class Router
     /**
      * Dispatch the request to the appropriate controller and action
      */
-   public function dispatch()
-{
-    // Add debugging
-    error_log("Router dispatch - Method: " . $_SERVER['REQUEST_METHOD']);
-    error_log("Router dispatch - Controller: " . $this->controller);
-    error_log("Router dispatch - Action: " . $this->action);
-    
-    // Build controller class name
-    $controllerName = $this->controller . 'Controller';
-    $controllerClass = "Controllers\\{$controllerName}";
-    
-    // Check if controller file exists
-    $controllerFile = __DIR__ . "/../Controllers/{$controllerName}.php";
-    
-    if (!file_exists($controllerFile)) {
-        // Fallback to HomeController if controller doesn't exist
-        $controllerName = 'HomeController';
-        $controllerClass = "Controllers\\HomeController";
-        $controllerFile = __DIR__ . "/../Controllers/HomeController.php";
-        $this->controller = 'Home';
-        $this->action = 'index';
-    }
-    
-    // Include the controller file
-    require_once $controllerFile;
-    
-    // Check if controller class exists
-    if (!class_exists($controllerClass)) {
-        $this->show404();
-        return;
-    }
+    public function dispatch()
+    {
+        // Add debugging
+        error_log("Router dispatch - Method: " . $_SERVER['REQUEST_METHOD']);
+        error_log("Router dispatch - Controller: " . $this->controller);
+        error_log("Router dispatch - Action: " . $this->action);
 
-    // Create controller instance
-    $controller = new $controllerClass();
+        // Build controller class name
+        $controllerName = $this->controller . 'Controller';
+        $controllerClass = "Controllers\\{$controllerName}";
 
-    // Check if action method exists
-    if (!method_exists($controller, $this->action)) {
-        // Fallback to index action if method doesn't exist
-        $this->action = 'index';
-        
-        // If index doesn't exist either, show error
-        if (!method_exists($controller, 'index')) {
+        // Check if controller file exists
+        $controllerFile = __DIR__ . "/../Controllers/{$controllerName}.php";
+
+        if (!file_exists($controllerFile)) {
+            // Fallback to HomeController if controller doesn't exist
+            $controllerName = 'HomeController';
+            $controllerClass = "Controllers\\HomeController";
+            $controllerFile = __DIR__ . "/../Controllers/HomeController.php";
+            $this->controller = 'Home';
+            $this->action = 'index';
+        }
+
+        // Include the controller file
+        require_once $controllerFile;
+
+        // Check if controller class exists
+        if (!class_exists($controllerClass)) {
             $this->show404();
             return;
         }
-    }
 
-    // Make parameters available in $_GET for backward compatibility
-    if (!empty($this->params)) {
-        if (is_array($this->params)) {
-            // If params is associative array from $_GET
-            foreach ($this->params as $key => $value) {
-                $_GET[$key] = $value;
-            }
-        } else {
-            // If params is indexed array from clean URL
-            $_GET['id'] = $this->params[0] ?? null;
-            
-            // Add more parameters if needed
-            for ($i = 1; $i < count($this->params); $i++) {
-                $_GET["param{$i}"] = $this->params[$i];
+        // Create controller instance
+        $controller = new $controllerClass();
+
+        // Check if action method exists
+        if (!method_exists($controller, $this->action)) {
+            // Fallback to index action if method doesn't exist
+            $this->action = 'index';
+
+            // If index doesn't exist either, show error
+            if (!method_exists($controller, 'index')) {
+                $this->show404();
+                return;
             }
         }
-    }
 
-    // Call the controller action
-    call_user_func([$controller, $this->action]);
-}
+        // Make parameters available in $_GET for backward compatibility
+        if (!empty($this->params)) {
+            if (is_array($this->params)) {
+                // If params is associative array from $_GET
+                foreach ($this->params as $key => $value) {
+                    $_GET[$key] = $value;
+                }
+            } else {
+                // If params is indexed array from clean URL
+                $_GET['id'] = $this->params[0] ?? null;
+
+                // Add more parameters if needed
+                for ($i = 1; $i < count($this->params); $i++) {
+                    $_GET["param{$i}"] = $this->params[$i];
+                }
+            }
+        }
+
+        // Call the controller action
+        call_user_func([$controller, $this->action]);
+    }
 
     /**
      * Show 404 error page
@@ -215,13 +215,13 @@ class Router
     {
         // For now, use query parameters for compatibility
         $url = 'index.php?controller=' . strtolower($controller) . '&action=' . strtolower($action);
-        
+
         if (!empty($params)) {
             foreach ($params as $key => $value) {
                 $url .= '&' . $key . '=' . urlencode($value);
             }
         }
-        
+
         return $url;
     }
 
@@ -238,5 +238,3 @@ class Router
         exit();
     }
 }
-
-?>
