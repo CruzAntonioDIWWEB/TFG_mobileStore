@@ -382,13 +382,19 @@
 
                 .product-image {
                     position: relative;
-                    height: 350px; 
+                    height: 350px; // Desktop unchanged
                     overflow: hidden;
 
                     @include product-image-style;
 
+                    // 📱 TABLET IMPROVEMENTS (768px and below)
+                    @include breakpoint(tablet) {
+                        height: 320px; // INCREASED from original for better proportion
+                    }
+
+                    // 📱 MOBILE IMPROVEMENTS (480px and below)
                     @include breakpoint(mobile) {
-                        height: 280px; 
+                        height: 320px; // INCREASED from 280px (+40px for much better visual impact)
                     }
                 }
 
@@ -575,47 +581,113 @@
                 background-color: map-get(v.$colors, white);
                 border-radius: map-get(v.$layout, border-radius-lg);
                 overflow: hidden;
-                text-align: center;
-                @include card-hover;
+                box-shadow: map-get(v.$shadows, small);
+                transition: all map-get(v.$transitions, normal);
+
+                &:hover {
+                    transform: translateY(-5px);
+                    box-shadow: map-get(v.$shadows, large);
+                }
 
                 .accessory-image {
-                    height: 300px; // CHANGED: Increased significantly from 160px
+                    position: relative;
+                    height: 300px; // Desktop unchanged
                     overflow: hidden;
                     background-color: map-get(v.$colors, bg-light-gray);
 
                     @include product-image-style;
 
+                    // 📱 TABLET IMPROVEMENTS (768px and below)
+                    @include breakpoint(tablet) {
+                        height: 280px; // INCREASED for better proportion
+                    }
+
+                    // 📱 MOBILE IMPROVEMENTS (480px and below)
                     @include breakpoint(mobile) {
-                        height: 240px; // CHANGED: Increased significantly from 140px
+                        height: 280px; // INCREASED significantly for much better visual impact
                     }
                 }
 
                 .accessory-info {
-                    padding: map-get(v.$spacing, md);
+                    padding: map-get(v.$spacing, lg);
+
+                    // Optimize padding for mobile with larger images
+                    @include breakpoint(mobile) {
+                        padding: map-get(v.$spacing, md);
+                    }
 
                     .accessory-name {
                         @include heading-style('h3');
-                        font-size: 1rem;
-                        margin-bottom: map-get(v.$spacing, xs);
+                        font-size: 1.15rem;
+                        margin-bottom: map-get(v.$spacing, sm);
+                        line-height: 1.3;
+
+                        @include breakpoint(mobile) {
+                            font-size: 1.05rem;
+                        }
+                    }
+
+                    .accessory-description {
+                        @include body-text('small');
+                        margin-bottom: map-get(v.$spacing, md);
+                        line-height: 1.4;
+                        color: map-get(v.$colors, text-secondary);
+
+                        @include breakpoint(mobile) {
+                            margin-bottom: map-get(v.$spacing, sm);
+                            font-size: map-get(v.$font-sizes, xs);
+                        }
                     }
 
                     .accessory-price {
                         font-family: map-get(v.$fonts, cta);
-                        font-size: 1.2rem;
+                        font-size: 1.4rem;
                         font-weight: map-get(v.$font-weights, bold);
                         color: map-get(v.$colors, primary-red);
-                        margin-bottom: map-get(v.$spacing, sm);
+                        margin-bottom: map-get(v.$spacing, md);
+
+                        @include breakpoint(mobile) {
+                            font-size: 1.3rem;
+                            margin-bottom: map-get(v.$spacing, sm);
+                        }
                     }
 
                     .accessory-btn {
-                        @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                        padding: map-get(v.$spacing, xs) 20px;
-                        font-size: map-get(v.$font-sizes, xs);
+                        @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
+                        width: 100%;
+                        padding: 12px map-get(v.$spacing, lg);
+                        font-size: map-get(v.$font-sizes, small);
+                        font-weight: map-get(v.$font-weights, semibold);
+                        text-align: center;
+                        text-decoration: none;
+                        display: inline-block;
+                        border: none;
+                        border-radius: map-get(v.$layout, border-radius);
+
+                        @include breakpoint(mobile) {
+                            padding: 10px map-get(v.$spacing, md);
+                            font-size: map-get(v.$font-sizes, xs);
+                        }
+
+                        &:hover {
+                            background-color: map-get(v.$colors, primary-red);
+                            color: map-get(v.$colors, white);
+                        }
                     }
                 }
             }
 
+            @include breakpoint(desktop) {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            @include breakpoint(tablet) {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: map-get(v.$spacing, md);
+            }
+
             @include breakpoint(mobile) {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: map-get(v.$spacing, md);
             }
         }
@@ -819,5 +891,51 @@
 
     @include breakpoint(mobile) {
         padding: map-get(v.$spacing, lg) 0;
+    }
+}
+
+/* Additional Mobile Optimizations for Homepage */
+@include breakpoint(mobile) {
+    .accessory-card,
+    .product-card {
+        // Ensure minimum height for better visual impact
+        min-height: 480px; // Increased for homepage cards
+
+        // Improve card shadows on mobile
+        box-shadow: map-get(v.$shadows, small);
+
+        &:hover {
+            transform: translateY(-3px); // Slightly reduced for touch devices
+            box-shadow: map-get(v.$shadows, medium);
+        }
+    }
+
+    // Optimize grid for mobile devices
+    .accessories-grid,
+    .featured-grid {
+        // Ensure cards don't get too small
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        
+        // Better spacing for touch interfaces
+        gap: map-get(v.$spacing, lg);
+    }
+}
+
+/* Improve touch targets for homepage buttons */
+@include breakpoint(mobile) {
+    .accessory-btn,
+    .product-btn {
+        min-height: 44px; // iOS recommended touch target size
+        font-weight: map-get(v.$font-weights, semibold);
+        
+        // Improve button contrast and accessibility
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: map-get(v.$colors, primary-red);
+            color: map-get(v.$colors, white);
+            outline: 2px solid map-get(v.$colors, primary-red);
+            outline-offset: 2px;
+        }
     }
 }

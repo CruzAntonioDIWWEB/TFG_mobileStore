@@ -1535,9 +1535,14 @@ img {
 .featured-section .section-container .featured-grid .product-card .product-image img:hover {
   transform: scale(1.05);
 }
+@media (max-width: 768px) {
+  .featured-section .section-container .featured-grid .product-card .product-image {
+    height: 320px;
+  }
+}
 @media (max-width: 480px) {
   .featured-section .section-container .featured-grid .product-card .product-image {
-    height: 280px;
+    height: 320px;
   }
 }
 .featured-section .section-container .featured-grid .product-card .product-info {
@@ -1768,14 +1773,15 @@ img {
   background-color: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
-  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 .accessories-section .section-container .accessories-grid .accessory-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
+  position: relative;
   height: 300px;
   overflow: hidden;
   background-color: #F2F2F2;
@@ -1789,33 +1795,70 @@ img {
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-image img:hover {
   transform: scale(1.05);
 }
+@media (max-width: 768px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
+    height: 280px;
+  }
+}
 @media (max-width: 480px) {
   .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
-    height: 240px;
+    height: 280px;
   }
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info {
-  padding: 15px;
+  padding: 20px;
+}
+@media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-info {
+    padding: 15px;
+  }
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-name {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   color: #333333;
   font-size: 1.3rem;
-  font-size: 1rem;
-  margin-bottom: 5px;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  line-height: 1.3;
 }
 @media (max-width: 480px) {
   .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-name {
     font-size: 1.2rem;
   }
 }
+@media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-name {
+    font-size: 1.05rem;
+  }
+}
+.accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-description {
+  font-family: "Open Sans", sans-serif;
+  color: #666666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  color: #666666;
+}
+@media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-description {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+}
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-price {
   font-family: "Lato", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #E60000;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+}
+@media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-price {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-btn {
   padding: 10px 20px;
@@ -1827,18 +1870,47 @@ img {
   transition: 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  background-color: #E60000;
+  background-color: #333333;
   color: #FFFFFF;
   border: none;
-  padding: 5px 20px;
-  font-size: 0.9rem;
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-btn:hover {
-  background-color: #b30000;
+  background-color: #1a1a1a;
   transform: translateY(-2px);
 }
 @media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-btn {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
+.accessories-section .section-container .accessories-grid .accessory-card .accessory-info .accessory-btn:hover {
+  background-color: #E60000;
+  color: #FFFFFF;
+}
+@media (max-width: 992px) {
   .accessories-section .section-container .accessories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+@media (max-width: 768px) {
+  .accessories-section .section-container .accessories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .accessories-section .section-container .accessories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 15px;
   }
 }
@@ -2088,6 +2160,41 @@ img {
   }
 }
 
+/* Additional Mobile Optimizations for Homepage */
+@media (max-width: 480px) {
+  .accessory-card,
+  .product-card {
+    min-height: 480px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .accessory-card:hover,
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  .accessories-grid,
+  .featured-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+}
+/* Improve touch targets for homepage buttons */
+@media (max-width: 480px) {
+  .accessory-btn,
+  .product-btn {
+    min-height: 44px;
+    font-weight: 600;
+  }
+  .accessory-btn:hover, .accessory-btn:active, .accessory-btn:focus,
+  .product-btn:hover,
+  .product-btn:active,
+  .product-btn:focus {
+    background-color: #E60000;
+    color: #FFFFFF;
+    outline: 2px solid #E60000;
+    outline-offset: 2px;
+  }
+}
 /* =================================== */
 /* Phones Catalog Styles               */
 /* =================================== */
