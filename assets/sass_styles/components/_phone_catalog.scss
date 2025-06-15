@@ -2,6 +2,7 @@
 @use '../global/mixins' as *;
 @use '../global/functions' as f;
 @use '../global/buttons' as btn;
+@use '../global/cart_buttons' as cart;
 
 /* =================================== */
 /* Phones Catalog Styles               */
@@ -235,15 +236,17 @@
 
                                 &.btn-details {
                                     @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, primary-red), true);
+                                
+                                    &:hover {
+                                        color: map-get(v.$colors, white);
+                                        background-color: map-get(v.$colors, primary-red);
+                                        border-color: map-get(v.$colors, primary-red);
+                                    }
                                 }
 
                                 &.btn-cart {
-                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-
-                                    &.added {
-                                        background-color: #28a745;
-                                        border-color: #28a745;
-                                    }
+                                    @include cart.unified-cart-button;
+                                    width: 100%;
                                 }
 
                                 &.btn-login-required {

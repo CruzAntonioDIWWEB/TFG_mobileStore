@@ -1,0 +1,96 @@
+// Fixed global/_cart_buttons.scss
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+@use '../global/buttons' as btn;
+
+// Unified Cart Button Mixin 
+@mixin unified-cart-button {
+    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+    padding: map-get(v.$spacing, md) map-get(v.$spacing, lg);
+    font-size: map-get(v.$font-sizes, small);
+    font-weight: map-get(v.$font-weights, semibold);
+    border: 2px solid map-get(v.$colors, primary-red);
+    border-radius: map-get(v.$layout, border-radius);
+    transition: all map-get(v.$transitions, normal);
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map-get(v.$spacing, xs);
+    text-decoration: none;
+    
+    &:hover {
+        background-color: map-get(v.$colors, primary-red-dark);
+        border-color: map-get(v.$colors, primary-red-dark);
+        transform: translateY(-2px);
+        box-shadow: map-get(v.$shadows, medium);
+    }
+
+    // Added state with higher specificity 
+    &.added {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: map-get(v.$colors, white) !important;
+        cursor: not-allowed !important;
+        pointer-events: none;
+        
+        &:hover {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Disabled state with lower specificity than .added
+    &:disabled:not(.added) {
+        background-color: map-get(v.$colors, light-gray);
+        color: map-get(v.$colors, text-secondary);
+        border-color: map-get(v.$colors, light-gray);
+        cursor: not-allowed;
+        
+        &:hover {
+            background-color: map-get(v.$colors, light-gray);
+            transform: none;
+            box-shadow: none;
+        }
+    }
+
+    &.added:disabled {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: map-get(v.$colors, white) !important;
+        
+        &:hover {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+    }
+}
+
+// Apply to all cart buttons with proper specificity
+.phone-btn.btn-cart {
+    @include unified-cart-button;
+    width: 100%;
+}
+
+.accessory-btn.btn-cart {
+    @include unified-cart-button;
+    width: 100%;
+}
+
+.category-btn.btn-cart {
+    @include unified-cart-button;
+    width: 100%;
+}
+
+// Mobile responsive styles
+@include breakpoint(mobile) {
+    .phone-btn.btn-cart,
+    .accessory-btn.btn-cart,
+    .category-btn.btn-cart {
+        padding: 10px map-get(v.$spacing, md);
+        font-size: map-get(v.$font-sizes, xs);
+    }
+}
