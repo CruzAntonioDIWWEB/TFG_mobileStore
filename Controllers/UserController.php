@@ -518,6 +518,7 @@ class UserController extends BaseController
         $surnames = trim($postData['surnames'] ?? '');
         $email = trim($postData['email'] ?? '');
         $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? 'cliente');
 
         // Validate user ID
         if (!$userId) {
@@ -566,6 +567,9 @@ class UserController extends BaseController
         if (!empty($password)) {
             $user->setPassword($password);
         }
+
+        // FIX: ADD THIS LINE - Set the role on the user object
+        $user->setRole($role);
 
         $updated = $user->updateDB();
 
