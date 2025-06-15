@@ -30,10 +30,12 @@ $messages = $messages ?? [];
             </a>
 
             <?php if ($product->isPhone()): ?>
+                <span class="breadcrumb-separator">></span>
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="breadcrumb-link">
                     Móviles
                 </a>
             <?php elseif ($product->isAccessory()): ?>
+                <span class="breadcrumb-separator">></span>
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="breadcrumb-link">
                     Accesorios
                 </a>
@@ -121,8 +123,8 @@ $messages = $messages ?? [];
                     </div>
                 </div>
 
-                <!-- Add to Cart Section -->
-                <div class="cart-section">
+                <!-- Add to Cart Section  -->
+                <div class="add-to-cart-section">
                     <?php if ($product->getStock() > 0): ?>
                         <?php if (isset($_SESSION['user'])): ?>
                             <form class="add-to-cart-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=cart&action=addToCart">
@@ -131,7 +133,7 @@ $messages = $messages ?? [];
                                 <div class="quantity-selector">
                                     <label for="quantity" class="quantity-label">Cantidad:</label>
                                     <div class="quantity-controls">
-                                        <button type="button" class="quantity-btn quantity-minus" data-action="decrease">
+                                        <button type="button" class="quantity-btn quantity-minus">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                         <input type="number"
@@ -141,7 +143,7 @@ $messages = $messages ?? [];
                                             min="1"
                                             max="<?php echo $product->getStock(); ?>"
                                             class="quantity-input">
-                                        <button type="button" class="quantity-btn quantity-plus" data-action="increase">
+                                        <button type="button" class="quantity-btn quantity-plus">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -153,78 +155,27 @@ $messages = $messages ?? [];
                                 </button>
                             </form>
                         <?php else: ?>
-                            <div class="login-required">
-                                <p class="login-message">
-                                    <i class="fas fa-user"></i>
-                                    Para comprar este producto necesitas iniciar sesión
-                                </p>
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="login-btn">
+                            <div class="login-message">
+                                <p class="message-text">Inicia sesión para añadir productos al carrito</p>
+                                <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=showLogin" class="login-link">
                                     <i class="fas fa-sign-in-alt"></i>
-                                    Iniciar Sesión
+                                    Iniciar sesión
                                 </a>
                             </div>
                         <?php endif; ?>
                     <?php else: ?>
-                        <div class="out-of-stock-section">
-                            <p class="out-of-stock-message">
-                                <i class="fas fa-ban"></i>
-                                Este producto está agotado
-                            </p>
+                        <div class="out-of-stock-message">
+                            <i class="fas fa-times-circle"></i>
+                            Este producto está agotado
                         </div>
                     <?php endif; ?>
                 </div>
+
             </div>
+
         </div>
+
     </div>
 </section>
-
-<!-- Related Products Section -->
-<?php if (!empty($relatedProducts)): ?>
-    <section class="related-products-section">
-        <div class="related-container">
-            <h2 class="related-title">Productos relacionados</h2>
-
-            <div class="related-products-grid">
-                <?php foreach ($relatedProducts as $related): ?>
-                    <article class="related-product-card">
-                        <div class="related-image">
-                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $related['id']; ?>">
-                                <?php if (!empty($related['image'])): ?>
-                                    <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($related['image']); ?>"
-                                        alt="<?php echo htmlspecialchars($related['name']); ?>"
-                                        loading="lazy">
-                                <?php else: ?>
-                                    <img src="/dashboard/TFG/assets/img/placeholder-product.jpg"
-                                        alt="<?php echo htmlspecialchars($related['name']); ?>"
-                                        loading="lazy">
-                                <?php endif; ?>
-                            </a>
-
-                            <?php if ($related['stock'] > 0): ?>
-                                <span class="related-stock-badge">En stock</span>
-                            <?php else: ?>
-                                <span class="related-stock-badge out-of-stock">Agotado</span>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="related-info">
-                            <h3 class="related-name">
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $related['id']; ?>">
-                                    <?php echo htmlspecialchars($related['name']); ?>
-                                </a>
-                            </h3>
-                            <p class="related-price"><?php echo number_format($related['price'], 2, ',', '.'); ?> €</p>
-
-                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detail&id=<?php echo $related['id']; ?>"
-                                class="related-btn">
-                                Ver producto
-                            </a>
-                        </div>
-                    </article>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
 
 <script src="<?php echo ASSETS_URL; ?>js/productDetail.js"></script>
