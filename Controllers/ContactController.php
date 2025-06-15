@@ -139,4 +139,22 @@ class ContactController extends BaseController
 Este mensaje fue enviado desde el formulario de contacto de Crusertel.
         ";
     }
+
+/**
+ * Display license page
+ */
+public function license()
+{
+    $this->loadView('contact/license');
+}
+
+/**
+ * Display privacy policy page
+ */
+public function privacy()
+{
+    $this->loadView('contact/privacy');
+}
+
+
 }
