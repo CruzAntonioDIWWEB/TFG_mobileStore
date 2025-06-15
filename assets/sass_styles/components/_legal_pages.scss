@@ -1,0 +1,207 @@
+@use '../global/variables' as v;
+@use '../global/mixins' as *;
+
+/*==================*/
+/* Legal Pages Styles */
+/*==================*/
+
+.legal-section {
+    padding: map-get(v.$spacing, xxl) 0;
+    background-color: map-get(v.$colors, white);
+    min-height: 70vh;
+
+    .legal-container {
+        @include container;
+        max-width: 900px; // Narrower for better readability
+    }
+
+    .legal-header {
+        text-align: center;
+        margin-bottom: map-get(v.$spacing, xxl);
+        padding-bottom: map-get(v.$spacing, lg);
+        border-bottom: 2px solid map-get(v.$colors, light-gray);
+
+        .legal-title {
+            font-family: map-get(v.$fonts, primary);
+            font-size: map-get(v.$font-sizes, xxl);
+            font-weight: map-get(v.$font-weights, bold);
+            color: map-get(v.$colors, dark-gray);
+            margin-bottom: map-get(v.$spacing, md);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, xl);
+            }
+        }
+
+        .legal-subtitle {
+            font-family: map-get(v.$fonts, secondary);
+            font-size: map-get(v.$font-sizes, large);
+            color: map-get(v.$colors, text-secondary);
+            font-weight: map-get(v.$font-weights, normal);
+
+            @include breakpoint(mobile) {
+                font-size: map-get(v.$font-sizes, medium);
+            }
+        }
+    }
+
+    .legal-content {
+        
+        .legal-section-block {
+            margin-bottom: map-get(v.$spacing, xxl);
+            padding: map-get(v.$spacing, xl);
+            background-color: map-get(v.$colors, light-background);
+            border-radius: map-get(v.$layout, border-radius);
+            border-left: 4px solid map-get(v.$colors, primary-red);
+
+            &:last-of-type {
+                margin-bottom: map-get(v.$spacing, lg);
+            }
+
+            .legal-section-title {
+                font-family: map-get(v.$fonts, primary);
+                font-size: map-get(v.$font-sizes, xl);
+                font-weight: map-get(v.$font-weights, semibold);
+                color: map-get(v.$colors, dark-gray);
+                margin-bottom: map-get(v.$spacing, lg);
+                display: flex;
+                align-items: center;
+                gap: map-get(v.$spacing, md);
+
+                i {
+                    color: map-get(v.$colors, primary-red);
+                    font-size: 1.2em;
+                }
+
+                @include breakpoint(mobile) {
+                    font-size: map-get(v.$font-sizes, large);
+                    gap: map-get(v.$spacing, sm);
+                    
+                    i {
+                        font-size: 1em;
+                    }
+                }
+            }
+
+            .legal-text {
+                font-family: map-get(v.$fonts, secondary);
+                line-height: 1.7;
+                color: map-get(v.$colors, text-primary);
+
+                p {
+                    margin-bottom: map-get(v.$spacing, md);
+                    font-size: map-get(v.$font-sizes, medium);
+
+                    @include breakpoint(mobile) {
+                        font-size: map-get(v.$font-sizes, small);
+                    }
+                }
+
+                h3 {
+                    font-family: map-get(v.$fonts, primary);
+                    font-size: map-get(v.$font-sizes, large);
+                    font-weight: map-get(v.$font-weights, semibold);
+                    color: map-get(v.$colors, dark-gray);
+                    margin: map-get(v.$spacing, lg) 0 map-get(v.$spacing, md) 0;
+
+                    @include breakpoint(mobile) {
+                        font-size: map-get(v.$font-sizes, medium);
+                        margin: map-get(v.$spacing, md) 0 map-get(v.$spacing, sm) 0;
+                    }
+                }
+
+                ul {
+                    margin: map-get(v.$spacing, md) 0;
+                    padding-left: map-get(v.$spacing, xl);
+                    list-style-type: disc; // Usar bullets estándar
+                    list-style-position: outside;
+
+                    li {
+                        margin-bottom: map-get(v.$spacing, sm);
+                        font-size: map-get(v.$font-sizes, medium);
+
+                        @include breakpoint(mobile) {
+                            font-size: map-get(v.$font-sizes, small);
+                        }
+                    }
+
+                    @include breakpoint(mobile) {
+                        padding-left: map-get(v.$spacing, lg);
+                    }
+                }
+
+                a {
+                    color: map-get(v.$colors, primary-red);
+                    text-decoration: none;
+                    font-weight: map-get(v.$font-weights, semibold);
+                    transition: all map-get(v.$transitions, normal);
+
+                    &:hover {
+                        text-decoration: underline;
+                        color: darken(map-get(v.$colors, primary-red), 10%);
+                    }
+                }
+
+                strong {
+                    font-weight: map-get(v.$font-weights, semibold);
+                    color: map-get(v.$colors, dark-gray);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                padding: map-get(v.$spacing, lg);
+                margin-bottom: map-get(v.$spacing, xl);
+            }
+        }
+
+        .legal-footer {
+            text-align: center;
+            padding: map-get(v.$spacing, xl) 0 map-get(v.$spacing, lg) 0;
+            border-top: 1px solid map-get(v.$colors, light-gray);
+            margin-top: map-get(v.$spacing, xl);
+
+            p {
+                margin-bottom: map-get(v.$spacing, sm);
+                
+                small {
+                    font-family: map-get(v.$fonts, secondary);
+                    color: map-get(v.$colors, text-secondary);
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+
+            @include breakpoint(mobile) {
+                padding: map-get(v.$spacing, lg) 0;
+                
+                p small {
+                    font-size: map-get(v.$font-sizes, xs);
+                }
+            }
+        }
+    }
+
+    @include breakpoint(mobile) {
+        padding: map-get(v.$spacing, xl) 0;
+    }
+}
+
+// Responsive adjustments for legal pages
+@include breakpoint(tablet) {
+    .legal-section {
+        .legal-container {
+            padding: 0 map-get(v.$spacing, lg);
+        }
+    }
+}
+
+@include breakpoint(mobile) {
+    .legal-section {
+        .legal-container {
+            padding: 0 map-get(v.$spacing, md);
+        }
+        
+        .legal-content .legal-section-block {
+            border-left: 3px solid map-get(v.$colors, primary-red);
+        }
+    }
+}
