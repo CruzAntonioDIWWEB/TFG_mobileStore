@@ -11,15 +11,15 @@ $colors: (
     // Primary colors
     primary-red: #E60000,
     primary-red-dark: #CC0000,
-    
+
     // Secondary colors
-    dark-gray: #333333, 
+    dark-gray: #333333,
     light-gray: #CCCCCC,
-    
+
     // Neutral colors
     white: #FFFFFF,
     bg-light-gray: #F2F2F2,
-    
+
     // Text colors
     text-primary: #333333,
     text-secondary: #666666,
@@ -28,9 +28,9 @@ $colors: (
 
 // Typography
 $fonts: (
-    primary: ('Roboto', sans-serif),      
-    secondary: ('Open Sans', sans-serif),  
-    cta: ('Lato', sans-serif)             
+    primary: ('Roboto', sans-serif),
+    secondary: ('Open Sans', sans-serif),
+    cta: ('Lato', sans-serif)
 );
 
 // Font Weights
@@ -48,20 +48,20 @@ $font-sizes: (
     h1: 2.5rem,
     h2: 2rem,
     h3: 1.3rem,
-    
+
     // Text
     large: 1.2rem,
     regular: 1rem,
     small: 0.95rem,
     xs: 0.9rem,
-    
+
     // Mobile adjustments
     h1-mobile: 1.8rem,
     h2-mobile: 1.5rem,
     h3-mobile: 1.2rem
 );
 
-// Spacing - Consistent padding and margins
+// Spacing
 $spacing: (
     xs: 5px,
     sm: 10px,

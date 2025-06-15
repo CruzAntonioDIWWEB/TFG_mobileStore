@@ -577,6 +577,7 @@
         }
 
         @include breakpoint(mobile) {
+
             .summary-header,
             .summary-content,
             .summary-actions {

@@ -76,7 +76,12 @@ a {
 }
 
 // Global heading styles
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: map-get(v.$fonts, primary);
     font-weight: map-get(v.$font-weights, bold);
     color: map-get(v.$colors, dark-gray);
@@ -117,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
         right: map-get(v.$spacing, xs);
         padding: 2px map-get(v.$spacing, xs);
         font-size: 0.7rem;
-        
+
         i {
             font-size: 0.7em;
         }
@@ -136,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-// Accessibility - Focus styles
+// Focus styles
 *:focus-visible {
     outline: 2px solid map-get(v.$colors, primary-red);
     outline-offset: 2px;
@@ -322,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
             }
         }
 
-        // Variantes de tamaño para modales
+        // Variants for different modal sizes
         &.modal-small {
             max-width: 400px;
         }

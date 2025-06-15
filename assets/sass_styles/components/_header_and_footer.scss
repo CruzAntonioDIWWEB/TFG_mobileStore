@@ -27,7 +27,7 @@
         // Logo
         .nav-logo {
             flex-shrink: 0;
-            margin-right: map-get(v.$spacing, section); // Space after logo
+            margin-right: map-get(v.$spacing, section);
 
             .logo-img {
                 height: 50px;
@@ -42,7 +42,7 @@
             margin: 0;
             padding: 0;
             gap: map-get(v.$spacing, xxl);
-            flex: 1; // Take remaining space
+            flex: 1;
 
             .nav-item {
                 position: relative;
@@ -67,8 +67,8 @@
                 display: none;
                 position: absolute;
                 top: map-get(v.$layout, header-height);
-                right: 0; // Changed from left: 0 to right: 0
-                width: 280px; // Changed from 100% to a fixed width
+                right: 0;
+                width: 280px;
                 background-color: map-get(v.$colors, white);
                 flex-direction: column;
                 padding: map-get(v.$spacing, md);
@@ -162,7 +162,7 @@
             display: flex;
             align-items: center;
             gap: map-get(v.$spacing, lg);
-            margin-left: auto; // Push to the right
+            margin-left: auto;
 
             @include breakpoint(tablet) {
                 display: none;
@@ -232,7 +232,7 @@
             cursor: pointer;
             transition: color map-get(v.$transitions, normal);
             padding: map-get(v.$spacing, xs);
-            margin-left: auto; // Push to the right
+            margin-left: auto;
 
             &:hover {
                 color: map-get(v.$colors, primary-red);

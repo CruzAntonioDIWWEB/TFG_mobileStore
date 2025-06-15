@@ -31,7 +31,7 @@
 
                 i {
                     font-size: 4rem;
-                    color: #28a745; // Success green
+                    color: #28a745;
                     animation: successPulse 2s ease-in-out;
 
                     @include breakpoint(mobile) {
@@ -158,10 +158,12 @@
         transform: scale(0.8);
         opacity: 0.5;
     }
+
     50% {
         transform: scale(1.1);
         opacity: 1;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;

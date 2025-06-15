@@ -136,11 +136,11 @@
                     opacity: 0;
                     transform: translateY(20px);
                     pointer-events: none;
-                    
+
                     // Delay the display: none to allow transition to complete
-                    transition: opacity map-get(v.$transitions, normal), 
-                               transform map-get(v.$transitions, normal),
-                               visibility 0s linear 0.3s;
+                    transition: opacity map-get(v.$transitions, normal),
+                        transform map-get(v.$transitions, normal),
+                        visibility 0s linear 0.3s;
                     visibility: hidden;
                 }
 

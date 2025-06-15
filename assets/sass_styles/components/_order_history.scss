@@ -371,9 +371,8 @@
     }
 }
 
-/* Status select dropdown - inherits from .status-badge */
+/* Status select dropdown */
 .status-select {
-    // Base select styling
     background-color: inherit;
     color: inherit;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -389,7 +388,7 @@
     background-position: right 8px center;
     padding-right: 24px;
     min-width: 120px;
-    
+
     // Transitions
     transition: all map-get(v.$transitions, fast);
 
@@ -429,6 +428,7 @@
         transform: translateX(100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -445,7 +445,7 @@
     }
 
     .order-user {
-        display: none; // Hide user column on mobile
+        display: none;
     }
 }
 
@@ -455,13 +455,13 @@
         font-size: map-get(v.$font-sizes, xs);
 
         thead th {
-            &:nth-child(3) { // Address column
+            &:nth-child(3) {
                 display: none;
             }
         }
 
         tbody td {
-            &:nth-child(3) { // Address column
+            &:nth-child(3) {
                 display: none;
             }
         }

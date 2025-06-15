@@ -10,22 +10,22 @@
 /* Hero Section */
 .hero-section {
     background-color: map-get(v.$colors, bg-light-gray);
-    padding: map-get(v.$spacing, section-mobile) 0; // Reduced padding
+    padding: map-get(v.$spacing, section-mobile) 0;
 
     .hero-container {
         @include container;
         display: flex;
         align-items: center;
-        gap: 30px; // Reduced from 50px
+        gap: 30px;
 
         .hero-content {
             flex: 1;
-            margin-left: 30px; // Reduced from 50px
+            margin-left: 30px;
 
             .hero-title {
                 @include heading-style('h1');
-                margin-bottom: map-get(v.$spacing, md); // Reduced from lg
-                font-size: 2rem; // Smaller than default h1
+                margin-bottom: map-get(v.$spacing, md);
+                font-size: 2rem;
 
                 @include breakpoint(mobile) {
                     font-size: 1.6rem;
@@ -34,16 +34,16 @@
 
             .hero-subtitle {
                 @include body-text();
-                margin-bottom: map-get(v.$spacing, lg); // Reduced from xl
-                font-size: 1rem; // Smaller subtitle
+                margin-bottom: map-get(v.$spacing, lg);
+                font-size: 1rem;
             }
 
             .hero-buttons {
                 display: flex;
-                gap: map-get(v.$spacing, md); // Reduced from lg
+                gap: map-get(v.$spacing, md);
 
                 .hero-btn {
-                    padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg); // Reduced padding
+                    padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
 
                     &.btn-primary {
                         @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
@@ -64,7 +64,7 @@
                 width: 100%;
                 height: auto;
                 border-radius: map-get(v.$layout, border-radius-lg);
-                max-height: 350px; // Limit image height
+                max-height: 350px;
                 object-fit: cover;
             }
         }
@@ -72,7 +72,7 @@
         @include breakpoint(desktop) {
             flex-direction: column;
             text-align: center;
-            gap: map-get(v.$spacing, lg); // Reduced gap
+            gap: map-get(v.$spacing, lg);
 
             .hero-content {
                 margin-left: 0;
@@ -84,20 +84,20 @@
         }
 
         @include breakpoint(mobile) {
-            gap: map-get(v.$spacing, md); // Reduced gap
+            gap: map-get(v.$spacing, md);
 
             .hero-title {
-                margin-bottom: map-get(v.$spacing, sm); // Reduced margin
+                margin-bottom: map-get(v.$spacing, sm);
             }
 
             .hero-subtitle {
-                margin-bottom: map-get(v.$spacing, md); // Reduced margin
+                margin-bottom: map-get(v.$spacing, md);
             }
 
             .hero-buttons {
                 flex-direction: column;
                 width: 100%;
-                gap: map-get(v.$spacing, sm); // Reduced gap
+                gap: map-get(v.$spacing, sm);
 
                 .hero-btn {
                     width: 100%;
@@ -108,17 +108,17 @@
     }
 
     @include breakpoint(desktop) {
-        padding: map-get(v.$spacing, xxl) 0; // Reduced section padding
+        padding: map-get(v.$spacing, xxl) 0;
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, xl) 0; // Reduced mobile padding
+        padding: map-get(v.$spacing, xl) 0;
     }
 }
 
 /* Zigzag Information Section */
 .zigzag-section {
-    padding: map-get(v.$spacing, xxl) 0; // Reduced from section-padding
+    padding: map-get(v.$spacing, xxl) 0;
     background-color: map-get(v.$colors, white);
 
     .zigzag-container {
@@ -128,8 +128,8 @@
     .zigzag-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: map-get(v.$spacing, xl); // Reduced from section
-        margin-bottom: 40px; // Reduced from 60px
+        gap: map-get(v.$spacing, xl);
+        margin-bottom: 40px;
         align-items: center;
 
         &:last-child {
@@ -154,11 +154,12 @@
         // Responsive Design
         @include breakpoint(desktop) {
             grid-template-columns: 1fr;
-            gap: map-get(v.$spacing, lg); // Reduced gap
-            margin-bottom: 30px; // Reduced from 50px
+            gap: map-get(v.$spacing, lg);
+            margin-bottom: 30px;
 
             // Reset order and force image-first pattern for all rows
             &.zigzag-row-reverse {
+
                 .zigzag-image,
                 .zigzag-content {
                     order: unset;
@@ -180,8 +181,8 @@
         }
 
         @include breakpoint(tablet) {
-            gap: map-get(v.$spacing, md); // Reduced gap
-            margin-bottom: 25px; // Reduced from 40px
+            gap: map-get(v.$spacing, md);
+            margin-bottom: 25px;
 
             // Ensure consistent order on tablet
             .zigzag-image {
@@ -194,8 +195,8 @@
         }
 
         @include breakpoint(mobile) {
-            gap: map-get(v.$spacing, sm); // Reduced gap
-            margin-bottom: map-get(v.$spacing, lg); // Reduced from xxl
+            gap: map-get(v.$spacing, sm);
+            margin-bottom: map-get(v.$spacing, lg);
 
             // Force consistent order on mobile
             .zigzag-image {
@@ -222,41 +223,41 @@
 
     .image-placeholder {
         width: 100%;
-        max-width: 350px; // Reduced from 450px
-        height: 120px; // Reduced from 140px
+        max-width: 350px;
+        height: 120px;
         border: 2px solid map-get(v.$colors, dark-gray);
         background-color: map-get(v.$colors, white);
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: map-get(v.$fonts, secondary);
-        font-size: map-get(v.$font-sizes, small); // Reduced font size
+        font-size: map-get(v.$font-sizes, small);
         color: map-get(v.$colors, text-secondary);
         text-align: center;
-        padding: map-get(v.$spacing, md); // Reduced padding
+        padding: map-get(v.$spacing, md);
         box-sizing: border-box;
         margin: 0 auto;
 
         @include breakpoint(desktop) {
-            max-width: 320px; // Reduced from 400px
+            max-width: 320px;
         }
 
         @include breakpoint(tablet) {
-            height: 100px; // Reduced from 120px
-            max-width: 280px; // Reduced from 350px
+            height: 100px;
+            max-width: 280px;
         }
 
         @include breakpoint(mobile) {
-            height: 80px; // Reduced from 100px
-            max-width: 250px; // Reduced from 300px
+            height: 80px;
+            max-width: 250px;
             font-size: map-get(v.$font-sizes, xs);
         }
     }
 
     .zigzag-text {
         @include body-text();
-        font-size: 1rem; // Reduced from 1.05rem
-        line-height: 1.6; // Reduced from 1.7
+        font-size: 1rem;
+        line-height: 1.6;
         text-align: left;
         margin: 0;
 
@@ -277,17 +278,17 @@
     }
 
     @include breakpoint(desktop) {
-        padding: map-get(v.$spacing, xl) 0; // Reduced section padding
+        padding: map-get(v.$spacing, xl) 0;
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0; // Reduced mobile padding
+        padding: map-get(v.$spacing, lg) 0;
     }
 }
 
 /* Featured Products Section */
 .featured-section {
-    padding: map-get(v.$spacing, xl) 0; // Reduced from section-padding
+    padding: map-get(v.$spacing, xl) 0;
 
     .section-container {
         @include container;
@@ -295,49 +296,49 @@
         .section-title {
             @include heading-style('h2');
             text-align: center;
-            margin-bottom: 30px; // Reduced from 50px
+            margin-bottom: 30px;
 
             @include breakpoint(mobile) {
-                margin-bottom: map-get(v.$spacing, lg); // Reduced from xl
+                margin-bottom: map-get(v.$spacing, lg);
             }
         }
 
         .featured-grid {
-            @include responsive-grid(260px, map-get(v.$spacing, lg)); // Reduced min-width and gap
-            margin-bottom: map-get(v.$spacing, xl); // Reduced from xxl
+            @include responsive-grid(260px, map-get(v.$spacing, lg));
+            margin-bottom: map-get(v.$spacing, xl);
 
             .product-card {
                 @include product-card;
 
                 .product-image {
                     position: relative;
-                    height: 200px; // Reduced from 250px
+                    height: 200px;
                     overflow: hidden;
 
                     @include product-image-style;
 
                     @include breakpoint(mobile) {
-                        height: 180px; // Reduced from 200px
+                        height: 180px;
                     }
                 }
 
                 .product-info {
-                    padding: map-get(v.$spacing, md); // Reduced from lg
+                    padding: map-get(v.$spacing, md);
 
                     .product-name {
                         @include heading-style('h3');
-                        font-size: 1.1rem; // Reduced from 1.2rem
-                        margin-bottom: map-get(v.$spacing, xs); // Reduced from sm
+                        font-size: 1.1rem;
+                        margin-bottom: map-get(v.$spacing, xs);
 
                         @include breakpoint(mobile) {
-                            font-size: 1rem; // Reduced from 1.1rem
+                            font-size: 1rem;
                         }
                     }
 
                     .product-description {
                         @include body-text('small');
-                        margin-bottom: map-get(v.$spacing, md); // Reduced from lg
-                        line-height: 1.4; // Reduced line height
+                        margin-bottom: map-get(v.$spacing, md);
+                        line-height: 1.4;
                     }
 
                     .product-footer {
@@ -347,19 +348,19 @@
 
                         .product-price {
                             font-family: map-get(v.$fonts, cta);
-                            font-size: 1.3rem; // Reduced from 1.5rem
+                            font-size: 1.3rem;
                             font-weight: map-get(v.$font-weights, bold);
                             color: map-get(v.$colors, primary-red);
 
                             @include breakpoint(mobile) {
-                                font-size: 1.2rem; // Reduced from 1.3rem
+                                font-size: 1.2rem;
                             }
                         }
 
                         .product-btn {
                             @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
-                            font-size: map-get(v.$font-sizes, xs); // Reduced font size
-                            padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm); // Reduced padding
+                            font-size: map-get(v.$font-sizes, xs);
+                            padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
 
                             &:hover {
                                 background-color: map-get(v.$colors, primary-red);
@@ -370,11 +371,11 @@
             }
 
             @include breakpoint(desktop) {
-                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); // Reduced min-width
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             }
 
             @include breakpoint(mobile) {
-                gap: map-get(v.$spacing, md); // Reduced gap
+                gap: map-get(v.$spacing, md);
             }
         }
 
@@ -385,7 +386,7 @@
                 color: map-get(v.$colors, primary-red);
                 text-decoration: none;
                 font-family: map-get(v.$fonts, cta);
-                font-size: map-get(v.$font-sizes, small); // Reduced font size
+                font-size: map-get(v.$font-sizes, small);
                 font-weight: map-get(v.$font-weights, semibold);
                 transition: all map-get(v.$transitions, normal);
 
@@ -397,45 +398,45 @@
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0; // Reduced mobile padding
+        padding: map-get(v.$spacing, lg) 0;
     }
 }
 
 /* Promotional Banner */
 .promo-banner {
     background-color: map-get(v.$colors, primary-red);
-    padding: 40px 0; // Reduced from 60px
+    padding: 40px 0;
 
     .promo-container {
         @include container;
         display: flex;
         align-items: center;
-        gap: 30px; // Reduced from 50px
+        gap: 30px;
 
         .promo-content {
             flex: 1;
 
             .promo-title {
                 font-family: map-get(v.$fonts, primary);
-                font-size: 1.8rem; // Reduced from 2.2rem
+                font-size: 1.8rem;
                 font-weight: map-get(v.$font-weights, bold);
                 color: map-get(v.$colors, white);
-                margin-bottom: map-get(v.$spacing, sm); // Reduced from md
+                margin-bottom: map-get(v.$spacing, sm);
 
                 @include breakpoint(tablet) {
-                    font-size: 1.5rem; // Reduced from 1.8rem
+                    font-size: 1.5rem;
                 }
 
                 @include breakpoint(mobile) {
-                    font-size: 1.3rem; // Reduced from 1.5rem
+                    font-size: 1.3rem;
                 }
             }
 
             .promo-text {
                 font-family: map-get(v.$fonts, secondary);
-                font-size: 1rem; // Reduced from 1.1rem
+                font-size: 1rem;
                 color: map-get(v.$colors, white);
-                margin-bottom: map-get(v.$spacing, lg); // Reduced from xl
+                margin-bottom: map-get(v.$spacing, lg);
 
                 @include breakpoint(mobile) {
                     font-size: map-get(v.$font-sizes, small);
@@ -465,12 +466,12 @@
         @include breakpoint(desktop) {
             flex-direction: column;
             text-align: center;
-            gap: map-get(v.$spacing, lg); // Reduced from xl
+            gap: map-get(v.$spacing, lg);
         }
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0; // Reduced from xxl
+        padding: map-get(v.$spacing, lg) 0;
     }
 }
 
@@ -478,12 +479,12 @@
 .home-featured-title {
     @include heading-style('h2');
     text-align: center;
-    margin: map-get(v.$spacing, xl) auto map-get(v.$spacing, lg); // Reduced margins
+    margin: map-get(v.$spacing, xl) auto map-get(v.$spacing, lg);
     max-width: map-get(v.$layout, max-width);
     padding: 0 map-get(v.$spacing, lg);
 
     @include breakpoint(mobile) {
-        margin: map-get(v.$spacing, lg) auto map-get(v.$spacing, md); // Reduced margins
+        margin: map-get(v.$spacing, lg) auto map-get(v.$spacing, md);
         font-size: map-get(v.$font-sizes, h2-mobile);
     }
 }
@@ -491,14 +492,14 @@
 /* Accessories Section */
 .accessories-section {
     background-color: map-get(v.$colors, bg-light-gray);
-    padding: map-get(v.$spacing, xl) 0; // Reduced from section-padding
+    padding: map-get(v.$spacing, xl) 0;
 
     .section-container {
         @include container;
 
         .accessories-grid {
-            @include responsive-grid(220px, map-get(v.$spacing, lg)); // Reduced min-width and gap
-            margin-bottom: map-get(v.$spacing, xl); // Reduced from xxl
+            @include responsive-grid(220px, map-get(v.$spacing, lg));
+            margin-bottom: map-get(v.$spacing, xl);
 
             .accessory-card {
                 background-color: map-get(v.$colors, white);
@@ -508,44 +509,44 @@
                 @include card-hover;
 
                 .accessory-image {
-                    height: 160px; // Reduced from 200px
+                    height: 160px;
                     overflow: hidden;
                     background-color: map-get(v.$colors, bg-light-gray);
 
                     @include product-image-style;
 
                     @include breakpoint(mobile) {
-                        height: 140px; // Reduced from 180px
+                        height: 140px;
                     }
                 }
 
                 .accessory-info {
-                    padding: map-get(v.$spacing, md); // Reduced from lg
+                    padding: map-get(v.$spacing, md);
 
                     .accessory-name {
                         @include heading-style('h3');
-                        font-size: 1rem; // Reduced from 1.1rem
-                        margin-bottom: map-get(v.$spacing, xs); // Reduced from sm
+                        font-size: 1rem;
+                        margin-bottom: map-get(v.$spacing, xs);
                     }
 
                     .accessory-price {
                         font-family: map-get(v.$fonts, cta);
-                        font-size: 1.2rem; // Reduced from 1.3rem
+                        font-size: 1.2rem;
                         font-weight: map-get(v.$font-weights, bold);
                         color: map-get(v.$colors, primary-red);
-                        margin-bottom: map-get(v.$spacing, sm); // Reduced from md
+                        margin-bottom: map-get(v.$spacing, sm);
                     }
 
                     .accessory-btn {
                         @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                        padding: map-get(v.$spacing, xs) 20px; // Reduced padding
-                        font-size: map-get(v.$font-sizes, xs); // Reduced font size
+                        padding: map-get(v.$spacing, xs) 20px;
+                        font-size: map-get(v.$font-sizes, xs);
                     }
                 }
             }
 
             @include breakpoint(mobile) {
-                gap: map-get(v.$spacing, md); // Reduced gap
+                gap: map-get(v.$spacing, md);
             }
         }
 
@@ -556,7 +557,7 @@
                 color: map-get(v.$colors, primary-red);
                 text-decoration: none;
                 font-family: map-get(v.$fonts, cta);
-                font-size: map-get(v.$font-sizes, small); // Reduced font size
+                font-size: map-get(v.$font-sizes, small);
                 font-weight: map-get(v.$font-weights, semibold);
                 transition: all map-get(v.$transitions, normal);
 
@@ -568,7 +569,7 @@
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0; // Reduced mobile padding
+        padding: map-get(v.$spacing, lg) 0;
     }
 }
 
@@ -576,13 +577,13 @@
 .home-featured-title {
     @include heading-style('h2');
     text-align: center;
-    margin: 40px auto 20px; // Reduced from 60px auto 30px
+    margin: 40px auto 20px;
     max-width: map-get(v.$layout, max-width);
     padding: 0 map-get(v.$spacing, lg);
     color: map-get(v.$colors, primary-red);
 
     @include breakpoint(mobile) {
-        margin: 30px auto 15px; // Reduced from 40px auto 20px
+        margin: 30px auto 15px;
         font-size: map-get(v.$font-sizes, h2-mobile);
     }
 }
@@ -591,14 +592,14 @@
 .home-description-text {
     @include body-text();
     max-width: map-get(v.$layout, max-width);
-    margin: 0 auto map-get(v.$spacing, lg); // Reduced from xl
+    margin: 0 auto map-get(v.$spacing, lg);
     padding: 0 map-get(v.$spacing, lg);
     text-align: center;
-    line-height: 1.6; // Reduced from 1.7
+    line-height: 1.6;
 
     @include breakpoint(mobile) {
         font-size: map-get(v.$font-sizes, small);
-        margin-bottom: map-get(v.$spacing, md); // Reduced from lg
+        margin-bottom: map-get(v.$spacing, md);
     }
 }
 
@@ -607,10 +608,10 @@
 .no-products-currently {
     text-align: center;
     @include body-text();
-    font-size: 1rem; // Reduced from 1.1rem
-    padding: map-get(v.$spacing, xl) 0; // Reduced from xxl
+    font-size: 1rem;
+    padding: map-get(v.$spacing, xl) 0;
     grid-column: 1 / -1;
-    
+
     p {
         margin: 0;
         color: map-get(v.$colors, text-secondary);
@@ -619,34 +620,34 @@
 
 /* Features Section */
 .features-section {
-    padding: map-get(v.$spacing, xl) 0; // Reduced from section-padding
+    padding: map-get(v.$spacing, xl) 0;
     background-color: map-get(v.$colors, white);
 
     .features-container {
         @include container;
-        @include responsive-grid(220px, map-get(v.$spacing, xl)); // Reduced min-width
+        @include responsive-grid(220px, map-get(v.$spacing, xl));
 
         .feature-card {
             text-align: center;
 
             .feature-icon {
-                font-size: 2.5rem; // Reduced from 3rem
+                font-size: 2.5rem;
                 color: map-get(v.$colors, primary-red);
-                margin-bottom: map-get(v.$spacing, md); // Reduced from lg
+                margin-bottom: map-get(v.$spacing, md);
 
                 @include breakpoint(mobile) {
-                    font-size: 2rem; // Reduced from 2.5rem
+                    font-size: 2rem;
                 }
             }
 
             .feature-title {
                 @include heading-style('h3');
-                margin-bottom: map-get(v.$spacing, xs); // Reduced from sm
+                margin-bottom: map-get(v.$spacing, xs);
             }
 
             .feature-text {
                 @include body-text('small');
-                line-height: 1.4; // Reduced from 1.5
+                line-height: 1.4;
 
                 @include breakpoint(mobile) {
                     font-size: map-get(v.$font-sizes, small);
@@ -659,13 +660,13 @@
         }
 
         @include breakpoint(tablet) {
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); // Reduced min-width
-            gap: map-get(v.$spacing, lg); // Reduced from xl
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: map-get(v.$spacing, lg);
         }
 
         @include breakpoint(mobile) {
             grid-template-columns: 1fr;
-            gap: map-get(v.$spacing, lg); // Reduced from xl
+            gap: map-get(v.$spacing, lg);
         }
     }
 }
@@ -673,10 +674,10 @@
 /* Newsletter Section */
 .newsletter-section {
     background-color: map-get(v.$colors, dark-gray);
-    padding: 40px 0; // Reduced from 60px
+    padding: 40px 0;
 
     .newsletter-container {
-        max-width: 700px; // Reduced from 800px
+        max-width: 700px;
         margin: 0 auto;
         padding: 0 map-get(v.$spacing, lg);
         text-align: center;
@@ -684,34 +685,34 @@
         .newsletter-title {
             @include heading-style('h2');
             color: map-get(v.$colors, white);
-            margin-bottom: map-get(v.$spacing, sm); // Reduced from md
+            margin-bottom: map-get(v.$spacing, sm);
         }
 
         .newsletter-text {
             font-family: map-get(v.$fonts, secondary);
-            font-size: 1rem; // Reduced from 1.1rem
+            font-size: 1rem;
             color: map-get(v.$colors, light-gray);
-            margin-bottom: map-get(v.$spacing, lg); // Reduced from xl
+            margin-bottom: map-get(v.$spacing, lg);
 
             @include breakpoint(mobile) {
-                font-size: map-get(v.$font-sizes, small); // Reduced from regular
-                margin-bottom: map-get(v.$spacing, md); // Reduced from lg
+                font-size: map-get(v.$font-sizes, small);
+                margin-bottom: map-get(v.$spacing, md);
             }
         }
 
         .newsletter-form {
             display: flex;
-            max-width: 400px; // Reduced from 500px
+            max-width: 400px;
             margin: 0 auto;
             gap: map-get(v.$spacing, sm);
 
             .newsletter-input {
                 flex: 1;
-                padding: map-get(v.$spacing, sm); // Reduced from md
+                padding: map-get(v.$spacing, sm);
                 border: none;
                 border-radius: map-get(v.$layout, border-radius);
                 font-family: map-get(v.$fonts, secondary);
-                font-size: map-get(v.$font-sizes, small); // Reduced font size
+                font-size: map-get(v.$font-sizes, small);
 
                 &:focus {
                     outline: none;
@@ -721,10 +722,10 @@
 
             .newsletter-btn {
                 @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg); // Reduced padding
+                padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
                 border: none;
                 cursor: pointer;
-                font-size: map-get(v.$font-sizes, small); // Reduced font size
+                font-size: map-get(v.$font-sizes, small);
             }
 
             @include breakpoint(tablet) {
@@ -740,13 +741,13 @@
 
                 .newsletter-input,
                 .newsletter-btn {
-                    padding: 10px; // Reduced from 12px
+                    padding: 10px;
                 }
             }
         }
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0; // Reduced from xxl
+        padding: map-get(v.$spacing, lg) 0;
     }
 }

@@ -309,7 +309,7 @@
 
         #paypal-button-container {
             min-height: 45px;
-            
+
             .no-cart-message {
                 text-align: center;
                 color: map-get(v.$colors, text-secondary);
@@ -368,7 +368,7 @@
 
         i {
             font-size: 5rem;
-            color: #28a745; // Success green
+            color: #28a745;
         }
     }
 
@@ -609,11 +609,9 @@
         }
 
         &.secondary {
-            @include btn.button-style(
-                $bg-color: map-get(v.$colors, primary-red),
+            @include btn.button-style($bg-color: map-get(v.$colors, primary-red),
                 $text-color: map-get(v.$colors, white),
-                $border: true
-            );
+                $border: true);
         }
 
         i {

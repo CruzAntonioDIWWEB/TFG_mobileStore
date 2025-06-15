@@ -7,7 +7,7 @@
 /* Admin Users Management Styles      */
 /* =================================== */
 
-/* Admin Section Layout - Shared with Categories */
+/* Admin Section Layout */
 .admin-section {
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
@@ -25,7 +25,7 @@
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
     padding: map-get(v.$spacing, md) 0;
-    
+
     .auth-container {
         @include container;
         padding-top: map-get(v.$spacing, sm);
@@ -242,7 +242,7 @@
         &.admin-role {
             background-color: rgba(map-get(v.$colors, primary-red), 0.1);
             color: map-get(v.$colors, primary-red);
-            
+
             i {
                 color: #ffc107;
             }
@@ -312,6 +312,7 @@
             span {
                 display: none;
             }
+
             padding: 6px;
         }
     }
@@ -413,11 +414,11 @@
 
             i {
                 font-size: 1rem;
-                
+
                 &.fa-user-plus {
                     color: #28a745;
                 }
-                
+
                 &.fa-user-edit {
                     color: #007bff;
                 }

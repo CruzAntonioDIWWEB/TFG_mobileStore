@@ -3,22 +3,25 @@
 
 // Breakpoint mixin for responsive design
 @mixin breakpoint($breakpoint) {
-    @if $breakpoint == "mobile" {
+    @if $breakpoint =="mobile" {
         @media (max-width: map.get(v.$breakpoints, mobile)) {
             @content;
         }
     }
-    @else if $breakpoint == "tablet" {
+
+    @else if $breakpoint =="tablet" {
         @media (max-width: map.get(v.$breakpoints, tablet)) {
             @content;
         }
     }
-    @else if $breakpoint == "desktop" {
+
+    @else if $breakpoint =="desktop" {
         @media (max-width: map.get(v.$breakpoints, desktop)) {
             @content;
         }
     }
-    @else if $breakpoint == "large-desktop" {
+
+    @else if $breakpoint =="large-desktop" {
         @media (min-width: map.get(v.$breakpoints, large-desktop)) {
             @content;
         }
@@ -86,21 +89,23 @@
     font-weight: map.get(v.$font-weights, bold);
     color: map.get(v.$colors, dark-gray);
 
-    @if $level == 'h1' {
+    @if $level =='h1' {
         font-size: map.get(v.$font-sizes, h1);
 
         @include breakpoint(mobile) {
             font-size: map.get(v.$font-sizes, h1-mobile);
         }
     }
-    @else if $level == 'h2' {
+
+    @else if $level =='h2' {
         font-size: map.get(v.$font-sizes, h2);
 
         @include breakpoint(mobile) {
             font-size: map.get(v.$font-sizes, h2-mobile);
         }
     }
-    @else if $level == 'h3' {
+
+    @else if $level =='h3' {
         font-size: map.get(v.$font-sizes, h3);
 
         @include breakpoint(mobile) {
@@ -115,13 +120,15 @@
     color: map.get(v.$colors, text-secondary);
     line-height: 1.6;
 
-    @if $size == 'large' {
+    @if $size =='large' {
         font-size: map.get(v.$font-sizes, large);
     }
-    @else if $size == 'regular' {
+
+    @else if $size =='regular' {
         font-size: map.get(v.$font-sizes, regular);
     }
-    @else if $size == 'small' {
+
+    @else if $size =='small' {
         font-size: map.get(v.$font-sizes, small);
     }
 }

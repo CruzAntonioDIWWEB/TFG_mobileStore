@@ -383,7 +383,7 @@
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
     padding: map-get(v.$spacing, md) 0;
-    
+
     .auth-container {
         @include container;
         padding-top: map-get(v.$spacing, sm);
@@ -578,7 +578,7 @@
 /* Current Image Display in Edit Form */
 .current-image {
     margin-bottom: map-get(v.$spacing, md);
-    
+
     img {
         max-width: 150px;
         height: auto;
@@ -959,18 +959,4 @@
 
 #accessory-type-group {
     transition: opacity 0.3s ease;
-}
-
-/* Debug styles - remove in production */
-.debug-info {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    background: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    z-index: 9999;
-    max-width: 300px;
 }
