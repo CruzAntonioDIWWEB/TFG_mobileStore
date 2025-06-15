@@ -21,6 +21,11 @@
     }
 }
 
+.checkout-section .item-image,
+.checkout-section .cart-item-summary img {
+    display: none !important;
+}
+
 /* Header Section */
 .checkout-header {
     background-color: map-get(v.$colors, white);

@@ -159,18 +159,18 @@
 
                 .phone-image {
                     position: relative;
-                    height: 280px;
+                    height: 350px; // CHANGED: Increased from 280px to match homepage
                     overflow: hidden;
                     background-color: map-get(v.$colors, bg-light-gray);
 
                     @include product-image-style;
 
                     @include breakpoint(tablet) {
-                        height: 250px;
+                        height: 300px; // CHANGED: Increased from 250px
                     }
 
                     @include breakpoint(mobile) {
-                        height: 220px;
+                        height: 280px; // CHANGED: Increased from 220px to match homepage
                     }
                 }
 

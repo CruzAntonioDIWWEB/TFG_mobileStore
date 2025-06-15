@@ -382,13 +382,13 @@
 
                 .product-image {
                     position: relative;
-                    height: 200px;
+                    height: 350px; 
                     overflow: hidden;
 
                     @include product-image-style;
 
                     @include breakpoint(mobile) {
-                        height: 180px;
+                        height: 280px; 
                     }
                 }
 
@@ -579,14 +579,14 @@
                 @include card-hover;
 
                 .accessory-image {
-                    height: 160px;
+                    height: 300px; // CHANGED: Increased significantly from 160px
                     overflow: hidden;
                     background-color: map-get(v.$colors, bg-light-gray);
 
                     @include product-image-style;
 
                     @include breakpoint(mobile) {
-                        height: 140px;
+                        height: 240px; // CHANGED: Increased significantly from 140px
                     }
                 }
 

@@ -74,7 +74,7 @@
 
     .main-image-container {
         position: relative;
-        background-color: map-get(v.$colors, bg-light-gray);
+        background-color: #FAFAFA;
         border: 1px solid map-get(v.$colors, light-gray);
         border-radius: map-get(v.$layout, border-radius-lg);
         padding: map-get(v.$spacing, lg);
