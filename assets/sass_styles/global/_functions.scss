@@ -1,11 +1,22 @@
 @use '../global/variables' as v;
 @use 'sass:map';
 
-// Obtain colors and typography from variables
-@function colors($nombre_color) {
-    @return map.get(v.$colores, $nombre_color);
+// Obtain colors from variables
+@function get-color($color-name) {
+    @return map-get(v.$colors, $color-name);
 }
 
-@function typography($nombre_tipografia) {
-    @return map.get(v.$fonts, $nombre_tipografia);
+// Obtain fonts from variables
+@function get-font($font-name) {
+    @return map-get(v.$fonts, $font-name);
+}
+
+// Obtain font sizes from variables
+@function get-font-size($size-name) {
+    @return map-get(v.$font-sizes, $size-name);
+}
+
+// Obtain spacing from variables
+@function get-spacing($spacing-name) {
+    @return map-get(v.$spacing, $spacing-name);
 }

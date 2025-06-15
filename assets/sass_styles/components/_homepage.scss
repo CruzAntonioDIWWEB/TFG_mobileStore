@@ -125,7 +125,7 @@
         @include container;
     }
 
-    // NEW: Zigzag Intro Section
+    // Introduction section
     .zigzag-intro {
         text-align: center;
         margin-bottom: map-get(v.$spacing, xxl);
@@ -184,8 +184,9 @@
                 order: 1;
             }
 
+            // Remove the right text alignment - center all titles now
             .zigzag-text {
-                text-align: right;
+                text-align: left; // Keep consistent with other rows
             }
         }
 
@@ -197,7 +198,6 @@
 
             // Reset order and force image-first pattern for all rows
             &.zigzag-row-reverse {
-
                 .zigzag-image,
                 .zigzag-content {
                     order: unset;
@@ -258,87 +258,92 @@
         flex-direction: column;
         justify-content: center;
 
-        // NEW: Zigzag Title styling
+        // FIX: Center all titles consistently
         .zigzag-title {
-            font-family: map-get(v.$fonts, primary); // Roboto
+            font-family: map-get(v.$fonts, primary); 
             font-size: map-get(v.$font-sizes, h3);
             font-weight: map-get(v.$font-weights, semibold);
             color: map-get(v.$colors, dark-gray);
             margin-bottom: map-get(v.$spacing, md);
             line-height: 1.4;
+            text-align: center; 
 
             @include breakpoint(mobile) {
                 font-size: map-get(v.$font-sizes, h3-mobile);
                 margin-bottom: map-get(v.$spacing, sm);
             }
         }
+
+        .zigzag-text {
+            font-family: map-get(v.$fonts, secondary); 
+            font-size: map-get(v.$font-sizes, regular);
+            font-weight: map-get(v.$font-weights, regular);
+            line-height: 1.7;
+            color: map-get(v.$colors, text-primary);
+            text-align: left;
+            margin: 0;
+
+            @include breakpoint(desktop) {
+                text-align: center;
+                font-size: map-get(v.$font-sizes, regular);
+            }
+
+            @include breakpoint(tablet) {
+                text-align: center;
+                font-size: map-get(v.$font-sizes, regular);
+            }
+
+            @include breakpoint(mobile) {
+                text-align: center;
+                font-size: map-get(v.$font-sizes, small);
+                line-height: 1.6;
+            }
+        }
     }
 
-    // Enhanced image placeholder styling
     .image-placeholder {
         width: 100%;
         max-width: 350px;
-        height: 120px;
-        border: 2px solid map-get(v.$colors, dark-gray);
-        background-color: map-get(v.$colors, white);
+        height: 160px; // Increased height for better presence
+        border: 3px solid map-get(v.$colors, primary-red); // Red border for impact
+        background: linear-gradient(135deg, map-get(v.$colors, white) 0%, map-get(v.$colors, bg-light-gray) 100%);
+        border-radius: map-get(v.$layout, border-radius-lg);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: map-get(v.$fonts, secondary);
-        font-size: map-get(v.$font-sizes, small);
-        color: map-get(v.$colors, text-secondary);
         text-align: center;
-        padding: map-get(v.$spacing, md);
+        padding: map-get(v.$spacing, lg);
         box-sizing: border-box;
         margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        box-shadow: map-get(v.$shadows, medium);
+        
+        // Add subtle animation
+        transition: all map-get(v.$transitions, normal);
+        
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: map-get(v.$shadows, large);
+            border-color: map-get(v.$colors, primary-red-dark);
+        }
 
-        // NEW: Enhanced span styling
+        // Add decorative element
+        &::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(map-get(v.$colors, primary-red), 0.2) 40%, rgba(map-get(v.$colors, primary-red), 0.1) 70%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
         span {
-            font-family: map-get(v.$fonts, cta); // Lato
-            font-weight: map-get(v.$font-weights, semibold);
-            color: map-get(v.$colors, primary-red);
-        }
-
-        @include breakpoint(desktop) {
-            max-width: 320px;
-        }
-
-        @include breakpoint(tablet) {
-            height: 100px;
-            max-width: 280px;
-        }
-
-        @include breakpoint(mobile) {
-            height: 80px;
-            max-width: 250px;
-            font-size: map-get(v.$font-sizes, xs);
-        }
-    }
-
-    // UPDATED: Enhanced zigzag text styling
-    .zigzag-text {
-        font-family: map-get(v.$fonts, secondary); // Open Sans
-        font-size: map-get(v.$font-sizes, regular);
-        font-weight: map-get(v.$font-weights, regular);
-        line-height: 1.7;
-        color: map-get(v.$colors, text-primary);
-        text-align: left;
-        margin: 0;
-
-        @include breakpoint(desktop) {
-            text-align: center;
-            font-size: map-get(v.$font-sizes, regular);
-        }
-
-        @include breakpoint(tablet) {
-            text-align: center;
-            font-size: map-get(v.$font-sizes, regular);
-        }
-
-        @include breakpoint(mobile) {
-            text-align: center;
-            font-size: map-get(v.$font-sizes, small);
-            line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
     }
 
