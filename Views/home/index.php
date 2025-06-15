@@ -3,14 +3,14 @@
     <div class="hero-container">
         <div class="hero-content">
             <h1 class="hero-title">Crusertel</h1>
-            <p class="hero-subtitle">Tu tienda de confianza para móviles y accesorios</p>
+            <p class="hero-subtitle">La nueva tienda de confianza para móviles y accesorios</p>
             <div class="hero-buttons">
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="hero-btn btn-primary">Ver Móviles</a>
                 <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="hero-btn btn-secondary">Ver Accesorios</a>
             </div>
         </div>
         <div class="hero-image">
-            <img src="<?php echo ASSETS_URL; ?>img/example.jpg" class="hero-img">
+            <img src="<?php echo ASSETS_URL; ?>img/hero_image.jpg" class="hero-img">
         </div>
     </div>
 </section>

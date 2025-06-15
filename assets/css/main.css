@@ -1,49 +1,3 @@
-
-/* Import Google Fonts directly as backup */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&display=swap');
-
-body, 
-html {
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    color: #333333 !important;
-    line-height: 1.6 !important;
-}
-
-/* Headers use Roboto */
-h1, h2, h3, h4, h5, h6,
-.hero-title,
-.zigzag-main-title,
-.zigzag-title,
-.home-featured-title,
-.legal-title,
-.nav-link {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-weight: 600 !important;
-}
-
-/* CTA elements use Lato */
-.hero-btn,
-.accessory-btn,
-.footer-link,
-.view-all-link,
-.zigzag-image span,
-.image-placeholder span {
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-weight: 700 !important;
-}
-
-/* Body text uses Open Sans */
-p,
-.zigzag-text,
-.home-description-text,
-.legal-text,
-.hero-subtitle,
-.zigzag-main-subtitle {
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-weight: 400 !important;
-}
-
-/* RESTO DEL CSS */
 body {
   font-family: "Open Sans", sans-serif;
   color: #333333;
@@ -1569,7 +1523,7 @@ img {
 }
 .featured-section .section-container .featured-grid .product-card .product-image {
   position: relative;
-  height: 200px;
+  height: 350px;
   overflow: hidden;
 }
 .featured-section .section-container .featured-grid .product-card .product-image img {
@@ -1583,7 +1537,7 @@ img {
 }
 @media (max-width: 480px) {
   .featured-section .section-container .featured-grid .product-card .product-image {
-    height: 180px;
+    height: 280px;
   }
 }
 .featured-section .section-container .featured-grid .product-card .product-info {
@@ -1822,7 +1776,7 @@ img {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
-  height: 160px;
+  height: 300px;
   overflow: hidden;
   background-color: #F2F2F2;
 }
@@ -1837,7 +1791,7 @@ img {
 }
 @media (max-width: 480px) {
   .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
-    height: 140px;
+    height: 240px;
   }
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-info {
@@ -2350,7 +2304,7 @@ img {
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
   position: relative;
-  height: 280px;
+  height: 350px;
   overflow: hidden;
   background-color: #F2F2F2;
 }
@@ -2365,12 +2319,12 @@ img {
 }
 @media (max-width: 768px) {
   .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
-    height: 250px;
+    height: 300px;
   }
 }
 @media (max-width: 480px) {
   .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
-    height: 220px;
+    height: 280px;
   }
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-info {
@@ -2980,7 +2934,7 @@ img {
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-image {
   position: relative;
-  height: 220px;
+  height: 300px;
   overflow: hidden;
   background-color: #F2F2F2;
 }
@@ -2995,7 +2949,7 @@ img {
 }
 @media (max-width: 480px) {
   .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-image {
-    height: 200px;
+    height: 240px;
   }
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-info {
@@ -4452,7 +4406,7 @@ img {
 }
 .product-image-section .main-image-container {
   position: relative;
-  background-color: #F2F2F2;
+  background-color: #FAFAFA;
   border: 1px solid #CCCCCC;
   border-radius: 10px;
   padding: 20px;
@@ -6049,6 +6003,11 @@ img {
   margin: 0 auto;
   padding: 0 20px;
   max-width: 900px;
+}
+
+.checkout-section .item-image,
+.checkout-section .cart-item-summary img {
+  display: none !important;
 }
 
 /* Header Section */
