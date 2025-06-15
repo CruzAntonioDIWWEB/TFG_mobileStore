@@ -1271,6 +1271,43 @@ img {
   margin: 0 auto;
   padding: 0 20px;
 }
+.zigzag-section .zigzag-intro {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid #CCCCCC;
+}
+.zigzag-section .zigzag-intro .zigzag-main-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 15px;
+}
+@media (max-width: 480px) {
+  .zigzag-section .zigzag-intro .zigzag-main-title {
+    font-size: 1.5rem;
+  }
+}
+.zigzag-section .zigzag-intro .zigzag-main-subtitle {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.2rem;
+  color: #666666;
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+}
+@media (max-width: 480px) {
+  .zigzag-section .zigzag-intro .zigzag-main-subtitle {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .zigzag-section .zigzag-intro {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+  }
+}
 .zigzag-section .zigzag-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1344,6 +1381,20 @@ img {
   flex-direction: column;
   justify-content: center;
 }
+.zigzag-section .zigzag-content .zigzag-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+@media (max-width: 480px) {
+  .zigzag-section .zigzag-content .zigzag-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+}
 .zigzag-section .image-placeholder {
   width: 100%;
   max-width: 350px;
@@ -1360,6 +1411,11 @@ img {
   padding: 15px;
   box-sizing: border-box;
   margin: 0 auto;
+}
+.zigzag-section .image-placeholder span {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  color: #E60000;
 }
 @media (max-width: 992px) {
   .zigzag-section .image-placeholder {
@@ -1381,11 +1437,10 @@ img {
 }
 .zigzag-section .zigzag-text {
   font-family: "Open Sans", sans-serif;
-  color: #666666;
-  line-height: 1.6;
   font-size: 1rem;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #333333;
   text-align: left;
   margin: 0;
 }
@@ -1405,6 +1460,7 @@ img {
   .zigzag-section .zigzag-text {
     text-align: center;
     font-size: 0.95rem;
+    line-height: 1.6;
   }
 }
 @media (max-width: 992px) {
