@@ -1,4 +1,4 @@
-# 📱 Mobile Store
+# 📱 Tienda Online
 
 **Tienda online de dispositivos móviles y accesorios** -- TFG Desarrollo de Aplicaciones Web 
 
