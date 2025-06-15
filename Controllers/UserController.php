@@ -178,7 +178,8 @@ class UserController extends BaseController
             $this->redirect($redirectURL);
         } else {
             $this->setErrorMessage('Invalid email or password');
-            $this->redirect('index.php?controller=user&action=login');
+            // CHANGED: Stay on login page instead of redirecting to homepage
+            $this->redirect('user', 'login');  // CHANGE: Was $this->redirect($redirectURL);
         }
     }
 
