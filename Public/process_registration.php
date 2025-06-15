@@ -14,9 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Create a base controller instance for using helper methods
-class RegistrationProcessor extends \Controllers\BaseController {
-    
-    public function processRegistration() {
+class RegistrationProcessor extends \Controllers\BaseController
+{
+
+    public function processRegistration()
+    {
         $postData = $this->getPostData();
 
         // Validate input data
@@ -25,7 +27,7 @@ class RegistrationProcessor extends \Controllers\BaseController {
 
         if (!empty($errors)) {
             $this->setErrorMessage('Todos los campos son obligatorios');
-            $this->redirectToRegister(); 
+            $this->redirectToRegister();
             return;
         }
 
@@ -37,23 +39,23 @@ class RegistrationProcessor extends \Controllers\BaseController {
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setErrorMessage('Formato de email inválido');
-            $this->redirectToRegister(); 
+            $this->redirectToRegister();
             return;
         }
 
         // Validate password length
-        if (strlen($password) < 4) { 
+        if (strlen($password) < 4) {
             $this->setErrorMessage('La contraseña debe tener al menos 4 caracteres');
-            $this->redirectToRegister(); 
+            $this->redirectToRegister();
             return;
         }
 
         // Create user instance and check if email already exists
         $user = new \Models\User();
 
-        if($user->checkUserExists($email)){
+        if ($user->checkUserExists($email)) {
             $this->setErrorMessage('Este email ya está registrado');
-            $this->redirectToRegister(); 
+            $this->redirectToRegister();
             return;
         }
 
@@ -68,23 +70,25 @@ class RegistrationProcessor extends \Controllers\BaseController {
         if ($saved) {
             // Set flag to allow access to success page
             $_SESSION['just_registered'] = true;
-            
+
             // Redirect to success page instead of showing message on register form
             $this->redirectToSuccess();
         } else {
             $this->setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
-            $this->redirectToRegister(); 
+            $this->redirectToRegister();
         }
     }
-    
+
     // Redirect to register page for errors
-    private function redirectToRegister() {
+    private function redirectToRegister()
+    {
         header('Location: index.php?controller=user&action=register');
         exit;
     }
-    
+
     // Redirect to success page
-    private function redirectToSuccess() {
+    private function redirectToSuccess()
+    {
         header('Location: index.php?controller=user&action=registrationSuccess');
         exit;
     }
@@ -93,4 +97,3 @@ class RegistrationProcessor extends \Controllers\BaseController {
 // Process the registration
 $processor = new RegistrationProcessor();
 $processor->processRegistration();
-?>

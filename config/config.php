@@ -2,21 +2,21 @@
 
 namespace config;
 
-//Carga el autoload de Composer
+// Load Composer's autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
 
-//Importa la clase DatabaseConfig
+// Import the DatabaseConfig class
 require_once __DIR__ . '/DatabaseConfig.php';
 
-//Crea una instancia de la configuración de base de datos
+// Create an instance of DatabaseConfig
 $db = new DatabaseConfig();
 
-//Obtiene la conexión a la base de datos
+// Get the PDO connection
 $pdo = $db->getConnection();
 
-// Mejor enrutamiento
+// Base URL and assets URL
 define('BASE_URL', '/dashboard/TFG/Public/');
 define('ASSETS_URL', '/dashboard/TFG/assets/');
 
-//Esto devuelve la conexión para que pueda ser utilizada en otros archivos
-return $pdo; 
+// This return statement is necessary to ensure the PDO instance is available globally
+return $pdo;

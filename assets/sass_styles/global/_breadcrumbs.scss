@@ -1,10 +1,6 @@
 @use 'variables' as v;
 @use 'mixins' as *;
 
-/* =================================== */
-/* Global Breadcrumb Styles           */
-/* =================================== */
-
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -30,7 +26,7 @@
         }
     }
 
-    // Separator styles (handles different implementations)
+    // Separator styles 
     .breadcrumb-separator,
     i.fas.fa-chevron-right {
         color: map-get(v.$colors, light-gray);
@@ -47,7 +43,7 @@
         flex-wrap: wrap;
         margin-bottom: map-get(v.$spacing, md);
         font-size: map-get(v.$font-sizes, xs);
-        
+
         .breadcrumb-current {
             max-width: 150px;
             overflow: hidden;
@@ -104,7 +100,7 @@
     @include breakpoint(mobile) {
         font-size: map-get(v.$font-sizes, xs);
         margin-bottom: map-get(v.$spacing, md);
-        
+
         .breadcrumb-current {
             max-width: 120px;
             overflow: hidden;

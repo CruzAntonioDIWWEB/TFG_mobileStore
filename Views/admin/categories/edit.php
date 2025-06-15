@@ -30,8 +30,6 @@ $categoryName = $categoryData ? $categoryData->getName() : '';
 <!-- Edit Category Section -->
 <section class="auth-section">
     <div class="auth-container">
-        
-        <!-- Navigation Breadcrumb -->
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-user"></i>
@@ -59,21 +57,21 @@ $categoryName = $categoryData ? $categoryData->getName() : '';
             <?php if ($categoryData): ?>
                 <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=category&action=update">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($categoryId); ?>">
-                    
+
                     <div class="form-group">
                         <label for="name" class="form-label">
                             <i class="fas fa-tag"></i>
                             Nombre de la categoría
                         </label>
-                        <input type="text" 
-                               id="name" 
-                               name="name" 
-                               class="form-input" 
-                               value="<?php echo htmlspecialchars($categoryName); ?>"
-                               placeholder="Ej: Móviles, Accesorios, Fundas..."
-                               required
-                               maxlength="25"
-                               autocomplete="off">
+                        <input type="text"
+                            id="name"
+                            name="name"
+                            class="form-input"
+                            value="<?php echo htmlspecialchars($categoryName); ?>"
+                            placeholder="Ej: Móviles, Accesorios, Fundas..."
+                            required
+                            maxlength="25"
+                            autocomplete="off">
                         <small class="form-hint">Máximo 25 caracteres. Debe ser único.</small>
                     </div>
 
@@ -101,7 +99,7 @@ $categoryName = $categoryData ? $categoryData->getName() : '';
                             <i class="fas fa-save"></i>
                             Guardar Cambios
                         </button>
-                        
+
                         <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=index" class="auth-btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
                             Volver al listado

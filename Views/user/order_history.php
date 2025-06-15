@@ -13,7 +13,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
 <!-- Order History Section -->
 <section class="order-history-section">
     <div class="order-history-container">
-        
+
         <!-- Header -->
         <div class="order-history-header">
             <div class="header-content">
@@ -26,7 +26,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
                         <?php echo $isAdmin ? 'Administra todos los pedidos del sistema' : 'Consulta el estado y detalles de tus pedidos'; ?>
                     </p>
                 </div>
-                
+
                 <div class="header-actions">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="back-btn">
                         <i class="fas fa-arrow-left"></i>
@@ -54,11 +54,11 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
                 <h3>No hay pedidos que mostrar</h3>
                 <p>Aún no <?php echo $isAdmin ? 'hay' : 'has realizado ningún'; ?> pedido<?php echo $isAdmin ? 's en el sistema' : ''; ?>.</p>
                 <?php if (!$isAdmin): ?>
-                <p>¡Explora nuestro catálogo y haz tu primera compra!</p>
-                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="shop-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    Ir a Comprar
-                </a>
+                    <p>¡Explora nuestro catálogo y haz tu primera compra!</p>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="shop-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Ir a Comprar
+                    </a>
                 <?php endif; ?>
             </div>
 
@@ -70,7 +70,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
                             <tr>
                                 <th>Pedido</th>
                                 <?php if ($isAdmin): ?>
-                                <th>Usuario</th>
+                                    <th>Usuario</th>
                                 <?php endif; ?>
                                 <th>Ubicación</th>
                                 <th>Dirección</th>
@@ -102,8 +102,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
 </section>
 
 <script>
-// Make variables available for JavaScript
-const BASE_URL = '<?php echo BASE_URL; ?>';
-const IS_ADMIN = <?php echo $isAdmin ? 'true' : 'false'; ?>;
+    const BASE_URL = '<?php echo BASE_URL; ?>';
+    const IS_ADMIN = <?php echo $isAdmin ? 'true' : 'false'; ?>;
 </script>
 <script src="<?php echo ASSETS_URL; ?>js/user/orderHistory.js"></script>

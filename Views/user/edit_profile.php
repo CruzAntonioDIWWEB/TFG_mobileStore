@@ -6,7 +6,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
 // Get messages for display
 $messages = $messages ?? [];
 
-// Get user data (if passed from controller)
+// Get user data
 $userData = $user ?? $currentUser;
 $userName = $userData['name'] ?? '';
 $userSurnames = $userData['surnames'] ?? '';
@@ -31,7 +31,7 @@ $userEmail = $userData['email'] ?? '';
 <!-- Edit Profile Section -->
 <section class="edit-profile-section">
     <div class="settings-container">
-        
+
         <!-- Back Navigation -->
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
@@ -54,7 +54,7 @@ $userEmail = $userData['email'] ?? '';
 
             <div class="card-content">
                 <form action="<?php echo BASE_URL; ?>index.php?controller=user&action=updateProfile" method="POST" class="edit-profile-form">
-                    
+
                     <!-- Name Fields -->
                     <div class="form-row">
                         <div class="form-group">
@@ -62,13 +62,13 @@ $userEmail = $userData['email'] ?? '';
                                 <i class="fas fa-user"></i>
                                 Nombre
                             </label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
-                                   class="form-input" 
-                                   value="<?php echo htmlspecialchars($userName); ?>"
-                                   placeholder="Tu nombre"
-                                   required>
+                            <input type="text"
+                                id="name"
+                                name="name"
+                                class="form-input"
+                                value="<?php echo htmlspecialchars($userName); ?>"
+                                placeholder="Tu nombre"
+                                required>
                         </div>
 
                         <div class="form-group">
@@ -76,13 +76,13 @@ $userEmail = $userData['email'] ?? '';
                                 <i class="fas fa-user"></i>
                                 Apellidos
                             </label>
-                            <input type="text" 
-                                   id="surnames" 
-                                   name="surnames" 
-                                   class="form-input" 
-                                   value="<?php echo htmlspecialchars($userSurnames); ?>"
-                                   placeholder="Tus apellidos"
-                                   required>
+                            <input type="text"
+                                id="surnames"
+                                name="surnames"
+                                class="form-input"
+                                value="<?php echo htmlspecialchars($userSurnames); ?>"
+                                placeholder="Tus apellidos"
+                                required>
                         </div>
                     </div>
 
@@ -92,13 +92,13 @@ $userEmail = $userData['email'] ?? '';
                             <i class="fas fa-envelope"></i>
                             Correo electrónico
                         </label>
-                        <input type="email" 
-                               id="email" 
-                               name="email" 
-                               class="form-input" 
-                               value="<?php echo htmlspecialchars($userEmail); ?>"
-                               placeholder="tu@email.com"
-                               required>
+                        <input type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            value="<?php echo htmlspecialchars($userEmail); ?>"
+                            placeholder="tu@email.com"
+                            required>
                     </div>
 
                     <!-- Password Field -->
@@ -107,19 +107,19 @@ $userEmail = $userData['email'] ?? '';
                             <i class="fas fa-lock"></i>
                             Nueva contraseña (opcional)
                         </label>
-                        <input type="password" 
-                               id="password" 
-                               name="password" 
-                               class="form-input" 
-                               placeholder="Deja en blanco para mantener la actual"
-                               minlength="4">
+                        <input type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Deja en blanco para mantener la actual"
+                            minlength="4">
                         <small class="form-hint">Solo completa si deseas cambiar tu contraseña</small>
                     </div>
 
                     <!-- Form Buttons -->
                     <div class="form-buttons">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" 
-                           class="btn btn-secondary">
+                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile"
+                            class="btn btn-secondary">
                             <i class="fas fa-times"></i>
                             Cancelar
                         </a>

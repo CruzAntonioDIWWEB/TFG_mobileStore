@@ -55,7 +55,7 @@
         align-items: center;
         gap: map-get(v.$spacing, md);
 
-        > i {
+        >i {
             font-size: 3rem;
             color: map-get(v.$colors, primary-red);
 

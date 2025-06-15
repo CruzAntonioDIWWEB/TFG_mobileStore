@@ -1,12 +1,13 @@
 <?php
-// Include the BrandHelper for smart filtering
+// Include the smart filtering
 require_once __DIR__ . '/../../Helpers/BrandHelper.php';
+
 use Helpers\BrandHelper;
 
 // Get messages for display
 $messages = $messages ?? [];
 
-// Get available brands from phones for dynamic filtering
+// Dynamic filtering
 $availableBrands = [];
 if (!empty($phones) && is_array($phones)) {
     $availableBrands = BrandHelper::getAvailableBrands($phones);
@@ -37,7 +38,7 @@ $brandLabels = BrandHelper::getBrandLabels();
     </div>
 </section>
 
-<!-- Brand Filters - UPDATED with dynamic brands -->
+<!-- Brand Filters -->
 <section class="brand-filters">
     <div class="filters-container">
         <h2 class="filters-title">Filtrar por marca</h2>
@@ -46,7 +47,7 @@ $brandLabels = BrandHelper::getBrandLabels();
             <button class="brand-btn active" data-brand="all">
                 <span class="brand-text">Todos</span>
             </button>
-            
+
             <!-- Dynamic brand buttons based on available products -->
             <?php foreach ($availableBrands as $brandKey): ?>
                 <button class="brand-btn" data-brand="<?php echo htmlspecialchars($brandKey); ?>">
@@ -63,23 +64,23 @@ $brandLabels = BrandHelper::getBrandLabels();
         <?php if (!empty($phones) && is_array($phones)): ?>
             <div class="phones-grid" id="phones-grid">
                 <?php foreach ($phones as $phone): ?>
-                    <?php 
-                    // Use smart brand detection instead of simple name matching
-                    $brandKey = BrandHelper::detectBrand($phone['name']); 
+                    <?php
+                    // Use smart brand detection
+                    $brandKey = BrandHelper::detectBrand($phone['name']);
                     ?>
                     <article class="phone-card" data-brand="<?php echo htmlspecialchars($brandKey); ?>">
                         <div class="phone-image">
                             <?php if (!empty($phone['image'])): ?>
-                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($phone['image']); ?>" 
-                                     alt="<?php echo htmlspecialchars($phone['name']); ?>"
-                                     loading="lazy">
+                                <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($phone['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($phone['name']); ?>"
+                                    loading="lazy">
                             <?php else: ?>
-                                <img src="/dashboard/TFG/assets/img/placeholder-product.jpg" 
-                                     alt="<?php echo htmlspecialchars($phone['name']); ?>"
-                                     loading="lazy">
+                                <img src="/dashboard/TFG/assets/img/placeholder-product.jpg"
+                                    alt="<?php echo htmlspecialchars($phone['name']); ?>"
+                                    loading="lazy">
                             <?php endif; ?>
-                            
-                            <!-- Stock Badge - ORIGINAL styling preserved -->
+
+                            <!-- Stock Badge -->
                             <?php if ($phone['stock'] > 0): ?>
                                 <span class="stock-badge">
                                     <?php if ($phone['stock'] <= 5): ?>
@@ -97,39 +98,39 @@ $brandLabels = BrandHelper::getBrandLabels();
                                 </span>
                             <?php endif; ?>
                         </div>
-                        
+
                         <div class="phone-info">
                             <h3 class="phone-name"><?php echo htmlspecialchars($phone['name']); ?></h3>
-                            
+
                             <?php if (!empty($phone['description'])): ?>
                                 <p class="phone-description">
                                     <?php echo htmlspecialchars(substr($phone['description'], 0, 120)) . (strlen($phone['description']) > 120 ? '...' : ''); ?>
                                 </p>
                             <?php endif; ?>
-                            
+
                             <div class="phone-footer">
                                 <div class="price-section">
                                     <span class="phone-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
                                 </div>
-                                
+
                                 <div class="phone-actions">
-                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>" 
-                                       class="phone-btn btn-details">
+                                    <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>"
+                                        class="phone-btn btn-details">
                                         <i class="fas fa-eye"></i>
                                         Ver detalles
                                     </a>
-                                    
+
                                     <?php if ($phone['stock'] > 0): ?>
                                         <?php if (isset($_SESSION['user'])): ?>
-                                            <button class="phone-btn btn-cart" 
-                                                    data-product-id="<?php echo $phone['id']; ?>"
-                                                    data-product-name="<?php echo htmlspecialchars($phone['name']); ?>">
+                                            <button class="phone-btn btn-cart"
+                                                data-product-id="<?php echo $phone['id']; ?>"
+                                                data-product-name="<?php echo htmlspecialchars($phone['name']); ?>">
                                                 <i class="fas fa-shopping-cart"></i>
                                                 Añadir
                                             </button>
                                         <?php else: ?>
-                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" 
-                                               class="phone-btn btn-login-required">
+                                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login"
+                                                class="phone-btn btn-login-required">
                                                 <i class="fas fa-user"></i>
                                                 Iniciar sesión
                                             </a>
@@ -161,63 +162,6 @@ $brandLabels = BrandHelper::getBrandLabels();
         <?php endif; ?>
     </div>
 </section>
-
-<!-- Updated Brand Filtering JavaScript - Enhanced for smart detection -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const brandButtons = document.querySelectorAll('.brand-btn');
-    const phoneCards = document.querySelectorAll('.phone-card');
-    
-    brandButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            brandButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            // Get selected brand
-            const selectedBrand = this.getAttribute('data-brand');
-            
-            // Filter phones
-            phoneCards.forEach(card => {
-                const cardBrand = card.getAttribute('data-brand');
-                
-                if (selectedBrand === 'all' || cardBrand === selectedBrand) {
-                    card.style.display = 'block';
-                    // Add smooth animation
-                    card.style.opacity = '0';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                    }, 50);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Update URL without page reload
-            const url = new URL(window.location);
-            if (selectedBrand === 'all') {
-                url.searchParams.delete('brand');
-            } else {
-                url.searchParams.set('brand', selectedBrand);
-            }
-            window.history.replaceState({}, '', url);
-        });
-    });
-    
-    // Check for brand parameter in URL on page load
-    const urlParams = new URLSearchParams(window.location.search);
-    const brandParam = urlParams.get('brand');
-    
-    if (brandParam) {
-        const targetButton = document.querySelector(`[data-brand="${brandParam}"]`);
-        if (targetButton) {
-            targetButton.click();
-        }
-    }
-});
-</script>
 
 <script src="<?php echo ASSETS_URL; ?>js/brandFiltering.js"></script>
 <script src="<?php echo ASSETS_URL; ?>js/cart/addToCart.js"></script>

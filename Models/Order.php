@@ -30,7 +30,8 @@ class Order
     const STATUS_PAID = 'PAGADO';
 
     // Constructor
-    public function __construct(){
+    public function __construct()
+    {
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
 
@@ -45,91 +46,113 @@ class Order
 
     // Getters and Setters
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getUserId() {
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function setUserId($user_id) {
+    public function setUserId($user_id)
+    {
         $this->user_id = $user_id;
     }
 
-    public function getProvince() {
+    public function getProvince()
+    {
         return $this->province;
     }
 
-    public function setProvince($province) {
+    public function setProvince($province)
+    {
         $this->province = $province;
     }
 
-    public function getLocality() {
+    public function getLocality()
+    {
         return $this->locality;
     }
 
-    public function setLocality($locality) {
+    public function setLocality($locality)
+    {
         $this->locality = $locality;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
-    public function setAddress($address) {
+    public function setAddress($address)
+    {
         $this->address = $address;
     }
 
-    public function getCost() {
+    public function getCost()
+    {
         return $this->cost;
     }
 
-    public function setCost($cost) {
+    public function setCost($cost)
+    {
         $this->cost = $cost;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    public function getDate() {
+    public function getDate()
+    {
         return $this->date;
     }
 
-    public function setDate($date) {
+    public function setDate($date)
+    {
         $this->date = $date;
     }
 
-    public function getTime() {
+    public function getTime()
+    {
         return $this->time;
     }
 
-    public function setTime($time) {
+    public function setTime($time)
+    {
         $this->time = $time;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt()
+    {
         return $this->created_at;
     }
 
-    public function setCreatedAt($created_at) {
+    public function setCreatedAt($created_at)
+    {
         $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt() {
+    public function getUpdatedAt()
+    {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt($updated_at) {
+    public function setUpdatedAt($updated_at)
+    {
         $this->updated_at = $updated_at;
     }
 
@@ -137,11 +160,12 @@ class Order
      * Save a new order to the database
      * @return bool true on success, false on failure
      */
-    public function saveDB(){
-        try{
+    public function saveDB()
+    {
+        try {
             $sql = 'INSERT INTO orders (user_id, province, locality, address, cost, status, date, time) 
                     VALUES (:user_id, :province, :locality, :address, :cost, :status, :date, :time)';
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
             $stmt->bindParam(':province', $this->province, PDO::PARAM_STR);
@@ -154,14 +178,13 @@ class Order
 
             $result = $stmt->execute();
 
-            if($result){
+            if ($result) {
                 $this->id = $this->db->lastInsertId();
                 return true;
             } else {
                 return false;
             }
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error saving the order: " . $e->getMessage();
             return false;
         }
@@ -171,8 +194,9 @@ class Order
      * Update the order in the database
      * @return bool true on success, false on failure
      */
-    public function updateDB(){
-        try{
+    public function updateDB()
+    {
+        try {
             $sql = 'UPDATE orders SET user_id = :user_id, province = :province, locality = :locality,
             address = :address, cost = :cost, status = :status, date = :date, time = :time WHERE id = :id';
 
@@ -188,7 +212,6 @@ class Order
             $stmt->bindParam(':time', $this->time, PDO::PARAM_STR);
 
             return $stmt->execute();
-
         } catch (\PDOException $e) {
             echo "Error updating the order: " . $e->getMessage();
             return false;
@@ -199,8 +222,9 @@ class Order
      * Delete the order from the database
      * @return bool true on success, false on failure
      */
-    public function delete(){
-        try{
+    public function delete()
+    {
+        try {
             $delete = 'DELETE FROM orders WHERE id = :id';
             $stmt = $this->db->prepare($delete);
             $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
@@ -216,14 +240,15 @@ class Order
      * @param int $id
      * @return Order|false the order object on success, false on failure
      */
-    public function getOrderById($id){
-        try{
+    public function getOrderById($id)
+    {
+        try {
             $query = 'SELECT * FROM orders WHERE id = :id';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 
-            if($stmt->rowCount() > 0){
+            if ($stmt->rowCount() > 0) {
                 $orderData = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 $this->id = $orderData['id'];
@@ -242,7 +267,7 @@ class Order
             }
 
             return false;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching the order: " . $e->getMessage();
             return false;
         }
@@ -252,15 +277,15 @@ class Order
      * Get all orders from the database
      * @return array|false array of Order objects on success, false on failure
      */
-    public function getAllOrders(){
-        try{
+    public function getAllOrders()
+    {
+        try {
             $query = 'SELECT * FROM orders ORDER BY date DESC, time DESC';
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching orders: " . $e->getMessage();
             return false;
         }
@@ -271,20 +296,20 @@ class Order
      * @param int $user_id
      * @return array|false array of Order objects on success, false on failure
      */
-    public function getOrderByUser($user_id){
-        try{
+    public function getOrderByUser($user_id)
+    {
+        try {
             $query = $this->db->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY date DESC, time DESC');
             $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $query->execute();
 
-            if($query->rowCount() > 0){
+            if ($query->rowCount() > 0) {
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
                 return $result;
             }
 
             return false;
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching orders by user: " . $e->getMessage();
             return false;
         }
@@ -295,19 +320,20 @@ class Order
      * @param string $status
      * @return array|false array of Order objects on success, false on failure
      */
-    public function getOrderByStatus($status){
-        try{
-            $query = $this->db->prepare('SELECT * FROM orders WHERE status = :status ORDER BY date DESC, time DESC');            $query->bindParam(':status', $status, PDO::PARAM_STR);
+    public function getOrderByStatus($status)
+    {
+        try {
+            $query = $this->db->prepare('SELECT * FROM orders WHERE status = :status ORDER BY date DESC, time DESC');
+            $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
 
-            if($query->rowCount() > 0){
+            if ($query->rowCount() > 0) {
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
                 return $result;
             }
 
             return false;
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching orders by status: " . $e->getMessage();
             return false;
         }
@@ -317,23 +343,24 @@ class Order
      * Get order items (products)
      * @return array|false array of OrderItem objects on success, false on failure
      */
-    public function getOrderItems(){
-        try{
+    public function getOrderItems()
+    {
+        try {
             $query = $this->db->prepare('
                 SELECT oi.*, p.name, p.price, p.image FROM order_items oi
                 JOIN products p ON oi.product_id = p.id WHERE oi.order_id = :order_id');
-            
+
             $query->bindParam(':order_id', $this->id, PDO::PARAM_INT);
             $stmt = $this->db->prepare($query);
             $stmt->execute();
 
-            if($stmt->rowCount() > 0){
+            if ($stmt->rowCount() > 0) {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $result;
             }
 
             return false;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching order items: " . $e->getMessage();
             return false;
         }
@@ -343,20 +370,21 @@ class Order
      * Get user information for the order
      * @return array|false array of User objects on success, false on failure
      */
-    public function getUser(){
-        try{
+    public function getUser()
+    {
+        try {
             $query = 'SELECT * FROM users WHERE id = :user_id';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
             $stmt->execute();
 
-            if($stmt->rowCount() > 0){
+            if ($stmt->rowCount() > 0) {
                 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
                 return $userData;
             }
 
             return false;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error fetching user information: " . $e->getMessage();
             return false;
         }
@@ -367,16 +395,16 @@ class Order
      * @param string $status
      * @return bool true on success, false on failure
      */
-    public function updateStatus($status){
-        try{
+    public function updateStatus($status)
+    {
+        try {
             $this->status = $status;
             $query = 'UPDATE orders SET status = :status WHERE id = :id';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':status', $this->status, PDO::PARAM_STR);
             $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $stmt->execute();
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Error updating order status: " . $e->getMessage();
             return false;
         }
@@ -386,7 +414,8 @@ class Order
      * Get the total number of orders
      * @return int|false total number of orders on success, false on failure
      */
-    public function getTotalOrders(){
+    public function getTotalOrders()
+    {
         try {
             $query = $this->db->query('SELECT COUNT(*) as total FROM orders');
             $result = $query->fetch(PDO::FETCH_ASSOC);
@@ -464,7 +493,7 @@ class Order
                 $order_item_query->bindParam(':order_id', $this->id, PDO::PARAM_INT);
                 $order_item_query->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
                 $order_item_query->bindParam(':quantity', $item['quantity'], PDO::PARAM_INT);
-                
+
                 if (!$order_item_query->execute()) {
                     $this->db->rollBack();
                     return false; // Failed to save order item
@@ -474,9 +503,9 @@ class Order
                 $update_stock_query = $this->db->prepare('UPDATE products SET stock = stock - :quantity WHERE id = :product_id AND stock >= :quantity');
                 $update_stock_query->bindParam(':quantity', $item['quantity'], PDO::PARAM_INT);
                 $update_stock_query->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
-                
+
                 if (!$update_stock_query->execute() || $update_stock_query->rowCount() == 0) {
-                    // If update failed or no rows affected (not enough stock)
+                    // If update failed or no rows affected
                     $this->db->rollBack();
                     return false; // Not enough stock
                 }
@@ -494,7 +523,6 @@ class Order
             // Commit transaction
             $this->db->commit();
             return $this->id;
-
         } catch (\PDOException $e) {
             $this->db->rollBack();
             error_log("Error creating order from cart: " . $e->getMessage());
@@ -506,7 +534,8 @@ class Order
      * Format the cost to a currency format
      * @return string formatted cost
      */
-    public function formatCost(){
+    public function formatCost()
+    {
         return number_format($this->cost, 2, ',', '.') . ' €';
     }
 
@@ -514,8 +543,9 @@ class Order
      * Get the status in a human-readable format
      * @return string formatted status
      */
-    public function getStatusText(){
-        switch ($this->status){
+    public function getStatusText()
+    {
+        switch ($this->status) {
             case self::STATUS_PENDING:
                 return 'Pendiente';
             case self::STATUS_SHIPPED:
@@ -535,11 +565,8 @@ class Order
      * Get formatted date
      * @return string formatted date
      */
-    public function getFormattedDate(){
+    public function getFormattedDate()
+    {
         return date('d/m/Y', strtotime($this->date));
     }
-
 }
-
-
-?>

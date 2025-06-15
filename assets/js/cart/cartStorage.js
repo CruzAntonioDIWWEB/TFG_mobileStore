@@ -9,10 +9,9 @@
 function parseEuropeanPrice(priceText) {
     // Remove whitespace and currency symbols
     priceText = priceText.replace(/\s/g, '').replace(/[€$]/g, '');
-    
+
     // Handle European format: 59,99 or 1.299,99
     if (/,\d{2}$/.test(priceText)) {
-        // Has comma with 2 digits at end = European decimal
         const parts = priceText.split(',');
         if (parts.length === 2 && parts[1].length === 2) {
             let wholePart = parts[0].replace(/\./g, ''); // Remove thousands dots
@@ -20,7 +19,7 @@ function parseEuropeanPrice(priceText) {
             return parseFloat(wholePart + '.' + decimalPart) || 0;
         }
     }
-    
+
     // Fallback: remove commas and parse
     return parseFloat(priceText.replace(/,/g, '')) || 0;
 }
@@ -42,7 +41,7 @@ function storeCartData(cartItems, totalItems, totalCost, formattedTotal) {
             formattedTotal: formattedTotal || '€0.00',
             lastUpdated: new Date().toISOString()
         };
-        
+
         localStorage.setItem('mobilestore_cart', JSON.stringify(cartData));
         console.log('Cart data stored in localStorage:', cartData.totalItems + ' items');
     } catch (error) {
@@ -85,31 +84,11 @@ function updateCartCount(newCount) {
         let cartData = getCartData() || { items: [], totalItems: 0, totalCost: 0, formattedTotal: '€0.00' };
         cartData.totalItems = newCount;
         cartData.lastUpdated = new Date().toISOString();
-        
+
         localStorage.setItem('mobilestore_cart', JSON.stringify(cartData));
         console.log('Cart count updated in localStorage:', newCount);
     } catch (error) {
         console.error('Error updating cart count:', error);
-    }
-}
-
-/**
- * Display current cart info in console (for debugging)
- */
-function showCartInfo() {
-    const cart = getCartData();
-    if (cart && cart.items && cart.items.length > 0) {
-        console.table(cart.items.map(item => ({
-            'Producto': item.product_name || item.name,
-            'Precio': '€' + (item.price || '0'),
-            'Cantidad': item.quantity || 0,
-            'Subtotal': '€' + ((item.subtotal || 0).toFixed ? (item.subtotal || 0).toFixed(2) : '0.00')
-        })));
-        console.log('Total Items:', cart.totalItems);
-        console.log('Total Cost:', cart.formattedTotal);
-        console.log('Last Updated:', cart.lastUpdated);
-    } else {
-        console.log('Cart is empty or no cart data found in localStorage');
     }
 }
 
@@ -123,21 +102,21 @@ function autoSyncCartFromPage() {
         // Get cart items from the page
         const cartItems = [];
         const itemElements = document.querySelectorAll('.cart-item');
-        
+
         itemElements.forEach(item => {
             const nameElement = item.querySelector('.product-name, .item-name, [class*="name"]');
             const priceElement = item.querySelector('.product-price, .item-price, [class*="price"]');
             const quantityElement = item.querySelector('.quantity-input, input[type="number"]');
-            
+
             if (nameElement && priceElement && quantityElement) {
                 // Get price text and parse correctly
                 let priceText = priceElement.textContent.trim();
                 const price = parseEuropeanPrice(priceText);
                 const quantity = parseInt(quantityElement.value) || 0;
-                
+
                 // Debug: log the conversion
                 console.log(`Price conversion: "${priceText}" → ${price}`);
-                
+
                 cartItems.push({
                     product_name: nameElement.textContent.trim(),
                     name: nameElement.textContent.trim(),
@@ -146,15 +125,15 @@ function autoSyncCartFromPage() {
                 });
             }
         });
-        
+
         // Calculate totals properly
         const totalCost = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         const formattedTotal = `€${totalCost.toFixed(2)}`;
-        
+
         // Debug: log the final totals
         console.log('Cart sync - Items:', cartItems.length, 'Total cost:', totalCost);
-        
+
         // Store in localStorage using existing function
         storeCartData(cartItems, totalItems, totalCost, formattedTotal);
     }
@@ -163,10 +142,10 @@ function autoSyncCartFromPage() {
 /**
  * Initialize cart storage on page load
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Auto-sync if we're on cart page
     autoSyncCartFromPage();
-    
+
     // Sync cart count from session (if available)
     const cartCountElements = document.querySelectorAll('.cart-count, .mobile-cart-count');
     if (cartCountElements.length > 0) {
@@ -183,6 +162,5 @@ window.cartStorage = {
     get: getCartData,
     clear: clearCartData,
     updateCount: updateCartCount,
-    showInfo: showCartInfo,
     autoSync: autoSyncCartFromPage
 };

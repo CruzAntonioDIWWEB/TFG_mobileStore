@@ -6,12 +6,12 @@
 /* Edit Profile Form Styles            */
 /* =================================== */
 
-/* Edit Profile Section - inherits from settings-section but with custom spacing */
+/* Edit Profile Section */
 .edit-profile-section {
     background-color: map-get(v.$colors, bg-light-gray);
     min-height: calc(100vh - map-get(v.$layout, header-height));
-    padding: map-get(v.$spacing, md) 0; // Custom reduced padding
-    
+    padding: map-get(v.$spacing, md) 0;
+
     .settings-container {
         @include container;
         max-width: 1000px;

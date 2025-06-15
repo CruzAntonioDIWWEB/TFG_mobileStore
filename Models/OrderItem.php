@@ -68,18 +68,18 @@ class OrderItem
         try {
             $sql = 'INSERT INTO order_items (order_id, product_id, quantity) 
                     VALUES (:order_id, :product_id, :quantity)';
-    
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':order_id', $this->order_id, PDO::PARAM_INT);
             $stmt->bindParam(':product_id', $this->product_id, PDO::PARAM_INT);
             $stmt->bindParam(':quantity', $this->quantity, PDO::PARAM_INT);
-    
+
             $result = $stmt->execute();
             if ($result) {
                 $this->id = $this->db->lastInsertId();
                 return true;
             }
-    
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error saving order item: " . $e->getMessage());
@@ -97,13 +97,13 @@ class OrderItem
             $sql = 'UPDATE order_items SET order_id = :order_id, 
                     product_id = :product_id, quantity = :quantity 
                     WHERE id = :id';
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
             $stmt->bindParam(':order_id', $this->order_id, PDO::PARAM_INT);
             $stmt->bindParam(':product_id', $this->product_id, PDO::PARAM_INT);
             $stmt->bindParam(':quantity', $this->quantity, PDO::PARAM_INT);
-            
+
             return $stmt->execute();
         } catch (\PDOException $e) {
             error_log("Error updating order item: " . $e->getMessage());
@@ -138,18 +138,18 @@ class OrderItem
             $stmt = $this->db->prepare('SELECT * FROM order_items WHERE id = :id');
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-    
+
             if ($stmt->rowCount() > 0) {
                 $item_data = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
                 $this->id = $item_data['id'];
                 $this->order_id = $item_data['order_id'];
                 $this->product_id = $item_data['product_id'];
                 $this->quantity = $item_data['quantity'];
-    
+
                 return $this;
             }
-    
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting order item by ID: " . $e->getMessage());
@@ -168,11 +168,11 @@ class OrderItem
             $query = $this->db->prepare('SELECT * FROM order_items WHERE order_id = :order_id');
             $query->bindParam(':order_id', $order_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting items by order: " . $e->getMessage());
@@ -196,11 +196,11 @@ class OrderItem
             ');
             $query->bindParam(':order_id', $order_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting detailed items by order: " . $e->getMessage());
@@ -223,7 +223,7 @@ class OrderItem
             ');
             $query->bindParam(':order_id', $order_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result['total'];
         } catch (\PDOException $e) {
@@ -278,4 +278,3 @@ class OrderItem
         return false;
     }
 }
-?>

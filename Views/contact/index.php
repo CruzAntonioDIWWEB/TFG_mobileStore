@@ -21,9 +21,7 @@ $messages = $messages ?? [];
 <!-- Contact Form Section -->
 <section class="contact-section">
     <div class="contact-container">
-        <!-- Contact Form Card -->
         <div class="contact-form-card">
-            <!-- Form Header -->
             <div class="contact-header">
                 <h1 class="contact-title">Contacto</h1>
                 <p class="contact-subtitle">¿Tienes alguna pregunta? Nos encantaría ayudarte</p>

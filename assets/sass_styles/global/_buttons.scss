@@ -2,11 +2,9 @@
 @use 'sass:map';
 
 // Button style 
-@mixin button-style(
-    $bg-color: map.get(v.$colors, primary-red),
+@mixin button-style($bg-color: map.get(v.$colors, primary-red),
     $text-color: map.get(v.$colors, white),
-    $border: false
-) {
+    $border: false) {
     padding: 10px 20px;
     text-decoration: none;
     font-family: map.get(v.$fonts, cta);
@@ -26,7 +24,9 @@
             background-color: $bg-color;
             color: $text-color;
         }
-    } @else {
+    }
+
+    @else {
         background-color: $bg-color;
         color: $text-color;
         border: none;

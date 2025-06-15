@@ -6,14 +6,14 @@
             <div class="success-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
-            
+
             <!-- Success Content -->
             <div class="success-content">
                 <h1 class="success-title">¡Registro Completado!</h1>
                 <p class="success-message">
                     Tu cuenta ha sido creada exitosamente. Ya puedes iniciar sesión y comenzar a explorar nuestros productos.
                 </p>
-                
+
                 <!-- Action Buttons -->
                 <div class="success-actions">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="success-btn btn-primary">
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Additional Info -->
         <div class="success-info">
             <div class="info-item">

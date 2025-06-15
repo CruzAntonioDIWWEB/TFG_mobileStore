@@ -100,94 +100,94 @@ $messages = $messages ?? [];
                     </div>
                 </div>
 
-    <?php if ($isAdmin): ?>
-                <!-- Category Management Card -->
-                <div class="settings-card admin-card">
-                    <div class="card-header">
-                        <div class="card-icon admin-icon">
-                            <i class="fas fa-tags"></i>
+                <?php if ($isAdmin): ?>
+                    <!-- Category Management Card -->
+                    <div class="settings-card admin-card">
+                        <div class="card-header">
+                            <div class="card-icon admin-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="card-title">
+                                <h3>Gestión de Categorías</h3>
+                                <p>Administrar las categorías</p>
+                            </div>
                         </div>
-                        <div class="card-title">
-                            <h3>Gestión de Categorías</h3>
-                            <p>Administrar las categorías</p>
+                        <div class="card-content">
+                            <div class="admin-options">
+                                <div class="admin-option">
+                                    <i class="fas fa-list"></i>
+                                    <span>Ver todas las categorías</span>
+                                </div>
+                                <div class="admin-option">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Añadir categoría</span>
+                                </div>
+                                <div class="admin-option">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar y eliminar categorías</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=index" class="settings-btn btn-admin">
+                                <i class="fas fa-cog"></i>
+                                Gestionar categorías
+                            </a>
                         </div>
                     </div>
-                    <div class="card-content">
-                        <div class="admin-options">
-                            <div class="admin-option">
+
+                    <!-- Product Management Card -->
+                    <div class="settings-card admin-card">
+                        <div class="card-header">
+                            <div class="card-icon admin-icon">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="card-title">
+                                <h3>Gestión de productos</h3>
+                                <p>Administrar los productos</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="admin-options">
+                                <div class="admin-option">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Añadir productos</span>
+                                </div>
+                                <div class="admin-option">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar y eliminar productos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=index" class="settings-btn btn-admin">
+                                <i class="fas fa-plus"></i>
+                                Gestionar productos
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- User Management Card -->
+                    <div class="settings-card admin-card">
+                        <div class="card-header">
+                            <div class="card-icon admin-icon">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <div class="card-title">
+                                <h3>Gestión de usuarios</h3>
+                                <p>Administrar cuentas de usuarios</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p class="card-description">Revisa y administra las cuentas de los usuarios registrados.</p>
+                        </div>
+                        <div class="card-actions">
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=listUsers" class="settings-btn btn-admin">
                                 <i class="fas fa-list"></i>
-                                <span>Ver todas las categorías</span>
-                            </div>
-                            <div class="admin-option">
-                                <i class="fas fa-plus"></i>
-                                <span>Añadir categoría</span>
-                            </div>
-                            <div class="admin-option">
-                                <i class="fas fa-edit"></i>
-                                <span>Editar y eliminar categorías</span>
-                            </div>
+                                Ver usuarios
+                            </a>
                         </div>
                     </div>
-                    <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=index" class="settings-btn btn-admin">
-                            <i class="fas fa-cog"></i>
-                            Gestionar categorías
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Product Management Card -->
-                <div class="settings-card admin-card">
-                    <div class="card-header">
-                        <div class="card-icon admin-icon">
-                            <i class="fas fa-boxes"></i>
-                        </div>
-                        <div class="card-title">
-                            <h3>Gestión de productos</h3>
-                            <p>Administrar los productos</p>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="admin-options">
-                            <div class="admin-option">
-                                <i class="fas fa-plus"></i>
-                                <span>Añadir productos</span>
-                            </div>
-                            <div class="admin-option">
-                                <i class="fas fa-edit"></i>
-                                <span>Editar y eliminar productos</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=index" class="settings-btn btn-admin">
-                            <i class="fas fa-plus"></i>
-                            Gestionar productos
-                        </a>
-                    </div>
-                </div>
-
-                <!-- User Management Card -->
-                <div class="settings-card admin-card">
-                    <div class="card-header">
-                        <div class="card-icon admin-icon">
-                            <i class="fas fa-users-cog"></i>
-                        </div>
-                        <div class="card-title">
-                            <h3>Gestión de usuarios</h3>
-                            <p>Administrar cuentas de usuarios</p>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-description">Revisa y administra las cuentas de los usuarios registrados.</p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=listUsers" class="settings-btn btn-admin">
-                            <i class="fas fa-list"></i>
-                            Ver usuarios
-                        </a>
-                    </div>
-                </div>
                 <?php endif; ?>
 
                 <!-- Logout Card -->

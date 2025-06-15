@@ -300,7 +300,7 @@
 
         @include breakpoint(mobile) {
             font-size: 0.85rem;
-            
+
             i {
                 font-size: 1rem;
             }
@@ -325,7 +325,7 @@
     gap: map-get(v.$spacing, sm);
 
     .form-checkbox {
-        display: none; // Hide default checkbox
+        display: none;
     }
 
     .checkbox-label {
@@ -385,7 +385,7 @@
     }
 
     // When checkbox is checked
-    .form-checkbox:checked + .checkbox-label .checkbox-custom {
+    .form-checkbox:checked+.checkbox-label .checkbox-custom {
         background-color: map-get(v.$colors, primary-red);
         border-color: map-get(v.$colors, primary-red);
 
@@ -395,7 +395,7 @@
     }
 
     // Focus styles
-    .form-checkbox:focus + .checkbox-label .checkbox-custom {
+    .form-checkbox:focus+.checkbox-label .checkbox-custom {
         box-shadow: map-get(v.$shadows, focus-red);
     }
 

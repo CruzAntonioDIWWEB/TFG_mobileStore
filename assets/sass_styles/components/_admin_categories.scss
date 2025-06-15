@@ -20,12 +20,11 @@
     }
 }
 
-/* ESPECÍFICO PARA FORMULARIOS DE CREAR/EDITAR CATEGORÍAS */
 .auth-section {
     background: linear-gradient(135deg, map-get(v.$colors, bg-light-gray) 0%, map-get(v.$colors, white) 100%);
     min-height: calc(100vh - map-get(v.$layout, header-height));
     padding: map-get(v.$spacing, sm) 0;
-    
+
     .auth-container {
         @include container;
         padding-top: map-get(v.$spacing, xs);
@@ -33,7 +32,7 @@
     }
 }
 
-/* Admin Header - MANTENER ORIGINAL PARA INDEX */
+/* Admin Header */
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -99,7 +98,7 @@
     }
 }
 
-/* Admin Card - MANTENER ORIGINAL PARA INDEX */
+/* Admin Card */
 .admin-card {
     background-color: map-get(v.$colors, white);
     border-radius: map-get(v.$layout, border-radius-lg);
@@ -141,7 +140,6 @@
     }
 }
 
-/* ESTILOS ESPECÍFICOS PARA FORMULARIOS AUTH (CREAR/EDITAR) */
 .auth-card {
     background-color: map-get(v.$colors, white);
     border-radius: map-get(v.$layout, border-radius-lg);
@@ -189,7 +187,7 @@
     }
 }
 
-/* Table Styles - MANTENER ORIGINAL PARA INDEX */
+/* Table Styles */
 .table-wrapper {
     overflow-x: auto;
     border-radius: map-get(v.$layout, border-radius);
@@ -248,7 +246,7 @@
     }
 }
 
-/* Table Cell Specific Styles - MANTENER ORIGINAL */
+/* Table Cell Specific Styles */
 .category-id {
     .id-badge {
         background-color: rgba(map-get(v.$colors, primary-red), 0.1);
@@ -343,7 +341,7 @@
     }
 }
 
-/* No Categories State - MANTENER ORIGINAL */
+/* No Categories State */
 .no-categories {
     text-align: center;
     padding: map-get(v.$spacing, lg) map-get(v.$spacing, md);
@@ -403,7 +401,7 @@
     }
 }
 
-/* FORMULARIOS - Estilos compactos para crear/editar */
+/* Forms */
 .form-group {
     margin-bottom: map-get(v.$spacing, sm);
 
@@ -449,7 +447,7 @@
     }
 }
 
-/* Category Info in Edit Form - COMPACTO */
+/* Category Info in Edit Form */
 .category-info {
     background-color: rgba(map-get(v.$colors, bg-light-gray), 0.5);
     border-radius: map-get(v.$layout, border-radius);
@@ -482,7 +480,7 @@
     }
 }
 
-/* Error State - COMPACTO PARA FORMULARIOS */
+/* Error State */
 .error-state {
     text-align: center;
     padding: map-get(v.$spacing, sm);
@@ -574,7 +572,7 @@
     }
 }
 
-/* Modal Styles Enhancement - MANTENER ORIGINAL */
+/* Modal Styles Enhancement */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -724,7 +722,7 @@
         thead th:nth-child(3) {
             display: none;
         }
-        
+
         tbody td:nth-child(3) {
             display: none;
         }
@@ -735,7 +733,7 @@
     .auth-section {
         padding: map-get(v.$spacing, xs) 0;
     }
-    
+
     .breadcrumb {
         margin-bottom: map-get(v.$spacing, xs);
     }

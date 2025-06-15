@@ -73,7 +73,7 @@ $messages = $messages ?? [];
             <!-- Auth Footer -->
             <div class="auth-footer">
                 <p class="auth-link-text">
-                    ¿No tienes una cuenta? 
+                    ¿No tienes una cuenta?
                     <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=register" class="auth-link">Regístrate</a>
                 </p>
             </div>

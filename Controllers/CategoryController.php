@@ -11,7 +11,7 @@ require_once __DIR__ . '/BaseController.php';
  */
 class CategoryController extends BaseController
 {
-    
+
     // ========================================
     // CATEGORY DISPLAY METHODS
     // ========================================
@@ -19,7 +19,8 @@ class CategoryController extends BaseController
     /**
      * Display all categories (admin only)
      */
-    public function index(){
+    public function index()
+    {
         $this->requireAdmin();
 
         $categoryModel = new \Models\Category();
@@ -31,7 +32,8 @@ class CategoryController extends BaseController
     /**
      * Show form to create a new category
      */
-    public function create(){
+    public function create()
+    {
         $this->requireAdmin();
 
         $this->loadView('admin/categories/create');
@@ -40,11 +42,12 @@ class CategoryController extends BaseController
     /**
      * Show form to edit an existing category
      */
-    public function edit(){
+    public function edit()
+    {
         $this->requireAdmin();
 
         $categoryId = $this->getGetData('id');
-        
+
         if (!$categoryId || !is_numeric($categoryId)) {
             $this->setErrorMessage('ID de categoría inválido');
             $this->redirect('category', 'index');
@@ -70,7 +73,8 @@ class CategoryController extends BaseController
     /**
      * Save a new category
      */
-    public function save(){
+    public function save()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -115,7 +119,8 @@ class CategoryController extends BaseController
     /**
      * Update an existing category
      */
-    public function update(){
+    public function update()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -169,7 +174,8 @@ class CategoryController extends BaseController
     /**
      * Delete a category
      */
-    public function delete(){
+    public function delete()
+    {
         $this->requireAdmin();
 
         if (!$this->isPost()) {
@@ -195,10 +201,6 @@ class CategoryController extends BaseController
             $this->redirect('category', 'index');
             return;
         }
-
-        // Check if category has products before deleting
-        // Note: You might want to add a method to check if category has products
-        // For now, we'll just attempt to delete
 
         $category->setId($categoryId);
         $deleted = $category->delete();

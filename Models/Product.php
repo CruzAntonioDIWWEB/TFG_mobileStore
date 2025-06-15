@@ -7,7 +7,6 @@ use PDO;
 
 class Product
 {
-    
     //Attributes 
     private $id;
     private $category_id;
@@ -22,87 +21,110 @@ class Product
     private $db;
 
     //Constructor
-    public function __construct(){
+    public function __construct()
+    {
         //Database connection
         $dbConfig = new DatabaseConfig();
         $this->db = $dbConfig->getConnection();
     }
 
     // Getters and Setters
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getCategoryId() {
+    public function getCategoryId()
+    {
         return $this->category_id;
     }
-    public function setCategoryId($category_id) {
+    public function setCategoryId($category_id)
+    {
         $this->category_id = $category_id;
     }
 
-    public function getAccessoryType() {
+    public function getAccessoryType()
+    {
         return $this->accessory_type;
     }
-    public function setAccessoryType($accessory_type) {
+    public function setAccessoryType($accessory_type)
+    {
         $this->accessory_type = $accessory_type;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
 
-    public function getPrice() {
+    public function getPrice()
+    {
         return $this->price;
     }
-    public function setPrice($price) {
+    public function setPrice($price)
+    {
         $this->price = $price;
     }
 
-    public function getStock() {
+    public function getStock()
+    {
         return $this->stock;
     }
-    public function setStock($stock) {
+    public function setStock($stock)
+    {
         $this->stock = $stock;
     }
 
-    public function getImage() {
+    public function getImage()
+    {
         return $this->image;
     }
-    public function setImage($image) {
+    public function setImage($image)
+    {
         $this->image = $image;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt()
+    {
         return $this->created_at;
     }
-    public function setCreatedAt($created_at) {
+    public function setCreatedAt($created_at)
+    {
         $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt() {
+    public function getUpdatedAt()
+    {
         return $this->updated_at;
     }
-    public function setUpdatedAt($updated_at) {
+    public function setUpdatedAt($updated_at)
+    {
         $this->updated_at = $updated_at;
     }
 
-    public function getDb() {
+    public function getDb()
+    {
         return $this->db;
     }
-    public function setDb($db) {
+    public function setDb($db)
+    {
         $this->db = $db;
     }
 
@@ -111,11 +133,12 @@ class Product
      * @return bool true on success, false on failure
      */
 
-     public function saveDB(){
+    public function saveDB()
+    {
         try {
             $sql = 'INSERT INTO products (category_id, accessory_type_id, name, description, price, stock, image) 
                     VALUES (:category_id, :accessory_type_id, :name, :description, :price, :stock, :image)';
-    
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
             $stmt->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
@@ -124,13 +147,13 @@ class Product
             $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
             $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
             $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
-    
+
             $result = $stmt->execute();
             if ($result) {
                 $this->id = $this->db->lastInsertId();
                 return true;
             }
-    
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error saving product: " . $e->getMessage());
@@ -142,71 +165,71 @@ class Product
      * Update a product to the database
      * @return bool true on success, false on failure
      */
-   public function updateDB(){
-    try{
-        // Build the SQL query
-        $sql = 'UPDATE products SET 
+    public function updateDB()
+    {
+        try {
+            $sql = 'UPDATE products SET 
                 category_id = :category_id, 
                 accessory_type_id = :accessory_type_id,
                 name = :name, 
                 description = :description, 
                 price = :price, 
                 stock = :stock';
-        
-        // Add image to query if it's provided
-        if (!empty($this->image)) {
-            $sql .= ', image = :image';
+
+            // Add image to query if it's provided
+            if (!empty($this->image)) {
+                $sql .= ', image = :image';
+            }
+
+            $sql .= ' WHERE id = :id';
+
+            $stmt = $this->db->prepare($sql);
+
+            // Bind parameters individually (avoiding the reference issue)
+            $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            $stmt->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+            $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
+            $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
+
+            // Only bind image if it's provided
+            if (!empty($this->image)) {
+                $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
+            }
+
+            // Debug logging
+            error_log("SQL: " . $sql);
+            error_log("Updating product - ID: {$this->id}, Name: {$this->name}, Price: {$this->price}, Stock: {$this->stock}");
+
+            $result = $stmt->execute();
+
+            if ($result) {
+                error_log("Product update successful for ID: " . $this->id);
+            } else {
+                error_log("Product update failed for ID: " . $this->id);
+                $errorInfo = $stmt->errorInfo();
+                error_log("SQL Error: " . print_r($errorInfo, true));
+            }
+
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Error updating product: " . $e->getMessage());
+            return false;
         }
-        
-        $sql .= ' WHERE id = :id';
-        
-        $stmt = $this->db->prepare($sql);
-        
-        // Bind parameters individually (avoiding the reference issue)
-        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
-        $stmt->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
-        $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
-        $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
-        $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
-        $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
-        
-        // Only bind image if it's provided
-        if (!empty($this->image)) {
-            $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
-        }
-        
-        // Debug logging
-        error_log("SQL: " . $sql);
-        error_log("Updating product - ID: {$this->id}, Name: {$this->name}, Price: {$this->price}, Stock: {$this->stock}");
-        
-        $result = $stmt->execute();
-        
-        if ($result) {
-            error_log("Product update successful for ID: " . $this->id);
-        } else {
-            error_log("Product update failed for ID: " . $this->id);
-            $errorInfo = $stmt->errorInfo();
-            error_log("SQL Error: " . print_r($errorInfo, true));
-        }
-        
-        return $result;
-        
-    }catch (\PDOException $e) {
-        error_log("Error updating product: " . $e->getMessage());
-        return false;
     }
-}
     /**
      * Delete a product from the database
      * @return bool true on success, false on failure
      */
-    public function delete(){
-        try{
+    public function delete()
+    {
+        try {
             $delete = $this->db->prepare('DELETE FROM products WHERE id = :id');
             $delete->bindParam(':id', $this->id, PDO::PARAM_INT);
             return $delete->execute();
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error deleting product: " . $e->getMessage());
             return false;
         }
@@ -216,15 +239,16 @@ class Product
      * Get a product by ID
      * @return array of product
      */
-    public function getProductById($id){
-        try{
+    public function getProductById($id)
+    {
+        try {
             $stmt = $this->db->prepare('SELECT * FROM products WHERE id = :id');
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-    
-            if($stmt->rowCount() > 0){
+
+            if ($stmt->rowCount() > 0) {
                 $product_data = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
                 $this->id = $product_data['id'];
                 $this->category_id = $product_data['category_id'];
                 $this->accessory_type = $product_data['accessory_type_id'];
@@ -235,12 +259,12 @@ class Product
                 $this->image = $product_data['image'];
                 $this->created_at = $product_data['created_at'];
                 $this->updated_at = $product_data['updated_at'];
-    
+
                 return $this;
             }
-    
+
             return false;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error getting product by ID: " . $e->getMessage());
             return false;
         }
@@ -250,9 +274,10 @@ class Product
      * Get all products 
      * @return array of products
      */
-    public function getAll(){
-    try{
-        $query = $this->db->prepare('
+    public function getAll()
+    {
+        try {
+            $query = $this->db->prepare('
             SELECT p.*, 
                    c.name as category_name,
                    at.name as accessory_type_name
@@ -261,33 +286,33 @@ class Product
             LEFT JOIN accessory_types at ON p.accessory_type_id = at.id
             ORDER BY p.id DESC
         ');
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }catch (\PDOException $e) {
-        error_log("Error getting all products: " . $e->getMessage());
-        return false;
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Error getting all products: " . $e->getMessage());
+            return false;
+        }
     }
-}
 
     /**
      * Gets prodcuts by category
      * @param int $category_id
      * @return array|false of products or false on failure
      */
-    public function getByCategory($category_id){
-        try{
+    public function getByCategory($category_id)
+    {
+        try {
             $query = $this->db->prepare('SELECT * FROM products WHERE category_id = :category_id ORDER BY id DESC');
             $query->bindParam(':category_id', $category_id, PDO::PARAM_INT);
             $query->execute();
 
-            if($query->rowCount() > 0){
+            if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
 
             return false;
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error getting products by category: " . $e->getMessage());
             return false;
         }
@@ -298,19 +323,19 @@ class Product
      * @param int $accessory_type
      * @return array|false of products or false on failure
      */
-    public function getByAccessoryType($accessory_type){
-        try{
+    public function getByAccessoryType($accessory_type)
+    {
+        try {
             $query = $this->db->prepare('SELECT * FROM products WHERE accessory_type_id = :accessory_type_id ORDER BY id DESC');
             $query->bindParam(':accessory_type_id', $accessory_type, PDO::PARAM_INT);
             $query->execute();
 
-            if($query->rowCount() > 0){
+            if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
 
             return false;
-
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error getting products by type accessory: " . $e->getMessage());
             return false;
         }
@@ -320,7 +345,8 @@ class Product
      * Get all products by stock availability
      * @return array|false of products or false on failure
      */
-    public function getAvailableProduct(){
+    public function getAvailableProduct()
+    {
         try {
             $query = $this->db->query("SELECT * FROM products WHERE stock > 0 ORDER BY id DESC");
             return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -335,19 +361,19 @@ class Product
      * @param string $keyword
      * @return array|false of products or false on failure
      */
-    public function search($keyword){
+    public function search($keyword)
+    {
         try {
             $query = $this->db->prepare("SELECT * FROM products WHERE name LIKE :keyword OR description LIKE :keyword ORDER BY id DESC");
             $keyword = "%$keyword%";
             $query->bindParam(':keyword', $keyword, PDO::PARAM_STR);
             $query->execute();
 
-            if($query->rowCount() > 0){
+            if ($query->rowCount() > 0) {
                 return $query->fetchAll(PDO::FETCH_ASSOC);
             }
 
             return false;
-
         } catch (\PDOException $e) {
             error_log("Error searching products: " . $e->getMessage());
             return false;
@@ -359,9 +385,10 @@ class Product
      * @param int $quantity
      * @return bool true on success, false on failure
      */
-    public function reduceStock($quantity){
-        if($this->stock >= $quantity) {
-            try{
+    public function reduceStock($quantity)
+    {
+        if ($this->stock >= $quantity) {
+            try {
                 $this->stock -= $quantity;
                 $query = $this->db->prepare("UPDATE products SET stock = :stock WHERE id = :id");
                 $query->bindParam(':stock', $this->stock, PDO::PARAM_INT);
@@ -381,8 +408,9 @@ class Product
      * @param int $quantity
      * @return bool true on success, false on failure
      */
-    public function increaseStock($quantity){
-        try{
+    public function increaseStock($quantity)
+    {
+        try {
             $this->stock += $quantity;
             $query = $this->db->prepare("UPDATE products SET stock = :stock WHERE id = :id");
             $query->bindParam(':stock', $this->stock, PDO::PARAM_INT);
@@ -398,17 +426,18 @@ class Product
      * Get the category of a product
      * @return string|false category name or false on failure
      */
-    public function getCategory(){
+    public function getCategory()
+    {
         try {
             $query = $this->db->prepare("SELECT name FROM categories WHERE id = :category_id");
             $query->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
             $query->execute();
-            
+
             if ($query->rowCount() > 0) {
                 $result = $query->fetch(PDO::FETCH_ASSOC);
                 return $result['name'];
             }
-            
+
             return false;
         } catch (\PDOException $e) {
             error_log("Error getting category name: " . $e->getMessage());
@@ -420,12 +449,13 @@ class Product
      * Get the type of accessory of a product
      * @return string|false type accessory name or false on failure
      */
-    public function getAccessoryTypeName(){
-        if(!$this->accessory_type){
+    public function getAccessoryTypeName()
+    {
+        if (!$this->accessory_type) {
             return false;
         }
 
-        try{
+        try {
             $query = $this->db->prepare("SELECT name FROM accessory_types WHERE id = :accessory_type_id");
             $query->bindParam(':accessory_type_id', $this->accessory_type, PDO::PARAM_INT);
             $query->execute();
@@ -436,19 +466,18 @@ class Product
             }
 
             return false;
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Error obtaining the accessory name: " . $e->getMessage());
             return false;
         }
     }
 
-    //NOT DEFINITIVE BUT THIS 2 METHODS ARE BASED ON THE CATEGORIES ID WHICH I DO NOT KNOW YET IF THEY ARE GONNA BE LIKE THAT
-
     /**
      * Verify if a product is a phone
      * @return bool true if it is a phone, false otherwise
      */
-    public function isPhone(){
+    public function isPhone()
+    {
         // ID 1 is the category ID for phones
         return $this->category_id == 1;
     }
@@ -457,7 +486,8 @@ class Product
      * Verify if a product is an accessory
      * @return bool true if it is an accessory, false otherwise
      */
-    public function isAccessory(){
+    public function isAccessory()
+    {
         // ID 2 is the category ID for accessories
         return $this->category_id == 2;
     }
@@ -466,10 +496,8 @@ class Product
      * Format of the price
      * @return string formatted price
      */
-    public function formatPrice(){
-        return number_format($this->price, 2, ',', '.'). ' €';
+    public function formatPrice()
+    {
+        return number_format($this->price, 2, ',', '.') . ' €';
     }
-
 }
-
-?>

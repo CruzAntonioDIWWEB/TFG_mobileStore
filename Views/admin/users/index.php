@@ -32,7 +32,7 @@ $messages = $messages ?? [];
                 Volver a configuración
             </a>
         </div>
-        
+
         <div class="admin-header">
             <div class="admin-title-section">
                 <h1 class="admin-title">Gestión de Usuarios</h1>
@@ -102,19 +102,19 @@ $messages = $messages ?? [];
                                             <td class="user-actions">
                                                 <div class="action-buttons">
                                                     <!-- Edit Button -->
-                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=edit&id=<?php echo $user['id']; ?>" 
-                                                       class="action-btn edit-btn" 
-                                                       title="Editar usuario">
+                                                    <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=edit&id=<?php echo $user['id']; ?>"
+                                                        class="action-btn edit-btn"
+                                                        title="Editar usuario">
                                                         <i class="fas fa-edit"></i>
                                                         <span>Editar</span>
                                                     </a>
 
                                                     <!-- Delete Button - Only if not current user -->
                                                     <?php if ($user['id'] != $currentUser['id']): ?>
-                                                        <form method="POST" 
-                                                              action="<?php echo BASE_URL; ?>index.php?controller=user&action=delete" 
-                                                              class="delete-form" 
-                                                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.');">
+                                                        <form method="POST"
+                                                            action="<?php echo BASE_URL; ?>index.php?controller=user&action=delete"
+                                                            class="delete-form"
+                                                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.');">
                                                             <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
                                                             <button type="submit" class="action-btn delete-btn" title="Eliminar usuario">
                                                                 <i class="fas fa-trash"></i>

@@ -25,7 +25,7 @@ $messages = $messages ?? [];
 <!-- Create Category Section -->
 <section class="auth-section">
     <div class="auth-container">
-        
+
         <!-- Navigation Breadcrumb -->
         <div class="breadcrumb breadcrumb-compact">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
@@ -51,20 +51,20 @@ $messages = $messages ?? [];
             </div>
 
             <form class="auth-form" method="POST" action="<?php echo BASE_URL; ?>index.php?controller=category&action=save">
-                
+
                 <div class="form-group">
                     <label for="name" class="form-label">
                         <i class="fas fa-tag"></i>
                         Nombre de la categoría
                     </label>
-                    <input type="text" 
-                           id="name" 
-                           name="name" 
-                           class="form-input" 
-                           placeholder="Ej: Móviles, Accesorios, Fundas..."
-                           required
-                           maxlength="25"
-                           autocomplete="off">
+                    <input type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Ej: Móviles, Accesorios, Fundas..."
+                        required
+                        maxlength="25"
+                        autocomplete="off">
                     <small class="form-hint">Máximo 25 caracteres. Debe ser único.</small>
                 </div>
 
@@ -73,7 +73,7 @@ $messages = $messages ?? [];
                         <i class="fas fa-save"></i>
                         Crear Categoría
                     </button>
-                    
+
                     <a href="<?php echo BASE_URL; ?>index.php?controller=category&action=index" class="auth-btn btn-secondary">
                         <i class="fas fa-arrow-left"></i>
                         Volver al listado

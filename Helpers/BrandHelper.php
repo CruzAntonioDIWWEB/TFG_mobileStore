@@ -16,41 +16,41 @@ class BrandHelper
     public static function detectBrand($productName)
     {
         $name = strtolower(trim($productName));
-        
-        // iPhone detection (products starting with "iphone")
+
+        // iPhone detection
         if (strpos($name, 'iphone') === 0) {
             return 'iphone';
         }
-        
+
         // Samsung detection (Samsung or Galaxy)
         if (strpos($name, 'samsung') !== false || strpos($name, 'galaxy') !== false) {
             return 'samsung';
         }
-        
+
         // Xiaomi detection (Xiaomi or Redmi)
         if (strpos($name, 'xiaomi') !== false || strpos($name, 'redmi') !== false) {
             return 'xiaomi';
         }
-        
+
         // Huawei detection
         if (strpos($name, 'huawei') !== false) {
             return 'huawei';
         }
-        
+
         // Google Pixel detection
         if (strpos($name, 'pixel') !== false || strpos($name, 'google') !== false) {
             return 'google';
         }
-        
+
         // Oppo detection
         if (strpos($name, 'oppo') !== false) {
             return 'oppo';
         }
-        
-        // Default to 'other' for unrecognized brands
+
+        // Default for unrecognized brands
         return 'other';
     }
-    
+
     /**
      * Get all available brands from mobile products
      * @param array $phones Array of phone products
@@ -60,7 +60,7 @@ class BrandHelper
     {
         $brands = [];
         $brandLabels = self::getBrandLabels();
-        
+
         if (!empty($phones)) {
             foreach ($phones as $phone) {
                 $brand = self::detectBrand($phone['name']);
@@ -69,15 +69,15 @@ class BrandHelper
                 }
             }
         }
-        
+
         // Sort brands alphabetically by display name
-        usort($brands, function($a, $b) use ($brandLabels) {
+        usort($brands, function ($a, $b) use ($brandLabels) {
             return strcmp($brandLabels[$a] ?? $a, $brandLabels[$b] ?? $b);
         });
-        
+
         return $brands;
     }
-    
+
     /**
      * Get brand display labels
      * @return array Associative array of brand keys and display names
@@ -94,7 +94,7 @@ class BrandHelper
             'other' => 'Otros'
         ];
     }
-    
+
     /**
      * Get brand display name
      * @param string $brandKey The brand key

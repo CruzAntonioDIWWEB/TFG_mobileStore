@@ -12,7 +12,7 @@ require_once __DIR__ . '/BaseController.php';
  */
 class CartController extends BaseController
 {
-    
+
     // ========================================
     // CART DISPLAY METHODS
     // ========================================
@@ -23,27 +23,27 @@ class CartController extends BaseController
     public function index()
     {
         $this->requireLogin();
-        
+
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
-        
+
         // Get detailed cart items with product information
         $cartItems = $cart->getDetailedCartByUser($currentUser['id']);
-        
+
         // Calculate totals
         $totalItems = $cart->getTotalItems($currentUser['id']);
         $totalCost = $cart->getTotalCost($currentUser['id']);
-        
+
         // Update session cart count
         $_SESSION['cart_count'] = $totalItems;
-        
+
         $viewData = [
             'cartItems' => $cartItems,
             'totalItems' => $totalItems,
             'totalCost' => $totalCost,
             'formattedTotal' => $cart->formatTotalCost($currentUser['id'])
         ];
-        
+
         $this->loadView('cart/index', $viewData);
     }
 
@@ -57,7 +57,7 @@ class CartController extends BaseController
     public function addToCart()
     {
         $this->requireLogin();
-        
+
         if (!$this->isPost()) {
             $this->setErrorMessage('Invalid request method');
             $this->goBack();
@@ -67,7 +67,7 @@ class CartController extends BaseController
         $postData = $this->getPostData();
         $productId = intval($postData['product_id'] ?? 0);
         $quantity = intval($postData['quantity'] ?? 1);
-        
+
         if (!$productId || $quantity <= 0) {
             $this->setErrorMessage('Datos de producto inválidos');
             $this->goBack();
@@ -114,7 +114,7 @@ class CartController extends BaseController
     public function updateQuantity()
     {
         $this->requireLogin();
-        
+
         if (!$this->isPost()) {
             $this->setErrorMessage('Invalid request method');
             $this->redirect('cart', 'index');
@@ -124,7 +124,7 @@ class CartController extends BaseController
         $postData = $this->getPostData();
         $cartItemId = intval($postData['cart_item_id'] ?? 0);
         $quantity = intval($postData['quantity'] ?? 0);
-        
+
         if (!$cartItemId) {
             $this->setErrorMessage('ID de elemento inválido');
             $this->redirect('cart', 'index');
@@ -133,7 +133,7 @@ class CartController extends BaseController
 
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
-        
+
         // Get cart item and verify ownership
         $cartItem = $cart->getCartItemById($cartItemId);
         if (!$cartItem || $cartItem->getUserId() != $currentUser['id']) {
@@ -184,7 +184,7 @@ class CartController extends BaseController
     public function removeItem()
     {
         $this->requireLogin();
-        
+
         if (!$this->isPost()) {
             $this->setErrorMessage('Invalid request method');
             $this->redirect('cart', 'index');
@@ -193,7 +193,7 @@ class CartController extends BaseController
 
         $postData = $this->getPostData();
         $cartItemId = intval($postData['cart_item_id'] ?? 0);
-        
+
         if (!$cartItemId) {
             $this->setErrorMessage('ID de elemento inválido');
             $this->redirect('cart', 'index');
@@ -202,7 +202,7 @@ class CartController extends BaseController
 
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
-        
+
         // Get cart item and verify ownership
         $cartItem = $cart->getCartItemById($cartItemId);
         if (!$cartItem || $cartItem->getUserId() != $currentUser['id']) {
@@ -230,7 +230,7 @@ class CartController extends BaseController
     public function clearCart()
     {
         $this->requireLogin();
-        
+
         if (!$this->isPost()) {
             $this->setErrorMessage('Invalid request method');
             $this->redirect('cart', 'index');
@@ -239,7 +239,7 @@ class CartController extends BaseController
 
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
-        
+
         $cleared = $cart->clearCart($currentUser['id']);
 
         if ($cleared) {
@@ -254,19 +254,19 @@ class CartController extends BaseController
     }
 
     // ========================================
-    // AJAX METHODS (for dynamic updates)
+    // AJAX METHODS
     // ========================================
 
     /**
-     * Add to cart via AJAX (for product catalog buttons)
+     * Add to cart via AJAX
      */
     public function ajaxAddToCart()
     {
         $this->requireLogin();
-        
+
         // Set content type for JSON response
         header('Content-Type: application/json');
-        
+
         if (!$this->isPost()) {
             echo json_encode(['success' => false, 'message' => 'Invalid request method']);
             return;
@@ -275,7 +275,7 @@ class CartController extends BaseController
         $postData = $this->getPostData();
         $productId = intval($postData['product_id'] ?? 0);
         $quantity = intval($postData['quantity'] ?? 1);
-        
+
         if (!$productId || $quantity <= 0) {
             echo json_encode(['success' => false, 'message' => 'Datos de producto inválidos']);
             return;
@@ -306,9 +306,9 @@ class CartController extends BaseController
             // Get updated cart count
             $totalItems = $cart->getTotalItems($currentUser['id']);
             $_SESSION['cart_count'] = $totalItems;
-            
+
             echo json_encode([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Producto añadido al carrito',
                 'cartCount' => $totalItems
             ]);
@@ -323,7 +323,7 @@ class CartController extends BaseController
     public function getCartCount()
     {
         header('Content-Type: application/json');
-        
+
         if (!$this->checkUserSession()) {
             echo json_encode(['success' => false, 'count' => 0]);
             return;
@@ -332,7 +332,7 @@ class CartController extends BaseController
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
         $totalItems = $cart->getTotalItems($currentUser['id']);
-        
+
         echo json_encode(['success' => true, 'count' => $totalItems]);
     }
 
@@ -359,12 +359,12 @@ class CartController extends BaseController
     public function verifyCartStock()
     {
         $this->requireLogin();
-        
+
         $currentUser = $this->getCurrentUser();
         $cart = new \Models\Cart();
-        
+
         $stockProblems = $cart->verifyStock($currentUser['id']);
-        
+
         if ($stockProblems === true) {
             // All items have sufficient stock
             return true;
@@ -374,15 +374,13 @@ class CartController extends BaseController
             foreach ($stockProblems as $problem) {
                 $problemMessages[] = "'{$problem['product_name']}': solicitados {$problem['requested_quantity']}, disponibles {$problem['available_stock']}";
             }
-            
+
             $this->setErrorMessage('Problemas de stock: ' . implode(', ', $problemMessages));
             return false;
         }
-        
+
         // Error occurred
         $this->setErrorMessage('Error al verificar el stock');
         return false;
     }
 }
-
-?>

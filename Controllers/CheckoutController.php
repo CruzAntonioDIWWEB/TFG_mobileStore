@@ -3,7 +3,7 @@
 namespace Controllers;
 
 require_once __DIR__ . '/../Models/Order.php';
-require_once __DIR__ . '/../Models/OrderItem.php'; 
+require_once __DIR__ . '/../Models/OrderItem.php';
 require_once __DIR__ . '/../Models/Product.php';
 require_once __DIR__ . '/BaseController.php';
 
@@ -16,14 +16,14 @@ use PDO;
  */
 class CheckoutController extends BaseController
 {
-    
+
     /**
      * Display checkout page
      */
-    public function index(){
-        // Require user to be logged in
+    public function index()
+    {
         $this->requireLogin();
-        
+
         // Load the checkout view
         $this->loadView('checkout/index');
     }
@@ -31,15 +31,16 @@ class CheckoutController extends BaseController
     /**
      * Process PayPal payment and create order
      */
-    public function processPayment(){
-        // Clean any output buffer to prevent HTML errors
+    public function processPayment()
+    {
+        // Clean any output buffer to prevent HTML errors -_-
         ob_clean();
-        
+
         $this->requireLogin();
-        
+
         header('Content-Type: application/json');
         header('Cache-Control: no-cache, must-revalidate');
-        
+
         if (!$this->isPost()) {
             echo json_encode(['success' => false, 'message' => 'Invalid request method']);
             exit;
@@ -49,14 +50,14 @@ class CheckoutController extends BaseController
             // Get JSON data from request
             $input = file_get_contents('php://input');
             $data = json_decode($input, true);
-            
+
             if (!$data) {
                 throw new Exception('Invalid JSON data');
             }
 
             // Get current user
             $currentUser = $this->getCurrentUser();
-            
+
             // Validate required data
             if (!isset($data['paypalDetails']) || !isset($data['cartData']) || !isset($data['shippingInfo'])) {
                 throw new Exception('Missing required data');
@@ -78,36 +79,36 @@ class CheckoutController extends BaseController
 
             // Create order from cart data
             $orderId = $this->createOrderFromCart($currentUser['id'], $cartData, $shippingInfo, $paypalDetails);
-            
+
             if ($orderId) {
                 echo json_encode([
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'Pedido creado exitosamente',
                     'orderId' => $orderId
                 ]);
             } else {
                 throw new Exception('Error al crear el pedido');
             }
-
         } catch (Exception $e) {
             error_log("Error in processPayment: " . $e->getMessage());
             echo json_encode([
-                'success' => false, 
+                'success' => false,
                 'message' => $e->getMessage()
             ]);
         }
-        
+
         exit;
     }
 
     /**
      * Create order from localStorage cart data - FIXED VERSION
      */
-    private function createOrderFromCart($userId, $cartData, $shippingInfo, $paypalDetails) {
+    private function createOrderFromCart($userId, $cartData, $shippingInfo, $paypalDetails)
+    {
         try {
             // Log the cart data for debugging
             error_log("Creating order for user $userId with cart data: " . json_encode($cartData));
-            
+
             // Create new order
             $order = new \Models\Order();
             $order->setUserId($userId);
@@ -132,19 +133,19 @@ class CheckoutController extends BaseController
                 // Use multiple possible field names for product identification
                 $productName = $item['product_name'] ?? $item['name'] ?? $item['title'] ?? null;
                 $productId = $item['product_id'] ?? $item['id'] ?? null;
-                
+
                 error_log("Processing item: " . json_encode($item));
-                
-                // Try to find product by ID first (more reliable), then by name
+
+                // Try to find product by ID first, then by name
                 $productData = null;
                 if ($productId) {
                     $productData = $this->findProductById($productId);
                 }
-                
+
                 if (!$productData && $productName) {
                     $productData = $this->findProductByExactName($productName);
                 }
-                
+
                 if (!$productData) {
                     throw new Exception('Producto no encontrado: ' . ($productName ?: 'ID: ' . $productId));
                 }
@@ -161,7 +162,7 @@ class CheckoutController extends BaseController
                 $orderItem->setOrderId($orderId);
                 $orderItem->setProductId($productData['id']);
                 $orderItem->setQuantity($item['quantity']);
-                
+
                 if (!$orderItem->save()) {
                     throw new Exception('Error saving order item for product: ' . $productData['name']);
                 }
@@ -180,7 +181,6 @@ class CheckoutController extends BaseController
 
             error_log("Order creation completed successfully with ID: $orderId");
             return $orderId;
-
         } catch (Exception $e) {
             error_log("Error creating order from cart: " . $e->getMessage());
             error_log("Stack trace: " . $e->getTraceAsString());
@@ -189,19 +189,19 @@ class CheckoutController extends BaseController
     }
 
     /**
-     * Find product by ID - MORE RELIABLE METHOD
+     * Find product by ID
      */
-    private function findProductById($productId) {
+    private function findProductById($productId)
+    {
         try {
             require_once __DIR__ . '/../config/config.php';
             global $pdo;
-            
+
             $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
             $stmt->bindParam(':id', $productId, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             return $stmt->fetch(PDO::FETCH_ASSOC);
-            
         } catch (Exception $e) {
             error_log("Error finding product by ID: " . $e->getMessage());
             return false;
@@ -209,38 +209,38 @@ class CheckoutController extends BaseController
     }
 
     /**
-     * Find product by EXACT name - IMPROVED METHOD
+     * Find product by EXACT name
      */
-    private function findProductByExactName($productName) {
+    private function findProductByExactName($productName)
+    {
         try {
             require_once __DIR__ . '/../config/config.php';
             global $pdo;
-            
+
             // First try exact match
             $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
             $stmt->bindParam(':name', $productName, PDO::PARAM_STR);
             $stmt->execute();
-            
+
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            // If no exact match, try case-insensitive
+
+            // If no exact match, try case-insensitive match
             if (!$result) {
                 $stmt = $pdo->prepare("SELECT * FROM products WHERE LOWER(name) = LOWER(:name)");
                 $stmt->bindParam(':name', $productName, PDO::PARAM_STR);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
             }
-            
-            // If still no match, try LIKE as last resort
+
+            // If still no match, try partial match
             if (!$result) {
                 $stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE :name LIMIT 1");
                 $stmt->bindValue(':name', '%' . $productName . '%', PDO::PARAM_STR);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
             }
-            
+
             return $result;
-            
         } catch (Exception $e) {
             error_log("Error finding product by name: " . $e->getMessage());
             return false;
@@ -250,17 +250,16 @@ class CheckoutController extends BaseController
     /**
      * Order success page
      */
-    public function success(){
+    public function success()
+    {
         $this->requireLogin();
-        
+
         $orderId = $this->getGetData('orderId');
-        
+
         $viewData = [
             'orderId' => $orderId
         ];
-        
+
         $this->loadView('checkout/success', $viewData);
     }
 }
-
-?>

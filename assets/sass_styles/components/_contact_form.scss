@@ -258,7 +258,9 @@
                 }
 
                 @include breakpoint(mobile) {
-                    strong, span {
+
+                    strong,
+                    span {
                         font-size: 0.85rem;
                     }
                 }

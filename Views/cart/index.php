@@ -57,7 +57,6 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
         <?php if (!empty($cartItems)): ?>
             <!-- Cart Content -->
             <div class="cart-content">
-
                 <!-- Cart Items List -->
                 <div class="cart-items-section">
                     <div class="cart-items-list">
@@ -76,7 +75,6 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
                                         <?php endif; ?>
                                     </a>
 
-                                    <!-- Stock indicator -->
                                     <?php if ($item['stock'] <= 0): ?>
                                         <div class="stock-warning">
                                             <i class="fas fa-exclamation-triangle"></i>
@@ -311,15 +309,13 @@ $formattedTotal = $formattedTotal ?? '0,00 €';
             // Auto-sync cart data from the current page
             window.cartStorage.autoSync();
 
-            // Listen for form submissions to update localStorage
-
             // When quantity is updated
             const quantityForms = document.querySelectorAll('form[action*="updateQuantity"]');
             quantityForms.forEach(form => {
                 form.addEventListener('submit', function() {
                     setTimeout(() => {
                         window.cartStorage.autoSync();
-                    }, 500); // Small delay to let the page reload
+                    }, 500); // Small delay to let the page reload 
                 });
             });
 

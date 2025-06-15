@@ -11,8 +11,8 @@ $categoryId = $categoryId ?? null;
         <h1 class="catalog-title"><?php echo htmlspecialchars($categoryName); ?></h1>
         <p class="catalog-description">
             <?php
-                $count = count($products);
-                echo 'Contamos con ' . $count . ' producto' . ($count === 1 ? ' disponible' : 's disponibles');
+            $count = count($products);
+            echo 'Contamos con ' . $count . ' producto' . ($count === 1 ? ' disponible' : 's disponibles');
             ?>
         </p>
     </div>
