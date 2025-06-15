@@ -1,6 +1,5 @@
 // Reset of default styles in order to have a consistent base across browsers
-@use '../global/variables';
-@use '../global/functions' as f;
+@use '../global/variables' as v;
 @use 'sass:map';
 
 // For all the elements of the page I remove the default margins and paddings
@@ -14,7 +13,9 @@
 
 body {
   line-height: 1.6; // Line spacing
-  font-family: f.typography("fuente-texto");
+  font-family: map-get(v.$fonts, secondary); // Open Sans as default body font
+  color: map-get(v.$colors, text-primary);
+  background-color: map-get(v.$colors, white);
 }
 
 img {

@@ -80,8 +80,8 @@
 
 <!-- Featured Phones Section -->
 <?php if (!empty($featuredPhones)): ?>
-    <h2 class="home-featured-title">Teléfonos destacados</h2>
-    <p class="home-description-text">Presentamos nuestras nuevas adquisiciones a nuestro catálogo de teléfonos. </p>
+    <h2 class="home-featured-title">Últimas Novedades en Móviles</h2>
+    <p class="home-description-text">Descubre los últimos smartphones que hemos añadido a nuestro catálogo. Tecnología de vanguardia, diseños innovadores y las características más avanzadas del mercado, todo en un solo lugar para que estés siempre a la última.</p>
 
     <section class="accessories-section">
         <div class="section-container">
@@ -109,7 +109,7 @@
             </div>
 
             <div class="section-footer">
-                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="view-all-link">Catálogo de móviles →</a>
+                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=phones" class="view-all-link">Catálogo completo de móviles →</a>
             </div>
         </div>
     </section>
@@ -117,8 +117,8 @@
 
 <!-- Featured Accessories Section -->
 <?php if (!empty($featuredAccessories)): ?>
-    <h2 class="home-featured-title">Accesorios destacados</h2>
-    <p class="home-description-text">Presentamos nuestras nuevas adquisiciones a nuestro catálogo de accesorios.</p>
+    <h2 class="home-featured-title">Nuevos Accesorios Disponibles</h2>
+    <p class="home-description-text">Explora nuestra selección más reciente de accesorios premium. Desde fundas protectoras hasta cargadores ultrarrápidos y auriculares de alta fidelidad, cada nuevo producto ha sido cuidadosamente seleccionado para complementar perfectamente tu dispositivo móvil.</p>
 
     <section class="accessories-section">
         <div class="section-container">
@@ -146,7 +146,7 @@
             </div>
 
             <div class="section-footer">
-                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="view-all-link">Catálogo de accesorios →</a>
+                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=accessories" class="view-all-link">Catálogo completo de accesorios →</a>
             </div>
         </div>
     </section>

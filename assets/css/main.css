@@ -1,3 +1,4 @@
+
 body {
   font-family: "Open Sans", sans-serif;
   color: #333333;
@@ -714,6 +715,9 @@ h6 {
 
 body {
   line-height: 1.6;
+  font-family: "Open Sans", sans-serif;
+  color: #333333;
+  background-color: #FFFFFF;
 }
 
 img {
@@ -1325,7 +1329,7 @@ img {
   order: 1;
 }
 .zigzag-section .zigzag-row.zigzag-row-reverse .zigzag-text {
-  text-align: right;
+  text-align: left;
 }
 @media (max-width: 992px) {
   .zigzag-section .zigzag-row {
@@ -1388,6 +1392,7 @@ img {
   color: #333333;
   margin-bottom: 15px;
   line-height: 1.4;
+  text-align: center;
 }
 @media (max-width: 480px) {
   .zigzag-section .zigzag-content .zigzag-title {
@@ -1395,47 +1400,7 @@ img {
     margin-bottom: 10px;
   }
 }
-.zigzag-section .image-placeholder {
-  width: 100%;
-  max-width: 350px;
-  height: 120px;
-  border: 2px solid #333333;
-  background-color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.95rem;
-  color: #666666;
-  text-align: center;
-  padding: 15px;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-.zigzag-section .image-placeholder span {
-  font-family: "Lato", sans-serif;
-  font-weight: 600;
-  color: #E60000;
-}
-@media (max-width: 992px) {
-  .zigzag-section .image-placeholder {
-    max-width: 320px;
-  }
-}
-@media (max-width: 768px) {
-  .zigzag-section .image-placeholder {
-    height: 100px;
-    max-width: 280px;
-  }
-}
-@media (max-width: 480px) {
-  .zigzag-section .image-placeholder {
-    height: 80px;
-    max-width: 250px;
-    font-size: 0.9rem;
-  }
-}
-.zigzag-section .zigzag-text {
+.zigzag-section .zigzag-content .zigzag-text {
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -1445,23 +1410,62 @@ img {
   margin: 0;
 }
 @media (max-width: 992px) {
-  .zigzag-section .zigzag-text {
+  .zigzag-section .zigzag-content .zigzag-text {
     text-align: center;
     font-size: 1rem;
   }
 }
 @media (max-width: 768px) {
-  .zigzag-section .zigzag-text {
+  .zigzag-section .zigzag-content .zigzag-text {
     text-align: center;
     font-size: 1rem;
   }
 }
 @media (max-width: 480px) {
-  .zigzag-section .zigzag-text {
+  .zigzag-section .zigzag-content .zigzag-text {
     text-align: center;
     font-size: 0.95rem;
     line-height: 1.6;
   }
+}
+.zigzag-section .image-placeholder {
+  width: 100%;
+  max-width: 350px;
+  height: 160px;
+  border: 3px solid #E60000;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F2F2F2 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.zigzag-section .image-placeholder:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border-color: #CC0000;
+}
+.zigzag-section .image-placeholder::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(230, 0, 0, 0.2) 40%, rgba(230, 0, 0, 0.1) 70%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+.zigzag-section .image-placeholder span {
+  position: relative;
+  z-index: 1;
 }
 @media (max-width: 992px) {
   .zigzag-section {
