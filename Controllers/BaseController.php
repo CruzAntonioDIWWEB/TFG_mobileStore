@@ -43,7 +43,7 @@ class BaseController
             if ($redirectAfterLogin) {
                 $_SESSION['redirect_after_login'] = $redirectAfterLogin;
             }
-            $this->setErrorMessage('You must log in first.');
+            $this->setErrorMessage('Tienes que iniciar sesión para acceder a esta página.');
             $this->redirectToLogin();
         }
     }

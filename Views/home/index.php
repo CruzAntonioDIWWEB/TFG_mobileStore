@@ -71,13 +71,14 @@
 <!-- Featured Phones Section -->
 <?php if (!empty($featuredPhones)): ?>
     <h2 class="home-featured-title">Teléfonos destacados</h2>
+    <p class="home-description-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
 
-    <section class="featured-section">
+    <section class="accessories-section">
         <div class="section-container">
-            <div class="featured-grid">
+            <div class="accessories-grid">
                 <?php foreach ($featuredPhones as $phone): ?>
-                    <article class="product-card">
-                        <div class="product-image">
+                    <article class="accessory-card">
+                        <div class="accessory-image">
                             <?php if (!empty($phone['image'])): ?>
                                 <img src="/dashboard/TFG/assets/img/products/<?php echo htmlspecialchars($phone['image']); ?>"
                                     alt="<?php echo htmlspecialchars($phone['name']); ?>">
@@ -85,23 +86,13 @@
                                 <img src="/dashboard/TFG/assets/img/placeholder-product.jpg"
                                     alt="<?php echo htmlspecialchars($phone['name']); ?>">
                             <?php endif; ?>
-
                         </div>
 
-                        <div class="product-info">
-                            <h3 class="product-name"><?php echo htmlspecialchars($phone['name']); ?></h3>
-
-                            <?php if (!empty($phone['description'])): ?>
-                                <p class="product-description">
-                                    <?php echo htmlspecialchars(substr($phone['description'], 0, 100)) . (strlen($phone['description']) > 100 ? '...' : ''); ?>
-                                </p>
-                            <?php endif; ?>
-
-                            <div class="product-footer">
-                                <span class="product-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</span>
-                                <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>"
-                                    class="product-btn">Ver más</a>
-                            </div>
+                        <div class="accessory-info">
+                            <h3 class="accessory-name"><?php echo htmlspecialchars($phone['name']); ?></h3>
+                            <p class="accessory-price"><?php echo number_format($phone['price'], 2, ',', '.'); ?> €</p>
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=product&action=detailProd&id=<?php echo $phone['id']; ?>"
+                                class="accessory-btn">Ver más</a>
                         </div>
                     </article>
                 <?php endforeach; ?>
