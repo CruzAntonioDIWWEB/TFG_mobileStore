@@ -18,26 +18,34 @@
 <!-- Zigzag Section -->
 <section class="zigzag-section">
     <article class="zigzag-container">
+        <!-- Introduction Title -->
+        <div class="zigzag-intro">
+            <h2 class="zigzag-main-title">¿Por qué elegir Crusertel?</h2>
+            <p class="zigzag-main-subtitle">Descubre lo que nos hace diferentes en el mundo de la tecnología móvil</p>
+        </div>
+
         <!-- Row 1: Image Left, Text Right -->
         <div class="zigzag-row">
             <div class="zigzag-image">
                 <div class="image-placeholder">
-                    <span>Lorem ipsum dolor</span>
+                    <span>Tecnología de Vanguardia</span>
                 </div>
             </div>
             <div class="zigzag-content">
-                <p class="zigzag-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+                <h3 class="zigzag-title">Los Últimos Móviles del Mercado</h3>
+                <p class="zigzag-text">En Crusertel, nos mantenemos a la vanguardia de la tecnología móvil. Ofrecemos los smartphones más innovadores del mercado, desde los últimos iPhone hasta los Android más avanzados.</p>
             </div>
         </div>
 
         <!-- Row 2: Text Left, Image Right -->
         <div class="zigzag-row zigzag-row-reverse">
             <div class="zigzag-content">
-                <p class="zigzag-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+                <h3 class="zigzag-title">Accesorios que Complementan tu Estilo</h3>
+                <p class="zigzag-text">Más que solo móviles, somos tu destino completo para accesorios que potencian tu experiencia digital. Desde fundas elegantes que protegen tu inversión, hasta cargadores rápidos y auriculares de alta calidad.</p>
             </div>
             <div class="zigzag-image">
                 <div class="image-placeholder">
-                    <span>Lorem ipsum dolor</span>
+                    <span>Accesorios Premium</span>
                 </div>
             </div>
         </div>
@@ -46,22 +54,24 @@
         <div class="zigzag-row">
             <div class="zigzag-image">
                 <div class="image-placeholder">
-                    <span>Lorem ipsum dolor</span>
+                    <span>Experiencia de Compra</span>
                 </div>
             </div>
             <div class="zigzag-content">
-                <p class="zigzag-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+                <h3 class="zigzag-title">Compra Segura y Sin Complicaciones</h3>
+                <p class="zigzag-text">Tu tranquilidad es nuestra prioridad. Por eso hemos diseñado un proceso de compra intuitivo y completamente seguro. Con integración de PayPal para pagos protegidos y un sistema de seguimiento de pedidos transparente. Desde la navegación hasta la entrega, cada paso está pensado para brindarte la mejor experiencia de compra online.</p>
             </div>
         </div>
 
         <!-- Row 4: Text Left, Image Right -->
         <div class="zigzag-row zigzag-row-reverse">
             <div class="zigzag-content">
-                <p class="zigzag-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+                <h3 class="zigzag-title">Soporte Personalizado para Ti</h3>
+                <p class="zigzag-text">Cuando se trata de nosotros, no termina todo con la venta. Nuestro equipo de atención al cliente está siempre disponible para resolver tus dudas o ayudarte con la configuración de tu nuevo dispositivo. Ofrecemos soporte personalizado porque entendemos que cada cliente tiene necesidades únicas.</p>
             </div>
             <div class="zigzag-image">
                 <div class="image-placeholder">
-                    <span>Lorem ipsum dolor</span>
+                    <span>Atención Especializada</span>
                 </div>
             </div>
         </div>
@@ -71,7 +81,7 @@
 <!-- Featured Phones Section -->
 <?php if (!empty($featuredPhones)): ?>
     <h2 class="home-featured-title">Teléfonos destacados</h2>
-    <p class="home-description-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+    <p class="home-description-text">Presentamos nuestras nuevas adquisiciones a nuestro catálogo de teléfonos. </p>
 
     <section class="accessories-section">
         <div class="section-container">
@@ -108,7 +118,7 @@
 <!-- Featured Accessories Section -->
 <?php if (!empty($featuredAccessories)): ?>
     <h2 class="home-featured-title">Accesorios destacados</h2>
-    <p class="home-description-text">Lorem ipsum dolor sit amet et delectus accommodare his consul copiosae legendos at vix ad putent delectus delicata usu. Vidit dissentiet eos cu eum an brute</p>
+    <p class="home-description-text">Presentamos nuestras nuevas adquisiciones a nuestro catálogo de accesorios.</p>
 
     <section class="accessories-section">
         <div class="section-container">
