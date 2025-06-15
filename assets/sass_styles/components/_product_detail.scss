@@ -202,7 +202,8 @@
                         align-items: center;
                         justify-content: center;
 
-                        min-width: 35px;/ &:hover {
+                        min-width: 35px;
+                        &:hover {
                             background-color: map-get(v.$colors, primary-red);
                             color: map-get(v.$colors, white);
                         }

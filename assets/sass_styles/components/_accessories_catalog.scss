@@ -2,6 +2,7 @@
 @use '../global/mixins' as *;
 @use '../global/functions' as f;
 @use '../global/buttons' as btn;
+@use '../global/cart_buttons' as cart;
 
 /* =================================== */
 /* Accessories Catalog Styles          */
@@ -208,17 +209,21 @@
 
                             .accessory-btn {
                                 @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
-                                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                                padding: 12px map-get(v.$spacing, lg);
                                 font-size: map-get(v.$font-sizes, small);
+                                font-weight: map-get(v.$font-weights, semibold);
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
                                 gap: map-get(v.$spacing, xs);
                                 text-align: center;
                                 width: 100%;
+                                border: none;
+                                cursor: pointer;
+                                transition: all map-get(v.$transitions, normal);
 
                                 i {
-                                    font-size: 0.85rem;
+                                    font-size: 0.9em;
                                 }
 
                                 &.btn-details {
@@ -226,7 +231,8 @@
                                 }
 
                                 &.btn-cart {
-                                    @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
+                                    @include cart.unified-cart-button;
+                                    width: 100%;
                                 }
 
                                 &.btn-login-required {
@@ -245,8 +251,8 @@
                                 }
 
                                 @include breakpoint(mobile) {
-                                    padding: 10px map-get(v.$spacing, sm);
-                                    font-size: 0.85rem;
+                                    padding: 10px map-get(v.$spacing, md);
+                                    font-size: map-get(v.$font-sizes, xs);
                                 }
                             }
                         }
