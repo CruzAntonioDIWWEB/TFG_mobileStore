@@ -4,12 +4,12 @@
 @use '../global/buttons' as btn;
 
 /* =================================== */
-/* Product Detail Styles - Optimized   */
+/* Product Detail Styles */
 /* =================================== */
 
 /* Product Detail Section */
 .product-detail-section {
-    padding: map-get(v.$spacing, xxl) 0;
+    padding: map-get(v.$spacing, md) 0 map-get(v.$spacing, xxl) 0;
     background-color: map-get(v.$colors, white);
 
     .detail-container {
@@ -17,11 +17,37 @@
     }
 
     @include breakpoint(tablet) {
-        padding: map-get(v.$spacing, xl) 0;
+        padding: map-get(v.$spacing, sm) 0 map-get(v.$spacing, xl) 0;
     }
 
     @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, lg) 0;
+        padding: map-get(v.$spacing, xs) 0 map-get(v.$spacing, lg) 0;
+    }
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb-nav {
+    margin-bottom: map-get(v.$spacing, lg);
+    font-size: map-get(v.$font-sizes, small);
+    color: map-get(v.$colors, text-secondary);
+
+    .breadcrumb-link {
+        color: map-get(v.$colors, primary-red);
+        text-decoration: none;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .breadcrumb-separator {
+        margin: 0 map-get(v.$spacing, xs);
+        color: map-get(v.$colors, text-secondary);
+    }
+
+    .breadcrumb-current {
+        color: map-get(v.$colors, text-secondary);
+        font-weight: map-get(v.$font-weights, medium);
     }
 }
 
@@ -29,17 +55,16 @@
 .product-detail-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: map-get(v.$spacing, xl);
-    margin-bottom: map-get(v.$spacing, xl);
+    gap: map-get(v.$spacing, xxl);
+    align-items: start;
 
     @include breakpoint(desktop) {
         grid-template-columns: 1fr;
-        gap: map-get(v.$spacing, lg);
+        gap: map-get(v.$spacing, xl);
     }
 
     @include breakpoint(mobile) {
-        gap: map-get(v.$spacing, md);
-        margin-bottom: map-get(v.$spacing, lg);
+        gap: map-get(v.$spacing, lg);
     }
 }
 
@@ -50,17 +75,20 @@
     .main-image-container {
         position: relative;
         background-color: map-get(v.$colors, bg-light-gray);
+        border: 1px solid map-get(v.$colors, light-gray);
         border-radius: map-get(v.$layout, border-radius-lg);
-        overflow: hidden;
-        aspect-ratio: 1;
+        padding: map-get(v.$spacing, lg);
         display: flex;
         align-items: center;
         justify-content: center;
+        min-height: 400px;
 
         .main-product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 350px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             transition: transform map-get(v.$transitions, normal);
 
             &:hover {
@@ -68,8 +96,41 @@
             }
         }
 
+        // Stock Badge 
+        .stock-badge {
+            position: absolute;
+            top: map-get(v.$spacing, sm);
+            right: map-get(v.$spacing, sm);
+            background-color: map-get(v.$colors, primary-red);
+            color: map-get(v.$colors, white);
+            padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+            border-radius: map-get(v.$layout, border-radius);
+            font-size: map-get(v.$font-sizes, xs);
+            font-weight: map-get(v.$font-weights, semibold);
+            display: flex;
+            align-items: center;
+            gap: map-get(v.$spacing, xs);
+
+            &.low-stock {
+                background-color: #FFA500;
+            }
+
+            &.out-of-stock {
+                background-color: #999999;
+            }
+
+            i {
+                font-size: 0.8em;
+            }
+        }
+
         @include breakpoint(mobile) {
-            aspect-ratio: 4/3;
+            min-height: 300px;
+            padding: map-get(v.$spacing, md);
+
+            .main-product-image {
+                max-height: 250px;
+            }
         }
     }
 }
@@ -78,384 +139,294 @@
 .product-info-section {
     display: flex;
     flex-direction: column;
-    gap: map-get(v.$spacing, lg);
+    gap: map-get(v.$spacing, sm);
 
+    // Product Title
     .product-header {
         .product-title {
-            @include heading-style('h1');
+            font-family: map-get(v.$fonts, primary);
+            font-size: 2rem;
+            font-weight: map-get(v.$font-weights, bold);
             color: map-get(v.$colors, dark-gray);
             margin-bottom: map-get(v.$spacing, sm);
             line-height: 1.2;
 
             @include breakpoint(mobile) {
-                font-size: map-get(v.$font-sizes, h1-mobile);
-                margin-bottom: map-get(v.$spacing, xs);
+                font-size: 1.6rem;
             }
         }
 
+        // Category Badge 
         .product-meta {
             display: flex;
-            gap: map-get(v.$spacing, md);
-            flex-wrap: wrap;
+            gap: map-get(v.$spacing, sm);
+            margin-bottom: map-get(v.$spacing, md);
 
             .product-category,
             .product-type {
-                display: flex;
-                align-items: center;
-                gap: map-get(v.$spacing, xs);
-                font-family: map-get(v.$fonts, secondary);
-                font-size: map-get(v.$font-sizes, xs);
-                color: map-get(v.$colors, text-secondary);
-                background-color: map-get(v.$colors, bg-light-gray);
+                background-color: map-get(v.$colors, primary-red);
+                color: map-get(v.$colors, white);
                 padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
                 border-radius: map-get(v.$layout, border-radius);
+                font-size: map-get(v.$font-sizes, xs);
+                font-weight: map-get(v.$font-weights, medium);
+                display: inline-flex;
+                align-items: center;
+                gap: map-get(v.$spacing, xs);
 
                 i {
-                    color: map-get(v.$colors, primary-red);
                     font-size: 0.8em;
                 }
             }
-
-            @include breakpoint(mobile) {
-                gap: map-get(v.$spacing, sm);
-            }
         }
     }
 
+    // Description Section
     .product-description {
         .description-title {
-            @include heading-style('h3');
-            margin-bottom: map-get(v.$spacing, sm);
+            font-family: map-get(v.$fonts, primary);
+            font-size: 1.2rem;
+            font-weight: map-get(v.$font-weights, semibold);
             color: map-get(v.$colors, dark-gray);
-
-            @include breakpoint(mobile) {
-                font-size: map-get(v.$font-sizes, h3-mobile);
-                margin-bottom: map-get(v.$spacing, xs);
-            }
+            margin-bottom: map-get(v.$spacing, sm);
         }
 
         .description-text {
-            @include body-text();
+            font-family: map-get(v.$fonts, secondary);
+            font-size: map-get(v.$font-sizes, regular);
             line-height: 1.6;
             color: map-get(v.$colors, text-secondary);
-
-            @include breakpoint(mobile) {
-                font-size: map-get(v.$font-sizes, small);
-                line-height: 1.5;
-            }
         }
     }
 
+    // Price Section 
     .price-section {
         .price-container {
             .current-price {
                 font-family: map-get(v.$fonts, cta);
-                font-size: 2.2rem;
+                font-size: 2.5rem;
                 font-weight: map-get(v.$font-weights, bold);
                 color: map-get(v.$colors, primary-red);
                 display: block;
-
-                @include breakpoint(tablet) {
-                    font-size: 2rem;
-                }
+                margin-bottom: map-get(v.$spacing, xs); 
 
                 @include breakpoint(mobile) {
-                    font-size: 1.8rem;
+                    font-size: 2rem;
                 }
             }
         }
     }
 
-    .cart-section {
+    // Cart Section 
+    .add-to-cart-section {
+        margin: 0 !important;
+        padding: 0 !important;
+        
         .add-to-cart-form {
             display: flex;
             flex-direction: column;
-            gap: map-get(v.$spacing, md);
+            gap: 0; 
+            margin: 0;
+            padding: 0;
 
+            // Quantity Section 
             .quantity-selector {
+                margin: 0;
+                padding: 0;
+                margin-bottom: 8px; 
+                
                 .quantity-label {
                     display: block;
                     font-family: map-get(v.$fonts, primary);
-                    font-weight: map-get(v.$font-weights, medium);
-                    color: map-get(v.$colors, dark-gray);
-                    margin-bottom: map-get(v.$spacing, xs);
+                    font-weight: map-get(v.$font-weights, semibold);
+                    color: map-get(v.$colors, text-primary);
+                    margin: 0 0 4px 0; 
+                    padding: 0;
                     font-size: map-get(v.$font-sizes, small);
                 }
 
+                // Quantity Controls 
                 .quantity-controls {
-                    display: flex;
+                    display: inline-flex;
                     align-items: center;
-                    gap: 0;
-                    width: fit-content;
                     border: 2px solid map-get(v.$colors, light-gray);
                     border-radius: map-get(v.$layout, border-radius);
                     overflow: hidden;
+                    background-color: map-get(v.$colors, white);
+                    margin: 0 0 0 map-get(v.$spacing, xs); 
+                    padding: 0;
 
                     .quantity-btn {
-                        background-color: map-get(v.$colors, bg-light-gray);
+                        background-color: map-get(v.$colors, white);
                         border: none;
-                        padding: map-get(v.$spacing, sm);
+                        padding: 6px 8px; 
                         cursor: pointer;
-                        transition: background-color map-get(v.$transitions, fast);
-                        color: map-get(v.$colors, dark-gray);
+                        transition: all map-get(v.$transitions, fast);
+                        color: map-get(v.$colors, text-primary);
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        width: 32px;
+                        height: 32px;
+                        font-size: 0.9rem;
+                        font-weight: map-get(v.$font-weights, semibold);
+                        margin: 0;
 
-                        min-width: 35px;
                         &:hover {
                             background-color: map-get(v.$colors, primary-red);
                             color: map-get(v.$colors, white);
                         }
 
+                        &:active {
+                            transform: scale(0.95);
+                        }
+
                         &:disabled {
                             opacity: 0.5;
                             cursor: not-allowed;
+                            
+                            &:hover {
+                                background-color: map-get(v.$colors, white);
+                                color: map-get(v.$colors, text-primary);
+                            }
                         }
 
-                        i {
-                            font-size: 0.7em;
+                        &.quantity-minus {
+                            border-right: 1px solid map-get(v.$colors, light-gray);
+                        }
+
+                        &.quantity-plus {
+                            border-left: 1px solid map-get(v.$colors, light-gray);
                         }
                     }
 
                     .quantity-input {
                         border: none;
-                        padding: map-get(v.$spacing, sm);
-                        text-align: center;
-                        font-family: map-get(v.$fonts, secondary);
-                        font-size: map-get(v.$font-sizes, small);
-                        font-weight: map-get(v.$font-weights, medium);
-                        min-width: 50px;
                         background-color: map-get(v.$colors, white);
+                        text-align: center;
+                        font-size: 0.9rem;
+                        font-weight: map-get(v.$font-weights, semibold);
+                        color: map-get(v.$colors, text-primary);
+                        width: 50px;
+                        height: 32px;
+                        padding: 0;
+                        margin: 0;
+                        outline: none;
+                        box-sizing: border-box;
 
                         &:focus {
-                            outline: none;
-                            background-color: map-get(v.$colors, bg-light-gray);
+                            background-color: rgba(map-get(v.$colors, primary-red), 0.05);
                         }
 
+                        // Remove spinner arrows completely
                         &::-webkit-outer-spin-button,
                         &::-webkit-inner-spin-button {
                             -webkit-appearance: none;
                             margin: 0;
+                            padding: 0;
                         }
 
-                        &[type=number] {
-                            -moz-appearance: textfield;
-                        }
                     }
                 }
             }
 
+            // Add to Cart Button 
             .add-to-cart-btn {
                 @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                padding: map-get(v.$spacing, md) map-get(v.$spacing, xl);
-                font-size: map-get(v.$font-sizes, regular);
+                padding: map-get(v.$spacing, sm) map-get(v.$spacing, md);
+                border-radius: map-get(v.$layout, border-radius);
+                font-family: map-get(v.$fonts, cta);
+                font-size: map-get(v.$font-sizes, small);
                 font-weight: map-get(v.$font-weights, semibold);
+                cursor: pointer;
+                transition: all map-get(v.$transitions, normal);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: map-get(v.$spacing, sm);
-                border: none;
-                cursor: pointer;
-                transition: all map-get(v.$transitions, normal);
+                gap: map-get(v.$spacing, xs);
+                width: 100%;
+                margin: 0;
+                margin-top: map-get(v.$spacing, lg);
+                border: 2px solid map-get(v.$colors, primary-red);
+                box-sizing: border-box;
+
+                &:hover {
+                    background-color: map-get(v.$colors, primary-red-dark);
+                    border-color: map-get(v.$colors, primary-red-dark);
+                    transform: translateY(-1px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+
+                &:disabled {
+                    opacity: 0.7;
+                    cursor: not-allowed;
+                    
+                    &:hover {
+                        background-color: map-get(v.$colors, primary-red);
+                        color: map-get(v.$colors, white);
+                        transform: none;
+                    }
+                }
 
                 i {
                     font-size: 1em;
                 }
-
-                &:hover {
-                    background-color: darken(map-get(v.$colors, primary-red), 10%);
-                    transform: translateY(-2px);
-                    box-shadow: map-get(v.$shadows, medium);
-                }
-
-                @include breakpoint(mobile) {
-                    padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
-                    font-size: map-get(v.$font-sizes, small);
-                }
             }
         }
 
-        .login-required {
-            text-align: center;
-            padding: map-get(v.$spacing, lg);
+        // Login Messag
+        .login-message {
             background-color: map-get(v.$colors, bg-light-gray);
-            border-radius: map-get(v.$layout, border-radius-lg);
+            border: 2px solid map-get(v.$colors, light-gray);
+            border-radius: map-get(v.$layout, border-radius);
+            padding: map-get(v.$spacing, sm);
+            text-align: center;
+            margin: 0;
 
-            .login-message {
-                @include body-text('small');
-                margin-bottom: map-get(v.$spacing, md);
+            .message-text {
                 color: map-get(v.$colors, text-secondary);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: map-get(v.$spacing, sm);
-
-                i {
-                    color: map-get(v.$colors, primary-red);
-                    font-size: 1.1em;
-                }
+                margin: 0 0 map-get(v.$spacing, xs) 0;
+                font-size: map-get(v.$font-sizes, small);
             }
 
-            .login-btn {
+            .login-link {
                 @include btn.button-style(map-get(v.$colors, primary-red), map-get(v.$colors, white));
-                padding: map-get(v.$spacing, sm) map-get(v.$spacing, lg);
+                padding: map-get(v.$spacing, xs) map-get(v.$spacing, sm);
+                border-radius: map-get(v.$layout, border-radius);
+                text-decoration: none;
                 display: inline-flex;
                 align-items: center;
-                gap: map-get(v.$spacing, sm);
-                text-decoration: none;
-
-                i {
-                    font-size: 0.9em;
-                }
-            }
-        }
-
-        .out-of-stock-section {
-            text-align: center;
-            padding: map-get(v.$spacing, lg);
-            background-color: map-get(v.$colors, bg-light-gray);
-            border-radius: map-get(v.$layout, border-radius-lg);
-
-            .out-of-stock-message {
-                @include body-text('small');
+                gap: map-get(v.$spacing, xs);
+                font-weight: map-get(v.$font-weights, medium);
+                font-size: map-get(v.$font-sizes, small);
+                transition: all map-get(v.$transitions, normal);
                 margin: 0;
-                color: map-get(v.$colors, text-secondary);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: map-get(v.$spacing, sm);
 
-                i {
-                    color: map-get(v.$colors, dark-gray);
-                    font-size: 1.1em;
+                &:hover {
+                    background-color: map-get(v.$colors, primary-red-dark);
+                    transform: translateY(-1px);
                 }
             }
         }
-    }
-}
 
-/* Related Products Section */
-.related-products-section {
-    padding: map-get(v.$spacing, xl) 0;
-    background-color: map-get(v.$colors, bg-light-gray);
-
-    .related-container {
-        @include container;
-
-        .related-title {
-            @include heading-style('h2');
+        // Out of Stock Message 
+        .out-of-stock-message {
+            background-color: rgba(map-get(v.$colors, text-secondary), 0.1);
+            border: 2px solid map-get(v.$colors, text-secondary);
+            border-radius: map-get(v.$layout, border-radius);
+            padding: map-get(v.$spacing, sm);
             text-align: center;
-            margin-bottom: map-get(v.$spacing, lg);
-            color: map-get(v.$colors, primary-red);
+            color: map-get(v.$colors, text-secondary);
+            font-weight: map-get(v.$font-weights, semibold);
+            font-size: map-get(v.$font-sizes, small);
+            margin: 0;
 
-            @include breakpoint(mobile) {
-                font-size: map-get(v.$font-sizes, h2-mobile);
-                margin-bottom: map-get(v.$spacing, md);
+            i {
+                margin-right: map-get(v.$spacing, xs);
             }
         }
-
-        .related-products-grid {
-            @include responsive-grid(250px, map-get(v.$spacing, lg));
-
-            .related-product-card {
-                @include product-card;
-                text-align: center;
-
-                .related-image {
-                    position: relative;
-                    height: 180px;
-                    overflow: hidden;
-                    background-color: map-get(v.$colors, white);
-
-                    a {
-                        display: block;
-                        width: 100%;
-                        height: 100%;
-                    }
-
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        transition: transform map-get(v.$transitions, normal);
-
-                        &:hover {
-                            transform: scale(1.05);
-                        }
-                    }
-
-                    @include breakpoint(mobile) {
-                        height: 160px;
-                    }
-                }
-
-                .related-info {
-                    padding: map-get(v.$spacing, md);
-
-                    .related-name {
-                        margin-bottom: map-get(v.$spacing, xs);
-
-                        a {
-                            @include heading-style('h3');
-                            font-size: 1rem;
-                            color: map-get(v.$colors, dark-gray);
-                            text-decoration: none;
-                            transition: color map-get(v.$transitions, fast);
-
-                            &:hover {
-                                color: map-get(v.$colors, primary-red);
-                            }
-
-                            @include breakpoint(mobile) {
-                                font-size: 0.9rem;
-                            }
-                        }
-                    }
-
-                    .related-price {
-                        font-family: map-get(v.$fonts, cta);
-                        font-size: 1.2rem;
-                        font-weight: map-get(v.$font-weights, bold);
-                        color: map-get(v.$colors, primary-red);
-                        margin-bottom: map-get(v.$spacing, sm);
-
-                        @include breakpoint(mobile) {
-                            font-size: 1.1rem;
-                        }
-                    }
-
-                    .related-btn {
-                        @include btn.button-style(map-get(v.$colors, dark-gray), map-get(v.$colors, white));
-                        padding: map-get(v.$spacing, xs) map-get(v.$spacing, md);
-                        font-size: map-get(v.$font-sizes, xs);
-                        text-decoration: none;
-                        display: inline-block;
-
-                        &:hover {
-                            background-color: map-get(v.$colors, primary-red);
-                        }
-                    }
-                }
-            }
-
-            @include breakpoint(desktop) {
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: map-get(v.$spacing, md);
-            }
-
-            @include breakpoint(mobile) {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: map-get(v.$spacing, sm);
-            }
-        }
-    }
-
-    @include breakpoint(tablet) {
-        padding: map-get(v.$spacing, lg) 0;
-    }
-
-    @include breakpoint(mobile) {
-        padding: map-get(v.$spacing, md) 0;
     }
 }
