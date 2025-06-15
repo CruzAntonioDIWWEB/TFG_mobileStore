@@ -7,7 +7,7 @@
 Mi proyecto es una aplicación web completa que simula una tienda online especializada en la venta de dispositivos móviles y accesorios. Se ha implementado un sistema e-commerce funcional con gestión de usuarios, catálogo de productos, carrito de compras y panel administrativo.
 
 ## Enlace a la tienda
-https://293d-2a02-3100-ac00-9f00-fd98-7abe-b7c4-caa.ngrok-free.app/dashboard/TFG/Public/index.php?controller=home&action=index
+https://dfea-2a02-3100-ac00-9f00-fd98-7abe-b7c4-caa.ngrok-free.app/dashboard/TFG/Public/
 
 ## ✨ **Características Principales**
 
