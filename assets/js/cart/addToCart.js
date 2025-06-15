@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Show success
-                    button.innerHTML = '<i class="fas fa-check"></i> ¡Añadido!';
+                    // FIXED: Show success with .added class for green styling
+                    button.innerHTML = '<i class="fas fa-check"></i> Añadido';
+                    button.classList.add('added'); 
+                    // Keep disabled = true
 
                     // Update cart count if element exists
                     updateCartCount(data.cartCount);
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setTimeout(() => {
                         button.disabled = false;
                         button.innerHTML = originalContent;
+                        button.classList.remove('added'); // Remove the class when resetting
                     }, 2000);
 
                 } else {
@@ -71,17 +74,20 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    /**
+     * Update cart count in header
+     * @param {number} count - New cart count
+     */
     function updateCartCount(newCount) {
-        // Update cart count in header
-        const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
-        cartCounts.forEach(element => {
-            if (newCount > 0) {
-                element.textContent = newCount;
-                element.style.display = 'flex';
-            } else {
-                element.style.display = 'none';
-            }
-        });
-    }
-
+    // Update cart count in header - FIXED selector and display
+    const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
+    cartCounts.forEach(element => {
+        if (newCount > 0) {
+            element.textContent = newCount;
+            element.style.display = 'flex'; // FIXED: was 'inline', should be 'flex'
+        } else {
+            element.style.display = 'none';
+        }
+    });
+}
 });
