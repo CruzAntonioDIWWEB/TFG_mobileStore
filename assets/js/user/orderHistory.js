@@ -1,35 +1,35 @@
 // Order History JavaScript with Admin Status Edit
 function cargarPedidos() {
     showLoadingState();
-    
+
     // Handle undefined BASE_URL by getting it from current page URL
     const baseUrl = (typeof BASE_URL !== 'undefined' && BASE_URL) ? BASE_URL : window.location.origin + window.location.pathname.replace('/index.php', '/').replace(/\/[^\/]*$/, '/');
-    
+
     // Use different endpoint for admin vs regular users
     const endpoint = (typeof IS_ADMIN !== 'undefined' && IS_ADMIN) ? 'getAllOrders' : 'getOrders';
     const url = baseUrl + 'index.php?controller=user&action=' + endpoint;
-    
+
     console.log('BASE_URL:', typeof BASE_URL !== 'undefined' ? BASE_URL : 'undefined');
     console.log('IS_ADMIN:', typeof IS_ADMIN !== 'undefined' ? IS_ADMIN : 'undefined');
     console.log('Fetching orders from:', url);
-    
+
     fetch(url)
         .then(response => {
             console.log('Response status:', response.status);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             return response.text();
         })
         .then(text => {
             console.log('Raw response:', text);
-            
+
             try {
                 const data = JSON.parse(text);
                 console.log('Parsed JSON:', data);
-                
+
                 if (data.status === 'success') {
                     mostrarPedidos(data.data);
                 } else {
@@ -49,23 +49,23 @@ function cargarPedidos() {
 
 function mostrarPedidos(pedidos) {
     console.log('mostrarPedidos called with:', pedidos);
-    
+
     const tableWrapper = document.getElementById('ordersTableWrapper');
     const tbody = document.getElementById('ordersTableBody');
     const isAdmin = (typeof IS_ADMIN !== 'undefined' && IS_ADMIN);
-    
+
     if (!tableWrapper) {
         console.error('ordersTableWrapper element not found!');
         return;
     }
-    
+
     if (!tbody) {
         console.error('ordersTableBody element not found!');
         return;
     }
-    
+
     hideAllStates();
-    
+
     if (!pedidos || pedidos.length === 0) {
         console.log('No orders to display, showing empty state');
         showEmptyState();
@@ -77,16 +77,16 @@ function mostrarPedidos(pedidos) {
 
     pedidos.forEach(function (pedido, index) {
         console.log(`Processing order ${index + 1}:`, pedido);
-        
+
         try {
             const statusClass = getStatusClass(pedido.status);
             const statusText = getStatusText(pedido.status);
-            
-            // Crear la fila principal
+
+            // Create a new row for the order
             const row = document.createElement('tr');
             row.className = 'order-row';
 
-            // Celda del ID del pedido
+            // ID Cell
             const idCell = document.createElement('td');
             idCell.className = 'order-id';
             const orderNumber = document.createElement('span');
@@ -94,7 +94,7 @@ function mostrarPedidos(pedidos) {
             orderNumber.textContent = `#${pedido.id}`;
             idCell.appendChild(orderNumber);
 
-            // Celda de usuario (solo para admin)
+            // User Cell (only for admin)
             let userCell = null;
             if (isAdmin) {
                 userCell = document.createElement('td');
@@ -105,7 +105,7 @@ function mostrarPedidos(pedidos) {
                 userCell.appendChild(userInfo);
             }
 
-            // Celda de ubicación
+            // Location Cell
             const locationCell = document.createElement('td');
             locationCell.className = 'order-location';
             const locationInfo = document.createElement('div');
@@ -120,7 +120,7 @@ function mostrarPedidos(pedidos) {
             locationInfo.appendChild(locality);
             locationCell.appendChild(locationInfo);
 
-            // Celda de dirección
+            // Address Cell
             const addressCell = document.createElement('td');
             addressCell.className = 'order-address';
             const addressText = document.createElement('span');
@@ -128,7 +128,7 @@ function mostrarPedidos(pedidos) {
             addressText.textContent = pedido.address || 'N/A';
             addressCell.appendChild(addressText);
 
-            // Celda del costo
+            // Price Cell
             const costCell = document.createElement('td');
             costCell.className = 'order-cost';
             const costAmount = document.createElement('span');
@@ -136,10 +136,10 @@ function mostrarPedidos(pedidos) {
             costAmount.textContent = `€${parseFloat(pedido.cost || 0).toFixed(2)}`;
             costCell.appendChild(costAmount);
 
-            // Celda del estado
+            // Status Cell
             const statusCell = document.createElement('td');
             statusCell.className = 'order-status';
-            
+
             if (isAdmin) {
                 // Admin: Show editable select styled like status badge
                 const statusSelect = createStatusSelect(pedido.id, pedido.status);
@@ -153,7 +153,7 @@ function mostrarPedidos(pedidos) {
                 statusCell.appendChild(statusBadge);
             }
 
-            // Celda de fecha
+            // Date Cell
             const dateCell = document.createElement('td');
             dateCell.className = 'order-date';
             const dateInfo = document.createElement('div');
@@ -168,7 +168,7 @@ function mostrarPedidos(pedidos) {
             dateInfo.appendChild(timeSpan);
             dateCell.appendChild(dateInfo);
 
-            // Agregar todas las celdas a la fila
+            // Add all cells to the row
             row.appendChild(idCell);
             if (isAdmin && userCell) row.appendChild(userCell);
             row.appendChild(locationCell);
@@ -177,10 +177,10 @@ function mostrarPedidos(pedidos) {
             row.appendChild(statusCell);
             row.appendChild(dateCell);
 
-            // Agregar la fila al tbody
+            // Add the row to the table body
             tbody.appendChild(row);
             console.log(`Order ${index + 1} row added successfully`);
-            
+
         } catch (error) {
             console.error(`Error processing order ${index + 1}:`, error);
             console.error('Order data:', pedido);
@@ -188,12 +188,12 @@ function mostrarPedidos(pedidos) {
     });
 
     console.log('All orders processed, showing table');
-    
+
     // Force display with important styles
     tableWrapper.style.setProperty('display', 'block', 'important');
     tableWrapper.style.visibility = 'visible';
     tableWrapper.style.opacity = '1';
-    
+
     console.log('Table wrapper display styles applied');
 }
 
@@ -202,7 +202,7 @@ function createStatusSelect(orderId, currentStatus) {
     const select = document.createElement('select');
     select.className = 'status-select';
     select.dataset.orderId = orderId;
-    
+
     const statuses = [
         { value: 'pending', text: 'Pendiente' },
         { value: 'paid', text: 'Pagado' },
@@ -210,37 +210,37 @@ function createStatusSelect(orderId, currentStatus) {
         { value: 'delivered', text: 'Entregado' },
         { value: 'canceled', text: 'Cancelado' }
     ];
-    
+
     statuses.forEach(status => {
         const option = document.createElement('option');
         option.value = status.value;
         option.textContent = status.text;
-        
+
         if (status.value === currentStatus) {
             option.selected = true;
         }
-        
+
         select.appendChild(option);
     });
-    
+
     // Add change event listener
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         updateOrderStatus(orderId, this.value, this);
     });
-    
+
     return select;
 }
 
 // Update order status (admin only)
 function updateOrderStatus(orderId, newStatus, selectElement) {
     const originalValue = selectElement.dataset.originalValue || selectElement.value;
-    
+
     // Show loading state
     selectElement.disabled = true;
     selectElement.style.opacity = '0.6';
-    
+
     const baseUrl = (typeof BASE_URL !== 'undefined' && BASE_URL) ? BASE_URL : window.location.origin + window.location.pathname.replace('/index.php', '/').replace(/\/[^\/]*$/, '/');
-    
+
     fetch(baseUrl + 'index.php?controller=user&action=updateOrderStatus', {
         method: 'POST',
         headers: {
@@ -248,34 +248,34 @@ function updateOrderStatus(orderId, newStatus, selectElement) {
         },
         body: `order_id=${orderId}&status=${newStatus}`
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Order status updated successfully:', data);
-            selectElement.dataset.originalValue = newStatus;
-            
-            // Update the select styling to match new status
-            const newStatusClass = getStatusClass(newStatus);
-            selectElement.className = `status-select status-badge ${newStatusClass}`;
-            
-            // Show success message
-            showTemporaryMessage('Estado actualizado correctamente', 'success');
-        } else {
-            console.error('Failed to update order status:', data.message);
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Order status updated successfully:', data);
+                selectElement.dataset.originalValue = newStatus;
+
+                // Update the select styling to match new status
+                const newStatusClass = getStatusClass(newStatus);
+                selectElement.className = `status-select status-badge ${newStatusClass}`;
+
+                // Show success message
+                showTemporaryMessage('Estado actualizado correctamente', 'success');
+            } else {
+                console.error('Failed to update order status:', data.message);
+                selectElement.value = originalValue; // Revert to original value
+                showTemporaryMessage('Error al actualizar el estado: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating order status:', error);
             selectElement.value = originalValue; // Revert to original value
-            showTemporaryMessage('Error al actualizar el estado: ' + data.message, 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error updating order status:', error);
-        selectElement.value = originalValue; // Revert to original value
-        showTemporaryMessage('Error de conexión al actualizar el estado', 'error');
-    })
-    .finally(() => {
-        // Restore normal state
-        selectElement.disabled = false;
-        selectElement.style.opacity = '1';
-    });
+            showTemporaryMessage('Error de conexión al actualizar el estado', 'error');
+        })
+        .finally(() => {
+            // Restore normal state
+            selectElement.disabled = false;
+            selectElement.style.opacity = '1';
+        });
 }
 
 // Show temporary message
@@ -283,7 +283,7 @@ function showTemporaryMessage(message, type = 'info') {
     const messageDiv = document.createElement('div');
     messageDiv.className = `temp-message temp-message-${type}`;
     messageDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : 'exclamation-triangle'}"></i> ${message}`;
-    
+
     // Style the message
     messageDiv.style.cssText = `
         position: fixed;
@@ -299,9 +299,9 @@ function showTemporaryMessage(message, type = 'info') {
         font-size: 14px;
         max-width: 300px;
     `;
-    
+
     document.body.appendChild(messageDiv);
-    
+
     // Remove after 3 seconds
     setTimeout(() => {
         if (messageDiv.parentNode) {
@@ -376,13 +376,13 @@ function showErrorState(message) {
     hideAllStates();
     const errorElement = document.getElementById('errorState');
     const errorMessageElement = document.getElementById('errorMessage');
-    
+
     if (errorElement) {
         errorElement.style.display = 'block';
     } else {
         console.error('errorState element not found!');
     }
-    
+
     if (errorMessageElement) {
         errorMessageElement.textContent = message;
     } else {
@@ -394,11 +394,11 @@ function hideAllStates() {
     console.log('Hiding all states');
     const elements = [
         'loadingState',
-        'emptyState', 
+        'emptyState',
         'errorState',
         'ordersTableWrapper'
     ];
-    
+
     elements.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
@@ -410,7 +410,7 @@ function hideAllStates() {
 }
 
 // Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM loaded, initializing order history');
     console.log('BASE_URL available:', typeof BASE_URL !== 'undefined' ? BASE_URL : 'undefined');
     console.log('IS_ADMIN:', typeof IS_ADMIN !== 'undefined' ? IS_ADMIN : 'undefined');

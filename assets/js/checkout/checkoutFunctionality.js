@@ -1,12 +1,12 @@
 /**
  * Main checkout functionality
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     loadCartSummary();
-    
+
     // Initial check for PayPal button visibility
     updatePayPalButtonVisibility();
-    
+
     // Add event listeners to shipping form inputs
     const shippingInputs = document.querySelectorAll('#shippingForm input');
     shippingInputs.forEach(input => {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadCartSummary() {
     const cartData = getCartFromLocalStorage();
     const summaryContainer = document.getElementById('cartSummary');
-    
+
     if (!cartData || !cartData.items || cartData.items.length === 0) {
         summaryContainer.innerHTML = `
             <div class="empty-cart">
@@ -37,7 +37,7 @@ function loadCartSummary() {
     }
 
     let summaryHTML = '<div class="cart-items">';
-    
+
     cartData.items.forEach(item => {
         const imagePath = window.ASSETS_URL ? `${window.ASSETS_URL}img/products/` : '/dashboard/TFG/assets/img/products/';
         summaryHTML += `
@@ -98,17 +98,17 @@ function getShippingFormData() {
  */
 function validateShippingForm() {
     const shipping = getShippingFormData();
-    
+
     if (!shipping.province || !shipping.locality || !shipping.address) {
         alert('Por favor, completa todos los campos de envío');
         return false;
     }
-    
+
     if (shipping.address.length < 10) {
         alert('Por favor, proporciona una dirección más específica');
         return false;
     }
-    
+
     return true;
 }
 
@@ -125,7 +125,7 @@ function isShippingFormValid() {
  */
 function updatePayPalButtonVisibility() {
     const paypalContainer = document.getElementById('paypal-button-container');
-    
+
     if (isShippingFormValid()) {
         // Show PayPal button if form is valid
         paypalContainer.style.display = 'block';
@@ -166,7 +166,7 @@ function getUserFromLocalStorage() {
 function clearCartAfterPurchase() {
     // Clear cart from localStorage
     localStorage.removeItem('mobilestore_cart');
-    
+
     // Clear cart from database via AJAX (fallback)
     const baseUrl = window.BASE_URL || '/dashboard/TFG/';
     fetch(`${baseUrl}index.php?controller=cart&action=clearCart`, {
@@ -180,12 +180,12 @@ function clearCartAfterPurchase() {
     }).catch(error => {
         console.error('Error clearing database cart:', error);
     });
-    
+
     // Update cart count in header if cartStorage exists
     if (window.cartStorage) {
         window.cartStorage.updateCount(0);
     }
-    
+
     // Update cart count badges immediately
     const cartCounts = document.querySelectorAll('.cart-count, .mobile-cart-count');
     cartCounts.forEach(element => {

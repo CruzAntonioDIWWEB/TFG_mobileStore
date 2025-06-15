@@ -57,30 +57,10 @@ function isUserLoggedIn() {
     return userData !== null && userData.id;
 }
 
-/**
- * Display current user info in console (for debugging)
- */
-function showUserInfo() {
-    const user = getUserData();
-    if (user) {
-        console.table({
-            'ID': user.id,
-            'Nombre': user.name,
-            'Apellidos': user.surnames,
-            'Email': user.email,
-            'Rol': user.role,
-            'Login Time': user.loginTime
-        });
-    } else {
-        console.log('No user data found in localStorage');
-    }
-}
-
 // Make functions available globally
 window.userStorage = {
     store: storeUserData,
     get: getUserData,
     clear: clearUserData,
     isLoggedIn: isUserLoggedIn,
-    showInfo: showUserInfo
 };
