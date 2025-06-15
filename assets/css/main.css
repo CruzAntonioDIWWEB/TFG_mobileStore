@@ -1,4 +1,49 @@
 
+/* Import Google Fonts directly as backup */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&display=swap');
+
+body, 
+html {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    color: #333333 !important;
+    line-height: 1.6 !important;
+}
+
+/* Headers use Roboto */
+h1, h2, h3, h4, h5, h6,
+.hero-title,
+.zigzag-main-title,
+.zigzag-title,
+.home-featured-title,
+.legal-title,
+.nav-link {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+/* CTA elements use Lato */
+.hero-btn,
+.accessory-btn,
+.footer-link,
+.view-all-link,
+.zigzag-image span,
+.image-placeholder span {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* Body text uses Open Sans */
+p,
+.zigzag-text,
+.home-description-text,
+.legal-text,
+.hero-subtitle,
+.zigzag-main-subtitle {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+/* RESTO DEL CSS */
 body {
   font-family: "Open Sans", sans-serif;
   color: #333333;
