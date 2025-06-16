@@ -9,6 +9,11 @@ Mi proyecto es una aplicación web completa que simula una tienda online especia
 ## Enlace a la tienda
 https://dfea-2a02-3100-ac00-9f00-fd98-7abe-b7c4-caa.ngrok-free.app/dashboard/TFG/Public/
 
+## Simulacro de compra
+La tienda incorpora Paypal como sistema de pago y para comprobar su funcionalidad se utiliza una "cuenta sandbox" que simula el proceso de pago.
+Email: sb-ycqxt43508259@business.example.com
+Contraseña: %;XX?Dr1
+
 ## ✨ **Características Principales**
 
 ### 🛒 **E-commerce Completo**
