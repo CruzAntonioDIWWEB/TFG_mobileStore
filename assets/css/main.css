@@ -1278,7 +1278,6 @@ img {
   text-align: center;
   margin-bottom: 40px;
   padding-bottom: 30px;
-  border-bottom: 2px solid #CCCCCC;
 }
 .zigzag-section .zigzag-intro .zigzag-main-title {
   font-family: "Roboto", sans-serif;
@@ -1533,7 +1532,7 @@ img {
   transition: transform 0.3s ease;
 }
 .featured-section .section-container .featured-grid .product-card .product-image img:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 @media (max-width: 768px) {
   .featured-section .section-container .featured-grid .product-card .product-image {
@@ -1730,29 +1729,6 @@ img {
   }
 }
 
-/* Home Featured Title */
-.home-featured-title {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  color: #333333;
-  font-size: 2rem;
-  text-align: center;
-  margin: 30px auto 20px;
-  max-width: 1200px;
-  padding: 0 20px;
-}
-@media (max-width: 480px) {
-  .home-featured-title {
-    font-size: 1.5rem;
-  }
-}
-@media (max-width: 480px) {
-  .home-featured-title {
-    margin: 20px auto 15px;
-    font-size: 1.5rem;
-  }
-}
-
 /* Accessories Section */
 .accessories-section {
   background-color: #F2F2F2;
@@ -1793,7 +1769,7 @@ img {
   transition: transform 0.3s ease;
 }
 .accessories-section .section-container .accessories-grid .accessory-card .accessory-image img:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 @media (max-width: 768px) {
   .accessories-section .section-container .accessories-grid .accessory-card .accessory-image {
@@ -1943,7 +1919,7 @@ img {
   text-align: center;
   margin: 40px auto 20px;
   max-width: 1200px;
-  padding: 0 20px;
+  padding: 30px 20px 0;
   color: #E60000;
 }
 @media (max-width: 480px) {
@@ -1955,6 +1931,7 @@ img {
   .home-featured-title {
     margin: 30px auto 15px;
     font-size: 1.5rem;
+    padding: 20px 20px 0;
   }
 }
 
@@ -2424,7 +2401,7 @@ img {
   transition: transform 0.3s ease;
 }
 .phones-catalog .catalog-container .phones-grid .phone-card .phone-image img:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 @media (max-width: 768px) {
   .phones-catalog .catalog-container .phones-grid .phone-card .phone-image {
@@ -3056,7 +3033,7 @@ img {
   transition: transform 0.3s ease;
 }
 .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-image img:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 @media (max-width: 480px) {
   .accessories-catalog .catalog-container .accessories-grid .accessory-card .accessory-image {
