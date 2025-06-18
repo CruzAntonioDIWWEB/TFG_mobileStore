@@ -36,7 +36,7 @@ $userEmail = $userData['email'] ?? '';
         <div class="breadcrumb">
             <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="breadcrumb-link">
                 <i class="fas fa-arrow-left"></i>
-                Volver a configuración
+                Volver al Perfil
             </a>
         </div>
 
