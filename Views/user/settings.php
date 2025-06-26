@@ -80,25 +80,38 @@ $messages = $messages ?? [];
 
                 <!-- Orders History Card -->
                 <div class="settings-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-shopping-bag"></i>
-                        </div>
-                        <div class="card-title">
-                            <h3>Mis pedidos</h3>
-                            <p>Consulta tu historial de compras</p>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <p class="card-description">Revisa el estado de tus pedidos y el historial de compras realizadas.</p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="settings-btn btn-secondary">
-                            <i class="fas fa-history"></i>
-                            Ver pedidos
-                        </a>
-                    </div>
-                </div>
+    <div class="card-header">
+        <div class="card-icon">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="card-title">
+            <h3>Mis pedidos</h3>
+            <p>Consulta tu historial de compras</p>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="admin-options">
+            <div class="admin-option">
+                <i class="fas fa-clock"></i>
+                <span>Pedidos pendientes y en proceso</span>
+            </div>
+            <div class="admin-option">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Fechas de Transacción</span>
+            </div>
+            <div class="admin-option">
+                <i class="fas fa-check-circle"></i>
+                <span>Historial de pedidos completados</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-actions">
+        <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=orderHistory" class="settings-btn btn-primary">
+            <i class="fas fa-history"></i>
+            Ver pedidos
+        </a>
+    </div>
+</div>
 
                 <?php if ($isAdmin): ?>
                     <!-- Category Management Card -->
@@ -149,6 +162,10 @@ $messages = $messages ?? [];
                         </div>
                         <div class="card-content">
                             <div class="admin-options">
+                                <div class="admin-option">
+                                    <i class="fas fa-list"></i>
+                                    <span>Ver todos los productos</span>
+                                </div>
                                 <div class="admin-option">
                                     <i class="fas fa-plus"></i>
                                     <span>Añadir productos</span>

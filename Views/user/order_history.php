@@ -30,7 +30,7 @@ $isAdmin = $currentUser && isset($currentUser['role']) && $currentUser['role'] =
                 <div class="header-actions">
                     <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=profile" class="back-btn">
                         <i class="fas fa-arrow-left"></i>
-                        Volver al Menú
+                        Volver al Perfil
                     </a>
                 </div>
             </div>

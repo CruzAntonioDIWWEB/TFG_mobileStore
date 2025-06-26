@@ -307,9 +307,9 @@ class UserController extends BaseController
             $_SESSION['user']['surnames'] = $surnames;
             $_SESSION['user']['email'] = $email;
 
-            $this->setSuccessMessage('Profile updated successfully');
+            $this->setSuccessMessage('Perfil actualizado con éxito');
         } else {
-            $this->setErrorMessage('Error updating profile. Please try again.');
+            $this->setErrorMessage('Error al actualizar el perfil. Por favor, inténtalo de nuevo.');
         }
 
         $this->redirect('user', 'profile');

@@ -81,7 +81,7 @@ $messages = $messages ?? [];
             <div class="auth-footer">
                 <p class="auth-link-text">
                     ¿Ya tienes una cuenta?
-                    <a href="<?php echo BASE_URL; ?>login" class="auth-link">Inicia sesión</a>
+                    <a href="<?php echo BASE_URL; ?>index.php?controller=user&action=login" class="auth-link">Inicia sesión</a>
                 </p>
             </div>
         </div>

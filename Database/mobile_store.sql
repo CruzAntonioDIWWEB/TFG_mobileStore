@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2025 a las 22:47:08
+-- Tiempo de generación: 16-06-2025 a las 20:02:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -56,6 +56,13 @@ CREATE TABLE `cart` (
   `date_added` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Volcado de datos para la tabla `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `product_id`, `quantity`, `date_added`) VALUES
+(178, 19, 23, 1, '2025-06-15 21:28:27');
+
 -- --------------------------------------------------------
 
 --
@@ -75,8 +82,7 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Móviles', '2025-06-12 17:21:11', '2025-06-12 17:21:11'),
-(2, 'Accesorios', '2025-06-12 17:21:11', '2025-06-12 17:21:11'),
-(8, 'Testing 4', '2025-06-14 14:58:03', '2025-06-14 21:11:44');
+(2, 'Accesorios', '2025-06-12 17:21:11', '2025-06-12 17:21:11');
 
 -- --------------------------------------------------------
 
@@ -103,7 +109,6 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `province`, `locality`, `address`, `cost`, `status`, `date`, `time`, `created_at`, `updated_at`) VALUES
-(6, 12, 'Madrid', 'Madrid', 'Calle Gran Vía 45, 3º A', 299.99, 'pending', '2025-06-10', '14:30:00', '2025-06-10 17:01:16', '2025-06-10 17:01:16'),
 (7, 11, 'Barcelona', 'Barcelona', 'Avenida Diagonal 123, 2º B', 159.50, 'paid', '2025-06-09', '10:15:00', '2025-06-10 17:01:16', '2025-06-10 17:01:16'),
 (15, 11, 'Testing', 'Testing', 'TESTINGTESTING', 999.99, 'paid', '2025-06-14', '12:28:15', '2025-06-14 10:28:15', '2025-06-14 10:28:15'),
 (16, 11, 'Testing2', 'Granada', 'Calle Cañaveral nº6', 999.99, 'paid', '2025-06-14', '12:45:23', '2025-06-14 10:45:23', '2025-06-14 10:45:23'),
@@ -112,12 +117,7 @@ INSERT INTO `orders` (`id`, `user_id`, `province`, `locality`, `address`, `cost`
 (19, 11, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 10.00, 'paid', '2025-06-15', '01:18:38', '2025-06-14 23:18:38', '2025-06-14 23:18:38'),
 (20, 11, 'Testing', 'Testing', 'MegaTesting', 30.00, 'delivered', '2025-06-15', '11:51:01', '2025-06-15 09:51:01', '2025-06-15 09:51:41'),
 (21, 16, 'Guadix', 'Guadix', 'Guadix@calledemicasa', 10.00, 'paid', '2025-06-15', '18:52:56', '2025-06-15 16:52:56', '2025-06-15 16:52:56'),
-(22, 17, 'Madrid', 'Getafe', 'TESTINGTESTING', 249.98, 'paid', '2025-06-15', '19:10:20', '2025-06-15 17:10:20', '2025-06-15 17:10:20'),
-(23, 17, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 10.00, 'paid', '2025-06-15', '19:16:43', '2025-06-15 17:16:43', '2025-06-15 17:16:43'),
-(24, 17, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 749.99, 'paid', '2025-06-15', '19:20:34', '2025-06-15 17:20:34', '2025-06-15 17:20:34'),
-(25, 17, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 20.00, 'paid', '2025-06-15', '19:21:47', '2025-06-15 17:21:47', '2025-06-15 17:21:47'),
-(26, 17, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 59.99, 'paid', '2025-06-15', '19:23:39', '2025-06-15 17:23:39', '2025-06-15 17:23:39'),
-(27, 17, 'Granada', 'Purullena', 'Calle victor de la oliva, 1° A', 10.00, 'paid', '2025-06-15', '19:27:25', '2025-06-15 17:27:25', '2025-06-15 17:27:25');
+(29, 11, 'French', 'Frenches', 'OuiouiCroissonty', 919.98, 'paid', '2025-06-16', '09:25:05', '2025-06-16 07:25:05', '2025-06-16 07:25:05');
 
 -- --------------------------------------------------------
 
@@ -145,12 +145,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`) VALUES
 (6, 19, 20, 1),
 (7, 20, 20, 3),
 (8, 21, 20, 1),
-(9, 22, 23, 1),
-(10, 23, 20, 1),
-(11, 24, 4, 1),
-(12, 25, 12, 1),
-(13, 26, 11, 1),
-(14, 27, 20, 1);
+(16, 29, 19, 2);
 
 -- --------------------------------------------------------
 
@@ -176,19 +171,19 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `accessory_type_id`, `name`, `description`, `price`, `stock`, `image`, `created_at`, `updated_at`) VALUES
-(2, 1, NULL, 'Samsung Galaxy A56', 'Inteligencia Alucinante para una experiencia única. El Galaxy A56 5G incorpora Inteligencia Alucinante para llevar tu experiencia tecnológica al siguiente nivel.', 462.17, 7, 'product_684f0ecfe1cc8.webp', '2025-05-28 17:27:50', '2025-06-15 18:19:59'),
-(4, 1, NULL, 'Google Pixel 8 Pro', 'Con la IA de Google y la mejor Cámara Pixel, Google Pixel 8 Pro es el Pixel más potente y personal hasta la fecha.', 749.99, 18, 'product_684f0e958fe69.webp', '2025-05-28 17:27:50', '2025-06-15 18:19:01'),
-(5, 1, NULL, 'Xiaomi 13T Negro', 'Xiaomi 13T: La esencia de tu obra maestra. Más potente de lo que puedas imaginar, mejora la experiencia de imágenes insignia.', 370.97, 9, 'product_684f0e6710a24.webp', '2025-05-28 17:27:50', '2025-06-15 18:18:15'),
-(6, 2, 2, 'Cargador Inalámbrico', 'El cargador MagSafe inalámbrico incorpora imanes perfectamente alineados para fijarse al instante a tu iPhone', 75.99, 25, 'product_684f0e2401330.webp', '2025-05-28 17:27:50', '2025-06-15 18:17:08'),
-(7, 2, 1, 'Auriculares 6 Play Gris', 'Auriculares over-ear con la mejor cancelación de ruido del mercado.', 12.99, 18, 'product_684f0d943025f.webp', '2025-05-28 17:27:50', '2025-06-15 18:14:44'),
-(8, 1, 2, 'OPPO Reno13 FS', 'Disfruta de una experiencia visual envolvente con OPPO Reno13 FS 5G y su pantalla de 6,67&quot;', 349.99, 27, 'product_684f0d23e942a.webp', '2025-05-28 17:27:50', '2025-06-15 18:12:51'),
-(9, 2, 1, 'Auriculares Inalámbricos', 'No pesan nada y ofrecen un ajuste anatómico. Se colocan en el ángulo perfecto para darte un mayor confort,', 14.99, 37, 'product_684f0ccd55040.webp', '2025-05-28 17:27:50', '2025-06-15 18:11:25'),
-(10, 2, 3, 'Funda Apple iPhone 16', 'Protege y complementa tu iPhone 16 con la funda de silicona MagSafe de Apple', 24.99, 50, 'product_684f0c6e3531b.webp', '2025-05-28 17:27:50', '2025-06-15 18:09:50'),
+(2, 1, NULL, 'Samsung Galaxy A56', 'Inteligencia Alucinante para una experiencia única. El Galaxy A56 5G incorpora Inteligencia Alucinante para llevar tu experiencia tecnológica al siguiente nivel.', 362.17, 7, 'product_684f0ecfe1cc8.webp', '2025-05-28 17:27:50', '2025-06-16 07:26:26'),
+(4, 1, NULL, 'Google Pixel 8 Pro', 'Con la IA de Google y la mejor Cámara Pixel, Google Pixel 8 Pro es el Pixel más potente y personal hasta la fecha. Con una nueva cámara que ridiculiza los Iphone', 349.99, 18, 'product_684f0e958fe69.webp', '2025-05-28 17:27:50', '2025-06-16 07:26:19'),
+(5, 1, NULL, 'Xiaomi 13T Negro', 'Xiaomi 13T: La esencia de tu obra maestra. Más potente de lo que puedas imaginar, mejora la experiencia de imágenes insignia. No hay mejor opción calidad-precio', 370.97, 9, 'product_684f0e6710a24.webp', '2025-05-28 17:27:50', '2025-06-15 21:34:47'),
+(6, 2, 2, 'Cargador Inalámbrico', 'El cargador MagSafe inalámbrico incorpora imanes perfectamente alineados para fijarse al instante a tu iPhone, proporciona una carga rápida', 75.99, 25, 'product_684f0e2401330.webp', '2025-05-28 17:27:50', '2025-06-15 21:11:10'),
+(7, 2, 1, 'Auriculares 6 Play Gris', 'Auriculares over-ear con la mejor cancelación de ruido del mercado. Resistentes al agua, son capaces de soportar presiones de hasta 15 metros sumerjidos', 12.99, 18, 'product_684f0d943025f.webp', '2025-05-28 17:27:50', '2025-06-15 21:10:44'),
+(8, 1, 2, 'OPPO Reno13 FS', 'Disfruta de una experiencia visual envolvente con OPPO Reno13 FS 5G y su pantalla de 6,67. Su cámara innovadora puede rivalizar con las más altas gamas', 349.99, 27, 'product_684f0d23e942a.webp', '2025-05-28 17:27:50', '2025-06-15 21:34:19'),
+(9, 2, 1, 'Auriculares Inalámbricos', 'No pesan nada y ofrecen un ajuste anatómico. Se colocan en el ángulo perfecto para darte un mayor confort y su sonido estéreo proporciona una sensación sonora única.', 14.99, 37, 'product_684f0ccd55040.webp', '2025-05-28 17:27:50', '2025-06-15 21:09:57'),
+(10, 2, 3, 'Funda Apple iPhone 16', 'Protege y complementa tu iPhone 16 con la funda de silicona MagSafe de Apple color azul cielo. Resistente a golpes contundentes y arañazos.', 24.99, 50, 'product_684f0c6e3531b.webp', '2025-05-28 17:27:50', '2025-06-15 21:09:09'),
 (11, 2, 2, 'Cargador Carga Rápida', 'Más potente que los adaptadores de viaje anteriores, aprovecha el poder de Super Fast Charging 2.0, un nuevo hardware que sobrepasa los límites de la carga rápida', 19.99, 30, 'product_684f0bee3e7d6.webp', '2025-05-28 17:27:50', '2025-06-15 18:07:42'),
 (12, 2, 4, 'PcCom Essential Cable USB', 'Accesorio indispensable para tu portátil, ordenador, tablet o Smartphone con salida USB-C para conectarlos a una TV o monitor con HDMI', 19.99, 100, 'product_684f0b10812ad.webp', '2025-05-28 17:27:50', '2025-06-15 18:04:00'),
 (18, 1, NULL, 'Samsung Galaxy A05s', 'El nuevo Galaxy A05s hereda el cuidado diseño de la Serie A para que puedas tener un dispositivo móvil acorde a tu estilo. Este nuevo smartphone está fabricado con materiales de alta calidad y se presenta con un actualizado SO.', 129.99, 4, 'product_684f0a7a664b7.webp', '2025-06-14 15:44:08', '2025-06-15 18:01:30'),
-(19, 1, NULL, 'iPhone 16 Rosa', 'Lo principal. iOS 18. Personal en cada detalle. Presentamos el iPhone 16. Por si fuera poco, en rosa', 959.99, 7, 'product_684f0969ab0bd.webp', '2025-06-14 17:32:42', '2025-06-15 17:56:57'),
-(20, 1, NULL, 'Xiaomi Redmi 13C', 'Los elegantes bordes rectos y una transición redondeada natural entre la parte delantera y trasera brindan una sensación de calidad absoluta, y el diseño triangular del flash y las lentes es simple y limpio.', 120.97, 17, 'product_684f0907c770c.webp', '2025-06-14 21:16:59', '2025-06-15 17:55:19'),
+(19, 1, NULL, 'iPhone 16 Rosa', 'Lo principal. iOS 18. Personal en cada detalle. Presentamos el iPhone 16. Por si fuera poco, en rosa. Innovación, funcionalidad, tecnología y chicle son adjetivos perfectos para este dispositivo', 359.99, 3, 'product_684f0969ab0bd.webp', '2025-06-14 17:32:42', '2025-06-16 07:26:35'),
+(20, 1, NULL, 'Xiaomi Redmi 13C', 'Los elegantes bordes rectos y una sección redondeada natural entre la parte delantera y trasera brindan una sensación de calidad absoluta, y el diseño triangular del flash y las lentes es simple y limpio.', 120.97, 17, 'product_684f0907c770c.webp', '2025-06-14 21:16:59', '2025-06-15 21:36:17'),
 (23, 1, NULL, 'Xiaomi Redmi Note 14 Pro', 'Diseñado para ofrecer estética y comodidad. El nuevo Redmi Note 14 Pro 4G cuenta con una elegante curvatura para una apariencia fresca y vibrante.', 249.98, 8, 'product_684f08aa3c820.webp', '2025-06-15 16:56:12', '2025-06-15 17:53:46');
 
 -- --------------------------------------------------------
@@ -212,10 +207,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `surnames`, `email`, `password`, `role`) VALUES
 (11, 'Antonio', 'Cruz Garcia', 'acg.purullena@gmail.com', '$2y$10$J/0SdlqlMF.EPoy4mBhlyepmDORZBC2rsVzlgoQx0uQZtoYQXJeQ.', 'admin'),
-(12, 'Cliente', 'Somat Oro Gel', 'cliente@gmail.com', '$2y$10$auGdo41VENTeSH6eEiOxx.Zu6imzRYlDd5lL5Ind6uT6JjIcaSMYG', 'client'),
 (16, 'Víctor', 'Baca Martínez', 'victinixd11@gmail.com', '$2y$10$eAI4dtSMOSxFrZe1S0yxJewwF1elwCJbrDfdCmf/kMWGhU/kORdSm', 'client'),
-(17, 'Pitingo', 'García', 'programacioncga@gmail.com', '$2y$10$mvcePzY2On8BIN2MXO9n4.H6eEWDl1YitmC0gYEVRAzu5RjN3cNcy', ''),
-(18, 'Juan', 'Somalí Garcia', 'juan.somali@email.com', '$2y$10$oUFY4AGuCi4EqJ72yIcMQOUi4HB4xkCZE3XJg.5HBkiScQXoP3GMe', 'client');
+(19, 'Rafa', 'Cruz', 'Rafacrulop@gmail.com', '$2y$10$Y/YKH.Ht7taMYVvo3TuIXuJF2vHSgPMmM.0a4siyQIQl3eHFxzu/y', 'client');
 
 --
 -- Índices para tablas volcadas
@@ -232,8 +225,8 @@ ALTER TABLE `accessory_types`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `cart_ibfk_1` (`user_id`);
 
 --
 -- Indices de la tabla `categories`
@@ -246,15 +239,15 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `orders_ibfk_1` (`user_id`);
 
 --
 -- Indices de la tabla `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `order_items_ibfk_1` (`order_id`);
 
 --
 -- Indices de la tabla `products`
@@ -285,7 +278,7 @@ ALTER TABLE `accessory_types`
 -- AUTO_INCREMENT de la tabla `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`
@@ -297,13 +290,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT de la tabla `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
@@ -315,7 +308,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
@@ -325,20 +318,20 @@ ALTER TABLE `users`
 -- Filtros para la tabla `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Filtros para la tabla `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `order_items`
 --
 ALTER TABLE `order_items`
-  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
