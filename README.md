@@ -7,7 +7,8 @@
 Mi proyecto es una aplicación web completa que simula una tienda online especializada en la venta de dispositivos móviles y accesorios. Se ha implementado un sistema e-commerce funcional con gestión de usuarios, catálogo de productos, carrito de compras y panel administrativo.
 
 ## Enlace a la tienda
-https://dfea-2a02-3100-ac00-9f00-fd98-7abe-b7c4-caa.ngrok-free.app/dashboard/TFG/Public/
+Por razones de despliegue del proyecto, se necesita pedir confirmación antes de acceder al sitio web. Si el siguiente enlace no funciona, póngase en contacto conmigo para que pueda habilitarlo de nuevo
+https://7f93-2a02-3100-9d7b-9000-3169-db22-788e-3f83.ngrok-free.app/dashboard/TFG/Public/
 
 ## Simulacro de compra
 La tienda incorpora Paypal como sistema de pago y para comprobar su funcionalidad se utiliza una "cuenta sandbox" que simula el proceso de pago.
