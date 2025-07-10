@@ -201,19 +201,9 @@ El proyecto incluye documentación técnica completa:
 - **Casos de uso** y testing
 - **Estructura detallada** de archivos
 
-## 🤝 **Contribución**
-
-Este es un proyecto académico, pero las sugerencias y feedback son bienvenidos:
-
-1. Fork el proyecto
-2. Crea una rama feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
 ## 📝 **Licencia**
 
-Este proyecto es de uso educativo y académico. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto es de uso educativo y académico. Consulta las políticas de privacidad y licencias para más información
 
 ## 👨‍💻 **Autor**
 
@@ -221,7 +211,3 @@ Este proyecto es de uso educativo y académico. Consulta el archivo `LICENSE` pa
 - 📧 Email: acg.purullena@gmail.com
 - 🎓 TFG Desarrollo de Aplicaciones Web
 - 🏫 IES Francisco Ayala - Granada
-
----
-
-⭐ **Si este proyecto te resulta útil, no olvides darle una estrella!**
